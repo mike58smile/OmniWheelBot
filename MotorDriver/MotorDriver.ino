@@ -52,7 +52,7 @@ bool motorcontrol1,motorcontrol2;
 int motorspeed1,motorspeed2;
 int position1,position2;
 int setpoint1,setpoint2;
-//synchro 
+//synchro
 bool syn_rozhodovac = false;
 int motorspeed1_synchro,motorspeed2_synchro;
 
@@ -100,7 +100,6 @@ if(syn_rozhodovac == false){
     Setpoint = setpoint1;
     RP = position1;
     pid.Compute();
-    
     if(setpoint1 < position1){
       analogWrite(M1_LPWM,0);
       analogWrite(M1_RPWM,abs(Output));
@@ -117,42 +116,36 @@ if(syn_rozhodovac == false){
       motor_go1 = 0;
     }
   }
-  else if(motorcontrol1 == 3){
-  }
-  else{
+  else if(motorcontrol1 != 3){
     unsigned long currentMillis_1 = millis();
     /*Serial.print("motor speed1: ");Serial.print(motorspeed1); Serial.print(" ");
     Serial.print("rychlost: ");Serial.print(v1); Serial.print(" ");
     Serial.print("vystup sp1: ");Serial.print(vystup_sp1); Serial.println(" ");*/
     if(motorspeed1 > 0){            //riadenie iba rychlosti
       if(rozhodovac2==true){
-        if((abs(motorspeed1)+vystup_sp1)<=0){
+        if((abs(motorspeed1)+vystup_sp1) <= 0)
           analogWrite(M1_RPWM,0);
-        }
-        else{
+        else
         analogWrite(M1_RPWM,(abs(motorspeed1)+vystup_sp1));
-        }
     /*Serial.print("mot sp: ");Serial.print(motorspeed1); Serial.print(" ");
     Serial.print("vystup sp1: ");Serial.print(vystup_sp1); Serial.println(" ");*/
       }
-      else{
-        analogWrite(M1_RPWM,abs(motorspeed1));  
-      }
+      else
+        analogWrite(M1_RPWM,abs(motorspeed1));
+
       analogWrite(M1_LPWM,0);
       motor_go1 = 1;
     }
     else if(motorspeed1 < 0){
       if (rozhodovac2==true){
-         if((abs(motorspeed1)+vystup_sp1)<=0){
+         if((abs(motorspeed1)+vystup_sp1)<=0)
             analogWrite(M1_LPWM,0);
-        }
-        else{
+        else
         analogWrite(M1_LPWM,(abs(motorspeed1)+vystup_sp1));
-        }
       }
-      else{
+      else
         analogWrite(M1_LPWM,abs(motorspeed1));
-      }
+
       analogWrite(M1_RPWM,0);
       motor_go1 = 1;
     }
@@ -180,7 +173,7 @@ if(syn_rozhodovac == false){
     Setpoint_2 = position1;
     RP_2 = position2;
     pid2.Compute();
-    
+
     if(setpoint2 < position2){
       analogWrite(M2_LPWM,0);
       analogWrite(M2_RPWM,abs(Output));
@@ -244,18 +237,16 @@ if(syn_rozhodovac == false){
       if(rozhodovac2==true){
         vstup_sp2 = v2;
         const_speed2.Compute();
-     Serial.print("v2: ");
-      Serial.print(v2);Serial.print("  ");
-      Serial.print("PID vystup: ");
-      Serial.println(vystup_sp2);
+        Serial.print("v2: ");
+        Serial.print(v2);Serial.print("  ");
+        Serial.print("PID vystup: ");
+        Serial.println(vystup_sp2);
       }
     }
-    //unsigned long currentMillis_1 = millis();
   }
 }
-else{
- synchro(motorspeed1_synchro,motorspeed2_synchro);
-}
+else
+  synchro(motorspeed1_synchro,motorspeed2_synchro);
 }
 void requestEvent(){
   //Motor1
@@ -290,7 +281,7 @@ void receiveData(){
       enc2.write(0);
       position1,position2,setpoint2,setpoint1=0;
     }
-    
+
     else if(mode == 1){ //funkcia SetSpeed v Main arduine
       syn_rozhodovac = false;
       rozhodovac2 = false;
@@ -328,7 +319,7 @@ void receiveData(){
       motorcontrol1 = 0;
       motorcontrol2 = 0;
       setpoint1 = (Wire.read() | Wire.read() << 8);
-      setpoint2 = (Wire.read() | Wire.read() << 8);  
+      setpoint2 = (Wire.read() | Wire.read() << 8);
     }
 }
 void stopmotor(){
@@ -363,7 +354,7 @@ void synchro(int rychlost1, int rychlost2){
 
     unsigned long currentMillis_1 = millis();
     nrychlost = abs(rychlost1) + vystup;
-    if(rychlost1 < 0){ 
+    if(rychlost1 < 0){
       analogWrite(M1_LPWM,nrychlost);
       analogWrite(M1_RPWM,0);
       motor_go1 = 1;
