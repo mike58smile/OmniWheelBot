@@ -1,0 +1,54 @@
+  //SetSetpoint(2,360,50);
+  /*SetSpeed(2,0,0);
+  IR_read();*/
+  /* Serial.print("KP: ");
+  Serial.print(Kp, 3);
+  Serial.print(" ");
+  Serial.print("Kd: ");
+  Serial.print(Kd, 3);
+  Serial.print(" ");
+  Serial.print("Ki: ");
+  Serial.print(Ki, 3);
+  Serial.print(" ");
+  Serial.print("vstup: ");
+  Serial.print(vstup);
+  Serial.print(" ");
+  Serial.print("vystup: ");
+  Serial.print(vystup);
+  Serial.print(" ");
+  Serial.print("v1: ");
+  Serial.print(rychlost1);
+  Serial.print(" ");
+  Serial.print("v2: ");
+  Serial.print(rychlost2);
+    Serial.print(" ");
+    Serial.print("v1: ");
+  Serial.print(rychlost1_2);
+  Serial.print(" ");
+  Serial.print("v2: ");
+  Serial.print(rychlost2_2);
+  Serial.print(" ");
+  Serial.print("pidconst: ");
+  Serial.println(Pid_konst);*/
+
+  //ReadGyro("z","angle");
+  //MotorInfo();
+  /*GetPosition(0);
+  Serial.print("v1: ");
+  Serial.print(rychlost1);
+  Serial.print(" ");
+  Serial.print("v2: ");
+  Serial.print(rychlost2);
+  Serial.print(" ");
+  Serial.print("rychlost: ");
+  Serial.print(rychlost);
+  Serial.print(" ");
+  Serial.print("zrych konst: ");
+  Serial.print(zrych_const);
+  Serial.print(" ");
+  Serial.print("v: ");
+  Serial.print(v);
+  Serial.print(" ");
+  Serial.print("gyro vystup: ");
+  Serial.println(vystup);*/
+   //GyroInfo();
