@@ -41,9 +41,9 @@ void MotorInfo(){
   Serial.print("     rychlost: ");
   Serial.print(rychlost1_2);
   Serial.print(" ");
-  Serial.print(rychlost2_2);
-  Serial.print(" ");
-  Serial.println(ReadGyro("z","angle"));
+  Serial.println(rychlost2_2);
+  //Serial.print(" ");
+  //Serial.println(ReadGyro("z","angle"));
 }
 
 void ListI2C(){

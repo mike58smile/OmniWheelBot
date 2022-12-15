@@ -1,4 +1,4 @@
-//#define SERIAL_PRINT
+#define SERIAL_PRINT
 
 #include <Wire.h>
 #include <i2cdetect.h>
@@ -36,9 +36,9 @@ double vystup_sp1, kraj_sp1;
 double vstup_sp1 = 0;
 double vystup_sp2, kraj_sp2;
 double vstup_sp2 = 0;
-double Kp_sp=2, Ki_sp=12.05, Kd_sp=0.07;
+double Kp_sp=0, Ki_sp=0, Kd_sp=0;
 bool rozhodovac2;
-String data;
+String data, dataN;
 //-----------------------------------
 double Kp=15, Ki=2, Kd=5;
 PID pid(&RP, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
@@ -59,7 +59,7 @@ int motorspeed1_synchro,motorspeed2_synchro;
 Encoder enc1(2, 12);//motor 1
 Encoder enc2(3, A0);//motor 2
 void setup() {
-  Serial.begin(250000);
+  Serial.begin(115200);
   pinMode(M1_RPWM,OUTPUT);
   pinMode(M1_LPWM,OUTPUT);
   pinMode(M1_REN,OUTPUT);
@@ -91,7 +91,8 @@ void setup() {
 void loop() {
   #ifdef SERIAL_PRINT
   data=("KP: "+String(Kp_sp,3)+" Kd: "+String(Kd_sp,3)+" Ki: "+String(Ki_sp, 3)+" v1: "+String(v1)+" vystup1: "+String(vystup_sp1)+"vystup2: "+String(vystup_sp1)+" kraj1: "+String(kraj_sp1)+" kraj2: "+String(kraj_sp2)+" msp1: "+String(motorspeed1)+" msp2: "+String(motorspeed2));
-  Serial.println(data);
+  dataN=("v2(vstup):"+String(v2)+","+"vystup2:"+String(vystup_sp2)+","+"kraj2(w-pozadovana_hodnota):"+String(kraj_sp2)+","+"msp2:"+String(motorspeed2));
+  Serial.println(dataN);
   #endif
 if(syn_rozhodovac == false){
   //motor 1
@@ -141,7 +142,7 @@ if(syn_rozhodovac == false){
          if((abs(motorspeed1)+vystup_sp1)<=0)
             analogWrite(M1_LPWM,0);
         else
-        analogWrite(M1_LPWM,(abs(motorspeed1)+vystup_sp1));
+          analogWrite(M1_LPWM,(abs(motorspeed1)+vystup_sp1));
       }
       else
         analogWrite(M1_LPWM,abs(motorspeed1));
@@ -190,22 +191,19 @@ if(syn_rozhodovac == false){
       motor_go2 = 0;
     }
   }
-  else if(motorcontrol2 == 3){
-  }
+  else if(motorcontrol2 == 3);
   else{
     unsigned long currentMillis_2 = millis();
     if(motorspeed2 > 0){            //riadenie iba rychlosti
       if(rozhodovac2==true){
-        if((abs(motorspeed2)+vystup_sp2)<=0){
+        if((abs(motorspeed2)+vystup_sp2)<=0)
           analogWrite(M2_RPWM,0);
-        }
-        else{
-        analogWrite(M2_RPWM,(abs(motorspeed2)+vystup_sp2));
-        }
+        else
+          analogWrite(M2_RPWM,(abs(motorspeed2)+vystup_sp2));
       }
-      else{
+      else
         analogWrite(M2_RPWM,abs(motorspeed2));
-      }
+        
       analogWrite(M2_LPWM,0);
       motor_go2 = 1;
     }
@@ -214,13 +212,12 @@ if(syn_rozhodovac == false){
         if((abs(motorspeed2)+vystup_sp2)<=0){
           analogWrite(M2_LPWM,0);
         }
-        else{
-        analogWrite(M2_LPWM,(abs(motorspeed2)+vystup_sp2));
-        }
+        else
+          analogWrite(M2_LPWM,(abs(motorspeed2)+vystup_sp2));
       }
-      else{
+      else
         analogWrite(M2_LPWM,abs(motorspeed2));
-      }
+        
       analogWrite(M2_RPWM,0);
       motor_go2 = 1;
     }
@@ -229,24 +226,29 @@ if(syn_rozhodovac == false){
       analogWrite(M2_LPWM,0);
     }
     position2 = enc2.read()/2.72;
-    position2_syn = abs(enc2.read());
+    //position2_syn = abs(enc2.read());
     if ((unsigned long)(currentMillis_2 - previousMillis_2) >= cas) {
-      v2 = position2_syn;
+      v2 = abs(enc2.read());;
       enc2.write(0);
       previousMillis_2 = currentMillis_2;
       if(rozhodovac2==true){
         vstup_sp2 = v2;
         const_speed2.Compute();
-        Serial.print("v2: ");
-        Serial.print(v2);Serial.print("  ");
-        Serial.print("PID vystup: ");
-        Serial.println(vystup_sp2);
       }
     }
   }
 }
 else
   synchro(motorspeed1_synchro,motorspeed2_synchro);
+
+          /*Serial.print("v2: ");
+        Serial.print(v2);Serial.print("  ");
+        Serial.print("PID vystup: ");
+        Serial.print(vystup_sp2);Serial.print("  ");
+        Serial.print("motorcontrol1: ");
+        Serial.print(motorcontrol1);Serial.print("  ");
+        Serial.print("syn_rozhodovac: ");
+        Serial.println(syn_rozhodovac);Serial.print("  ");*/
 }
 void requestEvent(){
   //Motor1

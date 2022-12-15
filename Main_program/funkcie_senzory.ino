@@ -184,7 +184,7 @@ void IR_read() {
         last_case = 's';
         spinac = false;
         break;
-      case 0x924FD4DC:
+      case 0x924FD4DC://VOLUME+
         Serial.println("sp hore");
         sp += 10;
         rychlost_gyro += 10;
@@ -197,7 +197,7 @@ void IR_read() {
         //  Serial.println(sp);
         delay(50);
         break;
-      case 0x6497D4E4:
+      case 0x6497D4E4://VOLUME-
         Serial.println("sp dole");
         sp -= 10;
         rychlost_gyro -= 10;
@@ -290,11 +290,11 @@ void IR_read() {
         pohyb_gyro_smer_loop = last_case;
         delay(100);
         break;
-      case 0x210F46E7:
+      case 0x210F46E7: //CH+
         rychlost_gyro += 10;
         delay(50);
         break;
-      case 0x470C3CAB:
+      case 0x470C3CAB: //CH-
         rychlost_gyro -= 10;
         delay(50);
         break;
@@ -304,7 +304,7 @@ void IR_read() {
       case 0x78F5AEE3: //music
         gyro_motory = 2;
         break;
-      case 0x52213642:
+      case 0x52213642: //play btn
         Pid_konst = !Pid_konst;
         delay(200);
     }
@@ -314,8 +314,8 @@ void IR_read() {
   else {
     if (spinac == true) {
       pohyb_GYRO(pohyb_gyro_smer_loop, 10, gyro_motory);
-      /*ConstSpeed(0,40,10,40,10);    //SetSpeed(0,motor 1, motor 2)
-        ConstSpeed(1,40,10,40,20);    //SetSpeed(1,motor 4, motor 3)*/
+     // ConstSpeed(0,40,30,40,30);    //SetSpeed(0,motor 1, motor 2)
+      //  ConstSpeed(1,40,20,40,30);    //SetSpeed(1,motor 4, motor 3) -toto som skusal
     }
   }
 }

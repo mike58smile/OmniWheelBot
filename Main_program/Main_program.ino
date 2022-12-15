@@ -119,8 +119,14 @@ bool startLoopSetup = 1; //povoli setup sekvenciu na zaciatku programu
 void loop() {
 if(startLoopSetup){
   STOP();
-  STOP();
+  ResetSetpoint(0);
+  ResetSetpoint(1);
+  digitalWrite(13,HIGH);
+  delay(1000);
+  ConstSpeed(0,40,5,40,9);    //SetSpeed(0,motor 1, motor 2)
+ConstSpeed(1,40,20,40,13);    //SetSpeed(1,motor 4, motor 3)*/
   startLoopSetup = 0;
+  digitalWrite(13,LOW);
 }
 #ifdef DEBUG_GYRO
   while (true) {
@@ -132,13 +138,20 @@ if(startLoopSetup){
     IR_tester();
   }
 #endif
+#ifdef LINE
+while(true){
+  LineBumperInfo(LINEBUMPER_ADDRESS);
+}
+#endif
 #ifdef kamerax
   while (true) {
     Serial.println(kamera());
   }
 #endif
 //SetSpeed(1, 50,50);
-  //IR_read();
-ConstSpeed(1,50,50,50,50);
+  IR_read();
+//ConstSpeed(1,20,20,20,20);
+//MotorInfo();
 
+//SetSetpoint(1,1080,1080);
 }
