@@ -1,8 +1,3 @@
-float spd1 = 0;
-float spd2 = 0;
-float spd3 = 0;
-float spd4 = 0;
-
 int ReadLineBumper(int address, int sensor) {
   int sensorvalue;
   Wire.requestFrom(address, 18);
@@ -344,7 +339,7 @@ void IR_read() {
       float w2 = (B*w + vy*cos(alfa2) - vx*sin(alfa2))/R;
       float w3 = (B*w + vy*cos(alfa3) - vx*sin(alfa3))/R;
       float w4 = (B*w + vy)/R;
-      spd1 = (9.792*w1)/PI; spd2 = (9.792*w2)/PI; spd3 = (9.792*w3)/PI; spd4 = (9.792*w4)/PI;
+      float spd1 = (9.792*w1)/PI; float spd2 = (9.792*w2)/PI; float spd3 = (9.792*w3)/PI; float spd4 = (9.792*w4)/PI;
       float t = millis()/1000.0; // get program time
       //Serial.println(String(t)+" "+String(alfa)+" "+"spd1:"+String(spd1)+"spd2:"+String(spd2)+"spd3:"+String(spd3)+"spd4:"+String(spd4)+"w1:"+String(w1)+"w2:"+String(w2)+"w3:"+String(w3)+"w4:"+String(w4)+"vy:"+String(vy)+"vx"+String(vx));//+"tg_alfaR:"+String(tg_alfaR)+"pow(tg_alfaR,2) + 1:"+String(pow(tg_alfaR,2) + 1)+"sqrt(pow(tg_alfaR,2) + 1):"+String(sqrt(pow(tg_alfaR,2) + 1))+"sin(alfa3):"+String(sin(alfa3))
       Serial.println(String(t)+" "+String(alfa)+" "+" "+String(spd1)+" "+String(spd2)+" "+String(spd3)+" "+String(spd4)+" "+String(w1)+" "+String(w2)+" "+String(w3)+" "+String(w4)+" "+String(vy)+" "+String(vx));
@@ -356,16 +351,6 @@ void IR_read() {
     }
   }
 }
-void STOP(){
-  //startLoopSetup = 1;
-  //ConstSpeed(0,1,0,1,0);    //SetSpeed(0,motor 1, motor 2)
-  //ConstSpeed(1,1,0,1,0);
-  ConstSpeed(0,sign(spd1),0,sign(spd2),0);    //SetSpeed(0,motor 1, motor 2)
-  ConstSpeed(1,sign(spd4),0,sign(spd3),0); 
-  //SetSpeed(0,0,0);
-  //SetSpeed(1,0,0);
-}
-
 /*
   prvy stlpec
   NUM 1 0xB1D174DE
