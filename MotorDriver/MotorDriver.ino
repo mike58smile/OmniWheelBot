@@ -15,7 +15,7 @@
 #define M2_REN 8
 #define M2_LEN 9
 
-#define address 0x11
+#define address 0x10
 int wireread;
 int setpoint,position,speed;
 double RP, Output,Setpoint;
@@ -36,9 +36,9 @@ double vystup_sp1, kraj_sp1;
 double vstup_sp1 = 0;
 double vystup_sp2, kraj_sp2;
 double vstup_sp2 = 0;
-double Kp_sp=0, Ki_sp=0, Kd_sp=0;
+double Kp_sp=1, Ki_sp=2.4, Kd_sp=0;
 bool rozhodovac2;
-String data, dataN;
+String data, dataN,dataPlot;
 //-----------------------------------
 double Kp=15, Ki=2, Kd=5;
 PID pid(&RP, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
@@ -90,9 +90,11 @@ void setup() {
 
 void loop() {
   #ifdef SERIAL_PRINT
-  data=("KP: "+String(Kp_sp,3)+" Kd: "+String(Kd_sp,3)+" Ki: "+String(Ki_sp, 3)+" v1: "+String(v1)+" vystup1: "+String(vystup_sp1)+"vystup2: "+String(vystup_sp1)+" kraj1: "+String(kraj_sp1)+" kraj2: "+String(kraj_sp2)+" msp1: "+String(motorspeed1)+" msp2: "+String(motorspeed2));
-  dataN=("v2(vstup):"+String(v2)+","+"vystup2:"+String(vystup_sp2)+","+"kraj2(w-pozadovana_hodnota):"+String(kraj_sp2)+","+"msp2:"+String(motorspeed2));
-  Serial.println(dataN);
+  //data=("KP: "+String(Kp_sp,3)+" Kd: "+String(Kd_sp,3)+" Ki: "+String(Ki_sp, 3)+" v1: "+String(v1)+" vystup1: "+String(vystup_sp1)+"vystup2: "+String(vystup_sp1)+" kraj1: "+String(kraj_sp1)+" kraj2: "+String(kraj_sp2)+" msp1: "+String(motorspeed1)+" msp2: "+String(motorspeed2));
+   float t = millis()/1000.0; // get program time
+   dataPlot = (String(Kp_sp,3)+" "+String(Kd_sp,3)+ " "+String(Ki_sp,3)+" "+String(v2)+" "+String(vystup_sp2)+" "+String(kraj_sp2));
+  dataN=("KP:"+String(Kp_sp,3)+ "\t"+"Kd:"+String(Kd_sp,3)+ ","+"Ki:"+String(Ki_sp,3)+ ","+"v2(vstup):"+String(v2)+","+"vystup2:"+String(vystup_sp2)+","+"kraj2(w-pozadovana_hodnota):"+String(kraj_sp2)+","+"msp2:"+String(motorspeed2));
+  Serial.println(dataPlot);
   #endif
 if(syn_rozhodovac == false){
   //motor 1

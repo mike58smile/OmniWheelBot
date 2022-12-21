@@ -77,6 +77,20 @@ void setup() {
   kam_platform.SetMode(AUTOMATIC);
   kam_platform.SetOutputLimits(-170, 170);
   kam_platform.SetSampleTime(3);
+
+
+
+  //bakalarka kinematika
+#define DEG_TO_RAD 0.017453292519943295769236907684886;
+#define RAD_TO_DEG 57.295779513082320876798154814105;
+#define B 0.14 //%polomer robota v metroch
+#define R 0.025 //%polomer kolesa v metroch
+#define alfa1 HALF_PI 
+#define alfa2 PI
+#define alfa3 -HALF_PI
+#define alfa4 0
+#define sign(x) ((x) < 0 ? -1 : ((x) > 0 ? 1 : 0))
+
 }
 //stuff
 int Kp_sp = 0, Kd_sp = 0, Ki_sp = 0;
@@ -116,6 +130,11 @@ unsigned long newCas = 0;
 
 //set movement
 bool startLoopSetup = 1; //povoli setup sekvenciu na zaciatku programu
+
+
+
+
+int  alfa = 0;//dat precccccccccc
 void loop() {
 if(startLoopSetup){
   STOP();
@@ -123,8 +142,8 @@ if(startLoopSetup){
   ResetSetpoint(1);
   digitalWrite(13,HIGH);
   delay(1000);
-  ConstSpeed(0,40,5,40,9);    //SetSpeed(0,motor 1, motor 2)
-ConstSpeed(1,40,20,40,13);    //SetSpeed(1,motor 4, motor 3)*/
+  //ConstSpeed(0,40,5,40,9);    //SetSpeed(0,motor 1, motor 2)
+//ConstSpeed(1,40,20,40,13);    //SetSpeed(1,motor 4, motor 3)*/
   startLoopSetup = 0;
   digitalWrite(13,LOW);
 }

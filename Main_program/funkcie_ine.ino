@@ -15,10 +15,6 @@ unsigned int hexToDec(String hexString) {
   }
   return decValue;
 }
-void STOP(){
-  SetSpeed(0,0,0);
-  SetSpeed(1,0,0);
-}
 //premenne na motory
 int smer_motorov[4];
 int poradie_motorov[4];
