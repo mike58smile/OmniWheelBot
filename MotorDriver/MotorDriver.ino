@@ -36,7 +36,7 @@ double vystup_sp1, kraj_sp1;
 double vstup_sp1 = 0;
 double vystup_sp2, kraj_sp2;
 double vstup_sp2 = 0;
-double Kp_sp=1, Ki_sp=2.4, Kd_sp=0;
+double Kp_sp=0, Ki_sp=0, Kd_sp=0;
 bool rozhodovac2;
 String data, dataN,dataPlot;
 //-----------------------------------
@@ -230,7 +230,7 @@ if(syn_rozhodovac == false){
     position2 = enc2.read()/2.72;
     //position2_syn = abs(enc2.read());
     if ((unsigned long)(currentMillis_2 - previousMillis_2) >= cas) {
-      v2 = abs(enc2.read());;
+      v2 = abs(enc2.read());
       enc2.write(0);
       previousMillis_2 = currentMillis_2;
       if(rozhodovac2==true){

@@ -131,6 +131,9 @@ unsigned long newCas = 0;
 //set movement
 bool startLoopSetup = 1; //povoli setup sekvenciu na zaciatku programu
 
+
+
+
 int  alfa = 0;//dat precccccccccc
 void loop() {
 if(startLoopSetup){
