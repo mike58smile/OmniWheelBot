@@ -92,7 +92,7 @@ void loop() {
   #ifdef SERIAL_PRINT
   //data=("KP: "+String(Kp_sp,3)+" Kd: "+String(Kd_sp,3)+" Ki: "+String(Ki_sp, 3)+" v1: "+String(v1)+" vystup1: "+String(vystup_sp1)+"vystup2: "+String(vystup_sp1)+" kraj1: "+String(kraj_sp1)+" kraj2: "+String(kraj_sp2)+" msp1: "+String(motorspeed1)+" msp2: "+String(motorspeed2));
    float t = millis()/1000.0; // get program time
-   dataPlot = (String(Kp_sp,3)+" "+String(Kd_sp,3)+ " "+String(Ki_sp,3)+" "+String(v2)+" "+String(vystup_sp2)+" "+String(kraj_sp2) +" "+String(wireread)+" "+String(rozhodovac2)+" "+String(motorcontrol2));
+   dataPlot = (String(Kp_sp,3)+" "+String(Kd_sp,3)+ " "+String(Ki_sp,3)+" "+String(v2)+" "+String(vystup_sp2)+" "+String(kraj_sp2) +" "+String(wireread)+" "+String(rozhodovac2)+" "+String(motorcontrol2)+" "+String(motorspeed1));
   dataN=("KP:"+String(Kp_sp,3)+ "\t"+"Kd:"+String(Kd_sp,3)+ ","+"Ki:"+String(Ki_sp,3)+ ","+"v2(vstup):"+String(v2)+","+"vystup2:"+String(vystup_sp2)+","+"kraj2(w-pozadovana_hodnota):"+String(kraj_sp2)+","+"msp2:"+String(motorspeed2));
   Serial.println(dataPlot);
   #endif
@@ -121,13 +121,13 @@ if(!syn_rozhodovac){
   }
   else if(motorcontrol1 != 3){
     unsigned long currentMillis_1 = millis();
-    /*if(!vstup_sp1 && !kraj_sp1){
+    if(!vstup_sp1 && !kraj_sp1){
       const_speed1.SetMode(MANUAL);
       vystup_sp1 = 0;
-    } else const_speed1.SetMode(AUTOMATIC);*/
+    } else const_speed1.SetMode(AUTOMATIC);
     if(motorspeed1 > 0){            //riadenie iba rychlosti
       if(rozhodovac2){
-        if((abs(motorspeed1)+vystup_sp1) <= 0)
+        if((abs(motorspeed1)+vystup_sp1) <= 0 || (!vstup_sp1 && !kraj_sp1))
           analogWrite(M1_RPWM,0);
         else
         analogWrite(M1_RPWM,(abs(motorspeed1)+vystup_sp1));
@@ -140,7 +140,7 @@ if(!syn_rozhodovac){
     }
     else if(motorspeed1 < 0){
       if (rozhodovac2){
-         if((abs(motorspeed1)+vystup_sp1)<=0)
+         if((abs(motorspeed1)+vystup_sp1)<=0 || (!vstup_sp1 && !kraj_sp1))
             analogWrite(M1_LPWM,0);
         else
           analogWrite(M1_LPWM,(abs(motorspeed1)+vystup_sp1));
@@ -192,13 +192,13 @@ if(!syn_rozhodovac){
   else if(motorcontrol2 == 3);
   else{
     unsigned long currentMillis_2 = millis();
-    /*if(!vstup_sp2 && !kraj_sp2){
+    if(!vstup_sp2 && !kraj_sp2){
       const_speed2.SetMode(MANUAL);
       vystup_sp2 = 0;
-    } else const_speed2.SetMode(AUTOMATIC);*/
+    } else const_speed2.SetMode(AUTOMATIC);
     if(motorspeed2 > 0){            //riadenie iba rychlosti
       if(rozhodovac2){
-        if((abs(motorspeed2)+vystup_sp2)<=0)
+        if((abs(motorspeed2)+vystup_sp2)<=0 || (!vstup_sp2 && !kraj_sp2))
           analogWrite(M2_RPWM,0);
         else
           analogWrite(M2_RPWM,(abs(motorspeed2)+vystup_sp2));
@@ -211,7 +211,7 @@ if(!syn_rozhodovac){
     }
     else if(motorspeed2 < 0){
       if(rozhodovac2){
-        if((abs(motorspeed2)+vystup_sp2)<=0){
+        if((abs(motorspeed2)+vystup_sp2)<=0 || (!vstup_sp2 && !kraj_sp2)){
           analogWrite(M2_LPWM,0);
         }
         else

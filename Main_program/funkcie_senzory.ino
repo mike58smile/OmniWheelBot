@@ -348,7 +348,7 @@ void IR_read() {
       float t = millis()/1000.0; // get program time
       //Serial.println(String(t)+" "+String(alfa)+" "+"spd1:"+String(spd1)+"spd2:"+String(spd2)+"spd3:"+String(spd3)+"spd4:"+String(spd4)+"w1:"+String(w1)+"w2:"+String(w2)+"w3:"+String(w3)+"w4:"+String(w4)+"vy:"+String(vy)+"vx"+String(vx));//+"tg_alfaR:"+String(tg_alfaR)+"pow(tg_alfaR,2) + 1:"+String(pow(tg_alfaR,2) + 1)+"sqrt(pow(tg_alfaR,2) + 1):"+String(sqrt(pow(tg_alfaR,2) + 1))+"sin(alfa3):"+String(sin(alfa3))
       Serial.println(String(t)+" "+String(alfa)+" "+" "+String(spd1)+" "+String(spd2)+" "+String(spd3)+" "+String(spd4)+" "+String(w1)+" "+String(w2)+" "+String(w3)+" "+String(w4)+" "+String(vy)+" "+String(vx));
-      ConstSpeed(0,40*sign(spd1),abs(spd1),40*sign(spd2),abs(spd2));    //SetSpeed(0,motor 1, motor 2)
+      ConstSpeed(0,sign(spd1),abs(spd1),sign(spd2),abs(spd2));    //SetSpeed(0,motor 1, motor 2)
       //ConstSpeed(1,sign(spd4),abs(spd4),sign(spd3),abs(spd3));    //SetSpeed(1,motor 4, motor 3) -toto som skusal
        /*alfa += 1;
        if(alfa>360)
