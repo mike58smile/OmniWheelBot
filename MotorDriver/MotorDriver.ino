@@ -96,7 +96,7 @@ void loop() {
   dataN=("KP:"+String(Kp_sp,3)+ "\t"+"Kd:"+String(Kd_sp,3)+ ","+"Ki:"+String(Ki_sp,3)+ ","+"v2(vstup):"+String(v2)+","+"vystup2:"+String(vystup_sp2)+","+"kraj2(w-pozadovana_hodnota):"+String(kraj_sp2)+","+"msp2:"+String(motorspeed2));
   Serial.println(dataPlot);
   #endif
-if(syn_rozhodovac == false){
+if(!syn_rozhodovac){
   //motor 1
   if(motorcontrol1 == 0){           //riadenie o uhol
     position1 = enc1.read()/2.72;
@@ -121,27 +121,22 @@ if(syn_rozhodovac == false){
   }
   else if(motorcontrol1 != 3){
     unsigned long currentMillis_1 = millis();
-    /*Serial.print("motor speed1: ");Serial.print(motorspeed1); Serial.print(" ");
-    Serial.print("rychlost: ");Serial.print(v1); Serial.print(" ");
-    Serial.print("vystup sp1: ");Serial.print(vystup_sp1); Serial.println(" ");*/
     if(motorspeed1 > 0){            //riadenie iba rychlosti
-      if(rozhodovac2==true){
-        if((abs(motorspeed1)+vystup_sp1) <= 0)
+      if(rozhodovac2){
+        if((abs(motorspeed1)+vystup_sp1) == 0)
           analogWrite(M1_RPWM,0);
         else
-        analogWrite(M1_RPWM,(abs(motorspeed1)+vystup_sp1));
-    /*Serial.print("mot sp: ");Serial.print(motorspeed1); Serial.print(" ");
-    Serial.print("vystup sp1: ");Serial.print(vystup_sp1); Serial.println(" ");*/
+          analogWrite(M1_RPWM,(abs(motorspeed1)+vystup_sp1)); //Constspeed
       }
       else
-        analogWrite(M1_RPWM,abs(motorspeed1));
+        analogWrite(M1_RPWM,abs(motorspeed1));//Setspeed
 
       analogWrite(M1_LPWM,0);
       motor_go1 = 1;
     }
     else if(motorspeed1 < 0){
-      if (rozhodovac2==true){
-         if((abs(motorspeed1)+vystup_sp1)<=0)
+      if (rozhodovac2){
+         if((abs(motorspeed1)+vystup_sp1)==0)
             analogWrite(M1_LPWM,0);
         else
           analogWrite(M1_LPWM,(abs(motorspeed1)+vystup_sp1));
@@ -156,14 +151,12 @@ if(syn_rozhodovac == false){
       analogWrite(M1_RPWM,0);
       analogWrite(M1_LPWM,0);
     }
-    position1 = enc1.read()/2.72;
-    position1_syn = abs(enc1.read());
+    //position1_syn = abs(enc1.read());
     if ((unsigned long)(currentMillis_1 - previousMillis_1) >= cas) {
-      v1 = position1_syn;
-      //Serial.println((v2-v1));
+      v1 = abs(enc1.read());
       enc1.write(0);
       previousMillis_1 = currentMillis_1;
-      if(rozhodovac2==true){
+      if(rozhodovac2){
         vstup_sp1 = v1;
         const_speed1.Compute();
       }
@@ -227,7 +220,7 @@ if(syn_rozhodovac == false){
       analogWrite(M2_RPWM,0);
       analogWrite(M2_LPWM,0);
     }
-    position2 = enc2.read()/2.72;
+    //position2 = enc2.read()/2.72;
     //position2_syn = abs(enc2.read());
     if ((unsigned long)(currentMillis_2 - previousMillis_2) >= cas) {
       v2 = abs(enc2.read());
