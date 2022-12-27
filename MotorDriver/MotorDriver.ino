@@ -121,6 +121,10 @@ if(!syn_rozhodovac){
   }
   else if(motorcontrol1 != 3){
     unsigned long currentMillis_1 = millis();
+    if(!vstup_sp1 && !kraj_sp1){
+      const_speed1.SetMode(MANUAL);
+      vystup_sp1 = 0;
+    } else const_speed1.SetMode(AUTOMATIC);
     if(motorspeed1 > 0){            //riadenie iba rychlosti
       if(rozhodovac2){
         if((abs(motorspeed1)+vystup_sp1) == 0)
@@ -189,9 +193,13 @@ if(!syn_rozhodovac){
   else if(motorcontrol2 == 3);
   else{
     unsigned long currentMillis_2 = millis();
+    if(!vstup_sp2 && !kraj_sp2){
+      const_speed2.SetMode(MANUAL);
+      vystup_sp2 = 0;
+    } else const_speed2.SetMode(AUTOMATIC);
     if(motorspeed2 > 0){            //riadenie iba rychlosti
-      if(rozhodovac2==true){
-        if((abs(motorspeed2)+vystup_sp2)<=0)
+      if(rozhodovac2){
+        if((abs(motorspeed2)+vystup_sp2)==0)
           analogWrite(M2_RPWM,0);
         else
           analogWrite(M2_RPWM,(abs(motorspeed2)+vystup_sp2));
@@ -203,7 +211,7 @@ if(!syn_rozhodovac){
       motor_go2 = 1;
     }
     else if(motorspeed2 < 0){
-      if(rozhodovac2==true){
+      if(rozhodovac2){
         if((abs(motorspeed2)+vystup_sp2)<=0){
           analogWrite(M2_LPWM,0);
         }
@@ -226,7 +234,7 @@ if(!syn_rozhodovac){
       v2 = abs(enc2.read());
       enc2.write(0);
       previousMillis_2 = currentMillis_2;
-      if(rozhodovac2==true){
+      if(rozhodovac2){
         vstup_sp2 = v2;
         const_speed2.Compute();
       }
