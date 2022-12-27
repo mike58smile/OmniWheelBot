@@ -15,7 +15,7 @@
 #define M2_REN 8
 #define M2_LEN 9
 
-#define address 0x10
+#define address 0x11
 int wireread;
 int setpoint,position,speed;
 double RP, Output,Setpoint;
@@ -36,7 +36,7 @@ double vystup_sp1, kraj_sp1;
 double vstup_sp1 = 0;
 double vystup_sp2, kraj_sp2;
 double vstup_sp2 = 0;
-double Kp_sp=1, Ki_sp=2.4, Kd_sp=0;
+double Kp_sp=0.3, Ki_sp=5.6, Kd_sp=0.024;
 bool rozhodovac2;
 String data, dataN,dataPlot;
 //-----------------------------------

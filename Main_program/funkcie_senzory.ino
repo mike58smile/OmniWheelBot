@@ -320,8 +320,8 @@ void IR_read() {
     if (spinac == true) {
       //pohyb_GYRO(pohyb_gyro_smer_loop, 10, gyro_motory);
       //----------uprav------------
-      float vy = 0.1, vx = -0.1, w = 0;
-      alfa = 225;
+      float vy = 0.1, vx = -0.1, w = 0, v = 0.3;
+      alfa = 91;
       //---------------------------
       bool invert = 0;
       if((alfa<=-90 && alfa>-270)|| (alfa>=90 && alfa<270))
@@ -331,7 +331,6 @@ void IR_read() {
       alfa = (alfa + 180)%360;
       float alfaR = float(alfa)*DEG_TO_RAD;*/
      
-      float v = 0.3;
       float tg_alfaR = tan(alfaR);
       vx = v/(sqrt(pow(tg_alfaR,2) + 1));
       vy = v*tg_alfaR/(sqrt(pow(tg_alfaR,2) + 1));
@@ -349,7 +348,7 @@ void IR_read() {
       //Serial.println(String(t)+" "+String(alfa)+" "+"spd1:"+String(spd1)+"spd2:"+String(spd2)+"spd3:"+String(spd3)+"spd4:"+String(spd4)+"w1:"+String(w1)+"w2:"+String(w2)+"w3:"+String(w3)+"w4:"+String(w4)+"vy:"+String(vy)+"vx"+String(vx));//+"tg_alfaR:"+String(tg_alfaR)+"pow(tg_alfaR,2) + 1:"+String(pow(tg_alfaR,2) + 1)+"sqrt(pow(tg_alfaR,2) + 1):"+String(sqrt(pow(tg_alfaR,2) + 1))+"sin(alfa3):"+String(sin(alfa3))
       Serial.println(String(t)+" "+String(alfa)+" "+" "+String(spd1)+" "+String(spd2)+" "+String(spd3)+" "+String(spd4)+" "+String(w1)+" "+String(w2)+" "+String(w3)+" "+String(w4)+" "+String(vy)+" "+String(vx));
       ConstSpeed(0,sign(spd1),abs(spd1),sign(spd2),abs(spd2));    //SetSpeed(0,motor 1, motor 2)
-      //ConstSpeed(1,sign(spd4),abs(spd4),sign(spd3),abs(spd3));    //SetSpeed(1,motor 4, motor 3) -toto som skusal
+      ConstSpeed(1,sign(spd4),abs(spd4),sign(spd3),abs(spd3));    //SetSpeed(1,motor 4, motor 3) -toto som skusal
        /*alfa += 1;
        if(alfa>360)
         alfa = 0;*/
