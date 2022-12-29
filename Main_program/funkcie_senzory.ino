@@ -321,7 +321,7 @@ void IR_read() {
       //pohyb_GYRO(pohyb_gyro_smer_loop, 10, gyro_motory);
       //----------uprav------------
       float vy = 0.1, vx = -0.1, w = 0, v = 0.3;
-      alfa = 91;
+      //alfa = 180;
       //---------------------------
       bool invert = 0;
       if((alfa<=-90 && alfa>-270)|| (alfa>=90 && alfa<270))
@@ -346,7 +346,7 @@ void IR_read() {
       spd1 = (9.792*w1)/PI; spd2 = (9.792*w2)/PI; spd3 = (9.792*w3)/PI; spd4 = (9.792*w4)/PI;
       float t = millis()/1000.0; // get program time
       //Serial.println(String(t)+" "+String(alfa)+" "+"spd1:"+String(spd1)+"spd2:"+String(spd2)+"spd3:"+String(spd3)+"spd4:"+String(spd4)+"w1:"+String(w1)+"w2:"+String(w2)+"w3:"+String(w3)+"w4:"+String(w4)+"vy:"+String(vy)+"vx"+String(vx));//+"tg_alfaR:"+String(tg_alfaR)+"pow(tg_alfaR,2) + 1:"+String(pow(tg_alfaR,2) + 1)+"sqrt(pow(tg_alfaR,2) + 1):"+String(sqrt(pow(tg_alfaR,2) + 1))+"sin(alfa3):"+String(sin(alfa3))
-      Serial.println(String(t)+" "+String(alfa)+" "+" "+String(spd1)+" "+String(spd2)+" "+String(spd3)+" "+String(spd4)+" "+String(w1)+" "+String(w2)+" "+String(w3)+" "+String(w4)+" "+String(vy)+" "+String(vx));
+      //Serial.println(String(t)+" "+String(alfa)+" "+" "+String(spd1)+" "+String(spd2)+" "+String(spd3)+" "+String(spd4)+" "+String(w1)+" "+String(w2)+" "+String(w3)+" "+String(w4)+" "+String(vy)+" "+String(vx));
       ConstSpeed(0,sign(spd1),abs(spd1),sign(spd2),abs(spd2));    //SetSpeed(0,motor 1, motor 2)
       ConstSpeed(1,sign(spd4),abs(spd4),sign(spd3),abs(spd3));    //SetSpeed(1,motor 4, motor 3) -toto som skusal
        /*alfa += 1;
@@ -360,7 +360,13 @@ void STOP(){
   //ConstSpeed(0,1,0,1,0);    //SetSpeed(0,motor 1, motor 2)
   //ConstSpeed(1,1,0,1,0);
   ConstSpeed(0,sign(spd1),0,sign(spd2),0);    //SetSpeed(0,motor 1, motor 2)
-  ConstSpeed(1,sign(spd4),0,sign(spd3),0); 
+  ConstSpeed(1,sign(spd4),0,sign(spd3),0);
+  do{
+    GetPosition(0);
+    GetPosition(1);
+    //Serial.println(String(motor_go1)+" "+String(motor_go2)+" "+String(motor_go1_2)+" "+String(motor_go1_2));
+  }
+  while(!(!rychlost1 && !rychlost2 && !rychlost1_2 && !rychlost2_2));
   //SetSpeed(0,0,0);
   //SetSpeed(1,0,0);
 }
