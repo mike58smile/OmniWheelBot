@@ -28,7 +28,7 @@ decode_results results;
 unsigned long key_value = 0;
 char last_case;
 int sp = 50;
-bool spinac;
+bool spinac, AdvancedMove = 0;
 int gyro_motory = 1;
 //------------------------------------
 //gyro
@@ -121,7 +121,7 @@ int smer1 = 1;
 int smer2 = 1;
 int smer3 = 1;
 int smer4 = 1;
-int v;
+//int v;
 char pohyb_gyro_smer_loop;
 int StartingAngle;
 int error_angle = 0;
@@ -133,8 +133,8 @@ bool startLoopSetup = 1; //povoli setup sekvenciu na zaciatku programu
 
 
 
-
-int  alfa = 0;//dat precccccccccc
+float v = 0.3, w = 0;
+int  alfa = 0;
 void loop() {
 if(startLoopSetup){
   STOP();

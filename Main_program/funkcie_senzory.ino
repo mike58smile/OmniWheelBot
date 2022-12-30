@@ -129,50 +129,104 @@ void IR_read() {
     switch (results.value) {
       case 0x7FA4C83F://0x7FA4C83F denon 0x58 tv 
         Serial.println("UP");
-        if (spinac == true) {
+        /*if (spinac == true)
           pohyb_gyro_smer_loop = 'u';
-        }
-        else {
-          pohyb('u', sp);
-        }
+        else
+          pohyb('u', sp);*/
         last_case = 'u';
-        break;
-      case 0x46F93A05://0x46F93A05 denon 0x59 tv
-        Serial.println("DOWN");
-        if (spinac == true) {
-          pohyb_gyro_smer_loop = 'd';
+        if (AdvancedMove){
+          if(spinac) STOP();
+          alfa = 135;
+          spinac = true;
         }
-        else {
-          pohyb('d', sp);
-        }
-        last_case = 'd';
+        else
+           pohyb('u', sp);
         break;
+      case 0x98A3F70F: //CH level
+        if (AdvancedMove){
+          if(spinac) STOP();
+          alfa = 180;
+          spinac = true;
+        }
+      break;
       case 0x6650050F://0x66050F denon 0x5B tv
         Serial.println("RIGHT");
-        if (spinac == true) {
+        /*if (spinac == true) {
           pohyb_gyro_smer_loop = 'r';
         }
         else {
           pohyb('r', sp);
-        }
+        }*/
         last_case = 'r';
+        if (AdvancedMove){
+          if(spinac) STOP();
+          alfa = 225;
+          spinac = true;
+        }
+        else
+           pohyb('r', sp);
         break;
+      case 0x63D38652: //Return
+        if (AdvancedMove){
+          if(spinac) STOP();
+          alfa = 270;
+          spinac = true;
+        }
+      break;
+      case 0x46F93A05://0x46F93A05 denon 0x59 tv
+        Serial.println("DOWN");
+        /*if (spinac == true) {
+          pohyb_gyro_smer_loop = 'd';
+        }
+        else {
+          pohyb('d', sp);
+        }*/
+        last_case = 'd';
+        if (AdvancedMove){
+          if(spinac) STOP();
+          alfa = 315;
+          spinac = true;
+        }
+        else
+           pohyb('d', sp);
+        break;
+      case 0xE9DFFC5E: //search
+        if (AdvancedMove){
+          if(spinac) STOP();
+          alfa = 0;
+          spinac = true;
+        }
+      break;
       case 0x1304A6AD://0x1304A6AD denon 0x5A tv
         Serial.println("LEFT");
-        if (spinac == true) {
+        /*if (spinac == true) {
           pohyb_gyro_smer_loop = 'l';
         }
         else {
           pohyb('l', sp);
-        }
+        }*/
         last_case = 'l';
+        if (AdvancedMove){
+          if(spinac) STOP();
+          alfa = 45;
+          spinac = true;
+        }
+        else
+           pohyb('l', sp);
         break;
-      case 0x63D38652://klavesa return
+      case 0x277558BA: //Menu
+        if (AdvancedMove){
+          if(spinac) STOP();
+          alfa = 90;
+          spinac = true;
+        }
+      break;
+      case 0x35C38BC8: //0x63D38652://klavesa return - old
         Serial.println("Tocenie v smere");
         pohyb('+', sp);
         last_case = '+';
         break;
-      case 0xE9DFFC5E://klavesa search
+      case 0x91A165E8: //0xE9DFFC5E://klavesa search
         Serial.println("Tocenie proti smeru");
         pohyb('-', sp);
         last_case = '-';
@@ -191,28 +245,33 @@ void IR_read() {
         break;
       case 0x924FD4DC://VOLUME+
         Serial.println("sp hore");
+        if(AdvancedMove)
+          v+=0.02;
         sp += 10;
         rychlost_gyro += 10;
-        if (spinac == true) {
+        v += 0.02;
+        /*if (spinac == true) {
           pohyb_gyro_smer_loop = last_case;
         }
         else {
           pohyb(last_case, sp);
-        }
+        }*/
         //  Serial.println(sp);
-        delay(50);
+        delay(100);
         break;
       case 0x6497D4E4://VOLUME-
         Serial.println("sp dole");
+        if(AdvancedMove)
+          v -= 0.02;
         sp -= 10;
         rychlost_gyro -= 10;
-        if (spinac == true) {
+        /*if (spinac == true) {
           pohyb_gyro_smer_loop = last_case;
         }
         else {
           pohyb(last_case, sp);
         }
-        // Serial.println(sp);
+        // Serial.println(sp);*/
         delay(50);
         break;
       case 0xB1D174DE: //num1
@@ -289,18 +348,23 @@ void IR_read() {
         break;
       case 0xE234AF28: //mute
         Serial.println("gyro program ON");
-        spinac = true;
+        AdvancedMove = true;
         rychlost = 20;
         d = 1;
         pohyb_gyro_smer_loop = last_case;
         delay(100);
         break;
+      case 0xC10191D8: //STANDBY
+        AdvancedMove = false;
+        break;
       case 0x210F46E7: //CH+
-        rychlost_gyro += 10;
+        //rychlost_gyro += 10;
+        w += 0.01;
         delay(50);
         break;
       case 0x470C3CAB: //CH-
-        rychlost_gyro -= 10;
+        //rychlost_gyro -= 10;
+        w -= 0.01;
         delay(50);
         break;
       case 0xFB58D49F: //movie
@@ -320,7 +384,7 @@ void IR_read() {
     if (spinac == true) {
       //pohyb_GYRO(pohyb_gyro_smer_loop, 10, gyro_motory);
       //----------uprav------------
-      float vy = 0.1, vx = -0.1, w = 0, v = 0.3;
+      float vy = 0.1, vx = -0.1;
       //alfa = 180;
       //---------------------------
       bool invert = 0;
