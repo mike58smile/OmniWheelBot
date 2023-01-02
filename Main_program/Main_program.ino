@@ -134,7 +134,7 @@ bool startLoopSetup = 1; //povoli setup sekvenciu na zaciatku programu
 
 
 float v = 0.3, w = 0;
-int  alfa = 0;
+float  alfa = 0;
 void loop() {
 if(startLoopSetup){
   STOP();

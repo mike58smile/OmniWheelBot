@@ -2,7 +2,10 @@ float spd1 = 0;
 float spd2 = 0;
 float spd3 = 0;
 float spd4 = 0;
-
+unsigned long ElapsedTime = 0;
+unsigned long CurrentTime = 0;
+bool circularMove = 0;
+float alfaR;
 int ReadLineBumper(int address, int sensor) {
   int sensorvalue;
   Wire.requestFrom(address, 18);
@@ -127,100 +130,100 @@ void IR_read() {
     if (results.value == 0XFFFFFFFF)
       results.value = key_value;
     switch (results.value) {
-      case 0x7FA4C83F://0x7FA4C83F denon 0x58 tv 
+      case 0x7FA4C83F://0x7FA4C83F denon 0x58 tv
         Serial.println("UP");
         /*if (spinac == true)
           pohyb_gyro_smer_loop = 'u';
-        else
+          else
           pohyb('u', sp);*/
         last_case = 'u';
-        if (AdvancedMove){
-          if(spinac) STOP();
+        if (AdvancedMove) {
+          if (spinac) STOP();
           alfa = 135;
           spinac = true;
         }
         else
-           pohyb('u', sp);
+          pohyb('u', sp);
         break;
       case 0x98A3F70F: //CH level
-        if (AdvancedMove){
-          if(spinac) STOP();
+        if (AdvancedMove) {
+          if (spinac) STOP();
           alfa = 180;
           spinac = true;
         }
-      break;
+        break;
       case 0x6650050F://0x66050F denon 0x5B tv
         Serial.println("RIGHT");
         /*if (spinac == true) {
           pohyb_gyro_smer_loop = 'r';
-        }
-        else {
+          }
+          else {
           pohyb('r', sp);
-        }*/
+          }*/
         last_case = 'r';
-        if (AdvancedMove){
-          if(spinac) STOP();
+        if (AdvancedMove) {
+          if (spinac) STOP();
           alfa = 225;
           spinac = true;
         }
         else
-           pohyb('r', sp);
+          pohyb('r', sp);
         break;
       case 0x63D38652: //Return
-        if (AdvancedMove){
-          if(spinac) STOP();
+        if (AdvancedMove) {
+          if (spinac) STOP();
           alfa = 270;
           spinac = true;
         }
-      break;
+        break;
       case 0x46F93A05://0x46F93A05 denon 0x59 tv
         Serial.println("DOWN");
         /*if (spinac == true) {
           pohyb_gyro_smer_loop = 'd';
-        }
-        else {
+          }
+          else {
           pohyb('d', sp);
-        }*/
+          }*/
         last_case = 'd';
-        if (AdvancedMove){
-          if(spinac) STOP();
+        if (AdvancedMove) {
+          if (spinac) STOP();
           alfa = 315;
           spinac = true;
         }
         else
-           pohyb('d', sp);
+          pohyb('d', sp);
         break;
       case 0xE9DFFC5E: //search
-        if (AdvancedMove){
-          if(spinac) STOP();
+        if (AdvancedMove) {
+          if (spinac) STOP();
           alfa = 0;
           spinac = true;
         }
-      break;
+        break;
       case 0x1304A6AD://0x1304A6AD denon 0x5A tv
         Serial.println("LEFT");
         /*if (spinac == true) {
           pohyb_gyro_smer_loop = 'l';
-        }
-        else {
+          }
+          else {
           pohyb('l', sp);
-        }*/
+          }*/
         last_case = 'l';
-        if (AdvancedMove){
-          if(spinac) STOP();
+        if (AdvancedMove) {
+          if (spinac) STOP();
           alfa = 45;
           spinac = true;
         }
         else
-           pohyb('l', sp);
+          pohyb('l', sp);
         break;
       case 0x277558BA: //Menu
-        if (AdvancedMove){
-          if(spinac) STOP();
+        if (AdvancedMove) {
+          if (spinac) STOP();
           alfa = 90;
           spinac = true;
         }
-      break;
+        break;
       case 0x35C38BC8: //0x63D38652://klavesa return - old
         Serial.println("Tocenie v smere");
         pohyb('+', sp);
@@ -242,36 +245,37 @@ void IR_read() {
         Serial.println(ReadGyro("z", "angle"));
         last_case = 's';
         spinac = false;
+        circularMove = 0;
         break;
       case 0x924FD4DC://VOLUME+
         Serial.println("sp hore");
-        if(AdvancedMove)
-          v+=0.02;
+        if (AdvancedMove)
+          v += 0.02;
         sp += 10;
         rychlost_gyro += 10;
         //v += 0.02;
         /*if (spinac == true) {
           pohyb_gyro_smer_loop = last_case;
-        }
-        else {
+          }
+          else {
           pohyb(last_case, sp);
-        }*/
+          }*/
         //  Serial.println(sp);
         delay(100);
         break;
       case 0x6497D4E4://VOLUME-
         Serial.println("sp dole");
-        if(AdvancedMove)
+        if (AdvancedMove)
           v -= 0.02;
         sp -= 10;
         rychlost_gyro -= 10;
         /*if (spinac == true) {
           pohyb_gyro_smer_loop = last_case;
-        }
-        else {
+          }
+          else {
           pohyb(last_case, sp);
-        }
-        // Serial.println(sp);*/
+          }
+          // Serial.println(sp);*/
         delay(50);
         break;
       case 0xB1D174DE: //num1
@@ -379,9 +383,13 @@ void IR_read() {
         v = 0.6;
         break;
       case 0x52213642: //play btn
-        Pid_konst = !Pid_konst;
-        delay(200);
-        
+        alfa = 0;
+        alfaR = 0;
+        circularMove = 1;
+        spinac = true;
+        //Pid_konst = !Pid_konst;
+        //delay(200);
+
     }
     key_value = results.value;
     irrecv.resume();
@@ -394,49 +402,60 @@ void IR_read() {
       //alfa = 180;
       //---------------------------
       bool invert = 0;
-      if((alfa<=-90 && alfa>-270)|| (alfa>=90 && alfa<270))
+      alfa = fmod(alfa, 360);
+      //pohyb po kruznici
+      if (circularMove) {
+        CurrentTime = millis();
+        if ((unsigned long)(CurrentTime - ElapsedTime) >= 20) {
+          ElapsedTime = CurrentTime;
+          alfa += 57.295779513082320876798154814105*(v * 0.02 / 0.4);
+        }
+      /*if ((alfaR <= -HALF_PI && alfa > -3/2*PI) || (alfa >= HALF_PI && alfa < 3/2*PI))
+        invert = 1; //kvoli nespojitostiam tangensu*/
+      }
+      if ((alfa <= -90 && alfa > -270) || (alfa >= 90 && alfa < 270))
         invert = 1; //kvoli nespojitostiam tangensu
-      float alfaR = alfa * DEG_TO_RAD;
+      alfaR = alfa * DEG_TO_RAD;
       /*int alfa = 90;
-      alfa = (alfa + 180)%360;
-      float alfaR = float(alfa)*DEG_TO_RAD;*/
-     
+        alfa = (alfa + 180)%360;
+        float alfaR = float(alfa)*DEG_TO_RAD;*/
+      alfaR = fmod(alfaR, 2 * PI);
       float tg_alfaR = tan(alfaR);
-      vx = v/(sqrt(pow(tg_alfaR,2) + 1));
-      vy = v*tg_alfaR/(sqrt(pow(tg_alfaR,2) + 1));
-      if(invert){
+      vx = v / (sqrt(pow(tg_alfaR, 2) + 1));
+      vy = v * tg_alfaR / (sqrt(pow(tg_alfaR, 2) + 1));
+      if (invert) {
         (vx != 0) ? vx *= -1 : vx = 0;
         (vy != 0) ? vy *= -1 : vy = 0;
       }
-      
-      float w1 = (B*w + vy*cos(alfa1) - vx*sin(alfa1))/R;
-      float w2 = (B*w + vy*cos(alfa2) - vx*sin(alfa2))/R;
-      float w3 = (B*w + vy*cos(alfa3) - vx*sin(alfa3))/R;
-      float w4 = (B*w + vy)/R;
-      spd1 = (9.792*w1)/PI; spd2 = (9.792*w2)/PI; spd3 = (9.792*w3)/PI; spd4 = (9.792*w4)/PI;
-      float t = millis()/1000.0; // get program time
-      //Serial.println(String(t)+" "+String(alfa)+" "+"spd1:"+String(spd1)+"spd2:"+String(spd2)+"spd3:"+String(spd3)+"spd4:"+String(spd4)+"w1:"+String(w1)+"w2:"+String(w2)+"w3:"+String(w3)+"w4:"+String(w4)+"vy:"+String(vy)+"vx"+String(vx));//+"tg_alfaR:"+String(tg_alfaR)+"pow(tg_alfaR,2) + 1:"+String(pow(tg_alfaR,2) + 1)+"sqrt(pow(tg_alfaR,2) + 1):"+String(sqrt(pow(tg_alfaR,2) + 1))+"sin(alfa3):"+String(sin(alfa3))
-      //Serial.println(String(t)+" "+String(alfa)+" "+" "+String(spd1)+" "+String(spd2)+" "+String(spd3)+" "+String(spd4)+" "+String(w1)+" "+String(w2)+" "+String(w3)+" "+String(w4)+" "+String(vy)+" "+String(vx));
-      ConstSpeed(0,sign(spd1),abs(spd1),sign(spd2),abs(spd2));    //SetSpeed(0,motor 1, motor 2)
-      ConstSpeed(1,sign(spd4),abs(spd4),sign(spd3),abs(spd3));    //SetSpeed(1,motor 4, motor 3) -toto som skusal
-       /*alfa += 1;
-       if(alfa>360)
+
+      float w1 = (B * w + vy * cos(alfa1) - vx * sin(alfa1)) / R;
+      float w2 = (B * w + vy * cos(alfa2) - vx * sin(alfa2)) / R;
+      float w3 = (B * w + vy * cos(alfa3) - vx * sin(alfa3)) / R;
+      float w4 = (B * w + vy) / R;
+      spd1 = (9.792 * w1) / PI; spd2 = (9.792 * w2) / PI; spd3 = (9.792 * w3) / PI; spd4 = (9.792 * w4) / PI;
+      float t = millis() / 1000.0; // get program time
+      //Serial.println("alfa: "+String(alfa)+" "+"spd1:"+String(spd1)+"spd2:"+String(spd2)+"spd3:"+String(spd3)+"spd4:"+String(spd4)+"w1:"+String(w1)+"w2:"+String(w2)+"w3:"+String(w3)+"w4:"+String(w4)+"vy:"+String(vy)+"vx"+String(vx));//+"tg_alfaR:"+String(tg_alfaR)+"pow(tg_alfaR,2) + 1:"+String(pow(tg_alfaR,2) + 1)+"sqrt(pow(tg_alfaR,2) + 1):"+String(sqrt(pow(tg_alfaR,2) + 1))+"sin(alfa3):"+String(sin(alfa3))
+      Serial.println(String(alfaR)+" "+String(spd1)+" "+String(spd2)+" "+String(spd3)+" "+String(spd4)+" "+String(w1)+" "+String(w2)+" "+String(w3)+" "+String(w4)+" "+String(vy)+" "+String(vx));
+      ConstSpeed(0, sign(spd1), abs(spd1), sign(spd2), abs(spd2)); //SetSpeed(0,motor 1, motor 2)
+      ConstSpeed(1, sign(spd4), abs(spd4), sign(spd3), abs(spd3)); //SetSpeed(1,motor 4, motor 3) -toto som skusal
+      /*alfa += 1;
+        if(alfa>360)
         alfa = 0;*/
     }
   }
 }
-void STOP(){
+void STOP() {
   //startLoopSetup = 1;
   //ConstSpeed(0,1,0,1,0);    //SetSpeed(0,motor 1, motor 2)
   //ConstSpeed(1,1,0,1,0);
-  ConstSpeed(0,sign(spd1),0,sign(spd2),0);    //SetSpeed(0,motor 1, motor 2)
-  ConstSpeed(1,sign(spd4),0,sign(spd3),0);
-  do{
+  ConstSpeed(0, sign(spd1), 0, sign(spd2), 0); //SetSpeed(0,motor 1, motor 2)
+  ConstSpeed(1, sign(spd4), 0, sign(spd3), 0);
+  do {
     GetPosition(0);
     GetPosition(1);
     //Serial.println(String(motor_go1)+" "+String(motor_go2)+" "+String(motor_go1_2)+" "+String(motor_go1_2));
   }
-  while(!(!rychlost1 && !rychlost2 && !rychlost1_2 && !rychlost2_2));
+  while (!(!rychlost1 && !rychlost2 && !rychlost1_2 && !rychlost2_2));
   //SetSpeed(0,0,0);
   //SetSpeed(1,0,0);
 }
@@ -463,12 +482,12 @@ void getline(char *buffer, int max_len)
   do
   {
     if (idx >= max_len) return;
-    if (Serial3.available() != 0){
+    if (Serial3.available() != 0) {
       c = Serial3.read();
       buffer[idx++] = c;
     }
-    }
-  
+  }
+
   while (c != '\n' && c != '\r');
   if (idx >= max_len) return;
   buffer[idx] = 0;
@@ -480,6 +499,8 @@ int kamera() {
   int max_len = 63;
   getline(buffer, max_len);
   int kam = atoi(buffer);
-  if(kam==0){return;}
+  if (kam == 0) {
+    return;
+  }
   return kam;
 }
