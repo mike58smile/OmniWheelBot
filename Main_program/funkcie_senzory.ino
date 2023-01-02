@@ -249,7 +249,7 @@ void IR_read() {
           v+=0.02;
         sp += 10;
         rychlost_gyro += 10;
-        v += 0.02;
+        //v += 0.02;
         /*if (spinac == true) {
           pohyb_gyro_smer_loop = last_case;
         }
@@ -369,13 +369,19 @@ void IR_read() {
         break;
       case 0xFB58D49F: //movie
         gyro_motory = 1;
+        v = 0.3;
         break;
       case 0x78F5AEE3: //music
         gyro_motory = 2;
+        v = 0.45;
+        break;
+      case 0x4138EAE3:
+        v = 0.6;
         break;
       case 0x52213642: //play btn
         Pid_konst = !Pid_konst;
         delay(200);
+        
     }
     key_value = results.value;
     irrecv.resume();
