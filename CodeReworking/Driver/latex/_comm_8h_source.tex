@@ -1,0 +1,32 @@
+\hypertarget{_comm_8h_source}{}\doxysection{Comm.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// Comm.h}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#ifndef \_COMM\_h}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#define \_COMM\_h}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#if defined(ARDUINO) \&\& ARDUINO >= 100}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{    \#include "{}arduino.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{    \#include "{}WProgram.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <i2cdetect.h>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <Wire.h>}}
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{class_comm_class}{CommClass}}}
+\DoxyCodeLine{14 \{}
+\DoxyCodeLine{15  \textcolor{keyword}{protected}:}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18  \textcolor{keyword}{public}:}
+\DoxyCodeLine{19     \textcolor{keywordtype}{void} init();}
+\DoxyCodeLine{20     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_comm_class_a5a2d6252d1215afe08eef7dac02a98cb}{requestEvent}}();}
+\DoxyCodeLine{21     \textcolor{keywordtype}{void} receiveData();}
+\DoxyCodeLine{22 \};}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{keyword}{extern} \mbox{\hyperlink{class_comm_class}{CommClass}} Comm;}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{27 }
+
+\end{DoxyCode}

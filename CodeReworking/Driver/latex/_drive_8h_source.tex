@@ -1,0 +1,41 @@
+\hypertarget{_drive_8h_source}{}\doxysection{Drive.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ * \(\backslash\)file   Drive.h}}
+\DoxyCodeLine{3 \textcolor{comment}{ * \(\backslash\)brief  Nieco o triede Drive}}
+\DoxyCodeLine{4 \textcolor{comment}{ * }}
+\DoxyCodeLine{5 \textcolor{comment}{ * \(\backslash\)author xmisko06}}
+\DoxyCodeLine{6 \textcolor{comment}{ * \(\backslash\)date   April 2023}}
+\DoxyCodeLine{7 \textcolor{comment}{*/}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#ifndef \_DRIVE\_h}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#define \_DRIVE\_h}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#if defined(ARDUINO) \&\& ARDUINO >= 100}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{    \#include "{}arduino.h"{}}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{    \#include "{}WProgram.h"{}}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <Encoder.h>}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{23 \textcolor{keyword}{class }\mbox{\hyperlink{class_drive_class}{DriveClass}}}
+\DoxyCodeLine{24 \{}
+\DoxyCodeLine{25  \textcolor{keyword}{protected}:}
+\DoxyCodeLine{26      \textcolor{comment}{//StateClass\& State;}}
+\DoxyCodeLine{27      \mbox{\hyperlink{class_motors_class}{MotorsClass}} \mbox{\hyperlink{class_drive_class_ad4a35cb457c518406bd65700231c48d7}{Motors}}; }
+\DoxyCodeLine{28      Encoder \mbox{\hyperlink{class_drive_class_a220a780cced6ece3e94731bd9cefd850}{enc1}}; }
+\DoxyCodeLine{29      Encoder \mbox{\hyperlink{class_drive_class_a105582a5f5109076eb59d3556db0d428}{enc2}}; }
+\DoxyCodeLine{30  \textcolor{keyword}{public}:}
+\DoxyCodeLine{35      \textcolor{keyword}{explicit} \mbox{\hyperlink{class_drive_class_a148ebca617d743610ab7421b249470b3}{DriveClass}}(\mbox{\hyperlink{class_state_class}{StateClass}}\& state) : \mbox{\hyperlink{class_drive_class_a220a780cced6ece3e94731bd9cefd850}{enc1}}(State.Enc1\_1, State.Enc1\_2), \mbox{\hyperlink{class_drive_class_a105582a5f5109076eb59d3556db0d428}{enc2}}(State.Enc2\_1, State.Enc2\_2) \{\}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{40      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_af058246867930180e2e73d98d94075e9}{init}}();}
+\DoxyCodeLine{44      \mbox{\hyperlink{class_drive_class_aef5772bb8a2193ea69c6a55b25850887}{DriveClass}}();}
+\DoxyCodeLine{45 \};}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{keyword}{extern} \mbox{\hyperlink{class_drive_class}{DriveClass}} Drive;}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{50 }
+
+\end{DoxyCode}
