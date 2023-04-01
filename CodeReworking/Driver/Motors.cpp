@@ -29,6 +29,7 @@ void MotorsClass::init()
     digitalWrite(State.M2_REN, HIGH);
     digitalWrite(State.M2_LEN, HIGH);
 
+    State.actualState = MainState::Setup; //Define in which state the driver operates
 }
 
 void MotorsClass::Stop()
@@ -37,10 +38,15 @@ void MotorsClass::Stop()
     analogWrite(State.M1_LPWM, 0);
     analogWrite(State.M2_RPWM, 0);
     analogWrite(State.M2_LPWM, 0);
+    State.actualState = MainState::Stop; //Define in which state the driver operates
 }
 
 void MotorsClass::Speed(int Spd1, int Spd2)
 {
+    if (!Spd1 && !Spd2) {
+        Stop();
+        return;
+    }
     // Set speed of first motor
     if (Spd1 >= 0) {
         analogWrite(State.M1_RPWM, abs(Spd1));
@@ -60,5 +66,10 @@ void MotorsClass::Speed(int Spd1, int Spd2)
         analogWrite(State.M2_RPWM, 0);
         analogWrite(State.M2_LPWM, abs(Spd2));
     }
+    //State.actualState = MainState::Speed; //Define in which state the driver operates
+    
+    // Save current motor speeds to State
+    State.actualSpeed[0] = Spd1;
+    State.actualSpeed[1] = Spd2;
 
 }

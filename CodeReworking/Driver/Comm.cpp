@@ -11,33 +11,31 @@
 
 void CommClass::init()
 {
-	Serial.begin(115200);
+	Serial.begin(BaudRate);
 	Wire.begin(State.address);
-	//Wire.onRequest(requestEvent);
-	//Wire.onReceive(receiveData);
-
-
+	Wire.onRequest(requestEvent);
+	Wire.onReceive(receiveData);
 }
 
 
-void CommClass::requestEvent()
+void requestEvent()
 {
 
 }
 
-void CommClass::receiveData()
-{
+void receiveData(int x)
+{ 
     int mode = Wire.read();
     switch(mode) {
     case 0:
         //stop motor and reset PID
-        State.mainState = Reset;
-
+        State.commState = Stop;
         break;
     case 1:
         //set speed
-        State.mainState = Speed;
-
+        State.requiredSpeed[0] = WireRead;
+        State.requiredSpeed[1] = WireRead;
+        State.commState = Speed;
         break;
     default:
         break;

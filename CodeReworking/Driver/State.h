@@ -10,7 +10,8 @@
 #endif
 
 // User defined data types:
-enum MainState { Reset, Speed }; //enum class is better cause the name of the enum elements can be used outside the enum as variables
+enum MainState { Setup, Speed, Stop }; //enum class is better cause the name of the enum elements can be used outside the enum as variables
+enum CommState { Wait, Stop, Speed};
 using Pin = const uint8_t;
 
 class StateClass
@@ -38,9 +39,13 @@ class StateClass
 // Other definitions
 	 static const int address = 0x10;
 // Other stuff
-	 //define main state in which the driver operates -> Mainly controller changes this state
-	 MainState mainState = Reset;
-	 
+	 //define actual state in which the driver operates 
+	 MainState actualState = Setup;
+
+	 //define communication state in which controller wants the driver to be in, only changed in Comm
+	 CommState commState = Wait;
+	 int actualSpeed[2] = { 0,0 };
+	 int requiredSpeed[2] = { 0,0 };
 };
 
 extern StateClass State;

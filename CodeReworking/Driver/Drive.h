@@ -41,6 +41,12 @@ class DriveClass
 	  */
 	 void init();
 
+	 /**
+	  * \brief Drive loop
+	  * \note Use in void loop()
+	  */
+	 void loop();
+
 };
 
 extern DriveClass Drive;

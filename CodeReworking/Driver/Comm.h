@@ -17,15 +17,32 @@
 #endif
 #include <i2cdetect.h>
 #include <Wire.h>
+
+constexpr auto BaudRate = 115200;
+#define WireRead (Wire.read() | Wire.read() << 8)
+/**
+ * \brief Class for I2C and Serial communication
+ */
 class CommClass
 {
  protected:
+	 /**
+	  * \brief I2C send data - Wire request event
+	  */
+	 friend void requestEvent();
 
+	 /**
+	  * \brief I2C get data - Wire recieve event
+	  */
+	 friend void receiveData(int x);
 
  public:
-	void init();
-	void requestEvent();
-	void receiveData();
+	 /**
+	  * \brief Initialize Serial and I2C communication
+	  * \note Use in void setup()
+	  */
+	 void init();
+
 };
 
 extern CommClass Comm;
