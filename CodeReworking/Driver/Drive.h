@@ -33,7 +33,7 @@ class DriveClass
 	  * \note This is the only constructor
 	  * \param state
 	  */
-	 explicit DriveClass(StateClass& state) : enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2) {}
+	 explicit DriveClass() : enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2) {}
 
 	 /**
 	  * \brief Initialize motors
@@ -49,7 +49,7 @@ class DriveClass
 
 };
 
-extern DriveClass Drive;
+//extern DriveClass Drive;
 
 #endif
 

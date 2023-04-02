@@ -15,6 +15,8 @@ void DriveClass::loop()
     case Stop:
         Motors.Stop();
         break;
+    case Wait:
+        break;
     case Speed:
         Motors.Speed(State.requiredSpeed[0], State.requiredSpeed[1]);
         break;

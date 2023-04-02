@@ -16,11 +16,14 @@
 #include "State.h"
 #include "Comm.h"
 
-void setup() {
 
+DriveClass Drive;
+void setup() {
+	Comm.init();
+	Drive.init();
 }
 
 // the loop function runs over and over again until power down or reset
 void loop() {
-  
+	Drive.loop();
 }

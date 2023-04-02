@@ -32,6 +32,9 @@ void receiveData(int x)
         State.commState = Stop;
         break;
     case 1:
+        State.commState = Wait;
+        break;
+    case 2:
         //set speed
         State.requiredSpeed[0] = WireRead;
         State.requiredSpeed[1] = WireRead;

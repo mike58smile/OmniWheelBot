@@ -18,7 +18,7 @@
 
 // User defined data types:
 enum MainState { Setup, Speed, Stop }; //enum class is better cause the name of the enum elements can be used outside the enum as variables
-enum CommState { Wait, Stop, Speed};
+enum CommState { Stop, Wait, Speed};
 using Pin = const uint8_t;
 
 /**
@@ -54,8 +54,9 @@ class StateClass
 
 	 //define communication state in which controller wants the driver to be in, only changed in Comm
 	 CommState commState = Wait;
-	 int actualSpeed[2] = { 0,0 };
-	 int requiredSpeed[2] = { 0,0 };
+
+	 int actualSpeed[2] = { 0,0 }; ///< Actual speed of two motors which is sent by analogWrite
+	 int requiredSpeed[2] = { 0,0 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class!
 };
 
 extern StateClass State;
