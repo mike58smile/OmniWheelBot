@@ -1,10 +1,12 @@
-/*
- Name:		Driver.ino
- Created:	3/31/2023 4:02:15 PM
- Author:	xmisko06
-*/
+/*****************************************************************//**
+ * \file   Driver.ino
+ * \brief  Main program file
+ * \details Here is void setup() and void loop()
+ * 
+ * \author xmisko06
+ * \date   April 2023
+ *********************************************************************/
 
-// the setup function runs once when you press reset or power the board
 
 #include <ISR_Timer.h>
 #include <ISR_Timer.hpp>
@@ -18,12 +20,18 @@
 
 
 DriveClass Drive;
+
+/**
+ * \brief the setup function runs once when you press reset or power the board
+ */
 void setup() {
 	Comm.init();
 	Drive.init();
 }
 
-// the loop function runs over and over again until power down or reset
+/**
+ * \brief The loop function which runs over and over again until power down or reset
+ */
 void loop() {
 	Drive.loop();
 }
