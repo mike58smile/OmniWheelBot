@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: Main Page</title>
+<title>My Project: Documentation for Motor driver of OmniWheel robot</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -68,10 +68,34 @@ $(function() {
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">My Project Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">Documentation for Motor driver of OmniWheel robot </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p >project_hierarchy.gv "Pic.1 - Files hierarchy of the project"</p>
+<h1><a class="anchor" id="autotoc_md0"></a>
+Brief</h1>
+<p >This driver controls 2 motors, read data from their encoders and communicate with the main controler.</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Comunication</h1>
+<h2><a class="anchor" id="autotoc_md2"></a>
+Recieve message format</h2>
+<p >Format in which Controler sends data through I2C to this driver - sent from up to bottom.</p>
+<h3><a class="anchor" id="autotoc_md3"></a>
+Mode:</h3>
+<ul>
+<li>Stop:<ul>
+<li>0 (Value used for state determination)</li>
+</ul>
+</li>
+<li>Speed:<ul>
+<li>1 (Value used for state determination)</li>
+<li>16 bit int = Speed of first motor</li>
+<li>16 bit int = Speed of second motor </li>
+</ul>
+</li>
+</ul>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -24,6 +24,9 @@
     <None Include="Doxyfile">
       <Filter>Documentation</Filter>
     </None>
+    <None Include="Documentation.md">
+      <Filter>Documentation</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Driver.ino" />

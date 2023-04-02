@@ -1,10 +1,28 @@
 \hypertarget{class_state_class}{}\doxysection{State\+Class Class Reference}
 \label{class_state_class}\index{StateClass@{StateClass}}
+
+
+Class for variables storage (only header, without methods)  
+
+
+
+
+{\ttfamily \#include $<$State.\+h$>$}
+
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_state_class_acbc21a6dd6b77efb62e232c901d8dd87}\label{class_state_class_acbc21a6dd6b77efb62e232c901d8dd87}} 
-Main\+State {\bfseries main\+State} = Reset
+\mbox{\Hypertarget{class_state_class_a3b06994bd0056d2f5c9b7037defeec13}\label{class_state_class_a3b06994bd0056d2f5c9b7037defeec13}} 
+Main\+State {\bfseries actual\+State} = Setup
+\item 
+\mbox{\Hypertarget{class_state_class_af71f651eebc7746f9c57a33520180c60}\label{class_state_class_af71f651eebc7746f9c57a33520180c60}} 
+Comm\+State {\bfseries comm\+State} = Wait
+\item 
+\mbox{\Hypertarget{class_state_class_a37816025e4f99f25401ae08862a660c9}\label{class_state_class_a37816025e4f99f25401ae08862a660c9}} 
+int {\bfseries actual\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
+\item 
+\mbox{\Hypertarget{class_state_class_ad35700f8b8ec016a81c9b9ff2f049791}\label{class_state_class_ad35700f8b8ec016a81c9b9ff2f049791}} 
+int {\bfseries required\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
@@ -50,6 +68,9 @@ static const int {\bfseries address} = 0x10
 \end{DoxyCompactItemize}
 
 
+\doxysubsection{Detailed Description}
+Class for variables storage (only header, without methods) 
+
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-State.\+h\end{DoxyCompactItemize}
+\mbox{\hyperlink{_state_8h}{State.\+h}}\end{DoxyCompactItemize}

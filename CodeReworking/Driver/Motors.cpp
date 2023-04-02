@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Motors.cpp
- * \brief  Motors.cpp class header
- * \details 
+ * \brief  Motors class source file
+ * \details Used for direct motor control
  * 
  * \author xmisko06
  * \date   April 2023
@@ -66,10 +66,10 @@ void MotorsClass::Speed(int Spd1, int Spd2)
         analogWrite(State.M2_RPWM, 0);
         analogWrite(State.M2_LPWM, abs(Spd2));
     }
-    //State.actualState = MainState::Speed; //Define in which state the driver operates
     
     // Save current motor speeds to State
     State.actualSpeed[0] = Spd1;
     State.actualSpeed[1] = Spd2;
 
+    State.actualState = MainState::Speed; //Define in which state the driver operates
 }

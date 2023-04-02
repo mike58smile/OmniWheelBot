@@ -1,14 +1,47 @@
 \hypertarget{class_motors_class}{}\doxysection{Motors\+Class Class Reference}
 \label{class_motors_class}\index{MotorsClass@{MotorsClass}}
+
+
+Class directly controling motors.  
+
+
+
+
+{\ttfamily \#include $<$Motors.\+h$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+void \mbox{\hyperlink{class_motors_class_a876ccfb589e9a826276bde4f9a99ba31}{init}} ()
+\begin{DoxyCompactList}\small\item\em Initialize motor pinouts and motor driver. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_motors_class_a0fe90b15769d3f1f219da0c2f4015f89}\label{class_motors_class_a0fe90b15769d3f1f219da0c2f4015f89}} 
+void {\bfseries Stop} ()
+\begin{DoxyCompactList}\small\item\em Stop Motor (Puts HIGH on motor inputs) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_motors_class_a2a742a3a0072e0933853e2517d267fdd}\label{class_motors_class_a2a742a3a0072e0933853e2517d267fdd}} 
+void {\bfseries Speed} (int Spd1, int Spd2)
+\begin{DoxyCompactList}\small\item\em Set Speed of both motors. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class directly controling motors. 
+
+\doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{class_motors_class_a876ccfb589e9a826276bde4f9a99ba31}\label{class_motors_class_a876ccfb589e9a826276bde4f9a99ba31}} 
-void {\bfseries init} ()
-\end{DoxyCompactItemize}
+\index{MotorsClass@{MotorsClass}!init@{init}}
+\index{init@{init}!MotorsClass@{MotorsClass}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Motors\+Class\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initialize motor pinouts and motor driver. 
+
+\begin{DoxyNote}{Note}
+Use in void setup() 
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-Motors.\+h\item 
-Motors.\+cpp\end{DoxyCompactItemize}
+\mbox{\hyperlink{_motors_8h}{Motors.\+h}}\item 
+\mbox{\hyperlink{_motors_8cpp}{Motors.\+cpp}}\end{DoxyCompactItemize}

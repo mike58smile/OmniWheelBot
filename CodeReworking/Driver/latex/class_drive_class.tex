@@ -2,7 +2,7 @@
 \label{class_drive_class}\index{DriveClass@{DriveClass}}
 
 
-triede Class  
+Class implementing all movements.  
 
 
 
@@ -13,11 +13,11 @@ triede Class
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{class_drive_class_a148ebca617d743610ab7421b249470b3}{Drive\+Class}} (\mbox{\hyperlink{class_state_class}{State\+Class}} \&state)
-\begin{DoxyCompactList}\small\item\em conversny \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em C\textquotesingle{}tor from \mbox{\hyperlink{class_state_class}{State\+Class}}, also initialize Encoder objects. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_drive_class_af058246867930180e2e73d98d94075e9}{init}} ()
-\item 
-\mbox{\hyperlink{class_drive_class_aef5772bb8a2193ea69c6a55b25850887}{Drive\+Class}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Initialize motors. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}{loop}} ()
+\begin{DoxyCompactList}\small\item\em Drive loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -33,33 +33,28 @@ Encoder {\bfseries enc2}
 
 
 \doxysubsection{Detailed Description}
-triede Class 
-
-
+Class implementing all movements. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{class_drive_class_a148ebca617d743610ab7421b249470b3}\label{class_drive_class_a148ebca617d743610ab7421b249470b3}} 
 \index{DriveClass@{DriveClass}!DriveClass@{DriveClass}}
 \index{DriveClass@{DriveClass}!DriveClass@{DriveClass}}
-\doxysubsubsection{\texorpdfstring{DriveClass()}{DriveClass()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\doxysubsubsection{\texorpdfstring{DriveClass()}{DriveClass()}}
 {\footnotesize\ttfamily Drive\+Class\+::\+Drive\+Class (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_state_class}{State\+Class}} \&}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
 
 
 
-conversny 
+C\textquotesingle{}tor from \mbox{\hyperlink{class_state_class}{State\+Class}}, also initialize Encoder objects. 
 
+\begin{DoxyNote}{Note}
+This is the only constructor 
+\end{DoxyNote}
 
 \begin{DoxyParams}{Parameters}
 {\em state} & \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{class_drive_class_aef5772bb8a2193ea69c6a55b25850887}\label{class_drive_class_aef5772bb8a2193ea69c6a55b25850887}} 
-\index{DriveClass@{DriveClass}!DriveClass@{DriveClass}}
-\index{DriveClass@{DriveClass}!DriveClass@{DriveClass}}
-\doxysubsubsection{\texorpdfstring{DriveClass()}{DriveClass()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily Drive\+Class\+::\+Drive\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-nieco xx 
 
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{class_drive_class_af058246867930180e2e73d98d94075e9}\label{class_drive_class_af058246867930180e2e73d98d94075e9}} 
@@ -68,9 +63,29 @@ nieco xx
 \doxysubsubsection{\texorpdfstring{init()}{init()}}
 {\footnotesize\ttfamily void Drive\+Class\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Init metoda 
+
+
+Initialize motors. 
+
+\begin{DoxyNote}{Note}
+Use in void setup() 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}\label{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}} 
+\index{DriveClass@{DriveClass}!loop@{loop}}
+\index{loop@{loop}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void Drive\+Class\+::loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Drive loop. 
+
+\begin{DoxyNote}{Note}
+Use in void \mbox{\hyperlink{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}{loop()}} 
+\end{DoxyNote}
+
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-Drive.\+h\item 
+\mbox{\hyperlink{_drive_8h}{Drive.\+h}}\item 
 Drive.\+cpp\end{DoxyCompactItemize}

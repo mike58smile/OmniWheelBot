@@ -1,4 +1,11 @@
-// State.h
+/*****************************************************************//**
+ * \file   State.h
+ * \brief  State class 
+ * \details Storage for all variables shared between classes
+ * 
+ * \author xmisko06
+ * \date   April 2023
+ *********************************************************************/
 
 #ifndef _STATE_h
 #define _STATE_h
@@ -14,6 +21,9 @@ enum MainState { Setup, Speed, Stop }; //enum class is better cause the name of 
 enum CommState { Wait, Stop, Speed};
 using Pin = const uint8_t;
 
+/**
+ * \brief Class for variables storage (only header, without methods) 
+ */
 class StateClass
 {
  protected:

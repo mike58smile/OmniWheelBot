@@ -1,0 +1,17 @@
+project\+\_\+hierarchy.\+gv \char`\"{}\+Pic.\+1 -\/ Files hierarchy of the project\char`\"{}\hypertarget{index_autotoc_md0}{}\doxysection{Brief}\label{index_autotoc_md0}
+This driver controls 2 motors, read data from their encoders and communicate with the main controler.\hypertarget{index_autotoc_md1}{}\doxysection{Comunication}\label{index_autotoc_md1}
+\hypertarget{index_autotoc_md2}{}\doxysubsection{Recieve message format}\label{index_autotoc_md2}
+Format in which Controler sends data through I2C to this driver -\/ sent from up to bottom.\hypertarget{index_autotoc_md3}{}\doxysubsubsection{Mode\+:}\label{index_autotoc_md3}
+
+\begin{DoxyItemize}
+\item Stop\+:
+\begin{DoxyItemize}
+\item 0 (Value used for state determination)
+\end{DoxyItemize}
+\item Speed\+:
+\begin{DoxyItemize}
+\item 1 (Value used for state determination)
+\item 16 bit int = Speed of first motor
+\item 16 bit int = Speed of second motor 
+\end{DoxyItemize}
+\end{DoxyItemize}

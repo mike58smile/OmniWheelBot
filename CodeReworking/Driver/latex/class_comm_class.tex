@@ -1,32 +1,50 @@
 \hypertarget{class_comm_class}{}\doxysection{Comm\+Class Class Reference}
 \label{class_comm_class}\index{CommClass@{CommClass}}
+
+
+Class for I2C and Serial communication.  
+
+
+
+
+{\ttfamily \#include $<$Comm.\+h$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}\label{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}} 
-void {\bfseries init} ()
+void \mbox{\hyperlink{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}{init}} ()
+\begin{DoxyCompactList}\small\item\em Initialize Serial and I2C communication. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{class_comm_class_a5a2d6252d1215afe08eef7dac02a98cb}{request\+Event}} ()
-\item 
-\mbox{\Hypertarget{class_comm_class_a781b353e507e73d1cd47b875b1a7f235}\label{class_comm_class_a781b353e507e73d1cd47b875b1a7f235}} 
-void {\bfseries receive\+Data} ()
-\end{DoxyCompactItemize}
+\mbox{\Hypertarget{class_comm_class_ac10b80b8aaeaf66cecbf0bb5eff5ae33}\label{class_comm_class_ac10b80b8aaeaf66cecbf0bb5eff5ae33}} 
+void {\bfseries request\+Event} ()
+\begin{DoxyCompactList}\small\item\em I2C send data -\/ Wire request event. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_comm_class_ae8cf89abd23293e8367e245bdc60e669}\label{class_comm_class_ae8cf89abd23293e8367e245bdc60e669}} 
+void {\bfseries receive\+Data} (int x)
+\begin{DoxyCompactList}\small\item\em I2C get data -\/ Wire recieve event. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Class for I2C and Serial communication. 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{class_comm_class_a5a2d6252d1215afe08eef7dac02a98cb}\label{class_comm_class_a5a2d6252d1215afe08eef7dac02a98cb}} 
-\index{CommClass@{CommClass}!requestEvent@{requestEvent}}
-\index{requestEvent@{requestEvent}!CommClass@{CommClass}}
-\doxysubsubsection{\texorpdfstring{requestEvent()}{requestEvent()}}
-{\footnotesize\ttfamily void Comm\+Class\+::request\+Event (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}\label{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}} 
+\index{CommClass@{CommClass}!init@{init}}
+\index{init@{init}!CommClass@{CommClass}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Comm\+Class\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
+Initialize Serial and I2C communication. 
 
-
+\begin{DoxyNote}{Note}
+Use in void setup() 
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-Comm.\+h\item 
-Comm.\+cpp\end{DoxyCompactItemize}
+\mbox{\hyperlink{_comm_8h}{Comm.\+h}}\item 
+\mbox{\hyperlink{_comm_8cpp}{Comm.\+cpp}}\end{DoxyCompactItemize}

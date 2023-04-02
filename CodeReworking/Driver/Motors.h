@@ -1,4 +1,11 @@
-// Motors.h
+/*****************************************************************//**
+ * \file   Motors.h
+ * \brief  Motors class header
+ * \details Used for direct motor control
+ * 
+ * \author xmisko06
+ * \date   April 2023
+ *********************************************************************/
 
 #ifndef _MOTORS_h
 #define _MOTORS_h
@@ -9,6 +16,9 @@
 	#include "WProgram.h"
 #endif
 
+/**
+ * \brief Class directly controling motors
+ */
 class MotorsClass
 {
  protected:

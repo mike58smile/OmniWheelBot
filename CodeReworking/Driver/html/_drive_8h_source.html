@@ -72,24 +72,17 @@ $(function() {
   <div class="headertitle"><div class="title">Drive.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * \file   Drive.h</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * \brief  Nieco o triede Drive</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * </span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * \author xmisko06</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * \date   April 2023</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">*/</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#ifndef _DRIVE_h</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define _DRIVE_h</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#if defined(ARDUINO) &amp;&amp; ARDUINO &gt;= 100</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">    #include &quot;arduino.h&quot;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">    #include &quot;WProgram.h&quot;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;Encoder.h&gt;</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<a href="_drive_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*****************************************************************/</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#ifndef _DRIVE_h</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#define _DRIVE_h</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#if defined(ARDUINO) &amp;&amp; ARDUINO &gt;= 100</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">    #include &quot;arduino.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">    #include &quot;WProgram.h&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;Encoder.h&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="class_drive_class.html">   23</a></span><span class="keyword">class </span><a class="code hl_class" href="class_drive_class.html">DriveClass</a></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> <span class="keyword">protected</span>:</div>
@@ -98,25 +91,27 @@ $(function() {
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="class_drive_class.html#a220a780cced6ece3e94731bd9cefd850">   28</a></span>     Encoder <a class="code hl_variable" href="class_drive_class.html#a220a780cced6ece3e94731bd9cefd850">enc1</a>; </div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="class_drive_class.html#a105582a5f5109076eb59d3556db0d428">   29</a></span>     Encoder <a class="code hl_variable" href="class_drive_class.html#a105582a5f5109076eb59d3556db0d428">enc2</a>; </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="class_drive_class.html#a148ebca617d743610ab7421b249470b3">   35</a></span>     <span class="keyword">explicit</span> <a class="code hl_function" href="class_drive_class.html#a148ebca617d743610ab7421b249470b3">DriveClass</a>(<a class="code hl_class" href="class_state_class.html">StateClass</a>&amp; state) : <a class="code hl_variable" href="class_drive_class.html#a220a780cced6ece3e94731bd9cefd850">enc1</a>(State.Enc1_1, State.Enc1_2), <a class="code hl_variable" href="class_drive_class.html#a105582a5f5109076eb59d3556db0d428">enc2</a>(State.Enc2_1, State.Enc2_2) {}</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>     <span class="keywordtype">void</span> <a class="code hl_function" href="class_drive_class.html#af058246867930180e2e73d98d94075e9">init</a>();</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="class_drive_class.html#aef5772bb8a2193ea69c6a55b25850887">   44</a></span>     <a class="code hl_function" href="class_drive_class.html#aef5772bb8a2193ea69c6a55b25850887">DriveClass</a>();</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>};</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">extern</span> <a class="code hl_class" href="class_drive_class.html">DriveClass</a> Drive;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="ttc" id="aclass_drive_class_html"><div class="ttname"><a href="class_drive_class.html">DriveClass</a></div><div class="ttdoc">triede Class</div><div class="ttdef"><b>Definition:</b> Drive.h:24</div></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="class_drive_class.html#a148ebca617d743610ab7421b249470b3">   36</a></span>     <span class="keyword">explicit</span> <a class="code hl_function" href="class_drive_class.html#a148ebca617d743610ab7421b249470b3">DriveClass</a>(<a class="code hl_class" href="class_state_class.html">StateClass</a>&amp; state) : <a class="code hl_variable" href="class_drive_class.html#a220a780cced6ece3e94731bd9cefd850">enc1</a>(State.Enc1_1, State.Enc1_2), <a class="code hl_variable" href="class_drive_class.html#a105582a5f5109076eb59d3556db0d428">enc2</a>(State.Enc2_1, State.Enc2_2) {}</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>     <span class="keywordtype">void</span> <a class="code hl_function" href="class_drive_class.html#af058246867930180e2e73d98d94075e9">init</a>();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>     <span class="keywordtype">void</span> <a class="code hl_function" href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a">loop</a>();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>};</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">extern</span> <a class="code hl_class" href="class_drive_class.html">DriveClass</a> Drive;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="ttc" id="aclass_drive_class_html"><div class="ttname"><a href="class_drive_class.html">DriveClass</a></div><div class="ttdoc">Class implementing all movements.</div><div class="ttdef"><b>Definition:</b> Drive.h:24</div></div>
 <div class="ttc" id="aclass_drive_class_html_a105582a5f5109076eb59d3556db0d428"><div class="ttname"><a href="class_drive_class.html#a105582a5f5109076eb59d3556db0d428">DriveClass::enc2</a></div><div class="ttdeci">Encoder enc2</div><div class="ttdoc">motor 2</div><div class="ttdef"><b>Definition:</b> Drive.h:29</div></div>
-<div class="ttc" id="aclass_drive_class_html_a148ebca617d743610ab7421b249470b3"><div class="ttname"><a href="class_drive_class.html#a148ebca617d743610ab7421b249470b3">DriveClass::DriveClass</a></div><div class="ttdeci">DriveClass(StateClass &amp;state)</div><div class="ttdoc">conversny</div><div class="ttdef"><b>Definition:</b> Drive.h:35</div></div>
+<div class="ttc" id="aclass_drive_class_html_a148ebca617d743610ab7421b249470b3"><div class="ttname"><a href="class_drive_class.html#a148ebca617d743610ab7421b249470b3">DriveClass::DriveClass</a></div><div class="ttdeci">DriveClass(StateClass &amp;state)</div><div class="ttdoc">C'tor from StateClass, also initialize Encoder objects.</div><div class="ttdef"><b>Definition:</b> Drive.h:36</div></div>
 <div class="ttc" id="aclass_drive_class_html_a220a780cced6ece3e94731bd9cefd850"><div class="ttname"><a href="class_drive_class.html#a220a780cced6ece3e94731bd9cefd850">DriveClass::enc1</a></div><div class="ttdeci">Encoder enc1</div><div class="ttdoc">motor 1</div><div class="ttdef"><b>Definition:</b> Drive.h:28</div></div>
+<div class="ttc" id="aclass_drive_class_html_a37365361d8fc1a2e99526602670a4e8a"><div class="ttname"><a href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a">DriveClass::loop</a></div><div class="ttdeci">void loop()</div><div class="ttdoc">Drive loop.</div><div class="ttdef"><b>Definition:</b> Drive.cpp:12</div></div>
 <div class="ttc" id="aclass_drive_class_html_ad4a35cb457c518406bd65700231c48d7"><div class="ttname"><a href="class_drive_class.html#ad4a35cb457c518406bd65700231c48d7">DriveClass::Motors</a></div><div class="ttdeci">MotorsClass Motors</div><div class="ttdoc">motory</div><div class="ttdef"><b>Definition:</b> Drive.h:27</div></div>
-<div class="ttc" id="aclass_drive_class_html_aef5772bb8a2193ea69c6a55b25850887"><div class="ttname"><a href="class_drive_class.html#aef5772bb8a2193ea69c6a55b25850887">DriveClass::DriveClass</a></div><div class="ttdeci">DriveClass()</div></div>
-<div class="ttc" id="aclass_drive_class_html_af058246867930180e2e73d98d94075e9"><div class="ttname"><a href="class_drive_class.html#af058246867930180e2e73d98d94075e9">DriveClass::init</a></div><div class="ttdeci">void init()</div><div class="ttdef"><b>Definition:</b> Drive.cpp:7</div></div>
-<div class="ttc" id="aclass_motors_class_html"><div class="ttname"><a href="class_motors_class.html">MotorsClass</a></div><div class="ttdef"><b>Definition:</b> Motors.h:13</div></div>
-<div class="ttc" id="aclass_state_class_html"><div class="ttname"><a href="class_state_class.html">StateClass</a></div><div class="ttdef"><b>Definition:</b> State.h:17</div></div>
+<div class="ttc" id="aclass_drive_class_html_af058246867930180e2e73d98d94075e9"><div class="ttname"><a href="class_drive_class.html#af058246867930180e2e73d98d94075e9">DriveClass::init</a></div><div class="ttdeci">void init()</div><div class="ttdoc">Initialize motors.</div><div class="ttdef"><b>Definition:</b> Drive.cpp:7</div></div>
+<div class="ttc" id="aclass_motors_class_html"><div class="ttname"><a href="class_motors_class.html">MotorsClass</a></div><div class="ttdoc">Class directly controling motors.</div><div class="ttdef"><b>Definition:</b> Motors.h:23</div></div>
+<div class="ttc" id="aclass_state_class_html"><div class="ttname"><a href="class_state_class.html">StateClass</a></div><div class="ttdoc">Class for variables storage (only header, without methods)</div><div class="ttdef"><b>Definition:</b> State.h:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

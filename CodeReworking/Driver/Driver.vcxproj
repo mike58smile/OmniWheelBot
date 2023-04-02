@@ -90,6 +90,7 @@
     <ClCompile Include="State.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Documentation.md" />
     <None Include="Doxyfile" />
     <None Include="src\arduino folders read me.txt">
     </None>
