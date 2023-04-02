@@ -20,6 +20,11 @@
 
 constexpr auto BaudRate = 115200;
 #define WireRead (Wire.read() | Wire.read() << 8)
+#define WireWrite(int16){ \
+Wire.write(int16); \
+Wire.write((int16 >> 8)); \
+}
+
 /**
  * \brief Class for I2C and Serial communication
  */

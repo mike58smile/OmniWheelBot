@@ -20,7 +20,8 @@ void CommClass::init()
 
 void requestEvent()
 {
-
+    WireWrite(State.actualSpeed[0]);
+    WireWrite(State.actualSpeed[1]);
 }
 
 void receiveData(int x)
@@ -41,6 +42,7 @@ void receiveData(int x)
         State.commState = Speed;
         break;
     default:
+        State.commState = Unknown;
         break;
     }
     //if (mode == 0) { //funkcia ResetSetpoint v Main arduine
