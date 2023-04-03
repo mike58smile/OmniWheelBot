@@ -27,7 +27,7 @@
 class DriveClass
 {
  protected:
-	 //StateClass& State;
+	 StateClass& State;
 	 MotorsClass Motors; ///< motory
 	 //friend void TimerSpeedHandler(); ///< Function to handle TIMER_1 interrupt routine for reading speed
  public:
@@ -38,8 +38,8 @@ class DriveClass
 	  * \note This is the only constructor
 	  * \param state
 	  */
-	 explicit DriveClass() : enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2) {}
-
+	 //explicit DriveClass() : enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2) {}
+	 explicit DriveClass(StateClass& state) : State(state), Motors(state), enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2) {}
 	 /**
 	  * \brief Initialize motors
 	  * \note Use in void setup()

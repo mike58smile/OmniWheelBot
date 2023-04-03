@@ -4,5 +4,5 @@
 
 #include "State.h"
 
-StateClass State;
+//StateClass State;
 

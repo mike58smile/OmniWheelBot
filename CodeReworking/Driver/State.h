@@ -67,7 +67,7 @@ class StateClass
 	 float requiredRealSpeed[2] = { 0,0 }; ///< Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class!
 };
 
-extern StateClass State;
+//extern StateClass State;
 
 #endif
 

@@ -15,14 +15,14 @@
 #else
 	#include "WProgram.h"
 #endif
-
-constexpr auto BaudRate = 115200;
-#define WireRead (Wire.read() | Wire.read() << 8)
-
-#define WireWrite(int16){ \
-Wire.write(int16); \
-Wire.write((int16 >> 8)); \
-}
+#include "State.h"
+//constexpr auto BaudRate = 115200;
+//#define WireRead (Wire.read() | Wire.read() << 8)
+//
+//#define WireWrite(int16){ \
+//Wire.write(int16); \
+//Wire.write((int16 >> 8)); \
+//}
 
 /**
  * \brief Class for I2C and Serial communication
@@ -30,26 +30,26 @@ Wire.write((int16 >> 8)); \
 class CommClass
 {
  protected:
-	 //StateClass& State;
+	 StateClass& State;
 
 	 /**
 	  * \brief I2C send data - Wire request event
 	  */
-	 friend void requestEvent();
+	 //friend void requestEvent();
 
 	 /**
 	  * \brief I2C get data - Wire recieve event
 	  */
-	 friend void receiveData(int x);
+	 //friend void receiveData(int x);
 
  public:
-	 //CommClass(StateClass& state) : State(state){}
-	 CommClass(){}
+	 CommClass(StateClass& state) : State(state){}
+	 //CommClass(){}
 	 /**
 	  * \brief Initialize Serial and I2C communication
 	  * \note Use in void setup()
 	  */
-	 void init();
+	// void init();
 
 };
 

@@ -24,10 +24,10 @@
 class MotorsClass
 {
  protected:
-	 //StateClass& State;
+	 StateClass& State;
  public:
-	 MotorsClass(){}
-	// MotorsClass(StateClass& state) : State(state) {};
+	 //MotorsClass(){}
+	 MotorsClass(StateClass& state) : State(state) {};
 
 	 /**
 	  * \brief Initialize motor pinouts and motor driver
