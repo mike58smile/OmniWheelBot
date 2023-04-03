@@ -16,9 +16,12 @@
 	#include "WProgram.h"
 #endif
 
+#define USE_TIMER_1           true
+constexpr auto TimerSpeedDelayMS = 20; ///< Period of reading speed (Period of TIMER_1 interrupts)
+
 // User defined data types:
 enum MainState { Setup, Speed, Stop }; //enum class is better cause the name of the enum elements can be used outside the enum as variables
-enum CommState { Stop, Wait, Speed};
+enum CommState { Stop, Wait, Speed, Unknown};
 using Pin = const uint8_t;
 
 /**
@@ -48,15 +51,15 @@ class StateClass
 
 // Other definitions
 	 static const int address = 0x10;
-// Other stuff
-	 //define actual state in which the driver operates 
-	 MainState actualState = Setup;
-
-	 //define communication state in which controller wants the driver to be in, only changed in Comm
-	 CommState commState = Wait;
+// Non const variables - will be changed during program
+	 
+	 MainState actualState = Setup; ///< Define actual state in which the driver operates 
+	 CommState commState = Wait; ///< Define communication state in which controller wants the driver to be in, only changed in Comm
 
 	 int actualSpeed[2] = { 0,0 }; ///< Actual speed of two motors which is sent by analogWrite
 	 int requiredSpeed[2] = { 0,0 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class!
+	 volatile unsigned int encSpeed[2] = {0,0};
+	 volatile float realSpeed[2] = { 0,0 }; ///< Real speed of two motors in rad/s, write only in TimerSpeedHandler interrupt routine
 };
 
 extern StateClass State;
@@ -70,3 +73,22 @@ Initialization of static const array in .h file
 		 return x[index];
 	 }
 */
+
+/* RPM Debounce
+ Relative to RPM readout and triggering to start  a thread path:
+
+  Index debounce will affect the sensitivity of the index signal. IT basically is how many interrupt periods the signal must be present, or not present before a change is actually sensed in that line. SO if set to 2 for example, when the index appears it will be ignored for 2 periods to make sure it isnt noise. Same with when it disappears. Setting debounce too high will make the index go away altogether.
+
+  Since the length of the index is dependent on spindle speed, minimum length is variable, but the time must be at least 1 period at a debounce of zero. SO in 25000, thats 40us.
+  If a person notices a dropoff in RPM at a certain speed, they need usually a lower index debounce. Index inputs from an encoder are usually pretty short and will limit speed readings at some point as you go higher.
+
+If you have the debounce setting too high the axis will just sit there waiting to confirm the rpm
+before the start of a thread path.
+
+Don't have specifics relative to switches .
+ */
+
+
+
+
+

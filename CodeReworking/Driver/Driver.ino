@@ -7,19 +7,17 @@
  * \date   April 2023
  *********************************************************************/
 
+#include "State.h" // Include before Drive.h!
+#include "Comm.h"
+#include "Motors.h"
+#include "Drive.h"
 
 #include <ISR_Timer.h>
 #include <ISR_Timer.hpp>
 #include <TimerInterrupt.h>
 #include <TimerInterrupt.hpp>
 
-#include "Motors.h"
-#include "Drive.h"
-#include "State.h"
-#include "Comm.h"
-
-
-DriveClass Drive;
+//DriveClass Drive;
 
 /**
  * \brief the setup function runs once when you press reset or power the board

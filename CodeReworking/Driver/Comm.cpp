@@ -45,7 +45,7 @@ void receiveData(int x)
         State.commState = Unknown;
         break;
     }
-    //if (mode == 0) { //funkcia ResetSetpoint v Main arduine
+    //if (mode == 0) { //funkcia ResetSetpo+++int v Main arduine
     //    syn_rozhodovac = false;
     //    rozhodovac2 = false;
     //    stopmotor();

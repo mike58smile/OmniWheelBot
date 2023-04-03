@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Drive.h
  * \brief  Drive class header
- * \details Here are all movements -> it control motors
+ * \details Implementing all movements -> it control Motors
  * 
  * \author xmisko06
  * \date   April 2023
@@ -15,10 +15,11 @@
 #else
 	#include "WProgram.h"
 #endif
+#define ENCODER_OPTIMIZE_INTERRUPTS
 #include <Encoder.h>
 
 /**
- * \brief Class implementing all movements
+ * \brief Class implementing all movements, reading from Encoders
  */
 class DriveClass
 {
@@ -27,6 +28,7 @@ class DriveClass
 	 MotorsClass Motors; ///< motory
 	 Encoder enc1; ///< motor 1
 	 Encoder enc2; ///< motor 2
+	 friend void TimerSpeedHandler();
  public:
 	 /**
 	  * \brief C'tor from StateClass, also initialize Encoder objects
@@ -47,9 +49,10 @@ class DriveClass
 	  */
 	 void loop();
 
+	 void getSpeed();
 };
 
-//extern DriveClass Drive;
+extern DriveClass Drive;
 
 #endif
 
