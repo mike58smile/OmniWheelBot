@@ -17,3 +17,5 @@ Format in which Controler sends data through I2C to this driver - sent from up t
     - 16 bit int = Speed of first motor
     - 16 bit int = Speed of second motor
 
+# To do:
+- Self meassure deadband - pwm sensitivity of regulator

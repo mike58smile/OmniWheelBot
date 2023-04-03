@@ -51,6 +51,10 @@ class StateClass
 
 // Other definitions
 	 static const int address = 0x10;
+
+// Regulator parameters
+	 const int motor1DeadBand[2] = { 10,10 }; // [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
+	 const int motor2DeadBand[2] = { 10,10 }; // [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
 // Non const variables - will be changed during program
 	 
 	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
