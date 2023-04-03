@@ -12,10 +12,15 @@ Format in which Controler sends data through I2C to this driver - sent from up t
 ### Mode:
 - Stop:
     - 0 (Value used for state determination)
-- Speed:
+- Wait:
     - 1 (Value used for state determination)
-    - 16 bit int = Speed of first motor
-    - 16 bit int = Speed of second motor
-
+- SpeedPWM:
+    - 2 (Value used for state determination)
+    - 16 bit int (normal int) = Speed of first motor in PWM (0 - 255)
+    - 16 bit int (normal int) = Speed of second motor in PWM (0 - 255)
+- SpeedReal:
+    - 3 (Value used for state determination)
+    - float = Speed of first motor in rad/s
+    - float = Speed of second motor in rad/s
 # To do:
 - Self meassure deadband - pwm sensitivity of regulator
