@@ -16,14 +16,19 @@
 	#include "WProgram.h"
 #endif
 
+#include "State.h"
+
 /**
  * \brief Class directly controling motors
  */
 class MotorsClass
 {
  protected:
-
+	 //StateClass& State;
  public:
+	 MotorsClass(){}
+	// MotorsClass(StateClass& state) : State(state) {};
+
 	 /**
 	  * \brief Initialize motor pinouts and motor driver
 	  * \note Use in void setup()

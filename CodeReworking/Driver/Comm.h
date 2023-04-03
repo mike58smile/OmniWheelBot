@@ -18,6 +18,7 @@
 
 constexpr auto BaudRate = 115200;
 #define WireRead (Wire.read() | Wire.read() << 8)
+
 #define WireWrite(int16){ \
 Wire.write(int16); \
 Wire.write((int16 >> 8)); \
@@ -29,6 +30,8 @@ Wire.write((int16 >> 8)); \
 class CommClass
 {
  protected:
+	 //StateClass& State;
+
 	 /**
 	  * \brief I2C send data - Wire request event
 	  */
@@ -40,6 +43,8 @@ class CommClass
 	 friend void receiveData(int x);
 
  public:
+	 //CommClass(StateClass& state) : State(state){}
+	 CommClass(){}
 	 /**
 	  * \brief Initialize Serial and I2C communication
 	  * \note Use in void setup()
@@ -48,7 +53,7 @@ class CommClass
 
 };
 
-extern CommClass Comm;
+//extern CommClass Comm;
 
 #endif
 

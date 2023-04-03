@@ -7,22 +7,19 @@
  * \date   April 2023
  *********************************************************************/
 
-#include "Comm.h"
-#include <Wire.h>
-#include <i2cdetect.h>
 
-void CommClass::init()
-{
-	Serial.begin(BaudRate);
-	Wire.begin(State.address);
-	Wire.onRequest(requestEvent);
-	Wire.onReceive(receiveData);
-}
+#include "Comm.h"
+#include "Wire.h"
+#include <i2cdetect.h>
+#include "State.h"
 
 void requestEvent()
 {
     WireWrite(State.actualSpeed[0]);
     WireWrite(State.actualSpeed[1]);
+    char strBuffer[7];
+    Wire.write(dtostrf(State.actualRealSpeed[0], 7, 2, strBuffer)); //!odskusat ci funguje
+    Wire.write(dtostrf(State.actualRealSpeed[1], 7, 2, strBuffer));//!odskusat ci funguje  
 }
 
 void receiveData(int x)
@@ -50,7 +47,7 @@ void receiveData(int x)
         State.commState = CommState::Unknown;
         break;
     }
-    //if (mode == 0) { //funkcia ResetSetpo+++int v Main arduine
+    //if (mode == 0) { //funkcia ResetSetpoint v Main arduine
     //    syn_rozhodovac = false;
     //    rozhodovac2 = false;
     //    stopmotor();
@@ -102,6 +99,12 @@ void receiveData(int x)
     //    setpoint2 = (Wire.read() | Wire.read() << 8);
     //}
 }
-
-CommClass Comm;
+void CommClass::init()
+{
+    Serial.begin(BaudRate);
+    Wire.begin(State.address);
+    Wire.onRequest(requestEvent);
+    Wire.onReceive(receiveData);
+}
+//CommClass Comm;
 

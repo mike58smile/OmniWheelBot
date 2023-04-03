@@ -7,27 +7,16 @@
  * \date   April 2023
  *********************************************************************/
 
+//#include "Motors.h"
 #include "Drive.h"
+
+
+
+//DriveClass Drive; //also calls right c'tors to setup Encoder objects
 
 void DriveClass::init()
 {
     Motors.init();
-
-    // Timer init
-    ITimer1.init();
-    if (ITimer1.attachInterruptInterval(TimerSpeedDelayMS, TimerSpeedHandler))
-    {
-        Serial.print(F("Starting  ITimer1 OK, millis() = ")); Serial.println(millis());
-    }
-    else
-        Serial.println(F("Can't set ITimer1. Select another freq. or timer"));
-}
-void TimerSpeedHandler()
-{
-    State.encSpeed[0] = abs(Drive.enc1.readAndReset());
-    State.encSpeed[1] = abs(Drive.enc2.readAndReset());
-    State.actualRealSpeed[0] = (State.encSpeed[0] * 2*PI) / (979.2 * (TimerSpeedDelayMS / 1000));
-    State.actualRealSpeed[1] = (State.encSpeed[1] * 2*PI) / (979.2 * (TimerSpeedDelayMS / 1000));
 }
 void DriveClass::loop()
 {
@@ -50,5 +39,4 @@ void DriveClass::loop()
     }
 }
 
-DriveClass Drive; //also calls right c'tors to setup Encoder objects
 

@@ -16,9 +16,12 @@
 	#include "WProgram.h"
 #endif
 #define ENCODER_OPTIMIZE_INTERRUPTS
-#include <Encoder.h>
 
-/**
+#include <Encoder.h>
+#include "State.h"
+#include "Motors.h"
+
+ /**
  * \brief Class implementing all movements, reading from Encoders
  */
 class DriveClass
@@ -26,10 +29,10 @@ class DriveClass
  protected:
 	 //StateClass& State;
 	 MotorsClass Motors; ///< motory
+	 //friend void TimerSpeedHandler(); ///< Function to handle TIMER_1 interrupt routine for reading speed
+ public:
 	 Encoder enc1; ///< motor 1
 	 Encoder enc2; ///< motor 2
-	 friend void TimerSpeedHandler(); ///< Function to handle TIMER_1 interrupt routine for reading speed
- public:
 	 /**
 	  * \brief C'tor from StateClass, also initialize Encoder objects
 	  * \note This is the only constructor
@@ -50,7 +53,7 @@ class DriveClass
 	 void loop();
 };
 
-extern DriveClass Drive;
+//extern DriveClass Drive;
 
 #endif
 
