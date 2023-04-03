@@ -8,6 +8,8 @@
  *********************************************************************/
 
 #include "Comm.h"
+#include <Wire.h>
+#include <i2cdetect.h>
 
 void CommClass::init()
 {
@@ -16,7 +18,6 @@ void CommClass::init()
 	Wire.onRequest(requestEvent);
 	Wire.onReceive(receiveData);
 }
-
 
 void requestEvent()
 {
@@ -29,20 +30,24 @@ void receiveData(int x)
     int mode = Wire.read();
     switch(mode) {
     case 0:
-        //stop motor and reset PID
-        State.commState = Stop;
+        //stop motor (and reset PID)
+        State.commState = CommState::Stop;
         break;
     case 1:
-        State.commState = Wait;
+        State.commState = CommState::Wait;
         break;
     case 2:
         //set speed
         State.requiredSpeed[0] = WireRead;
         State.requiredSpeed[1] = WireRead;
-        State.commState = Speed;
+        State.commState = CommState::SpeedPWM;
         break;
+    case 3:
+        State.requiredRealSpeed[0] = WireRead;
+        State.requiredRealSpeed[1] = WireRead;
+        State.commState = CommState::SpeedReal;
     default:
-        State.commState = Unknown;
+        State.commState = CommState::Unknown;
         break;
     }
     //if (mode == 0) { //funkcia ResetSetpo+++int v Main arduine
@@ -97,7 +102,6 @@ void receiveData(int x)
     //    setpoint2 = (Wire.read() | Wire.read() << 8);
     //}
 }
-
 
 CommClass Comm;
 

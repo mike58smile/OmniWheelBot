@@ -1,6 +1,6 @@
 /*****************************************************************//**
  * \file   Drive.cpp
- * \brief  Drive class source file
+ * \brief  Drive class source file, also creates an object called Drive
  * \details Here are all movements -> it control motors
  * 
  * \author xmisko06
@@ -26,32 +26,29 @@ void TimerSpeedHandler()
 {
     State.encSpeed[0] = abs(Drive.enc1.readAndReset());
     State.encSpeed[1] = abs(Drive.enc2.readAndReset());
-    State.realSpeed[0] = (State.encSpeed[0] * 2*PI) / (979.2 * (TimerSpeedDelayMS/1000));
-    State.realSpeed[1] = (State.encSpeed[1] * 2 * PI) / (979.2 * (TimerSpeedDelayMS / 1000));
+    State.actualRealSpeed[0] = (State.encSpeed[0] * 2*PI) / (979.2 * (TimerSpeedDelayMS / 1000));
+    State.actualRealSpeed[1] = (State.encSpeed[1] * 2*PI) / (979.2 * (TimerSpeedDelayMS / 1000));
 }
 void DriveClass::loop()
 {
-    
     switch(State.commState){
-    case Stop:
+    case CommState::Stop:
         Motors.Stop();
         enc1.write(0);
         enc2.write(0);
         break;
-    case Wait:
+    case CommState::Wait:
         break;
-    case Speed:
+    case CommState::SpeedPWM:
         Motors.Speed(State.requiredSpeed[0], State.requiredSpeed[1]);
+        break;
+    case CommState::SpeedReal:
+        //use pid to set real speed
         break;
     default:
         break;
     }
 }
 
-void DriveClass::getSpeed()
-{
-    volatile unsigned long encoderRead[2] = { 0,0 };
-    float speed[2] = { 0,0 };
-}
-DriveClass Drive;
+DriveClass Drive; //also calls right c'tors to setup Encoder objects
 

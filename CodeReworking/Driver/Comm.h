@@ -15,8 +15,6 @@
 #else
 	#include "WProgram.h"
 #endif
-#include <i2cdetect.h>
-#include <Wire.h>
 
 constexpr auto BaudRate = 115200;
 #define WireRead (Wire.read() | Wire.read() << 8)

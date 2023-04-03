@@ -28,7 +28,7 @@ class DriveClass
 	 MotorsClass Motors; ///< motory
 	 Encoder enc1; ///< motor 1
 	 Encoder enc2; ///< motor 2
-	 friend void TimerSpeedHandler();
+	 friend void TimerSpeedHandler(); ///< Function to handle TIMER_1 interrupt routine for reading speed
  public:
 	 /**
 	  * \brief C'tor from StateClass, also initialize Encoder objects
@@ -48,8 +48,6 @@ class DriveClass
 	  * \note Use in void loop()
 	  */
 	 void loop();
-
-	 void getSpeed();
 };
 
 extern DriveClass Drive;
