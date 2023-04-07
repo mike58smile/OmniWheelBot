@@ -2,7 +2,7 @@
 \label{class_drive_class}\index{DriveClass@{DriveClass}}
 
 
-Class implementing all movements.  
+Class implementing all movements, reading from Encoders.  
 
 
 
@@ -17,13 +17,12 @@ Class implementing all movements.
 void \mbox{\hyperlink{class_drive_class_af058246867930180e2e73d98d94075e9}{init}} ()
 \begin{DoxyCompactList}\small\item\em Initialize motors. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}{loop}} ()
-\begin{DoxyCompactList}\small\item\em Drive loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactList}\small\item\em Drive loop. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_drive_class_a807be7ed07c7481a928cd9688a41cab6}{read}} ()
+\begin{DoxyCompactList}\small\item\em Read data from encoders -\/ calculate speeds with period = Timer\+Speed\+Delay\+\_\+uS. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_drive_class_ad4a35cb457c518406bd65700231c48d7}\label{class_drive_class_ad4a35cb457c518406bd65700231c48d7}} 
-\mbox{\hyperlink{class_motors_class}{Motors\+Class}} {\bfseries Motors}
-\begin{DoxyCompactList}\small\item\em motory \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_drive_class_a220a780cced6ece3e94731bd9cefd850}\label{class_drive_class_a220a780cced6ece3e94731bd9cefd850}} 
 Encoder {\bfseries enc1}
 \begin{DoxyCompactList}\small\item\em motor 1 \end{DoxyCompactList}\item 
@@ -33,7 +32,7 @@ Encoder {\bfseries enc2}
 
 
 \doxysubsection{Detailed Description}
-Class implementing all movements. 
+Class implementing all movements, reading from Encoders. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{class_drive_class_a148ebca617d743610ab7421b249470b3}\label{class_drive_class_a148ebca617d743610ab7421b249470b3}} 
@@ -83,9 +82,22 @@ Drive loop.
 \begin{DoxyNote}{Note}
 Use in void \mbox{\hyperlink{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}{loop()}} 
 \end{DoxyNote}
+\mbox{\Hypertarget{class_drive_class_a807be7ed07c7481a928cd9688a41cab6}\label{class_drive_class_a807be7ed07c7481a928cd9688a41cab6}} 
+\index{DriveClass@{DriveClass}!read@{read}}
+\index{read@{read}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily void Drive\+Class\+::read (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Read data from encoders -\/ calculate speeds with period = Timer\+Speed\+Delay\+\_\+uS. 
+
+\begin{DoxyNote}{Note}
+Time is measured using micros() 
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{_drive_8h}{Drive.\+h}}\item 
-Drive.\+cpp\end{DoxyCompactItemize}
+\mbox{\hyperlink{_drive_8cpp}{Drive.\+cpp}}\end{DoxyCompactItemize}

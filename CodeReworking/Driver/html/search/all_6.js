@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['receivedata_0',['receiveData',['../class_comm_class.html#ae8cf89abd23293e8367e245bdc60e669',1,'CommClass']]],
-  ['requestevent_1',['requestEvent',['../class_comm_class.html#ac10b80b8aaeaf66cecbf0bb5eff5ae33',1,'CommClass']]]
+  ['motors_2ecpp_0',['Motors.cpp',['../_motors_8cpp.html',1,'']]],
+  ['motors_2eh_1',['Motors.h',['../_motors_8h.html',1,'']]],
+  ['motorsclass_2',['MotorsClass',['../class_motors_class.html',1,'']]]
 ];

@@ -71,6 +71,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#var-members">Variables</a>  </div>
@@ -90,6 +91,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for variables storage (only header, without methods)  <a href="class_state_class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:af69b980e54bccf33202009afe3bc1f90"><td class="memItemLeft" align="right" valign="top"><a id="af69b980e54bccf33202009afe3bc1f90" name="af69b980e54bccf33202009afe3bc1f90"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>USE_TIMER_2</b>&#160;&#160;&#160;true</td></tr>
+<tr class="separator:af69b980e54bccf33202009afe3bc1f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a2702e3b6e878a8f76c96dc3d7b49a06d"><td class="memItemLeft" align="right" valign="top"><a id="a2702e3b6e878a8f76c96dc3d7b49a06d" name="a2702e3b6e878a8f76c96dc3d7b49a06d"></a>
@@ -98,19 +105,28 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Pin</b> = const uint
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a95681684f5e12fb69ff3c196e441dfc7"><td class="memItemLeft" align="right" valign="top"><a id="a95681684f5e12fb69ff3c196e441dfc7" name="a95681684f5e12fb69ff3c196e441dfc7"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>MainState</b> { <b>Setup</b>
+<tr class="memitem:a95681684f5e12fb69ff3c196e441dfc7"><td class="memItemLeft" align="right" valign="top"><a id="a95681684f5e12fb69ff3c196e441dfc7" name="a95681684f5e12fb69ff3c196e441dfc7"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>MainState</b> { <b>Setup</b>
 , <b>Speed</b>
 , <b>Stop</b>
  }</td></tr>
 <tr class="separator:a95681684f5e12fb69ff3c196e441dfc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a034db3cdbc477a74dd207605c6960f5f"><td class="memItemLeft" align="right" valign="top"><a id="a034db3cdbc477a74dd207605c6960f5f" name="a034db3cdbc477a74dd207605c6960f5f"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>CommState</b> { <b>Wait</b>
-, <b>Stop</b>
-, <b>Speed</b>
+<tr class="memitem:a034db3cdbc477a74dd207605c6960f5f"><td class="memItemLeft" align="right" valign="top"><a id="a034db3cdbc477a74dd207605c6960f5f" name="a034db3cdbc477a74dd207605c6960f5f"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>CommState</b> { <br />
+&#160;&#160;<b>Stop</b>
+, <b>Wait</b>
+, <b>SpeedPWM</b>
+, <b>SpeedReal</b>
+, <br />
+&#160;&#160;<b>Unknown</b>
+<br />
  }</td></tr>
 <tr class="separator:a034db3cdbc477a74dd207605c6960f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a4cc6036eff1c3ecb0dd8898afb14e46d"><td class="memItemLeft" align="right" valign="top"><a id="a4cc6036eff1c3ecb0dd8898afb14e46d" name="a4cc6036eff1c3ecb0dd8898afb14e46d"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>TimerSpeedDelay_uS</b> = 30000</td></tr>
+<tr class="memdesc:a4cc6036eff1c3ecb0dd8898afb14e46d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Period of reading speed (Period of TIMER_1 interrupts) <br /></td></tr>
+<tr class="separator:a4cc6036eff1c3ecb0dd8898afb14e46d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0cc817b371dc08979042179019be7da"><td class="memItemLeft" align="right" valign="top"><a id="aa0cc817b371dc08979042179019be7da" name="aa0cc817b371dc08979042179019be7da"></a>
 <a class="el" href="class_state_class.html">StateClass</a>&#160;</td><td class="memItemRight" valign="bottom"><b>State</b></td></tr>
 <tr class="separator:aa0cc817b371dc08979042179019be7da"><td class="memSeparator" colspan="2">&#160;</td></tr>

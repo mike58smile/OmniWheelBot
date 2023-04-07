@@ -10,26 +10,37 @@
 \DoxyCodeLine{15 \textcolor{preprocessor}{\#else}}
 \DoxyCodeLine{16 \textcolor{preprocessor}{    \#include "{}WProgram.h"{}}}
 \DoxyCodeLine{17 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <i2cdetect.h>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_state_8h}{State.h}}"{}}}
 \DoxyCodeLine{19 \textcolor{preprocessor}{\#include <Wire.h>}}
-\DoxyCodeLine{20 }
-\DoxyCodeLine{21 \textcolor{keyword}{constexpr} \textcolor{keyword}{auto} BaudRate = 115200;}
-\DoxyCodeLine{22 \textcolor{preprocessor}{\#define WireRead (Wire.read() | Wire.read() << 8)}}
-\DoxyCodeLine{26 \textcolor{keyword}{class }\mbox{\hyperlink{class_comm_class}{CommClass}}}
-\DoxyCodeLine{27 \{}
-\DoxyCodeLine{28  \textcolor{keyword}{protected}:}
-\DoxyCodeLine{32      \textcolor{keyword}{friend} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_comm_class_ac10b80b8aaeaf66cecbf0bb5eff5ae33}{requestEvent}}();}
-\DoxyCodeLine{33 }
-\DoxyCodeLine{37      \textcolor{keyword}{friend} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_comm_class_ae8cf89abd23293e8367e245bdc60e669}{receiveData}}(\textcolor{keywordtype}{int} x);}
-\DoxyCodeLine{38 }
-\DoxyCodeLine{39  \textcolor{keyword}{public}:}
-\DoxyCodeLine{44      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}{init}}();}
-\DoxyCodeLine{45 }
-\DoxyCodeLine{46 \};}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <i2cdetect.h>}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{constexpr} \textcolor{keyword}{auto} BaudRate = 115200;}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#define WireRead (Wire.read() | Wire.read() << 8)}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define WireWrite(int16)\{ \(\backslash\)}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{Wire.write(int16); \(\backslash\)}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{Wire.write((int16 >> 8)); \(\backslash\)}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\}}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{33 \textcolor{keyword}{class }\mbox{\hyperlink{class_comm_class}{CommClass}}}
+\DoxyCodeLine{34 \{}
+\DoxyCodeLine{35  \textcolor{keyword}{protected}:}
+\DoxyCodeLine{36      \mbox{\hyperlink{class_state_class}{StateClass}}\& State;}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{41     \textcolor{comment}{// friend void requestEvent();}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{46      \textcolor{comment}{//friend void receiveData(int x);}}
 \DoxyCodeLine{47 }
-\DoxyCodeLine{48 \textcolor{keyword}{extern} \mbox{\hyperlink{class_comm_class}{CommClass}} Comm;}
-\DoxyCodeLine{49 }
-\DoxyCodeLine{50 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{51 }
+\DoxyCodeLine{48  \textcolor{keyword}{public}:}
+\DoxyCodeLine{49      \mbox{\hyperlink{class_comm_class_a75cf13c9361dec63d663c15653c2010a}{CommClass}}(\mbox{\hyperlink{class_state_class}{StateClass}}\& state) : State(state)\{\}}
+\DoxyCodeLine{50      \textcolor{comment}{//CommClass()\{\}}}
+\DoxyCodeLine{55 \textcolor{comment}{}     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}{init}}();}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \};}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{keyword}{extern} \mbox{\hyperlink{class_comm_class}{CommClass}} Comm;}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{62 }
 
 \end{DoxyCode}

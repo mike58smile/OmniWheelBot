@@ -71,13 +71,13 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class_drive_class-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">DriveClass Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Class implementing all movements.  
+<p>Class implementing all movements, reading from Encoders.  
  <a href="class_drive_class.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_drive_8h_source.html">Drive.h</a>&gt;</code></p>
@@ -93,13 +93,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a37365361d8fc1a2e99526602670a4e8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a">loop</a> ()</td></tr>
 <tr class="memdesc:a37365361d8fc1a2e99526602670a4e8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drive loop.  <a href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a">More...</a><br /></td></tr>
 <tr class="separator:a37365361d8fc1a2e99526602670a4e8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a807be7ed07c7481a928cd9688a41cab6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_drive_class.html#a807be7ed07c7481a928cd9688a41cab6">read</a> ()</td></tr>
+<tr class="memdesc:a807be7ed07c7481a928cd9688a41cab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read data from encoders - calculate speeds with period = TimerSpeedDelay_uS.  <a href="class_drive_class.html#a807be7ed07c7481a928cd9688a41cab6">More...</a><br /></td></tr>
+<tr class="separator:a807be7ed07c7481a928cd9688a41cab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:ad4a35cb457c518406bd65700231c48d7"><td class="memItemLeft" align="right" valign="top"><a id="ad4a35cb457c518406bd65700231c48d7" name="ad4a35cb457c518406bd65700231c48d7"></a>
-<a class="el" href="class_motors_class.html">MotorsClass</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Motors</b></td></tr>
-<tr class="memdesc:ad4a35cb457c518406bd65700231c48d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">motory <br /></td></tr>
-<tr class="separator:ad4a35cb457c518406bd65700231c48d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
 <tr class="memitem:a220a780cced6ece3e94731bd9cefd850"><td class="memItemLeft" align="right" valign="top"><a id="a220a780cced6ece3e94731bd9cefd850" name="a220a780cced6ece3e94731bd9cefd850"></a>
 Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc1</b></td></tr>
 <tr class="memdesc:a220a780cced6ece3e94731bd9cefd850"><td class="mdescLeft">&#160;</td><td class="mdescRight">motor 1 <br /></td></tr>
@@ -110,7 +109,7 @@ Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc2</b></td></tr>
 <tr class="separator:a105582a5f5109076eb59d3556db0d428"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Class implementing all movements. </p>
+<div class="textblock"><p >Class implementing all movements, reading from Encoders. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a148ebca617d743610ab7421b249470b3" name="a148ebca617d743610ab7421b249470b3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a148ebca617d743610ab7421b249470b3">&#9670;&#160;</a></span>DriveClass()</h2>
@@ -188,9 +187,29 @@ Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc2</b></td></tr>
 
 </div>
 </div>
+<a id="a807be7ed07c7481a928cd9688a41cab6" name="a807be7ed07c7481a928cd9688a41cab6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a807be7ed07c7481a928cd9688a41cab6">&#9670;&#160;</a></span>read()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DriveClass::read </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read data from encoders - calculate speeds with period = TimerSpeedDelay_uS. </p>
+<dl class="section note"><dt>Note</dt><dd>Time is measured using micros() </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="_drive_8h_source.html">Drive.h</a></li>
-<li>Drive.cpp</li>
+<li><a class="el" href="_drive_8cpp.html">Drive.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

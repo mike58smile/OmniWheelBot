@@ -82,57 +82,144 @@ $(function() {
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">    #include &quot;WProgram.h&quot;</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">// User defined data types:</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">enum</span> MainState { Setup, Speed, Stop }; <span class="comment">//enum class is better cause the name of the enum elements can be used outside the enum as variables</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">enum</span> CommState { Wait, Stop, Speed};</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">using </span>Pin = <span class="keyword">const</span> uint8_t;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#define USE_TIMER_2 true</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="_state_8h.html#a4cc6036eff1c3ecb0dd8898afb14e46d">   20</a></span><span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_variable" href="_state_8h.html#a4cc6036eff1c3ecb0dd8898afb14e46d">TimerSpeedDelay_uS</a> = 30000; </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="class_state_class.html">   27</a></span><span class="keyword">class </span><a class="code hl_class" href="class_state_class.html">StateClass</a></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>{</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> <span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">// Define pins</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>     <span class="comment">//Motor1</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>     <span class="keyword">static</span> Pin M1_LPWM = 5;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>     <span class="keyword">static</span> Pin M1_RPWM = 6;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>     <span class="keyword">static</span> Pin M1_REN = 4;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>     <span class="keyword">static</span> Pin M1_LEN = 7;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>     <span class="comment">//Motor2</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>     <span class="keyword">static</span> Pin M2_RPWM = 10;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>     <span class="keyword">static</span> Pin M2_LPWM = 11;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>     <span class="keyword">static</span> Pin M2_REN = 8;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>     <span class="keyword">static</span> Pin M2_LEN = 9;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>     <span class="comment">//define Encoder pins</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>     <span class="keyword">static</span> Pin Enc1_1 = 2;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>     <span class="keyword">static</span> Pin Enc1_2 = 12;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>     <span class="keyword">static</span> Pin Enc2_1 = 3;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>     <span class="keyword">static</span> Pin Enc2_2 = A0;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">// Other definitions</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> address = 0x10;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">// Other stuff</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>     <span class="comment">//define actual state in which the driver operates </span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>     MainState actualState = Setup;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>     <span class="comment">//define communication state in which controller wants the driver to be in, only changed in Comm</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>     CommState commState = Wait;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>     <span class="keywordtype">int</span> actualSpeed[2] = { 0,0 };</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>     <span class="keywordtype">int</span> requiredSpeed[2] = { 0,0 };</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>};</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">extern</span> <a class="code hl_class" href="class_state_class.html">StateClass</a> State;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">// User defined data types:</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">enum class</span> MainState { Setup, Speed, Stop }; <span class="comment">//enum class is better cause the name of the enum elements can be used outside the enum as variables</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">enum class</span> CommState { Stop, Wait, SpeedPWM, SpeedReal, Unknown};</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">using </span>Pin = <span class="keyword">const</span> uint8_t;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="class_state_class.html">   32</a></span><span class="keyword">class </span><a class="code hl_class" href="class_state_class.html">StateClass</a></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>{</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">// Define pins</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>     <span class="comment">//Motor1</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>     <span class="keyword">static</span> Pin M1_LPWM = 5;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>     <span class="keyword">static</span> Pin M1_RPWM = 6;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>     <span class="keyword">static</span> Pin M1_REN = 4;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>     <span class="keyword">static</span> Pin M1_LEN = 7;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>     <span class="comment">//Motor2</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>     <span class="keyword">static</span> Pin M2_RPWM = 10;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>     <span class="keyword">static</span> Pin M2_LPWM = 11;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>     <span class="keyword">static</span> Pin M2_REN = 8;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>     <span class="keyword">static</span> Pin M2_LEN = 9;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>     <span class="comment">//define Encoder pins</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>     <span class="keyword">static</span> Pin Enc1_1 = 2;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>     <span class="keyword">static</span> Pin Enc1_2 = 12;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>     <span class="keyword">static</span> Pin Enc2_1 = 3;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>     <span class="keyword">static</span> Pin Enc2_2 = A0;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="comment">// Other definitions</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> address = 0x11;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">// Regulator parameters</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>     <span class="keyword">const</span> <span class="keywordtype">int</span> motor1DeadBand[2] = { 10,10 }; <span class="comment">// [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>     <span class="keyword">const</span> <span class="keywordtype">int</span> motor2DeadBand[2] = { 10,10 }; <span class="comment">// [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">// Non const variables - will be changed during program</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>     </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="class_state_class.html#a3b06994bd0056d2f5c9b7037defeec13">   62</a></span>     MainState <a class="code hl_variable" href="class_state_class.html#a3b06994bd0056d2f5c9b7037defeec13">actualState</a> = MainState::Setup; </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="class_state_class.html#af71f651eebc7746f9c57a33520180c60">   63</a></span>     CommState <a class="code hl_variable" href="class_state_class.html#af71f651eebc7746f9c57a33520180c60">commState</a> = CommState::SpeedPWM; </div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="comment">/* Garbage:</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">Initialization of static const array in .h file</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment">     static const uint8_t Enc1Pin(size_t index) {</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">         static const uint8_t x[] = { 1,2 };</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">         return x[index];</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment">     }</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="comment">*/</span></div>
-<div class="ttc" id="aclass_state_class_html"><div class="ttname"><a href="class_state_class.html">StateClass</a></div><div class="ttdoc">Class for variables storage (only header, without methods)</div><div class="ttdef"><b>Definition:</b> State.h:28</div></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="class_state_class.html#a37816025e4f99f25401ae08862a660c9">   65</a></span>     <span class="keywordtype">int</span> <a class="code hl_variable" href="class_state_class.html#a37816025e4f99f25401ae08862a660c9">actualSpeed</a>[2] = { 0,0 }; </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="class_state_class.html#a581cb51181287947b25b549ab5f67d7d">   66</a></span>     <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="class_state_class.html#a581cb51181287947b25b549ab5f67d7d">encSpeed</a>[2] = { 0,0 }; </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="class_state_class.html#ad35700f8b8ec016a81c9b9ff2f049791">   67</a></span>     <span class="keywordtype">int</span> <a class="code hl_variable" href="class_state_class.html#ad35700f8b8ec016a81c9b9ff2f049791">requiredSpeed</a>[2] = { -50,-50 }; </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="class_state_class.html#a262f7357126ca5e0bc0c12c7243df553">   68</a></span>     <span class="keywordtype">float</span> <a class="code hl_variable" href="class_state_class.html#a262f7357126ca5e0bc0c12c7243df553">actualRealSpeed</a>[2] = { 0,0 }; </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="class_state_class.html#a78697ac64c2a18d1d3885fc5ce29178a">   69</a></span>     <span class="keywordtype">float</span> <a class="code hl_variable" href="class_state_class.html#a78697ac64c2a18d1d3885fc5ce29178a">requiredRealSpeed</a>[2] = { 0,0 }; </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>};</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keyword">extern</span> <a class="code hl_class" href="class_state_class.html">StateClass</a> State;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="comment">/* Garbage:</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="comment">Initialization of static const array in .h file</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="comment">     static const uint8_t Enc1Pin(size_t index) {</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="comment">         static const uint8_t x[] = { 1,2 };</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment">         return x[index];</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="comment">     }</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="comment">*/</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="comment">/* RPM Debounce</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="comment"> Relative to RPM readout and triggering to start  a thread path:</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="comment"></span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="comment">  Index debounce will affect the sensitivity of the index signal. IT basically is how many interrupt periods the signal must be present, or not present before a change is actually sensed in that line. SO if set to 2 for example, when the index appears it will be ignored for 2 periods to make sure it isnt noise. Same with when it disappears. Setting debounce too high will make the index go away altogether.</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="comment"></span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="comment">  Since the length of the index is dependent on spindle speed, minimum length is variable, but the time must be at least 1 period at a debounce of zero. SO in 25000, thats 40us.</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="comment">  If a person notices a dropoff in RPM at a certain speed, they need usually a lower index debounce. Index inputs from an encoder are usually pretty short and will limit speed readings at some point as you go higher.</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment"></span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="comment">If you have the debounce setting too high the axis will just sit there waiting to confirm the rpm</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="comment">before the start of a thread path.</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="comment"></span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="comment">Don&#39;t have specifics relative to switches .</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="comment">//READ spd with millis</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="comment">//     unsigned long currentMillis_1 = 0;</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment">//     unsigned long previousMillis_1 = 0;</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="comment">// </span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> <span class="comment">//    currentMillis_1 = millis();</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> <span class="comment">//    if ((currentMillis_1 - previousMillis_1) &gt;= 200) {</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> <span class="comment">//        encSpeed[0] = abs(Drive.enc1.read());</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> <span class="comment">//        Drive.enc1.write(0);</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> <span class="comment">//        encSpeed[1] = abs(Drive.enc2.read());</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> <span class="comment">//        Drive.enc2.write(0);</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> <span class="comment">//;       previousMillis_1 = currentMillis_1;</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> <span class="comment">//    }</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="comment">// Using timer interrupt</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="comment">// INCLUDES</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment">// #include &lt;ISR_Timer.h&gt;</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="comment">//#include &lt;TimerInterrupt.hpp&gt;</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="comment">//#include &lt;TimerInterrupt.h&gt;</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="comment">//#include &lt;ISR_Timer.hpp&gt; </span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="comment">//SETUP:</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="comment">// Timer init</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="comment">//ITimer2.init();</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="comment">//if (ITimer2.attachInterruptInterval(TimerSpeedDelayMS, TimerSpeedHandler))</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="comment">//{</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="comment">//    Serial.println(F(&quot;Starting  ITimer1 OK, millis() = &quot;)); Serial.println(millis());</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="comment">//}</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="comment">//else</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="comment">//    Serial.println(F(&quot;Can&#39;t set ITimer1. Select another freq. or timer&quot;));</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="comment">//GLOBAL in .ino</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="comment">//Global variables</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="comment">//static volatile bool flagReadSpeed = 0; ///&lt; Will be set true in interrupt routine</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="comment">//static volatile int interruptNum = 0; ///&lt; Will increment in interrupt routine</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="comment">//void TimerSpeedHandler()</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="comment">//{</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="comment">//    flagReadSpeed = 1;</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="comment">//    ++interruptNum;</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="comment">//}</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="comment">//In void loop:</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="comment">//if (flagReadSpeed) {</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="comment">//    Drive.read();</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="comment">//    flagReadSpeed = 0;</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="comment">//    interruptNum = 0;</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">//}</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="comment">//In Drive.read:</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment">//State.encSpeed[0] = abs(enc1.read());</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment">//enc1.write(0);</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="comment">//State.encSpeed[1] = abs(enc2.read());</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment">//enc2.write(0);</span></div>
+<div class="ttc" id="a_state_8h_html_a4cc6036eff1c3ecb0dd8898afb14e46d"><div class="ttname"><a href="_state_8h.html#a4cc6036eff1c3ecb0dd8898afb14e46d">TimerSpeedDelay_uS</a></div><div class="ttdeci">constexpr auto TimerSpeedDelay_uS</div><div class="ttdoc">Period of reading speed (Period of TIMER_1 interrupts)</div><div class="ttdef"><b>Definition:</b> State.h:20</div></div>
+<div class="ttc" id="aclass_state_class_html"><div class="ttname"><a href="class_state_class.html">StateClass</a></div><div class="ttdoc">Class for variables storage (only header, without methods)</div><div class="ttdef"><b>Definition:</b> State.h:33</div></div>
+<div class="ttc" id="aclass_state_class_html_a262f7357126ca5e0bc0c12c7243df553"><div class="ttname"><a href="class_state_class.html#a262f7357126ca5e0bc0c12c7243df553">StateClass::actualRealSpeed</a></div><div class="ttdeci">float actualRealSpeed[2]</div><div class="ttdoc">Actual real speed of two motors in rad/s, write only in TimerSpeedHandler interrupt routine.</div><div class="ttdef"><b>Definition:</b> State.h:68</div></div>
+<div class="ttc" id="aclass_state_class_html_a37816025e4f99f25401ae08862a660c9"><div class="ttname"><a href="class_state_class.html#a37816025e4f99f25401ae08862a660c9">StateClass::actualSpeed</a></div><div class="ttdeci">int actualSpeed[2]</div><div class="ttdoc">Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)</div><div class="ttdef"><b>Definition:</b> State.h:65</div></div>
+<div class="ttc" id="aclass_state_class_html_a3b06994bd0056d2f5c9b7037defeec13"><div class="ttname"><a href="class_state_class.html#a3b06994bd0056d2f5c9b7037defeec13">StateClass::actualState</a></div><div class="ttdeci">MainState actualState</div><div class="ttdoc">Define actual state in which the driver operates.</div><div class="ttdef"><b>Definition:</b> State.h:62</div></div>
+<div class="ttc" id="aclass_state_class_html_a581cb51181287947b25b549ab5f67d7d"><div class="ttname"><a href="class_state_class.html#a581cb51181287947b25b549ab5f67d7d">StateClass::encSpeed</a></div><div class="ttdeci">unsigned int encSpeed[2]</div><div class="ttdoc">Actual number of encoder pulses updated every period of reading speed.</div><div class="ttdef"><b>Definition:</b> State.h:66</div></div>
+<div class="ttc" id="aclass_state_class_html_a78697ac64c2a18d1d3885fc5ce29178a"><div class="ttname"><a href="class_state_class.html#a78697ac64c2a18d1d3885fc5ce29178a">StateClass::requiredRealSpeed</a></div><div class="ttdeci">float requiredRealSpeed[2]</div><div class="ttdoc">Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm cl...</div><div class="ttdef"><b>Definition:</b> State.h:69</div></div>
+<div class="ttc" id="aclass_state_class_html_ad35700f8b8ec016a81c9b9ff2f049791"><div class="ttname"><a href="class_state_class.html#ad35700f8b8ec016a81c9b9ff2f049791">StateClass::requiredSpeed</a></div><div class="ttdeci">int requiredSpeed[2]</div><div class="ttdoc">Required speed of two motors by Controler (recieved through I2C), write only in Comm class!...</div><div class="ttdef"><b>Definition:</b> State.h:67</div></div>
+<div class="ttc" id="aclass_state_class_html_af71f651eebc7746f9c57a33520180c60"><div class="ttname"><a href="class_state_class.html#af71f651eebc7746f9c57a33520180c60">StateClass::commState</a></div><div class="ttdeci">CommState commState</div><div class="ttdoc">Define communication state in which controller wants the driver to be in, only changed in Comm.</div><div class="ttdef"><b>Definition:</b> State.h:63</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

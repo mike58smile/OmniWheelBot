@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['enc1_0',['enc1',['../class_drive_class.html#a220a780cced6ece3e94731bd9cefd850',1,'DriveClass']]],
-  ['enc2_1',['enc2',['../class_drive_class.html#a105582a5f5109076eb59d3556db0d428',1,'DriveClass']]]
+  ['actualrealspeed_0',['actualRealSpeed',['../class_state_class.html#a262f7357126ca5e0bc0c12c7243df553',1,'StateClass']]],
+  ['actualspeed_1',['actualSpeed',['../class_state_class.html#a37816025e4f99f25401ae08862a660c9',1,'StateClass']]],
+  ['actualstate_2',['actualState',['../class_state_class.html#a3b06994bd0056d2f5c9b7037defeec13',1,'StateClass']]]
 ];

@@ -8,10 +8,24 @@ Format in which Controler sends data through I2C to this driver -\/ sent from up
 \begin{DoxyItemize}
 \item 0 (Value used for state determination)
 \end{DoxyItemize}
-\item Speed\+:
+\item Wait\+:
 \begin{DoxyItemize}
 \item 1 (Value used for state determination)
-\item 16 bit int = Speed of first motor
-\item 16 bit int = Speed of second motor 
 \end{DoxyItemize}
+\item Speed\+PWM\+:
+\begin{DoxyItemize}
+\item 2 (Value used for state determination)
+\item 16 bit int (normal int) = Speed of first motor in PWM (0 -\/ 255)
+\item 16 bit int (normal int) = Speed of second motor in PWM (0 -\/ 255)
+\end{DoxyItemize}
+\item Speed\+Real\+:
+\begin{DoxyItemize}
+\item 3 (Value used for state determination)
+\item float = Speed of first motor in rad/s
+\item float = Speed of second motor in rad/s 
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{index_autotoc_md4}{}\doxysection{To do\+:}\label{index_autotoc_md4}
+
+\begin{DoxyItemize}
+\item Self meassure deadband -\/ pwm sensitivity of regulator 
 \end{DoxyItemize}

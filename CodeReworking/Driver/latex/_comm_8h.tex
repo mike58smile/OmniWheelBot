@@ -6,8 +6,9 @@ Comm class header.
 
 
 {\ttfamily \#include \char`\"{}WProgram.\+h\char`\"{}}\newline
-{\ttfamily \#include $<$i2cdetect.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}State.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$Wire.\+h$>$}\newline
+{\ttfamily \#include $<$i2cdetect.\+h$>$}\newline
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -18,6 +19,8 @@ class \mbox{\hyperlink{class_comm_class}{Comm\+Class}}
 \item 
 \mbox{\Hypertarget{_comm_8h_accb08e37a676b398539f81152fb2b881}\label{_comm_8h_accb08e37a676b398539f81152fb2b881}} 
 \#define {\bfseries Wire\+Read}~(Wire.\+read() $\vert$ Wire.\+read() $<$$<$ 8)
+\item 
+\#define \mbox{\hyperlink{_comm_8h_abfcaf86a77ea181c29b9659f5cc89d87}{Wire\+Write}}(int16)
 \end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -41,3 +44,20 @@ xmisko06
 \begin{DoxyDate}{Date}
 April 2023 
 \end{DoxyDate}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{_comm_8h_abfcaf86a77ea181c29b9659f5cc89d87}\label{_comm_8h_abfcaf86a77ea181c29b9659f5cc89d87}} 
+\index{Comm.h@{Comm.h}!WireWrite@{WireWrite}}
+\index{WireWrite@{WireWrite}!Comm.h@{Comm.h}}
+\doxysubsubsection{\texorpdfstring{WireWrite}{WireWrite}}
+{\footnotesize\ttfamily \#define Wire\+Write(\begin{DoxyParamCaption}\item[{}]{int16 }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{ \(\backslash\)}
+\DoxyCodeLine{Wire.write(int16); \(\backslash\)}
+\DoxyCodeLine{Wire.write((int16 >> 8)); \(\backslash\)}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

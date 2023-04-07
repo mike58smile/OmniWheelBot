@@ -88,12 +88,27 @@ Mode:</h3>
 <li>0 (Value used for state determination)</li>
 </ul>
 </li>
-<li>Speed:<ul>
+<li>Wait:<ul>
 <li>1 (Value used for state determination)</li>
-<li>16 bit int = Speed of first motor</li>
-<li>16 bit int = Speed of second motor </li>
 </ul>
 </li>
+<li>SpeedPWM:<ul>
+<li>2 (Value used for state determination)</li>
+<li>16 bit int (normal int) = Speed of first motor in PWM (0 - 255)</li>
+<li>16 bit int (normal int) = Speed of second motor in PWM (0 - 255)</li>
+</ul>
+</li>
+<li>SpeedReal:<ul>
+<li>3 (Value used for state determination)</li>
+<li>float = Speed of first motor in rad/s</li>
+<li>float = Speed of second motor in rad/s </li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md4"></a>
+To do:</h1>
+<ul>
+<li>Self meassure deadband - pwm sensitivity of regulator </li>
 </ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->

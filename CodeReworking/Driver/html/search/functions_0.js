@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['driveclass_0',['DriveClass',['../class_drive_class.html#a148ebca617d743610ab7421b249470b3',1,'DriveClass']]]
+  ['commclass_0',['CommClass',['../class_comm_class.html#a75cf13c9361dec63d663c15653c2010a',1,'CommClass']]]
 ];
