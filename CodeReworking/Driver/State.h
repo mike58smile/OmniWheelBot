@@ -17,7 +17,9 @@
 #endif
 
 #define USE_TIMER_2 true
-constexpr auto TimerSpeedDelayMS = 20; ///< Period of reading speed (Period of TIMER_1 interrupts)
+constexpr auto TimerSpeedDelayMS = 30; ///< Period of reading speed (Period of TIMER_1 interrupts)
+
+
 
 // User defined data types:
 enum class MainState { Setup, Speed, Stop }; //enum class is better cause the name of the enum elements can be used outside the enum as variables
@@ -61,7 +63,7 @@ class StateClass
 	 CommState commState = CommState::SpeedPWM; ///< Define communication state in which controller wants the driver to be in, only changed in Comm
 
 	 volatile int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)
-	 int requiredSpeed[2] = { 50,50 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255)
+	 int requiredSpeed[2] = { -50,-50 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255)
 	 volatile unsigned int encSpeed[2] = { 0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
 	 volatile float actualRealSpeed[2] = { 0,0 }; ///< Actual real speed of two motors in rad/s, write only in TimerSpeedHandler interrupt routine
 	 float requiredRealSpeed[2] = { 0,0 }; ///< Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class!
@@ -93,7 +95,50 @@ before the start of a thread path.
 Don't have specifics relative to switches .
  */
 
+//READ spd with millis
+//     unsigned long currentMillis_1 = 0;
+//	   unsigned long previousMillis_1 = 0;
+// 
+ //    currentMillis_1 = millis();
+ //    if ((currentMillis_1 - previousMillis_1) >= 200) {
+ //        encSpeed[0] = abs(Drive.enc1.read());
+ //        Drive.enc1.write(0);
+ //        encSpeed[1] = abs(Drive.enc2.read());
+ //        Drive.enc2.write(0);
+ //;       previousMillis_1 = currentMillis_1;
+ //    }
 
 
+// Using timer interrupt
+// INCLUDES
+// #include <ISR_Timer.h>
+//#include <TimerInterrupt.hpp>
+//#include <TimerInterrupt.h>
+//#include <ISR_Timer.hpp> 
 
+//SETUP:
+// Timer init
+//ITimer2.init();
+//if (ITimer2.attachInterruptInterval(TimerSpeedDelayMS, TimerSpeedHandler))
+//{
+//    Serial.println(F("Starting  ITimer1 OK, millis() = ")); Serial.println(millis());
+//}
+//else
+//    Serial.println(F("Can't set ITimer1. Select another freq. or timer"));
 
+//GLOBAL in .ino
+//Global variables
+//static volatile bool flagReadSpeed = 0; ///< Will be set true in interrupt routine
+//static volatile int interruptNum = 0; ///< Will increment in interrupt routine
+//void TimerSpeedHandler()
+//{
+//    flagReadSpeed = 1;
+//    ++interruptNum;
+//}
+
+//In void loop:
+//if (flagReadSpeed) {
+//    Drive.read();
+//    flagReadSpeed = 0;
+//    interruptNum = 0;
+//}

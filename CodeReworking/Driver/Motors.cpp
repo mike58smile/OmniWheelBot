@@ -48,9 +48,9 @@ void MotorsClass::Speed(int Spd1, int Spd2)
         return;
     }
     // Set speed of first motor
-    if (Spd1 >= 0) {
-        analogWrite(State.M1_RPWM, abs(Spd1));
+    if (Spd1 <= 0) {
         analogWrite(State.M1_LPWM, 0);
+        analogWrite(State.M1_RPWM, abs(Spd1));
     }
     else{
         analogWrite(State.M1_RPWM, 0);
@@ -58,9 +58,9 @@ void MotorsClass::Speed(int Spd1, int Spd2)
     }
 
     // Set speed of second motor
-    if (Spd2 >= 0) {
-        analogWrite(State.M2_RPWM, abs(Spd2));
+    if (Spd2 <= 0) {
         analogWrite(State.M2_LPWM, 0);
+        analogWrite(State.M2_RPWM, abs(Spd2));
     }
     else {
         analogWrite(State.M2_RPWM, 0);

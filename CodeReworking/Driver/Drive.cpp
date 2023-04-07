@@ -7,20 +7,33 @@
  * \date   April 2023
  *********************************************************************/
 
-//#include "Motors.h"
 #include "Drive.h"
 
-//Global variables
-volatile bool flagReadSpeed = 0; ///< Will be set true in interrupt routine
-volatile int interruptNum = 0; ///< Will increment in interrupt routine
-
+unsigned long DriveClass::currentTime = 0;
+unsigned long DriveClass::previousTime = 0;
 
 void DriveClass::init()
 {
     Motors.init();
 }
+void DriveClass::read()
+{
+    currentTime = micros();
+    if ((currentTime - previousTime) >= TimerSpeedDelayMS) {
+        State.encSpeed[0] = abs(enc1.read());
+        enc1.write(0);
+        State.encSpeed[1] = abs(enc2.read());
+        enc2.write(0);
+        previousTime = currentTime;
+    }
+    //State.encSpeed[0] = abs(enc1.read());
+    //enc1.write(0);
+    //State.encSpeed[1] = abs(enc2.read());
+    //enc2.write(0);
+}
 void DriveClass::loop()
 {
+    read();
     switch(State.commState){
     case CommState::Stop:
         Motors.Stop();
@@ -39,5 +52,4 @@ void DriveClass::loop()
         break;
     }
 }
-
 

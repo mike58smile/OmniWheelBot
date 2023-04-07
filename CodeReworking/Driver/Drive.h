@@ -16,7 +16,6 @@
 	#include "WProgram.h"
 #endif
 
-
 #include <Encoder.h>
 #include "State.h"
 #include "Motors.h"
@@ -26,9 +25,11 @@
  */
 class DriveClass
 {
- protected:
+ private:
 	 StateClass& State;
 	 MotorsClass Motors; ///< motory
+	 static unsigned long currentTime;
+	 static unsigned long previousTime;
 	 //friend void TimerSpeedHandler(); ///< Function to handle TIMER_1 interrupt routine for reading speed
  public:
 	 Encoder enc1; ///< motor 1
@@ -51,9 +52,11 @@ class DriveClass
 	  * \note Use in void loop()
 	  */
 	 void loop();
+
+	 void read();
 };
 
 //extern DriveClass Drive;
 
-#endif
 
+#endif
