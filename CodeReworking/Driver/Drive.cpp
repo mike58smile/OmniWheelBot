@@ -9,6 +9,7 @@
 
 #include "Drive.h"
 
+//Initialize static class members
 unsigned long DriveClass::currentTime = 0;
 unsigned long DriveClass::previousTime = 0;
 
@@ -19,13 +20,13 @@ void DriveClass::init()
 void DriveClass::read()
 {
     currentTime = micros();
-    if ((currentTime - previousTime) >= TimerSpeedDelayMS) {
+    if ((currentTime - previousTime) >= TimerSpeedDelay_uS) {
         State.encSpeed[0] = abs(enc1.read());
         enc1.write(0);
         State.encSpeed[1] = abs(enc2.read());
         enc2.write(0);
-        State.actualRealSpeed[0] = (float)(State.encSpeed[0] * 2 * PI) / (979.2 * (TimerSpeedDelayMS / 1000.0));
-        State.actualRealSpeed[1] = (float)(State.encSpeed[1] * 2 * PI) / (979.2 * (TimerSpeedDelayMS / 1000.0));
+        State.actualRealSpeed[0] = (float)(State.encSpeed[0] * 2 * PI) / (979.2 * (TimerSpeedDelay_uS / 1000.0));
+        State.actualRealSpeed[1] = (float)(State.encSpeed[1] * 2 * PI) / (979.2 * (TimerSpeedDelay_uS / 1000.0));
         previousTime = currentTime;
     }
 }

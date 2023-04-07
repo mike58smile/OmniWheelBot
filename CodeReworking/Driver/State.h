@@ -17,7 +17,7 @@
 #endif
 
 #define USE_TIMER_2 true
-constexpr auto TimerSpeedDelayMS = 30; ///< Period of reading speed (Period of TIMER_1 interrupts)
+constexpr auto TimerSpeedDelay_uS = 30000; ///< Period of reading speed (Period of TIMER_1 interrupts)
 
 
 

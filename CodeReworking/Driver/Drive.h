@@ -26,11 +26,10 @@
 class DriveClass
 {
  private:
-	 StateClass& State;
+	 StateClass& State; ///< Storage for all shared variables 
 	 MotorsClass Motors; ///< motory
-	 static unsigned long currentTime;
-	 static unsigned long previousTime;
-	 //friend void TimerSpeedHandler(); ///< Function to handle TIMER_1 interrupt routine for reading speed
+	 static unsigned long currentTime; ///< Current time updated with micros() in void read()
+	 static unsigned long previousTime; ///< Previous time updated with currentTime when currentTime >= TimerSpeedDelay_uS
  public:
 	 Encoder enc1; ///< motor 1
 	 Encoder enc2; ///< motor 2
@@ -39,8 +38,8 @@ class DriveClass
 	  * \note This is the only constructor
 	  * \param state
 	  */
-	 //explicit DriveClass() : enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2) {}
 	 explicit DriveClass(StateClass& state) : State(state), Motors(state), enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2) {}
+	 
 	 /**
 	  * \brief Initialize motors
 	  * \note Use in void setup()
@@ -53,6 +52,10 @@ class DriveClass
 	  */
 	 void loop();
 
+	 /**
+	  * \brief Read data from encoders - calculate speeds with period = TimerSpeedDelay_uS
+	  * \note Time is measured using micros()
+	  */
 	 void read();
 };
 
