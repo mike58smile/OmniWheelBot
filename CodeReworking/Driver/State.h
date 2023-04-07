@@ -62,10 +62,10 @@ class StateClass
 	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
 	 CommState commState = CommState::SpeedPWM; ///< Define communication state in which controller wants the driver to be in, only changed in Comm
 
-	 volatile int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)
+	 int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)
+	 unsigned int encSpeed[2] = { 0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
 	 int requiredSpeed[2] = { -50,-50 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255)
-	 volatile unsigned int encSpeed[2] = { 0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
-	 volatile float actualRealSpeed[2] = { 0,0 }; ///< Actual real speed of two motors in rad/s, write only in TimerSpeedHandler interrupt routine
+	 float actualRealSpeed[2] = { 0,0 }; ///< Actual real speed of two motors in rad/s, write only in TimerSpeedHandler interrupt routine
 	 float requiredRealSpeed[2] = { 0,0 }; ///< Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class!
 };
 
@@ -142,3 +142,9 @@ Don't have specifics relative to switches .
 //    flagReadSpeed = 0;
 //    interruptNum = 0;
 //}
+
+//In Drive.read:
+//State.encSpeed[0] = abs(enc1.read());
+//enc1.write(0);
+//State.encSpeed[1] = abs(enc2.read());
+//enc2.write(0);
