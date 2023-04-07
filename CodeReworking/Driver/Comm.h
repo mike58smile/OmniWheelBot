@@ -35,7 +35,7 @@ class CommClass
 	 /**
 	  * \brief I2C send data - Wire request event
 	  */
-	 //friend void requestEvent();
+	// friend void requestEvent();
 
 	 /**
 	  * \brief I2C get data - Wire recieve event

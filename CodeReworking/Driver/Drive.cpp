@@ -10,9 +10,10 @@
 //#include "Motors.h"
 #include "Drive.h"
 
+//Global variables
+volatile bool flagReadSpeed = 0; ///< Will be set true in interrupt routine
+volatile int interruptNum = 0; ///< Will increment in interrupt routine
 
-
-//DriveClass Drive; //also calls right c'tors to setup Encoder objects
 
 void DriveClass::init()
 {

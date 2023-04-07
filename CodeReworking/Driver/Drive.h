@@ -15,7 +15,7 @@
 #else
 	#include "WProgram.h"
 #endif
-#define ENCODER_OPTIMIZE_INTERRUPTS
+
 
 #include <Encoder.h>
 #include "State.h"

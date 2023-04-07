@@ -8,7 +8,7 @@
  *********************************************************************/
 
 //#include <Wire.h>
-//#include "State.h" // Include before Drive.h!
+#include "State.h" // Include before Drive.h!
 #include "Wire.h"
 #include "Comm.h"
 //#include "Motors.h"
@@ -34,12 +34,27 @@ DriveClass Drive(State);
 //CommClass Comm;
 //DriveClass Drive;
 
+//volatile int actualSpeed[2] = { 0,0 }
+unsigned int encSpeed[2] = { 0,0 };
+//volatile float actualRealSpeed[2] = {
+//float requiredRealSpeed[2] = { 0,0 };
+volatile bool flag = 0;
+volatile int ii;
 void TimerSpeedHandler()
 {
-    State.encSpeed[0] = abs(Drive.enc1.readAndReset());
-    State.encSpeed[1] = abs(Drive.enc2.readAndReset());
-    State.actualRealSpeed[0] = (State.encSpeed[0] * 2 * PI) / (979.2 * (TimerSpeedDelayMS / 1000));
-    State.actualRealSpeed[1] = (State.encSpeed[1] * 2 * PI) / (979.2 * (TimerSpeedDelayMS / 1000));
+   // encSpeed[0] = abs(Drive.enc1.read());
+    //Drive.enc1.write(0);
+    //encSpeed[1] = abs(Drive.enc2.read());
+    //Drive.enc2.write(0);
+   // if (!flag) {
+        flag = 1;
+        ++ii;
+    //}
+    //else{
+    //    flag = 0;
+    //}
+    //State.actualRealSpeed[0] = (State.encSpeed[0] * 2 * PI) / (979.2 * (TimerSpeedDelayMS / 1000));
+    //State.actualRealSpeed[1] = (State.encSpeed[1] * 2 * PI) / (979.2 * (TimerSpeedDelayMS / 1000));
 }
 /**
  * \brief the setup function runs once when you press reset or power the board
@@ -82,28 +97,53 @@ void receiveData(int x)
 }
 
 
-
 void setup() {
     // Timer init
-    ITimer1.init();
-    if (ITimer1.attachInterruptInterval(TimerSpeedDelayMS, TimerSpeedHandler))
+    ITimer2.init();
+    //ITimer1.attachInterruptInterval(TimerSpeedDelayMS, TimerSpeedHandler);
+    if (ITimer2.attachInterruptInterval(TimerSpeedDelayMS, TimerSpeedHandler))
     {
-        Serial.print(F("Starting  ITimer1 OK, millis() = ")); Serial.println(millis());
+        Serial.println(F("Starting  ITimer1 OK, millis() = ")); Serial.println(millis());
     }
     else
         Serial.println(F("Can't set ITimer1. Select another freq. or timer"));
     Serial.begin(BaudRate);
     Wire.begin(State.address);
-    Wire.onRequest(requestEvent);
-    Wire.onReceive(receiveData);
-
 	//Comm.init();
+   
+    Wire.onReceive(receiveData);
+    Wire.onRequest(requestEvent);
 	Drive.init();
 }
 
 /**
  * \brief The loop function which runs over and over again until power down or reset
  */
+    unsigned long currentMillis_1 = 0;
+    unsigned long previousMillis_1 = 0;
 void loop() {
-	Drive.loop();
+//    currentMillis_1 = millis();
+//    if ((currentMillis_1 - previousMillis_1) >= 200) {
+//        encSpeed[0] = abs(Drive.enc1.read());
+//        Drive.enc1.write(0);
+//        encSpeed[1] = abs(Drive.enc2.read());
+//        Drive.enc2.write(0);
+//;       previousMillis_1 = currentMillis_1;
+//    }
+    
+	//Drive.loop();
+
+    if (flag) {
+        encSpeed[0] = abs(Drive.enc1.read());
+        Drive.enc1.write(0);
+        encSpeed[1] = abs(Drive.enc2.read());
+        Drive.enc2.write(0);
+        flag = 0;
+        ii = 0;
+    }
+    analogWrite(State.M1_LPWM, 0);
+    analogWrite(State.M1_RPWM, abs(50));
+    analogWrite(State.M2_LPWM, 0);
+    analogWrite(State.M2_RPWM, abs(50));
+
 }

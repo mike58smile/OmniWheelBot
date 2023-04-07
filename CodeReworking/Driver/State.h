@@ -16,7 +16,7 @@
 	#include "WProgram.h"
 #endif
 
-#define USE_TIMER_1           true
+#define USE_TIMER_2 true
 constexpr auto TimerSpeedDelayMS = 20; ///< Period of reading speed (Period of TIMER_1 interrupts)
 
 // User defined data types:
@@ -50,7 +50,7 @@ class StateClass
 	 static Pin Enc2_2 = A0;
 
 // Other definitions
-	 static const int address = 0x10;
+	 static const int address = 0x11;
 
 // Regulator parameters
 	 const int motor1DeadBand[2] = { 10,10 }; // [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
@@ -58,10 +58,10 @@ class StateClass
 // Non const variables - will be changed during program
 	 
 	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
-	 CommState commState = CommState::Wait; ///< Define communication state in which controller wants the driver to be in, only changed in Comm
+	 CommState commState = CommState::SpeedPWM; ///< Define communication state in which controller wants the driver to be in, only changed in Comm
 
-	 int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)
-	 int requiredSpeed[2] = { 0,0 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255)
+	 volatile int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)
+	 int requiredSpeed[2] = { 50,50 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255)
 	 volatile unsigned int encSpeed[2] = { 0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
 	 volatile float actualRealSpeed[2] = { 0,0 }; ///< Actual real speed of two motors in rad/s, write only in TimerSpeedHandler interrupt routine
 	 float requiredRealSpeed[2] = { 0,0 }; ///< Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class!
