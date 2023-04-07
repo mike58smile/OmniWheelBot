@@ -16,8 +16,8 @@
 	#include "WProgram.h"
 #endif
 
-#include <Encoder.h>
 #include "State.h"
+#include <Encoder.h>
 #include "Motors.h"
 
  /**

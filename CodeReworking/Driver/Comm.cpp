@@ -9,9 +9,6 @@
 
 
 #include "Comm.h"
-//#include "Wire.h"
-#include <i2cdetect.h>
-#include "State.h"
 
 void requestEvent()
 {
