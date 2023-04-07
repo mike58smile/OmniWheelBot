@@ -13,41 +13,49 @@
 #include <i2cdetect.h>
 #include "State.h"
 
-//void requestEvent()
-//{
-//    WireWrite(State.actualSpeed[0]);
-//    WireWrite(State.actualSpeed[1]);
-//    char strBuffer[7];
-//    Wire.write(dtostrf(State.actualRealSpeed[0], 7, 2, strBuffer)); //!odskusat ci funguje
-//    Wire.write(dtostrf(State.actualRealSpeed[1], 7, 2, strBuffer));//!odskusat ci funguje  
-//}
-//
-//void receiveData(int x)
-//{ 
-//    int mode = Wire.read();
-//    switch(mode) {
-//    case 0:
-//        //stop motor (and reset PID)
-//        State.commState = CommState::Stop;
-//        break;
-//    case 1:
-//        State.commState = CommState::Wait;
-//        break;
-//    case 2:
-//        //set speed
-//        State.requiredSpeed[0] = WireRead;
-//        State.requiredSpeed[1] = WireRead;
-//        State.commState = CommState::SpeedPWM;
-//        break;
-//    case 3:
-//        State.requiredRealSpeed[0] = WireRead;
-//        State.requiredRealSpeed[1] = WireRead;
-//        State.commState = CommState::SpeedReal;
-//    default:
-//        State.commState = CommState::Unknown;
-//        break;
-//    }
+void requestEvent()
+{
+    WireWrite(State.actualSpeed[0]);
+    WireWrite(State.actualSpeed[1]);
+    char strBuffer[7];
+    Wire.write(dtostrf(State.actualRealSpeed[0], 7, 2, strBuffer)); //!odskusat ci funguje
+    Wire.write(dtostrf(State.actualRealSpeed[1], 7, 2, strBuffer));//!odskusat ci funguje  
+}
 
+void receiveData(int x)
+{
+    int mode = Wire.read();
+    switch (mode) {
+    case 0:
+        //stop motor (and reset PID)
+        State.commState = CommState::Stop;
+        break;
+    case 1:
+        State.commState = CommState::Wait;
+        break;
+    case 2:
+        //set speed
+        State.requiredSpeed[0] = WireRead;
+        State.requiredSpeed[1] = WireRead;
+        State.commState = CommState::SpeedPWM;
+        break;
+    case 3:
+        State.requiredRealSpeed[0] = WireRead;
+        State.requiredRealSpeed[1] = WireRead;
+        State.commState = CommState::SpeedReal;
+    default:
+        State.commState = CommState::Unknown;
+        break;
+    }
+}
+void CommClass::init()
+{
+    Serial.begin(BaudRate);
+    Wire.begin(State.address);
+    Wire.onReceive(receiveData);
+    Wire.onRequest(requestEvent);
+}
+CommClass Comm(State);
 
     //if (mode == 0) { //funkcia ResetSetpoint v Main arduine
     //    syn_rozhodovac = false;
@@ -108,5 +116,3 @@
 //    Wire.onRequest(requestEvent);
 //    Wire.onReceive(receiveData);
 //}
-//CommClass Comm;
-

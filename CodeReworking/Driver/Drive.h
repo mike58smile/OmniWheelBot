@@ -59,7 +59,6 @@ class DriveClass
 	 void read();
 };
 
-//extern DriveClass Drive;
-
+extern DriveClass Drive;
 
 #endif

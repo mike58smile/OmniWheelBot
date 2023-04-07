@@ -16,13 +16,15 @@
 	#include "WProgram.h"
 #endif
 #include "State.h"
-//constexpr auto BaudRate = 115200;
-//#define WireRead (Wire.read() | Wire.read() << 8)
-//
-//#define WireWrite(int16){ \
-//Wire.write(int16); \
-//Wire.write((int16 >> 8)); \
-//}
+#include <Wire.h>
+
+constexpr auto BaudRate = 115200;
+#define WireRead (Wire.read() | Wire.read() << 8)
+
+#define WireWrite(int16){ \
+Wire.write(int16); \
+Wire.write((int16 >> 8)); \
+}
 
 /**
  * \brief Class for I2C and Serial communication
@@ -49,11 +51,11 @@ class CommClass
 	  * \brief Initialize Serial and I2C communication
 	  * \note Use in void setup()
 	  */
-	// void init();
+	 void init();
 
 };
 
-//extern CommClass Comm;
+extern CommClass Comm;
 
 #endif
 
