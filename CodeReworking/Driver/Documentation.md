@@ -23,6 +23,10 @@ Format in which Controler sends data through I2C to this driver - sent from up t
     - float = Speed of first motor in rad/s
     - float = Speed of second motor in rad/s
 # To do:
+## Currently
+- add doxygen doc to SerialControl class
+- Repair real speed calculation
+## In the future
 - Self meassure deadband - pwm sensitivity of regulator
 
 # Be aware of:
