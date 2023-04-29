@@ -18,10 +18,15 @@
 
 #define USE_TIMER_2 true
 constexpr auto TimerSpeedDelay_uS = 30000; ///< Period of reading speed (Period of TIMER_1 interrupts)
-
+static inline int8_t sign(int val) {
+	if (val < 0) return -1;
+	if (val == 0) return 0;
+	return 1;
+}
 // User defined data types:
-enum class MainState { Setup, Speed, Stop }; //enum class is better cause the name of the enum elements can be used outside the enum as variables
-enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, Unknown };
+//enum class is better cause the name of the enum elements can be used outside the enum as variables
+enum class MainState { Setup, Speed, Stop }; ///< Define MainState enum
+enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, Unknown }; ///< Define CommState enum
 using Pin = const uint8_t;
 
 /**
@@ -32,8 +37,8 @@ class StateClass
  protected:
 
  public:
-	 const char* MainStatePrint[3] = { "Setup", "Speed", "Stop" };
-	 const char* CommStatePrint[5] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "Unknown" };
+	 const char* MainStatePrint[3] = { "Setup", "Speed", "Stop" }; ///< Used for printing mainState enum
+	 const char* CommStatePrint[5] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "Unknown" }; ///< Used for printing commState enum
 // Define pins
 	 //Motor1
 	 static Pin M1_LPWM = 5;
@@ -60,11 +65,11 @@ class StateClass
 // Non const variables - will be changed during program
 	 
 	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
-	 CommState commState = CommState::SpeedPWM; ///< Define communication state in which controller wants the driver to be in, only changed in Comm
+	 CommState commState = CommState::Stop; ///< Define communication state in which controller wants the driver to be in, only changed in Comm
 
 	 int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)
 	 unsigned int encSpeed[2] = { 0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
-	 int requiredSpeed[2] = { -50,-50 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255)
+	 int requiredSpeed[2] = { 0,0 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255)
 	 float actualRealSpeed[2] = { 0,0 }; ///< Actual real speed of two motors in rad/s, write only in TimerSpeedHandler interrupt routine
 	 float requiredRealSpeed[2] = { 0,0 }; ///< Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class!
 };

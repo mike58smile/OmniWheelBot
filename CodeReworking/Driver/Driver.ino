@@ -7,6 +7,7 @@
  * \date   April 2023
  *********************************************************************/
 
+#include "SerialControl.h"
 #include "State.h" // Include before other classes!
 #include "Comm.h"
 #include "Drive.h"
@@ -21,35 +22,61 @@ void setup() {
 	Comm.init();
 	Drive.init();
 }
-
+int zmena;
+char EnableSerialMode = 'x';
+String SerialString = "";
+int SerialInt = 0;
 /**
  * \brief The loop function which runs over and over again until power down or reset
  */
-void loop() {    
+void loop() {  
+ 
 	if (Serial.available() > 0) {
-        char SerialRead = Serial.read();
-		switch (SerialRead) {
-        case '0':
-            //stop motor (and reset PID)
-            State.commState = CommState::Stop;
+        SerialString = Serial.readStringUntil('\n');
+        SerialInt = SerialString.toInt();
+        if (SerialString == "comm")
+            EnableSerialMode = 'c';
+        else if (SerialString == "spd")
+            EnableSerialMode = 's';
+        switch(EnableSerialMode){
+        case 'c':
+            switch (SerialInt) {
+            case 0:
+                //stop motor (and reset PID)
+                State.commState = CommState::Stop;
+                break;
+            case 1:
+                State.commState = CommState::Wait;
+                break;
+            case 2:
+                //set speed
+                State.requiredSpeed[0] = 50;
+                State.requiredSpeed[1] = 50;
+                State.commState = CommState::SpeedPWM;
+                break;
+            case 3:
+                State.requiredRealSpeed[0] = 10;
+                State.requiredRealSpeed[1] = 10;
+                State.commState = CommState::SpeedReal;
+                break;
+            case 4:
+                State.commState = CommState::Unknown;
+                break;
+            default:
+                break;
+            }
             break;
-        case '1':
-            State.commState = CommState::Wait;
+        case 's':
+            int speed = SerialInt;
+            if (abs(speed) > 200) speed = sign(speed) * 200;
+            State.requiredSpeed[0] = speed;
+            State.requiredSpeed[1] = speed;
+            State.commState = CommState::SpeedPWM; // need to asign commState for drive to catch the request for changing speed to required
             break;
-        case '2':
-            //set speed
-            State.requiredSpeed[0] = 30;
-            State.requiredSpeed[1] = 30;
-            State.commState = CommState::SpeedPWM;
-            break;
-        case '3':
-            State.requiredRealSpeed[0] = WireRead;
-            State.requiredRealSpeed[1] = WireRead;
-            State.commState = CommState::SpeedReal;
         default:
-            State.commState = CommState::Unknown;
             break;
 		}
 	}
-    Drive.loop();
+    
+	Drive.loop();
 }
