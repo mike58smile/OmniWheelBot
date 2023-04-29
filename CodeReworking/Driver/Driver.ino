@@ -22,7 +22,6 @@ void setup() {
 	Comm.init();
 	Drive.init();
 }
-int zmena;
 char EnableSerialMode = 'x';
 String SerialString = "";
 int SerialInt = 0;
