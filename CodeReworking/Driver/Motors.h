@@ -24,9 +24,13 @@
 class MotorsClass
 {
  protected:
-	 StateClass& State;
+	 StateClass& State; ///< Storage for all shared variables 
  public:
-	 //MotorsClass(){}
+	 
+	 /**
+	  * \brief C'tor from StateClass
+	  * \param state Reference to storage for all shared variables
+	  */
 	 MotorsClass(StateClass& state) : State(state) {};
 
 	 /**

@@ -19,11 +19,9 @@
 #define USE_TIMER_2 true
 constexpr auto TimerSpeedDelay_uS = 30000; ///< Period of reading speed (Period of TIMER_1 interrupts)
 
-
-
 // User defined data types:
 enum class MainState { Setup, Speed, Stop }; //enum class is better cause the name of the enum elements can be used outside the enum as variables
-enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, Unknown};
+enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, Unknown };
 using Pin = const uint8_t;
 
 /**
@@ -34,6 +32,8 @@ class StateClass
  protected:
 
  public:
+	 const char* MainStatePrint[3] = { "Setup", "Speed", "Stop" };
+	 const char* CommStatePrint[5] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "Unknown" };
 // Define pins
 	 //Motor1
 	 static Pin M1_LPWM = 5;
@@ -52,7 +52,7 @@ class StateClass
 	 static Pin Enc2_2 = A0;
 
 // Other definitions
-	 static const int address = 0x11;
+	 static const int address = 0x10;
 
 // Regulator parameters
 	 const int motor1DeadBand[2] = { 10,10 }; // [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating

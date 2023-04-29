@@ -24,3 +24,7 @@ Format in which Controler sends data through I2C to this driver - sent from up t
     - float = Speed of second motor in rad/s
 # To do:
 - Self meassure deadband - pwm sensitivity of regulator
+
+# Be aware of:
+- When arduino is reading Serial port from computer (computer is sending to Arduino) set Line end settings to "No line ending" or "Line feed" (don't set it to "Carriage return" - will read blank or "Both CR & LF" - will freeze)
+- 

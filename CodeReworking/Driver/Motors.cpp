@@ -23,7 +23,7 @@ void MotorsClass::init()
     pinMode(State.M2_REN, OUTPUT);
     pinMode(State.M2_LEN, OUTPUT);
 
-    //Motor Driver setup -> Puts High on motor inputs
+    //Motor Driver setup -> Puts High on 
     digitalWrite(State.M1_REN, HIGH);
     digitalWrite(State.M1_LEN, HIGH);
     digitalWrite(State.M2_REN, HIGH);
@@ -38,6 +38,10 @@ void MotorsClass::Stop()
     analogWrite(State.M1_LPWM, 0);
     analogWrite(State.M2_RPWM, 0);
     analogWrite(State.M2_LPWM, 0);
+
+    // Save current motor speeds to State
+    State.actualSpeed[0] = 0;
+    State.actualSpeed[1] = 0;
     State.actualState = MainState::Stop; //Define in which state the driver operates
 }
 

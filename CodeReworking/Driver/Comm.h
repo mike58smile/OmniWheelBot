@@ -34,20 +34,13 @@ class CommClass
 {
  protected:
 	 StateClass& State;
-
-	 /**
-	  * \brief I2C send data - Wire request event
-	  */
-	// friend void requestEvent();
-
-	 /**
-	  * \brief I2C get data - Wire recieve event
-	  */
-	 //friend void receiveData(int x);
-
  public:
+	 /**
+	  * \brief C'tor from StateClass
+	  * \param state Reference to storage for all shared variables
+	  */
 	 CommClass(StateClass& state) : State(state){}
-	 //CommClass(){}
+
 	 /**
 	  * \brief Initialize Serial and I2C communication
 	  * \note Use in void setup()

@@ -7,9 +7,11 @@
  * \date   April 2023
  *********************************************************************/
 
-
 #include "Comm.h"
 
+ /**
+  * \brief I2C send data - Wire request event
+  */
 void requestEvent()
 {
     WireWrite(State.actualSpeed[0]);
@@ -19,6 +21,9 @@ void requestEvent()
     Wire.write(dtostrf(State.actualRealSpeed[1], 7, 2, strBuffer));//!odskusat ci funguje  
 }
 
+/**
+ * \brief I2C get data - Wire recieve event
+ */
 void receiveData(int x)
 {
     int mode = Wire.read();
