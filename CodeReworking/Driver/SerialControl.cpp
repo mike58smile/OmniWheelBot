@@ -1,16 +1,22 @@
-// 
-// 
-// 
+/*****************************************************************//**
+ * \file   SerialControl.cpp
+ * \brief  SerialControl class source file
+ * \details Used for controlling (debugging/testing) the robot through Serial
+ * 
+ * \author xmisko06
+ * \date   April 2023
+ *********************************************************************/
 
 #include "SerialControl.h"
 
-void SerialControlClass::setup()
+void SerialControlClass::init()
 {
 
 }
 
 //for debug:
 //enc1={State.encSpeed[0]}, enc2={State.encSpeed[1]}, {Drive.enc1.read()} {State.actualRealSpeed[0]} {State.actualRealSpeed[1]} {State.actualSpeed[0]} {State.actualSpeed[1]} {State.requiredSpeed[0]} {State.requiredSpeed[1]} {State.CommStatePrint[static_cast<int>(State.commState)]} {static_cast<int>(State.commState)} {SerialString} {SerialInt} {EnableSerialMode}
+
 void SerialControlClass::loop()
 {
     if (Serial.available() > 0) {
