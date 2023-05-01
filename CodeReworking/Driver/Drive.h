@@ -16,8 +16,9 @@
 	#include "WProgram.h"
 #endif
 
-#include "State.h"
 #include <Encoder.h>
+#include <PID_v1.h>
+#include "State.h"
 #include "Motors.h"
 
  /**
@@ -39,6 +40,8 @@ class DriveClass
  public:
 	 Encoder enc1; ///< motor 1
 	 Encoder enc2; ///< motor 2
+
+
 	 /**
 	  * \brief C'tor from StateClass, also initialize Encoder objects
 	  * \note This is the only constructor
