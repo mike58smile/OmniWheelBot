@@ -17,7 +17,11 @@
 #endif
 
 #define USE_TIMER_2 true
-constexpr auto TimerSpeedDelay_uS = 30000; ///< Period of reading speed (Period of TIMER_1 interrupts)
+constexpr auto TimerSpeedDelay_mS = 30; ///< Speed reading from encoder time period - Change only this !!
+constexpr auto TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
+constexpr float EncToRealSpd(int EncSpeed) {
+	return((float(EncSpeed) * TWO_PI) / (979.2 * (float(TimerSpeedDelay_mS) / 1000.0)));
+}
 static inline int8_t sign(int val) {
 	if (val < 0) return -1;
 	if (val == 0) return 0;
@@ -65,7 +69,7 @@ class StateClass
 // Non const variables - will be changed during program
 	 
 	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
-	 CommState commState = CommState::Stop; ///< Define communication state in which controller wants the driver to be in, only changed in Comm
+	 CommState commState = CommState::Stop; ///< Define communication state in which controller wants the driver to be in, only changed in Comm and SerialControl
 
 	 int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)
 	 unsigned int encSpeed[2] = { 0,0 }; ///< Actual number of encoder pulses updated every period of reading speed

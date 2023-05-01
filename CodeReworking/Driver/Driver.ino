@@ -27,7 +27,7 @@ void setup() {
  */
 void loop() {
 #ifdef SerialCtrl
-	SerialControl.loop();
+	SerialControl.loop(); //always before Drive.loop
 #endif // SerialCtrl
 
 	Drive.loop();

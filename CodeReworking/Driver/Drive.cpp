@@ -25,8 +25,8 @@ void DriveClass::read()
         enc1.write(0);
         State.encSpeed[1] = abs(enc2.read());
         enc2.write(0);
-        State.actualRealSpeed[0] = (float)(State.encSpeed[0] * 2 * PI) / (979.2 * (TimerSpeedDelay_uS / 1000.0));
-        State.actualRealSpeed[1] = (float)(State.encSpeed[1] * 2 * PI) / (979.2 * (TimerSpeedDelay_uS / 1000.0));
+        State.actualRealSpeed[0] = EncToRealSpd(State.encSpeed[0]);
+        State.actualRealSpeed[1] = EncToRealSpd(State.encSpeed[1]);
         previousTime = currentTime;
     }
 }
