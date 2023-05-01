@@ -13,7 +13,7 @@ Class for I2C and Serial communication.
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{class_comm_class_a75cf13c9361dec63d663c15653c2010a}{Comm\+Class}} (\mbox{\hyperlink{class_state_class}{State\+Class}} \&state)
-\begin{DoxyCompactList}\small\item\em I2C send data -\/ Wire request event. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em C\textquotesingle{}tor from \mbox{\hyperlink{class_state_class}{State\+Class}}. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}{init}} ()
 \begin{DoxyCompactList}\small\item\em Initialize Serial and I2C communication. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
@@ -36,9 +36,14 @@ Class for I2C and Serial communication.
 
 
 
-I2C send data -\/ Wire request event. 
+C\textquotesingle{}tor from \mbox{\hyperlink{class_state_class}{State\+Class}}. 
 
-I2C get data -\/ Wire recieve event 
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Reference to storage for all shared variables \\
+\hline
+\end{DoxyParams}
+
 
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}\label{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}} 

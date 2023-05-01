@@ -17,9 +17,7 @@ Class implementing all movements, reading from Encoders.
 void \mbox{\hyperlink{class_drive_class_af058246867930180e2e73d98d94075e9}{init}} ()
 \begin{DoxyCompactList}\small\item\em Initialize motors. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}{loop}} ()
-\begin{DoxyCompactList}\small\item\em Drive loop. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_drive_class_a807be7ed07c7481a928cd9688a41cab6}{read}} ()
-\begin{DoxyCompactList}\small\item\em Read data from encoders -\/ calculate speeds with period = Timer\+Speed\+Delay\+\_\+uS. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Drive loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -50,7 +48,7 @@ This is the only constructor
 \end{DoxyNote}
 
 \begin{DoxyParams}{Parameters}
-{\em state} & \\
+{\em state} & Reference to storage for all shared variables \\
 \hline
 \end{DoxyParams}
 
@@ -81,19 +79,6 @@ Drive loop.
 
 \begin{DoxyNote}{Note}
 Use in void \mbox{\hyperlink{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}{loop()}} 
-\end{DoxyNote}
-\mbox{\Hypertarget{class_drive_class_a807be7ed07c7481a928cd9688a41cab6}\label{class_drive_class_a807be7ed07c7481a928cd9688a41cab6}} 
-\index{DriveClass@{DriveClass}!read@{read}}
-\index{read@{read}!DriveClass@{DriveClass}}
-\doxysubsubsection{\texorpdfstring{read()}{read()}}
-{\footnotesize\ttfamily void Drive\+Class\+::read (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Read data from encoders -\/ calculate speeds with period = Timer\+Speed\+Delay\+\_\+uS. 
-
-\begin{DoxyNote}{Note}
-Time is measured using micros() 
 \end{DoxyNote}
 
 

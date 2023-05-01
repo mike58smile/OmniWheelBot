@@ -1,0 +1,36 @@
+\hypertarget{_serial_control_8h_source}{}\doxysection{Serial\+Control.\+h}
+\mbox{\hyperlink{_serial_control_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*****************************************************************/}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifndef \_SERIALCONTROL\_h}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define \_SERIALCONTROL\_h}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#if defined(ARDUINO) \&\& ARDUINO >= 100}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{    \#include "{}arduino.h"{}}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{    \#include "{}WProgram.h"{}}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_state_8h}{State.h}}"{}}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{keyword}{class }\mbox{\hyperlink{class_serial_control_class}{SerialControlClass}}}
+\DoxyCodeLine{22 \{}
+\DoxyCodeLine{23  \textcolor{keyword}{protected}:}
+\DoxyCodeLine{24      \mbox{\hyperlink{class_state_class}{StateClass}}\& State;}
+\DoxyCodeLine{25      \textcolor{keywordtype}{char} EnableSerialMode = \textcolor{charliteral}{'x'};}
+\DoxyCodeLine{26      String SerialString = \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{27      \textcolor{keywordtype}{int} SerialInt = 0;}
+\DoxyCodeLine{28  \textcolor{keyword}{public}:}
+\DoxyCodeLine{33      \mbox{\hyperlink{class_serial_control_class_af01fa17887ee0f8337bf6a24145e81e6}{SerialControlClass}}(\mbox{\hyperlink{class_state_class}{StateClass}}\& state) : State(state) \{\}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{39      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_serial_control_class_a72b70293552a3fcce13b7148a28271e5}{init}}();}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{45      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_serial_control_class_abff1c29ded93c6908fd216ac62306c97}{loop}}();}
+\DoxyCodeLine{46 \};}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{keyword}{extern} \mbox{\hyperlink{class_serial_control_class}{SerialControlClass}} SerialControl;}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{51 }
+
+\end{DoxyCode}

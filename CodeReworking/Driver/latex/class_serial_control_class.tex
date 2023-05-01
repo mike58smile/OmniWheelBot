@@ -1,0 +1,79 @@
+\hypertarget{class_serial_control_class}{}\doxysection{Serial\+Control\+Class Class Reference}
+\label{class_serial_control_class}\index{SerialControlClass@{SerialControlClass}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_serial_control_class_af01fa17887ee0f8337bf6a24145e81e6}{Serial\+Control\+Class}} (\mbox{\hyperlink{class_state_class}{State\+Class}} \&state)
+\begin{DoxyCompactList}\small\item\em C\textquotesingle{}tor from \mbox{\hyperlink{class_state_class}{State\+Class}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_serial_control_class_a72b70293552a3fcce13b7148a28271e5}{init}} ()
+\begin{DoxyCompactList}\small\item\em Initialize Serial controlling -\/ EMPTY. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_serial_control_class_abff1c29ded93c6908fd216ac62306c97}{loop}} ()
+\begin{DoxyCompactList}\small\item\em Wait for Serial available (data is sent through serial), reads data and change the operating state and state variables. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_serial_control_class_adc4b377db4d23737b9c6dc81a9a5f61b}\label{class_serial_control_class_adc4b377db4d23737b9c6dc81a9a5f61b}} 
+\mbox{\hyperlink{class_state_class}{State\+Class}} \& {\bfseries State}
+\item 
+\mbox{\Hypertarget{class_serial_control_class_a6c9ec25d7e8c0971444f6f8c507eb307}\label{class_serial_control_class_a6c9ec25d7e8c0971444f6f8c507eb307}} 
+char {\bfseries Enable\+Serial\+Mode} = \textquotesingle{}x\textquotesingle{}
+\item 
+\mbox{\Hypertarget{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}\label{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}} 
+String {\bfseries Serial\+String} = \char`\"{}\char`\"{}
+\item 
+\mbox{\Hypertarget{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}\label{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}} 
+int {\bfseries Serial\+Int} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_serial_control_class_af01fa17887ee0f8337bf6a24145e81e6}\label{class_serial_control_class_af01fa17887ee0f8337bf6a24145e81e6}} 
+\index{SerialControlClass@{SerialControlClass}!SerialControlClass@{SerialControlClass}}
+\index{SerialControlClass@{SerialControlClass}!SerialControlClass@{SerialControlClass}}
+\doxysubsubsection{\texorpdfstring{SerialControlClass()}{SerialControlClass()}}
+{\footnotesize\ttfamily Serial\+Control\+Class\+::\+Serial\+Control\+Class (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_state_class}{State\+Class}} \&}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+C\textquotesingle{}tor from \mbox{\hyperlink{class_state_class}{State\+Class}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Reference to storage for all shared variables \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_serial_control_class_a72b70293552a3fcce13b7148a28271e5}\label{class_serial_control_class_a72b70293552a3fcce13b7148a28271e5}} 
+\index{SerialControlClass@{SerialControlClass}!init@{init}}
+\index{init@{init}!SerialControlClass@{SerialControlClass}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void Serial\+Control\+Class\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initialize Serial controlling -\/ EMPTY. 
+
+\begin{DoxyNote}{Note}
+Use in void setup() 
+\end{DoxyNote}
+\mbox{\Hypertarget{class_serial_control_class_abff1c29ded93c6908fd216ac62306c97}\label{class_serial_control_class_abff1c29ded93c6908fd216ac62306c97}} 
+\index{SerialControlClass@{SerialControlClass}!loop@{loop}}
+\index{loop@{loop}!SerialControlClass@{SerialControlClass}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void Serial\+Control\+Class\+::loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Wait for Serial available (data is sent through serial), reads data and change the operating state and state variables. 
+
+\begin{DoxyNote}{Note}
+Use in void \mbox{\hyperlink{class_serial_control_class_abff1c29ded93c6908fd216ac62306c97}{loop()}} 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_serial_control_8h}{Serial\+Control.\+h}}\item 
+\mbox{\hyperlink{_serial_control_8cpp}{Serial\+Control.\+cpp}}\end{DoxyCompactItemize}

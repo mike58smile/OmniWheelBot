@@ -93,9 +93,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a37365361d8fc1a2e99526602670a4e8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a">loop</a> ()</td></tr>
 <tr class="memdesc:a37365361d8fc1a2e99526602670a4e8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drive loop.  <a href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a">More...</a><br /></td></tr>
 <tr class="separator:a37365361d8fc1a2e99526602670a4e8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a807be7ed07c7481a928cd9688a41cab6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_drive_class.html#a807be7ed07c7481a928cd9688a41cab6">read</a> ()</td></tr>
-<tr class="memdesc:a807be7ed07c7481a928cd9688a41cab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read data from encoders - calculate speeds with period = TimerSpeedDelay_uS.  <a href="class_drive_class.html#a807be7ed07c7481a928cd9688a41cab6">More...</a><br /></td></tr>
-<tr class="separator:a807be7ed07c7481a928cd9688a41cab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -139,7 +136,7 @@ Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc2</b></td></tr>
 <dl class="section note"><dt>Note</dt><dd>This is the only constructor </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">state</td><td></td></tr>
+    <tr><td class="paramname">state</td><td>Reference to storage for all shared variables </td></tr>
   </table>
   </dd>
 </dl>
@@ -184,26 +181,6 @@ Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc2</b></td></tr>
 
 <p>Drive loop. </p>
 <dl class="section note"><dt>Note</dt><dd>Use in void <a class="el" href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a" title="Drive loop.">loop()</a> </dd></dl>
-
-</div>
-</div>
-<a id="a807be7ed07c7481a928cd9688a41cab6" name="a807be7ed07c7481a928cd9688a41cab6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a807be7ed07c7481a928cd9688a41cab6">&#9670;&#160;</a></span>read()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void DriveClass::read </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Read data from encoders - calculate speeds with period = TimerSpeedDelay_uS. </p>
-<dl class="section note"><dt>Note</dt><dd>Time is measured using micros() </dd></dl>
 
 </div>
 </div>

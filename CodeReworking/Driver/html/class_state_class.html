@@ -84,6 +84,14 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:afa32621b6be04b8b8538c877d9397d7c"><td class="memItemLeft" align="right" valign="top"><a id="afa32621b6be04b8b8538c877d9397d7c" name="afa32621b6be04b8b8538c877d9397d7c"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>MainStatePrint</b> [3] = { &quot;Setup&quot;, &quot;Speed&quot;, &quot;Stop&quot; }</td></tr>
+<tr class="memdesc:afa32621b6be04b8b8538c877d9397d7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for printing mainState enum. <br /></td></tr>
+<tr class="separator:afa32621b6be04b8b8538c877d9397d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a180c7c89c514d821cfe840e812d9bf35"><td class="memItemLeft" align="right" valign="top"><a id="a180c7c89c514d821cfe840e812d9bf35" name="a180c7c89c514d821cfe840e812d9bf35"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>CommStatePrint</b> [5] = { &quot;Stop&quot;, &quot;Wait&quot;, &quot;SpeedPWM&quot;, &quot;SpeedReal&quot;, &quot;Unknown&quot; }</td></tr>
+<tr class="memdesc:a180c7c89c514d821cfe840e812d9bf35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for printing commState enum. <br /></td></tr>
+<tr class="separator:a180c7c89c514d821cfe840e812d9bf35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54de371666a7fb72479a72f124153e62"><td class="memItemLeft" align="right" valign="top"><a id="a54de371666a7fb72479a72f124153e62" name="a54de371666a7fb72479a72f124153e62"></a>
 const int&#160;</td><td class="memItemRight" valign="bottom"><b>motor1DeadBand</b> [2] = { 10,10 }</td></tr>
 <tr class="separator:a54de371666a7fb72479a72f124153e62"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -95,8 +103,8 @@ MainState&#160;</td><td class="memItemRight" valign="bottom"><b>actualState</b> 
 <tr class="memdesc:a3b06994bd0056d2f5c9b7037defeec13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define actual state in which the driver operates. <br /></td></tr>
 <tr class="separator:a3b06994bd0056d2f5c9b7037defeec13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af71f651eebc7746f9c57a33520180c60"><td class="memItemLeft" align="right" valign="top"><a id="af71f651eebc7746f9c57a33520180c60" name="af71f651eebc7746f9c57a33520180c60"></a>
-CommState&#160;</td><td class="memItemRight" valign="bottom"><b>commState</b> = CommState::SpeedPWM</td></tr>
-<tr class="memdesc:af71f651eebc7746f9c57a33520180c60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define communication state in which controller wants the driver to be in, only changed in Comm. <br /></td></tr>
+CommState&#160;</td><td class="memItemRight" valign="bottom"><b>commState</b> = CommState::Stop</td></tr>
+<tr class="memdesc:af71f651eebc7746f9c57a33520180c60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define communication state in which controller wants the driver to be in, only changed in Comm and SerialControl. <br /></td></tr>
 <tr class="separator:af71f651eebc7746f9c57a33520180c60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37816025e4f99f25401ae08862a660c9"><td class="memItemLeft" align="right" valign="top"><a id="a37816025e4f99f25401ae08862a660c9" name="a37816025e4f99f25401ae08862a660c9"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>actualSpeed</b> [2] = { 0,0 }</td></tr>
@@ -107,7 +115,7 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>encSpeed</b> 
 <tr class="memdesc:a581cb51181287947b25b549ab5f67d7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actual number of encoder pulses updated every period of reading speed. <br /></td></tr>
 <tr class="separator:a581cb51181287947b25b549ab5f67d7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad35700f8b8ec016a81c9b9ff2f049791"><td class="memItemLeft" align="right" valign="top"><a id="ad35700f8b8ec016a81c9b9ff2f049791" name="ad35700f8b8ec016a81c9b9ff2f049791"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>requiredSpeed</b> [2] = { -50,-50 }</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>requiredSpeed</b> [2] = { 0,0 }</td></tr>
 <tr class="memdesc:ad35700f8b8ec016a81c9b9ff2f049791"><td class="mdescLeft">&#160;</td><td class="mdescRight">Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255) <br /></td></tr>
 <tr class="separator:ad35700f8b8ec016a81c9b9ff2f049791"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a262f7357126ca5e0bc0c12c7243df553"><td class="memItemLeft" align="right" valign="top"><a id="a262f7357126ca5e0bc0c12c7243df553" name="a262f7357126ca5e0bc0c12c7243df553"></a>
@@ -158,7 +166,7 @@ static Pin&#160;</td><td class="memItemRight" valign="bottom"><b>Enc2_1</b> = 3<
 static Pin&#160;</td><td class="memItemRight" valign="bottom"><b>Enc2_2</b> = A0</td></tr>
 <tr class="separator:a16f9246d7cbbeead1757af3b72b56e26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add9036be5fc71d613818f077e994a890"><td class="memItemLeft" align="right" valign="top"><a id="add9036be5fc71d613818f077e994a890" name="add9036be5fc71d613818f077e994a890"></a>
-static const int&#160;</td><td class="memItemRight" valign="bottom"><b>address</b> = 0x11</td></tr>
+static const int&#160;</td><td class="memItemRight" valign="bottom"><b>address</b> = 0x10</td></tr>
 <tr class="separator:add9036be5fc71d613818f077e994a890"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

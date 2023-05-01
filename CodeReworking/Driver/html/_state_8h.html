@@ -74,6 +74,7 @@ $(function() {
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">State.h File Reference</div></div>
 </div><!--header-->
@@ -121,10 +122,20 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="separator:a034db3cdbc477a74dd207605c6960f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a0a82d7ddb4b5181047aef0729639bb48"><td class="memItemLeft" align="right" valign="top"><a id="a0a82d7ddb4b5181047aef0729639bb48" name="a0a82d7ddb4b5181047aef0729639bb48"></a>
+constexpr float&#160;</td><td class="memItemRight" valign="bottom"><b>EncToRealSpd</b> (int EncSpeed)</td></tr>
+<tr class="separator:a0a82d7ddb4b5181047aef0729639bb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:ace81b7721cfd2a469849f25fc66c43ff"><td class="memItemLeft" align="right" valign="top"><a id="ace81b7721cfd2a469849f25fc66c43ff" name="ace81b7721cfd2a469849f25fc66c43ff"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>TimerSpeedDelay_mS</b> = 30</td></tr>
+<tr class="memdesc:ace81b7721cfd2a469849f25fc66c43ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Speed reading from encoder time period - Change only this !! <br /></td></tr>
+<tr class="separator:ace81b7721cfd2a469849f25fc66c43ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cc6036eff1c3ecb0dd8898afb14e46d"><td class="memItemLeft" align="right" valign="top"><a id="a4cc6036eff1c3ecb0dd8898afb14e46d" name="a4cc6036eff1c3ecb0dd8898afb14e46d"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>TimerSpeedDelay_uS</b> = 30000</td></tr>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>TimerSpeedDelay_uS</b> = <a class="el" href="_state_8h.html#ace81b7721cfd2a469849f25fc66c43ff">TimerSpeedDelay_mS</a> * 1000</td></tr>
 <tr class="memdesc:a4cc6036eff1c3ecb0dd8898afb14e46d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Period of reading speed (Period of TIMER_1 interrupts) <br /></td></tr>
 <tr class="separator:a4cc6036eff1c3ecb0dd8898afb14e46d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0cc817b371dc08979042179019be7da"><td class="memItemLeft" align="right" valign="top"><a id="aa0cc817b371dc08979042179019be7da" name="aa0cc817b371dc08979042179019be7da"></a>
