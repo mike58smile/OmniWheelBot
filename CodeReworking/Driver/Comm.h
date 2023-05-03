@@ -20,11 +20,27 @@
 #include <i2cdetect.h>
 
 constexpr auto BaudRate = 115200;
-#define WireRead (Wire.read() | Wire.read() << 8)
+inline int WireRead() {
+	Wire.read() | Wire.read() << 8;
+}
 
-#define WireWrite(int16){ \
-Wire.write(int16); \
-Wire.write((int16 >> 8)); \
+inline void WireWriteI(int iValue) {
+Wire.write(iValue);
+Wire.write((iValue >> 8));
+}
+
+/**
+ * \brief For float to Byte conversion
+ * \note Union stores value on the same memory place - we wrote to floatValue and read from buffer which points to same memmorhy location as float so we read float value but outside it is considered char (buffer)
+ */
+union floatToBytes {
+	char buffer[4]; //size is 4 bytes
+	float floatValue; //size is also 4 bytes
+} fToBytes;
+
+inline void WireWriteF(float fValue) {
+	fToBytes.floatValue = fValue;
+	Wire.write(fToBytes.buffer, 4);
 }
 
 /**

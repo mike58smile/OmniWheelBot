@@ -80,10 +80,12 @@
     <TargetOSAndVersion>Arduino</TargetOSAndVersion>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="Comm.cpp" />
     <ClCompile Include="Controller.ino">
       <FileType>CppCode</FileType>
       <DeploymentContent>true</DeploymentContent>
     </ClCompile>
+    <ClCompile Include="State.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\arduino folders read me.txt">
@@ -93,20 +95,22 @@
     <ProjectCapability Include="VisualMicro" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Comm.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="__vm\.Controller.vsarduino.h" />
   </ItemGroup>
   <PropertyGroup>
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino;$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\eightanaloginputs;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\7.3.0\include-fixed;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.6\libraries\Wire\src;$(ProjectDir)..\..\..\..\Arduino\libraries\i2cdetect;$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino;$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\eightanaloginputs;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\7.3.0\include-fixed;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include</IncludePath>
     <RemoteCCompileToolExe>$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\tools\\avr-gcc\\7.3.0-atmel3.6.1-arduino7\bin\avr-g++</RemoteCCompileToolExe>
     <RemoteCppCompileToolExe>$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\tools\\avr-gcc\\7.3.0-atmel3.6.1-arduino7\bin\avr-g++</RemoteCppCompileToolExe>
     <ValidateArchitecture>false</ValidateArchitecture>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino;$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\eightanaloginputs;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\7.3.0\include-fixed;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\AppData\Local\arduino15\packages\arduino\hardware\avr\1.8.6\libraries\Wire\src;$(ProjectDir)..\..\..\..\Arduino\libraries\i2cdetect;$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino;$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\eightanaloginputs;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\7.3.0\include;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\lib\gcc\avr\7.3.0\include-fixed;$(ProjectDir)..\..\..\..\..\appdata\local\arduino15\packages\arduino\tools\avr-gcc\7.3.0-atmel3.6.1-arduino7\avr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GccToolChain>$(ProjectDir)..\..\..\..\..\..\..\\Users\\xmisko06\\AppData\\Local\\arduino15\\packages\\arduino\\tools\\avr-gcc\\7.3.0-atmel3.6.1-arduino7\bin\avr-g++</GccToolChain>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
       <CLanguageStandard>gnu11</CLanguageStandard>
@@ -115,7 +119,7 @@
       <ForcedIncludeFiles>$(ProjectDir)..\..\..\..\..\..\..\program files\microsoft visual studio\2022\enterprise\common7\ide\extensions\lurodfxk.kwv\Micro Platforms\default\vm-intelli-pre.h;$(ProjectDir)..\..\..\..\..\AppData\Local\Temp\VMBuilds\Controller\nano_atmega328old\Debug\.vmintelli\8729cb6f7370bd37ec9bf642b37b2b65\vm-intelli-gcc-defines.h;$(ProjectDir)..\..\..\..\..\..\..\program files\microsoft visual studio\2022\enterprise\common7\ide\extensions\lurodfxk.kwv\Micro Platforms\default\vm-intelli-post.h;$(ProjectDir)__vm\.Controller.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <UndefineAllPreprocessorDefinitions>true</UndefineAllPreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>_VMICRO_INTELLISENSE;__AVR_atmega328p__;__AVR_ATmega328P__;__AVR_ATmega328p__;F_CPU=16000000L;ARDUINO=108019;ARDUINO_AVR_NANO;ARDUINO_ARCH_AVR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_VMICRO_INTELLISENSE;__AVR_atmega328p__;__AVR_ATmega328P__;__AVR_ATmega328p__;_VMDEBUG=1;F_CPU=16000000L;ARDUINO=108019;ARDUINO_AVR_NANO;ARDUINO_ARCH_AVR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

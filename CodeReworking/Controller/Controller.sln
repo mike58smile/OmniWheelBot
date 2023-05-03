@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Controller", "Controller.vcxproj", "{01DE04EE-5700-4975-AE67-7310379743A3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ControllerOld", "..\..\..\..\Arduino\ControllerOld\ControllerOld.vcxproj", "{B12202BB-C667-4B8D-8CEA-CB699AB2A317}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -41,6 +43,30 @@ Global
 		{01DE04EE-5700-4975-AE67-7310379743A3}.Release|x86.ActiveCfg = Release|x86
 		{01DE04EE-5700-4975-AE67-7310379743A3}.Release|x86.Build.0 = Release|x86
 		{01DE04EE-5700-4975-AE67-7310379743A3}.Release|x86.Deploy.0 = Release|x86
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|ARM.ActiveCfg = Debug|ARM
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|ARM.Build.0 = Debug|ARM
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|ARM.Deploy.0 = Debug|ARM
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|ARM64.Build.0 = Debug|ARM64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|x64.ActiveCfg = Debug|x64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|x64.Build.0 = Debug|x64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|x64.Deploy.0 = Debug|x64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|x86.ActiveCfg = Debug|x86
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|x86.Build.0 = Debug|x86
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Debug|x86.Deploy.0 = Debug|x86
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|ARM.ActiveCfg = Release|ARM
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|ARM.Build.0 = Release|ARM
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|ARM.Deploy.0 = Release|ARM
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|ARM64.ActiveCfg = Release|ARM64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|ARM64.Build.0 = Release|ARM64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|ARM64.Deploy.0 = Release|ARM64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|x64.ActiveCfg = Release|x64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|x64.Build.0 = Release|x64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|x64.Deploy.0 = Release|x64
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|x86.ActiveCfg = Release|x86
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|x86.Build.0 = Release|x86
+		{B12202BB-C667-4B8D-8CEA-CB699AB2A317}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

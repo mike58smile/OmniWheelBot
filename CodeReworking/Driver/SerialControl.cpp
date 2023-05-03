@@ -14,17 +14,14 @@ void SerialControlClass::init()
 
 }
 
-//for debug:
-//enc1={State.encSpeed[0]}, enc2={State.encSpeed[1]}, {Drive.enc1.read()} {State.actualRealSpeed[0]} {State.actualRealSpeed[1]} {State.actualSpeed[0]} {State.actualSpeed[1]} {State.requiredSpeed[0]} {State.requiredSpeed[1]} {State.CommStatePrint[static_cast<int>(State.commState)]} {static_cast<int>(State.commState)} {SerialString} {SerialInt} {EnableSerialMode}
-
 void SerialControlClass::loop()
 {
     if (Serial.available() > 0) {
         SerialString = Serial.readStringUntil('\n');
         SerialInt = SerialString.toInt();
-        if (SerialString == "com")
+        if (SerialString == "com"|| SerialString == "comm")
             EnableSerialMode = 'c';
-        else if (SerialString == "spd")
+        else if (SerialString == "spd" || SerialString == "speed")
             EnableSerialMode = 's';
         switch (EnableSerialMode) {
         case 'c':
@@ -64,7 +61,7 @@ void SerialControlClass::loop()
         default:
             break;
         }
-    }
+    } //here goes breakpoint when debugging - Actions: //enc1={State.encSpeed[0]}, enc2={State.encSpeed[1]}, {Drive.enc1.read()} {State.actualRealSpeed[0]} {State.actualRealSpeed[1]} {State.actualSpeed[0]} {State.actualSpeed[1]} {State.requiredSpeed[0]} {State.requiredSpeed[1]} {State.CommStatePrint[static_cast<int>(State.commState)]} {static_cast<int>(State.commState)} {SerialString} {SerialInt} {EnableSerialMode}
 }
 SerialControlClass SerialControl(State);
 

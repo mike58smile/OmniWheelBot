@@ -14,11 +14,10 @@
   */
 void requestEvent()
 {
-    WireWrite(State.actualSpeed[0]);
-    WireWrite(State.actualSpeed[1]);
-    char strBuffer[7];
-    Wire.write(dtostrf(State.actualRealSpeed[0], 7, 2, strBuffer)); //!odskusat ci funguje
-    Wire.write(dtostrf(State.actualRealSpeed[1], 7, 2, strBuffer));//!odskusat ci funguje  
+    WireWriteI(State.actualSpeed[0]);
+    WireWriteI(State.actualSpeed[1]);
+    WireWriteF(State.actualRealSpeed[0]);
+    WireWriteF(State.actualRealSpeed[1]);
 }
 
 /**
@@ -37,13 +36,13 @@ void receiveData(int x)
         break;
     case 2:
         //set speed
-        State.requiredSpeed[0] = WireRead;
-        State.requiredSpeed[1] = WireRead;
+        State.requiredSpeed[0] = WireRead();
+        State.requiredSpeed[1] = WireRead();
         State.commState = CommState::SpeedPWM;
         break;
     case 3:
-        State.requiredRealSpeed[0] = WireRead;
-        State.requiredRealSpeed[1] = WireRead;
+        State.requiredRealSpeed[0] = WireRead();
+        State.requiredRealSpeed[1] = WireRead();
         State.commState = CommState::SpeedReal;
     default:
         State.commState = CommState::Unknown;

@@ -157,3 +157,8 @@ Don't have specifics relative to switches .
 //enc1.write(0);
 //State.encSpeed[1] = abs(enc2.read());
 //enc2.write(0);
+
+//In Comm::RequestEvent:
+//char strBuffer[7];
+//Wire.write(dtostrf(State.actualRealSpeed[0], 7, 2, strBuffer)); //!odskusat ci funguje
+//Wire.write(dtostrf(State.actualRealSpeed[1], 7, 2, strBuffer));//!odskusat ci funguje  
