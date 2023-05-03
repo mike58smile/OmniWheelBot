@@ -18,15 +18,11 @@ void CommClass::init()
 
 void CommClass::loop()
 {
-    Wire.requestFrom(0x10, 16);
-	State.actualSpeed[0] = WireRead;
-	State.actualSpeed[1] = WireRead;
-	while (Wire.available()) {
-		char c = Wire.read();
-
-	}
-	State.actualRealSpeed[0] = WireRead;
-	State.actualRealSpeed[1] = WireRead;
+    Wire.requestFrom(State.adress[0], 16);
+	State.actualSpeed[0] = WireRead();
+	State.actualSpeed[1] = WireRead();
+	State.actualRealSpeed[0] = WireRead();
+	State.actualRealSpeed[1] = WireRead();
 }
 
 

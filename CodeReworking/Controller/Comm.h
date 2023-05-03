@@ -18,12 +18,22 @@
 #include "State.h"
 
 constexpr auto BaudRate = 115200;
-#define WireRead (Wire.read() | Wire.read() << 8)
+inline int WireRead() {
+	Wire.read() | Wire.read() << 8;
+}
+
+inline void WireWriteI(int iValue) {
+	Wire.write(iValue);
+	Wire.write((iValue >> 8));
+}
+//#define WireRead (Wire.read() | Wire.read() << 8)
 
 #define WireWrite(int16){ \
 Wire.write(int16); \
 Wire.write((int16 >> 8)); \
 }
+
+
 class CommClass
 {
  protected:
@@ -34,7 +44,7 @@ class CommClass
 	void loop();
 };
 
-extern CommClass Comm;
+extern CommClass Comm(State);
 
 #endif
 
