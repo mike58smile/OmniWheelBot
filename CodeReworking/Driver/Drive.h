@@ -38,8 +38,8 @@ class DriveClass
 	  */
 	 void read();
  public:
-	 Encoder enc1; ///< motor 1
-	 Encoder enc2; ///< motor 2
+	 Encoder enc1; ///< Encoder for motor 1
+	 Encoder enc2; ///< Encoder for motor 2
 
 
 	 /**
