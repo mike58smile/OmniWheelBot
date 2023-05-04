@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Comm.cpp
  * \brief  Comm class source file
- * \details Used for I2C communication with the Controller
+ * \details Used for I2C communication with the Controller, also setup Serial BaudRate
  * 
  * \author xmisko06
  * \date   April 2023

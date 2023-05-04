@@ -16,6 +16,7 @@
 	#include "WProgram.h"
 #endif
 #include "State.h"
+#include <Wire.h>
 
 constexpr auto BaudRate = 115200;
 inline int WireRead() {
@@ -33,7 +34,6 @@ Wire.write(int16); \
 Wire.write((int16 >> 8)); \
 }
 
-
 class CommClass
 {
  protected:
@@ -44,7 +44,7 @@ class CommClass
 	void loop();
 };
 
-extern CommClass Comm(State);
+extern CommClass Comm;
 
 #endif
 

@@ -1,21 +1,28 @@
 /*****************************************************************//**
  * \file   Comm.cpp
  * \brief  Comm class source file
- * \details 
+ * \details Used for I2C communication with the, also setup Serial BaudRate
  * 
  * \author xmisko06
  * \date   May 2023
  *********************************************************************/
 
 #include "Comm.h"
-#include <Wire.h>
 #include <i2cdetect.h>
+
+/**
+* \brief Initialize Serial and I2C communication
+* \note Use in void setup()
+*/
 void CommClass::init()
 {
 	Serial.begin(BaudRate);
 	Wire.begin();
 }
 
+/**
+ * \brief Read data from drivers and writes them to State variables
+ */
 void CommClass::loop()
 {
     Wire.requestFrom(State.adress[0], 16);
@@ -25,6 +32,5 @@ void CommClass::loop()
 	State.actualRealSpeed[1] = WireRead();
 }
 
-
-CommClass Comm;
+CommClass Comm(State);
 
