@@ -16,8 +16,13 @@
 	#include "WProgram.h"
 #endif
 
+enum class ControlState { Stop, Wait, SpeedPWM, SpeedReal, Unknown }; ///< Define CommState enum
 using Pin = const uint8_t;
-
+static inline int8_t sign(int val) {
+	if (val < 0) return -1;
+	if (val == 0) return 0;
+	return 1;
+}
  /**
   * \brief Class for variables storage (only header, without methods)
   */
@@ -26,11 +31,14 @@ class StateClass
  protected:
 
  public:
-	 int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite in Driver in range (0 - 255)
-	 float actualRealSpeed[2] = { 0,0 }; ///< Actual real speed of two motors in rad/s
+	 const char* ControlStatePrint[5] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "Unknown" }; ///< Used for printing controlState enum
+	 ControlState controlState = ControlState::Stop; ///< Define control state in which controller wants the driver to be in, only changed in Comm and SerialControl
+	 static Pin IRPin = 40; ///< Define IR signal recieving pin
+
+	 int actualSpeed[4] = { 0,0,0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite in Driver in range (0 - 255)
+	 float actualRealSpeed[4] = { 0,0,0,0 }; ///< Actual real speed of two motors in rad/s
 	 int adress[2] = { 0x10, 0x11 }; ///< Adress of drivers - 0x10 = motors 1,2 ; 0x11 = motors 3,4
 
-	 static Pin IRPin = 40; ///< Define IR signal recieving pin
 };
 
 extern StateClass State;
