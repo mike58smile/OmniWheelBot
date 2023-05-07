@@ -8,7 +8,6 @@
  *********************************************************************/
 
 #include "Comm.h"
-
  /**
   * \brief I2C send data - Wire request event
   */
@@ -29,6 +28,8 @@ void receiveData(int x)
     switch (mode) {
     case 0:
         //stop motor (and reset PID)
+        State.requiredSpeed[0] = 0;
+        State.requiredSpeed[1] = 0;
         State.commState = CommState::Stop;
         break;
     case 1:
@@ -36,13 +37,13 @@ void receiveData(int x)
         break;
     case 2:
         //set speed
-        State.requiredSpeed[0] = WireRead();
-        State.requiredSpeed[1] = WireRead();
+        State.requiredSpeed[0] = WireReadI();
+        State.requiredSpeed[1] = WireReadI();
         State.commState = CommState::SpeedPWM;
         break;
     case 3:
-        State.requiredRealSpeed[0] = WireRead();
-        State.requiredRealSpeed[1] = WireRead();
+        State.requiredRealSpeed[0] = WireReadI();
+        State.requiredRealSpeed[1] = WireReadI();
         State.commState = CommState::SpeedReal;
     default:
         State.commState = CommState::Unknown;
@@ -56,6 +57,7 @@ void CommClass::init()
     Wire.onReceive(receiveData);
     Wire.onRequest(requestEvent);
 }
+
 CommClass Comm(State);
 
     //if (mode == 0) { //funkcia ResetSetpoint v Main arduine

@@ -38,9 +38,9 @@ using Pin = const uint8_t;
  */
 class StateClass
 {
- protected:
-
  public:
+	 static const int address = 0x10; ///< Define I2C address of this Driver - !!Need to be changed for different driver!!
+
 	 const char* MainStatePrint[3] = { "Setup", "Speed", "Stop" }; ///< Used for printing mainState enum
 	 const char* CommStatePrint[5] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "Unknown" }; ///< Used for printing commState enum
 // Define pins
@@ -59,9 +59,6 @@ class StateClass
 	 static Pin Enc1_2 = 12;
 	 static Pin Enc2_1 = 3;
 	 static Pin Enc2_2 = A0;
-
-// Other definitions
-	 static const int address = 0x10;
 
 // Regulator parameters
 	 const int motor1DeadBand[2] = { 10,10 }; // [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
