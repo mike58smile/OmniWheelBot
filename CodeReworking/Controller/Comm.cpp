@@ -18,6 +18,7 @@ void CommClass::init()
 {
 	Serial.begin(BaudRate);
 	Wire.begin();
+    Serial.println("START Program " __FILE__ " from " __DATE__);
 }
 
 /**
@@ -38,7 +39,7 @@ void CommClass::loop()
     State.actualRealSpeed[3] = WireReadF();
 }
 
-void CommClass::stop()
+void CommClass::Stop()
 {
 	Wire.beginTransmission(State.adress[0]);
 	Wire.write(0);
@@ -53,7 +54,7 @@ void CommClass::stop()
 void CommClass::SetPWM(int spd1, int spd2, int spd3, int spd4)
 {
 	if (!spd1 && !spd2 && !spd3 && !spd4)
-		return stop();
+		return Stop();
 
 	Wire.beginTransmission(State.adress[0]);
 	Wire.write(2);
@@ -67,8 +68,15 @@ void CommClass::SetPWM(int spd1, int spd2, int spd3, int spd4)
 	WireWriteI(spd4);
 	Wire.endTransmission();
 	State.controlState = ControlState::SpeedPWM;
-
 }
+
+void CommClass::SetPWM(int spd)
+{
+    if (!spd) //spd == 0
+        return Stop();
+    SetPWM(spd, spd, spd, spd);
+}
+
 void CommClass::SerialDebug() {
     if (Serial.available() > 0) {
         SerialString = Serial.readStringUntil('\n');
@@ -81,8 +89,8 @@ void CommClass::SerialDebug() {
         case 'c':
             switch (SerialInt) {
             case 0:
-                //stop motor (and reset PID)
-                stop();
+                //Stop motor (and reset PID)
+                Stop();
                 break;
             case 1:
                 State.controlState = ControlState::Wait;

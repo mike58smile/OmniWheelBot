@@ -28,6 +28,14 @@ class IRClass
 	 //IRrecv Irrecv; ///< Object for recieving IR signals
 	 //decode_results results;
 
+	 uint32_t lastRecieved = 0, currentRecievedFlag = 0;
+	 bool isSameRecieved = 0;
+	 // For Long press detection
+	 unsigned long sMillisOfFirstReceive;
+	 bool sLongJustPressed; ///<
+	 bool LongPressFlag;
+	 bool detectLongPress(uint16_t aLongPressDurationMillis);
+	 bool read();
  public:
 	 /**
 	  * \brief C'tor from StateClass, also initialize Irrecv object
@@ -43,6 +51,7 @@ class IRClass
 	void init();
 
 	uint32_t test();
+	void control();
 };
 
 extern IRClass IR;

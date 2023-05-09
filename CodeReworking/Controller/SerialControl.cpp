@@ -20,6 +20,7 @@ void SerialControlClass::loop()
     if (Serial.available() > 0) {
         SerialString = Serial.readStringUntil('\n');
         SerialInt = SerialString.toInt();
+        SerialFloat = SerialString.toFloat();
         if (SerialString == "com" || SerialString == "comm")
             EnableSerialMode = 'c';
         else if (SerialString == "spd" || SerialString == "speed")
@@ -28,8 +29,8 @@ void SerialControlClass::loop()
         case 'c':
             switch (SerialInt) {
             case 0:
-                //stop motor (and reset PID)
-                Comm.stop();
+                //Stop motor (and reset PID)
+                Comm.Stop();
                 break;
             case 1:
                 State.controlState = ControlState::Wait;
@@ -38,6 +39,8 @@ void SerialControlClass::loop()
                 //set speed
                 Comm.SetPWM(50, 50, 50, 50);
                 break;
+            case 3:
+
             default:
                 break;
             }

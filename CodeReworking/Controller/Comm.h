@@ -69,8 +69,9 @@ class CommClass
 	 CommClass(StateClass& state) : State(state) {}
 	 void init();
 	 void loop();
-	 void stop();
+	 void Stop();
 	 void SetPWM(int spd1, int spd2, int spd3, int spd4);
+	 void SetPWM(int spd);
 	 void SerialDebug();
 };
 

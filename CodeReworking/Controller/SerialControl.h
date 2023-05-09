@@ -26,6 +26,7 @@ protected:
 	char EnableSerialMode = 'x';
 	String SerialString = "";
 	int SerialInt = 0;
+	float SerialFloat = 0;
 public:
 	/**
 	 * \brief C'tor from StateClass

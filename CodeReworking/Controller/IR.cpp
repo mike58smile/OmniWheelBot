@@ -8,19 +8,103 @@
  *********************************************************************/
 
 #include "IR.h"
+//#define DECODE_DENON
 #include <IRremote.hpp>
-
+#include "Comm.h"
 void IRClass::init()
 {
     IrReceiver.begin(State.IRPin, ENABLE_LED_FEEDBACK); // Start the receiver
 }
 uint32_t IRClass::test() {
     if (IrReceiver.decode()) {
-        Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX); // Print "old" raw data
-        /* USE NEW 3.x FUNCTIONS */
-        IrReceiver.printIRResultShort(&Serial); // Print complete received data in one line
-        IrReceiver.printIRSendUsage(&Serial);   // Print the statement required to send this data
         IrReceiver.resume(); // Enable receiving of the next value
+        currentRecievedFlag = IrReceiver.decodedIRData.decodedRawData;
+        if (lastRecieved != currentRecievedFlag) {
+            lastRecieved = currentRecievedFlag;
+            Serial.println(currentRecievedFlag, HEX); // Print "old" raw data
+            /* USE NEW 3.x FUNCTIONS */
+            IrReceiver.printIRResultShort(&Serial); // Print complete received data in one line
+            Serial.println(IrReceiver.decodedIRData.extra);
+            //IrReceiver.printIRSendUsage(&Serial);   // Print the statement required to send this data
+        }
+        if (detectLongPress(1000)) {
+            Serial.print(F("Command 0x"));
+            Serial.print(IrReceiver.decodedIRData.command, HEX);
+            Serial.println(F(" was repeated for more than 2 seconds"));
+        }
     }
 }
+
+bool IRClass::detectLongPress(uint16_t aLongPressDurationMillis)
+{
+    if (!sLongJustPressed && (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT)) {
+        /*
+            * Here the repeat flag is set (which implies, that command is the same as the previous one)
+            */
+        if (millis() - aLongPressDurationMillis > sMillisOfFirstReceive) {
+            sLongJustPressed = true; // Long press here
+        }
+    }
+    else {
+        // No repeat here
+        sMillisOfFirstReceive = millis();
+        sLongJustPressed = false;
+    }
+    return sLongJustPressed; // No long press here
+}
+
+void IRClass::control()
+{
+    bool readIR = read();
+    if (readIR) {
+        switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
+        case 0xF001B140: //UP
+            Serial.println("UP");
+            Comm.SetPWM(20);
+            break;
+        case 0xB001F140: //ENTER
+            Serial.println("ENTER");
+            Comm.Stop();
+            break;
+        case 0x8001C140: //DOWN
+            Serial.println("DOWN");
+            Comm.SetPWM(40);
+            break;
+        }
+    }
+    if (LongPressFlag) {
+        Serial.print("LONG PRESSED: ");
+        Serial.println(currentRecievedFlag, HEX);
+        if(currentRecievedFlag == 0xF001B140)
+            Comm.SetPWM(30);
+    }
+}
+
+bool IRClass::read()
+{
+    LongPressFlag = 0;
+    if (IrReceiver.decode()) {
+        IrReceiver.resume(); // Enable receiving of the next value
+        currentRecievedFlag = IrReceiver.decodedIRData.decodedRawData;
+        if (lastRecieved != currentRecievedFlag) {
+            lastRecieved = currentRecievedFlag;
+            isSameRecieved = 0;
+        }
+        else {
+            isSameRecieved = 1;
+        }
+        if (detectLongPress(1000)) {
+            //Serial.print(F("Command 0x"));
+            //Serial.print(IrReceiver.decodedIRData.decodedRawData, HEX);
+            //Serial.println(F(" was repeated for more than 2 seconds"));
+            LongPressFlag = 1;
+        }
+        return !isSameRecieved;
+    }
+    else {
+        LongPressFlag = 0;
+        return 0;
+    }
+}
+
 IRClass IR(State);
