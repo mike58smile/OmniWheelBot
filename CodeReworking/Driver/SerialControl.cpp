@@ -19,10 +19,13 @@ void SerialControlClass::loop()
     if (Serial.available() > 0) {
         SerialString = Serial.readStringUntil('\n');
         SerialInt = SerialString.toInt();
+        SerialFloat = SerialString.toFloat();
         if (SerialString == "com"|| SerialString == "comm")
             EnableSerialMode = 'c';
         else if (SerialString == "spd" || SerialString == "speed")
             EnableSerialMode = 's';
+        else if (SerialString == "kp1")
+            EnableSerialMode = 'kp1';
         switch (EnableSerialMode) {
         case 'c':
             switch (SerialInt) {
@@ -45,6 +48,10 @@ void SerialControlClass::loop()
                 State.commState = CommState::SpeedReal;
                 break;
             case 4:
+                State.Kp_1 = 5;
+                State.commState = CommState::ChangeConstPID;
+                break;
+            case 5:
                 State.commState = CommState::Unknown;
                 break;
             default:
@@ -57,6 +64,10 @@ void SerialControlClass::loop()
             State.requiredSpeed[0] = speed;
             State.requiredSpeed[1] = speed;
             State.commState = CommState::SpeedPWM; // need to asign commState for drive to catch the request for changing speed to required
+            break;
+        case 'kp1':
+            State.Kp_1 = SerialFloat;
+            State.commState = CommState::ChangeConstPID;
             break;
         default:
             break;

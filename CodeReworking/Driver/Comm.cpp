@@ -42,9 +42,14 @@ void receiveData(int x)
         State.commState = CommState::SpeedPWM;
         break;
     case 3:
-        State.requiredRealSpeed[0] = WireReadI();
-        State.requiredRealSpeed[1] = WireReadI();
+        State.requiredRealSpeed[0] = WireReadF();
+        State.requiredRealSpeed[1] = WireReadF();
         State.commState = CommState::SpeedReal;
+        break;
+    case 4:
+        State.Kp_1 = WireReadF();
+        State.commState = CommState::ChangeConstPID;
+        break;
     default:
         State.commState = CommState::Unknown;
         break;

@@ -37,6 +37,12 @@ inline union BytesFloatConv {
 	float floatValue; //size is also 4 bytes
 } bytesFloatConv;
 
+inline float WireReadF() {
+	for (int i = 0; i < 4; ++i)
+		bytesFloatConv.buffer[i] = Wire.read();
+	return bytesFloatConv.floatValue;
+}
+
 inline void WireWriteF(float fValue) {
 	bytesFloatConv.floatValue = fValue;
 	Wire.write(bytesFloatConv.buffer, 4);

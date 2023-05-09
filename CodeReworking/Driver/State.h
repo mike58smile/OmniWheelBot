@@ -29,8 +29,8 @@ static inline int8_t sign(int val) {
 }
 // User defined data types:
 //enum class is better cause the name of the enum elements can be used outside the enum as variables
-enum class MainState { Setup, Speed, Stop }; ///< Define MainState enum
-enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, Unknown }; ///< Define CommState enum
+enum class MainState { Setup, Speed, Stop,   Size }; ///< Define MainState enum, Size is a little trick - contains number of elements in this enum
+enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, Unknown,   Size }; ///< Define CommState enum, Size is a little trick - contains number of elements in this enum
 using Pin = const uint8_t;
 
 /**
@@ -41,8 +41,8 @@ class StateClass
  public:
 	 static const int address = 0x10; ///< Define I2C address of this Driver - !!Need to be changed for different driver!!
 
-	 const char* MainStatePrint[3] = { "Setup", "Speed", "Stop" }; ///< Used for printing mainState enum
-	 const char* CommStatePrint[5] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "Unknown" }; ///< Used for printing commState enum
+	 const char* MainStatePrint[static_cast<int>(MainState::Size)] = { "Setup", "Speed", "Stop" }; ///< Used for printing mainState enum
+	 const char* CommStatePrint[static_cast<int>(CommState::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "ChangeConstPID", "Unknown" }; ///< Used for printing commState enum
 // Define pins
 	 //Motor1
 	 static Pin M1_LPWM = 5;
@@ -61,8 +61,13 @@ class StateClass
 	 static Pin Enc2_2 = A0;
 
 // Regulator parameters
+	 double Kp_1 = 0, Ki_1 = 0, Kd_1 = 0;
+	 double Kp_2 = 0, Ki_2 = 0, Kd_2 = 0;
+
 	 const int motor1DeadBand[2] = { 10,10 }; // [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
 	 const int motor2DeadBand[2] = { 10,10 }; // [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
+
+
 // Non const variables - will be changed during program
 	 
 	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
@@ -78,6 +83,17 @@ class StateClass
 extern StateClass State;
 
 #endif
+
+/** Konzultacia
+ * Drive - explicit konstruktor
+ * Pin - aky DT?
+ * constexpr, define, static inline - pri Comm
+ * State ako extern ale zaroven vstupuje do konstruktorov s rovnakym nazvom
+ * Je casovo narocne pristupovat do State? Konstanty regulatora maju byt v State alebo ako prvky danej triedy? (verejne)
+ * 
+ * 
+ */
+
 
 /* Garbage:
 Initialization of static const array in .h file

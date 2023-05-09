@@ -17,6 +17,13 @@ unsigned long DriveClass::previousTime = 0;
 void DriveClass::init()
 {
     Motors.init();
+    
+    //Init PID on both motors
+    pid1.SetMode(AUTOMATIC);
+    pid1.SetOutputLimits(-150, 150); //Set max output of PID action
+
+    pid2.SetMode(AUTOMATIC);
+    pid2.SetOutputLimits(-150, 150); //Set max output of PID action
 }
 void DriveClass::read()
 {
@@ -46,7 +53,14 @@ void DriveClass::loop()
         Motors.Speed(State.requiredSpeed[0], State.requiredSpeed[1]);
         break;
     case CommState::SpeedReal:
+        pid_In1 = State.actualRealSpeed[0];
+        pid_Set1 = State.requiredRealSpeed[0];
+        pid1.Compute();
+        Motors.Speed(roundf(pid_Out1), 0);
         //use pid to set real speed
+        break;
+    case CommState::ChangeConstPID:
+        pid1.SetTunings(State.Kp_1, State.Ki_1, State.Kd_1);
         break;
     default:
         break;
