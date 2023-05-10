@@ -21,6 +21,7 @@
 #include "State.h"
 #include "Motors.h"
 
+constexpr auto SpeedRampDelayCalib = 80000; ///< Need to change
  /**
  * \brief Class implementing all movements, reading from Encoders
  */
@@ -40,6 +41,9 @@ class DriveClass
 
 	 double pid_Set1 = 0, pid_In1 = 0, pid_Out1 = 0;
 	 double pid_Set2 = 0, pid_In2 = 0, pid_Out2 = 0;
+
+	 //DeadbandCalib
+	 unsigned long currentTime_C = 0, previousTime_C = 0;
  public:
 
 	 PID pid1; ///< PID object for motor 1

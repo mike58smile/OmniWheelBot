@@ -18,15 +18,20 @@
 
 #include "State.h"
 
+enum class SerialMode { Idle, Comm, Speed, RealSpeed, Kp1, CalibDeadBand,   Size };
+
 class SerialControlClass
 {
  protected:
 	 StateClass& State;
-	 char EnableSerialMode = 'x';
+	 SerialMode serialMode = SerialMode::Idle;
 	 String SerialString = "";
 	 int SerialInt = 0;
 	 float SerialFloat = 0;
+
  public:
+	 const char* SerialModePrint[static_cast<int>(SerialMode::Size)] = { "Idle", "Comm", "Speed", "RealSpeed", "Kp1", "CalibDeadBand"}; ///< Used for printing mainState enum
+	 
 	 /**
 	  * \brief C'tor from StateClass
 	  * \param state Reference to storage for all shared variables

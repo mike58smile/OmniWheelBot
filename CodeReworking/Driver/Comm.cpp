@@ -50,6 +50,8 @@ void receiveData(int x)
         State.Kp_1 = WireReadF();
         State.commState = CommState::ChangeConstPID;
         break;
+    case 5:
+        State.commState = CommState::CalibDeadBand;
     default:
         State.commState = CommState::Unknown;
         break;

@@ -20,14 +20,18 @@ void SerialControlClass::loop()
         SerialString = Serial.readStringUntil('\n');
         SerialInt = SerialString.toInt();
         SerialFloat = SerialString.toFloat();
-        if (SerialString == "com"|| SerialString == "comm")
-            EnableSerialMode = 'c';
+        if (SerialString == "com" || SerialString == "comm")
+            serialMode = SerialMode::Comm;
         else if (SerialString == "spd" || SerialString == "speed")
-            EnableSerialMode = 's';
+            serialMode = SerialMode::Speed;
         else if (SerialString == "kp1")
-            EnableSerialMode = 'kp1';
-        switch (EnableSerialMode) {
-        case 'c':
+            serialMode = SerialMode::Kp1;
+        else if (SerialString == "real")
+            serialMode = SerialMode::RealSpeed;
+        else if (SerialString == "calib")
+            serialMode = SerialMode::CalibDeadBand;
+        switch (serialMode) {
+        case SerialMode::Comm:
             switch (SerialInt) {
             case 0:
                 //stop motor (and reset PID)
@@ -58,16 +62,26 @@ void SerialControlClass::loop()
                 break;
             }
             break;
-        case 's':
+        case SerialMode::CalibDeadBand:
+            State.actualRealSpeed[0] = 0;
+            State.commState = CommState::CalibDeadBand;
+            break;
+        case SerialMode::Kp1: //!funguje iba pred Speed
+            State.Kp_1 = SerialFloat;
+            State.commState = CommState::ChangeConstPID;
+            break;
+        case SerialMode::RealSpeed: //!funguje iba pred Speed
+            State.requiredRealSpeed[0] = SerialFloat;
+            State.requiredRealSpeed[1] = SerialFloat;
+            State.commState = CommState::SpeedReal;
+            break;
+
+        case SerialMode::Speed:
             int speed = SerialInt;
             if (abs(speed) > 200) speed = sign(speed) * 200;
             State.requiredSpeed[0] = speed;
             State.requiredSpeed[1] = speed;
             State.commState = CommState::SpeedPWM; // need to asign commState for drive to catch the request for changing speed to required
-            break;
-        case 'kp1':
-            State.Kp_1 = SerialFloat;
-            State.commState = CommState::ChangeConstPID;
             break;
         default:
             break;

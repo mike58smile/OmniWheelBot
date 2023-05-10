@@ -20,10 +20,10 @@ void DriveClass::init()
     
     //Init PID on both motors
     pid1.SetMode(AUTOMATIC);
-    pid1.SetOutputLimits(-150, 150); //Set max output of PID action
+    pid1.SetOutputLimits(-80, 80); //Set max output of PID action
 
     pid2.SetMode(AUTOMATIC);
-    pid2.SetOutputLimits(-150, 150); //Set max output of PID action
+    pid2.SetOutputLimits(-80, 80); //Set max output of PID action
 }
 void DriveClass::read()
 {
@@ -58,6 +58,24 @@ void DriveClass::loop()
         pid1.Compute();
         Motors.Speed(roundf(pid_Out1), 0);
         //use pid to set real speed
+        break;
+    case CommState::CalibDeadBand:
+        //predTym musia motory stat
+        if (State.CalibEnd) break;
+        if (State.actualRealSpeed[0] < 1) {
+            State.CalibEnd = 0;
+            currentTime_C = micros();
+            if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
+                previousTime_C = currentTime_C;
+                ++State.requiredSpeed[0];
+            }
+            Motors.Speed(State.requiredSpeed[0], 0);
+        }
+        else {
+            State.motor1DeadBand[0] = State.actualSpeed[0];
+            Motors.Stop();
+            State.CalibEnd = 1;
+        }
         break;
     case CommState::ChangeConstPID:
         pid1.SetTunings(State.Kp_1, State.Ki_1, State.Kd_1);
