@@ -39,7 +39,7 @@ using Pin = const uint8_t;
 class StateClass
 {
  public:
-	 static const int address = 0x10; ///< Define I2C address of this Driver - !!Need to be changed for different driver!!
+	 static const int address = 0x11; ///< Define I2C address of this Driver - !!Need to be changed for different driver!!
 
 	 const char* MainStatePrint[static_cast<int>(MainState::Size)] = { "Setup", "Speed", "Stop" }; ///< Used for printing mainState enum
 	 const char* CommStatePrint[static_cast<int>(CommState::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "ChangeConstPID", "CalibDeadBand", "Unknown" }; ///< Used for printing commState enum

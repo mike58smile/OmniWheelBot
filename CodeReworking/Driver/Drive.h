@@ -22,12 +22,15 @@
 #include "Motors.h"
 
 constexpr auto SpeedRampDelayCalib = 80000; ///< Need to change
+enum class CalibState { Init, Motor1, Motor2, End,   Size }; ///< Define MainState enum, Size is a little trick - contains number of elements in this enum
+#define calibStatePrint State.CalibStatePrint[static_cast<int>(State.calibState)]
  /**
  * \brief Class implementing all movements, reading from Encoders
  */
 class DriveClass
 {
  private:
+	 CalibState calibState = CalibState::Init;
 	 StateClass& State; ///< Storage for all shared variables 
 	 MotorsClass Motors; ///< motory
 	 static unsigned long currentTime; ///< Current time updated with micros() in void read()
@@ -45,7 +48,7 @@ class DriveClass
 	 //DeadbandCalib
 	 unsigned long currentTime_C = 0, previousTime_C = 0;
  public:
-
+	 const char* CalibStatePrint[static_cast<int>(CalibState::Size)] = { "Init", "Motor1", "Motor2", "End" }; ///< Used for printing mainState enum
 	 PID pid1; ///< PID object for motor 1
 	 PID pid2; ///< PID object for motor 2
 	 Encoder enc1; ///< Encoder for motor 1

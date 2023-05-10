@@ -56,33 +56,77 @@ void DriveClass::loop()
         pid_In1 = State.actualRealSpeed[0];
         pid_Set1 = State.requiredRealSpeed[0];
         pid1.Compute();
+        if (abs(roundf(pid_Out1)) < (State.motor1DeadBand[0] - 10))
+            pid_Out1 = sign(pid_Out1) * (State.motor1DeadBand[0] - 10);
         Motors.Speed(roundf(pid_Out1), 0);
         //use pid to set real speed
         break;
     case CommState::CalibDeadBand:
-        //predTym musia motory stat
-        if (State.CalibEnd) break;
-        if (State.actualRealSpeed[0] < 1) {
-            State.CalibEnd = 0;
-            currentTime_C = micros();
-            if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
-                previousTime_C = currentTime_C;
-                ++State.requiredSpeed[0];
-            }
-            Motors.Speed(State.requiredSpeed[0], 0);
-        }
-        else {
-            State.motor1DeadBand[0] = State.actualSpeed[0];
+        switch (calibState) {
+        case CalibState::Init:
             Motors.Stop();
+            State.requiredSpeed[0] = 0;
+            State.requiredSpeed[1] = 0;
+            State.CalibEnd = 0;
+            calibState = CalibState::Motor1;
+            break;
+        case CalibState::Motor1:
+            if (State.actualRealSpeed[0] < 1) {
+                currentTime_C = micros();
+                if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
+                    previousTime_C = currentTime_C;
+                    ++State.requiredSpeed[0];
+                }
+                Motors.Speed(State.requiredSpeed[0], 0);
+            }
+            else {
+                State.motor1DeadBand[0] = State.actualSpeed[0];
+                Motors.Stop();
+                calibState = CalibState::Motor2;
+            }
+            break;
+        case CalibState::Motor2:
+            if (State.actualRealSpeed[1] < 1) {
+                currentTime_C = micros();
+                if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
+                    previousTime_C = currentTime_C;
+                    ++State.requiredSpeed[1];
+                }
+                Motors.Speed(0, State.requiredSpeed[1]);
+            }
+            else {
+                State.motor1DeadBand[1] = State.actualSpeed[1];
+                Motors.Stop();
+                calibState = CalibState::End;
+            }
+            break;
+        case CalibState::End:
             State.CalibEnd = 1;
+            break;
         }
+        ////predTym musia motory stat
+        //if (State.CalibEnd) break;
+        //if (State.actualRealSpeed[0] < 1) {
+        //    State.CalibEnd = 0;
+        //    currentTime_C = micros();
+        //    if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
+        //        previousTime_C = currentTime_C;
+        //        ++State.requiredSpeed[0];
+        //    }
+        //    Motors.Speed(State.requiredSpeed[0], 0);
+        //}
+        //else {
+        //    State.motor1DeadBand[0] = State.actualSpeed[0];
+        //    Motors.Stop();
+        //    State.CalibEnd = 1;
+        //}
         break;
     case CommState::ChangeConstPID:
         pid1.SetTunings(State.Kp_1, State.Ki_1, State.Kd_1);
         break;
     default:
         break;
-    }
+    }//{roundf(pid_Out1)} {commStatePrint}
 }
 
 DriveClass Drive(State);

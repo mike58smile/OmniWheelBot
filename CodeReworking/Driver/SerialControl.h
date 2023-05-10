@@ -18,7 +18,7 @@
 
 #include "State.h"
 
-enum class SerialMode { Idle, Comm, Speed, RealSpeed, Kp1, CalibDeadBand,   Size };
+enum class SerialMode { Idle, Comm, Speed, RealSpeed, Kp1, CalibDeadBand, EnableSerialGet,   Size };
 
 class SerialControlClass
 {
@@ -28,9 +28,10 @@ class SerialControlClass
 	 String SerialString = "";
 	 int SerialInt = 0;
 	 float SerialFloat = 0;
+	 bool SerialGetEN = 0;
 
  public:
-	 const char* SerialModePrint[static_cast<int>(SerialMode::Size)] = { "Idle", "Comm", "Speed", "RealSpeed", "Kp1", "CalibDeadBand"}; ///< Used for printing mainState enum
+	 const char* SerialModePrint[static_cast<int>(SerialMode::Size)] = { "Idle", "Comm", "Speed", "RealSpeed", "Kp1", "CalibDeadBand", "EnableSerialGet"}; ///< Used for printing mainState enum
 	 
 	 /**
 	  * \brief C'tor from StateClass

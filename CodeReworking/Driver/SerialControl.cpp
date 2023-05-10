@@ -20,6 +20,7 @@ void SerialControlClass::loop()
         SerialString = Serial.readStringUntil('\n');
         SerialInt = SerialString.toInt();
         SerialFloat = SerialString.toFloat();
+        //Need if statements because in switch, u can't compare strings ..sad
         if (SerialString == "com" || SerialString == "comm")
             serialMode = SerialMode::Comm;
         else if (SerialString == "spd" || SerialString == "speed")
@@ -30,6 +31,9 @@ void SerialControlClass::loop()
             serialMode = SerialMode::RealSpeed;
         else if (SerialString == "calib")
             serialMode = SerialMode::CalibDeadBand;
+        else if (SerialString == "get")
+            serialMode = SerialMode::EnableSerialGet;
+
         switch (serialMode) {
         case SerialMode::Comm:
             switch (SerialInt) {
@@ -63,7 +67,8 @@ void SerialControlClass::loop()
             }
             break;
         case SerialMode::CalibDeadBand:
-            State.actualRealSpeed[0] = 0;
+            State.requiredSpeed[0] = 0;
+            State.CalibEnd = 0;
             State.commState = CommState::CalibDeadBand;
             break;
         case SerialMode::Kp1: //!funguje iba pred Speed
@@ -75,7 +80,9 @@ void SerialControlClass::loop()
             State.requiredRealSpeed[1] = SerialFloat;
             State.commState = CommState::SpeedReal;
             break;
-
+        case SerialMode::EnableSerialGet: //Now doing nothing - big delay when added condition to breakpoint - UNUSABLE
+            SerialGetEN = !SerialGetEN;
+            break;
         case SerialMode::Speed:
             int speed = SerialInt;
             if (abs(speed) > 200) speed = sign(speed) * 200;
@@ -87,6 +94,7 @@ void SerialControlClass::loop()
             break;
         }
     } //here goes breakpoint when debugging - Actions: //enc1={State.encSpeed[0]}, enc2={State.encSpeed[1]}, {Drive.enc1.read()} {State.actualRealSpeed[0]} {State.actualRealSpeed[1]} {State.actualSpeed[0]} {State.actualSpeed[1]} {State.requiredSpeed[0]} {State.requiredSpeed[1]} {State.CommStatePrint[static_cast<int>(State.commState)]} {static_cast<int>(State.commState)} {SerialString} {SerialInt} {EnableSerialMode}
+    //enc1={State.encSpeed[0]}, enc2={State.encSpeed[1]}, {State.actualRealSpeed[0]} {State.actualRealSpeed[1]} {State.actualSpeed[0]} {State.actualSpeed[1]} {State.requiredSpeed[0]} {State.requiredSpeed[1]} {State.requiredRealSpeed[0]} {State.requiredRealSpeed[1]} {State.CommStatePrint[static_cast<int>(State.commState)]} {static_cast<int>(State.commState)} {SerialString} {SerialInt} {State.Kp_1} {SerialFloat} {SerialModePrint[static_cast<int>(serialMode)]} {State.motor1DeadBand[0]}
 }
 SerialControlClass SerialControl(State);
 
