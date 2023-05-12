@@ -23,7 +23,7 @@
 
 constexpr auto SpeedRampDelayCalib = 80000; ///< 1/Slope of speed accelerating ramp during calibration - i.e. equals to 1/acceleration (when smaller - it accelerates more quickly)
 
-enum class CalibState { Init, Motor1, Motor2, End,   Size }; ///< Define MainState enum, Size is a little trick - contains number of elements in this enum
+enum class CalibState { Init, Motor1, Motor2, End,   Size }; ///< CalibState enum, "Size" is a little trick - contains number of elements in this enum
 #define calibStatePrint State.CalibStatePrint[static_cast<int>(State.calibState)] ///< Use for printing calibState enum
  /**
  * \brief Class implementing all movements, reading from Encoders

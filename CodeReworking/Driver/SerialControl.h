@@ -18,14 +18,18 @@
 
 #include "State.h"
 
-enum class SerialMode { Idle, Comm, Speed, RealSpeed, Kp1, CalibDeadBand, EnableSerialGet,   Size };
+enum class SerialMode { Idle, Comm, Speed, RealSpeed, Kp1, CalibDeadBand, EnableSerialGet,   Size }; ///< Enum for selected serial mode state machine, "Size" is a little trick - contains number of elements in this enum
 
+/**
+ * \brief Class implementing driver control through UART (Serial connection)
+ */
 class SerialControlClass
 {
  protected:
-	 StateClass& State;
-	 SerialMode serialMode = SerialMode::Idle;
-	 String SerialString = "";
+	 StateClass& State; ///< Storage for all shared variables 
+	 SerialMode serialMode = SerialMode::Idle; ///< Enum for Deadband calibration state machine 
+	 //Variables used internally but needed to be zero at the beginnning
+	 String SerialString = ""; 
 	 int SerialInt = 0;
 	 float SerialFloat = 0;
 	 bool SerialGetEN = 0;
