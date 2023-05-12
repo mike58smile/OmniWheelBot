@@ -30,7 +30,7 @@ static inline int8_t sign(int val) {
 // User defined data types:
 //enum class is better cause the name of the enum elements can be used outside the enum as variables
 enum class MainState { Setup, Speed, Stop,   Size }; ///< Define MainState enum, Size is a little trick - contains number of elements in this enum
-enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Unknown,   Size }; ///< Define CommState enum, Size is a little trick - contains number of elements in this enum
+enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Unknown,    Size }; ///< Define CommState enum, Size is a little trick - contains number of elements in this enum
 using Pin = const uint8_t;
 
 /**
@@ -62,12 +62,12 @@ class StateClass
 	 static Pin Enc2_2 = A0;
 
 // Regulator parameters
-	 double Kp_1 = 0, Ki_1 = 0, Kd_1 = 0;
-	 double Kp_2 = 0, Ki_2 = 0, Kd_2 = 0;
+	 double Kp_1 = 0, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1
+	 double Kp_2 = 0, Ki_2 = 0, Kd_2 = 0; ///< Speed PID constants for motor 2
 
-	 int motor1DeadBand[2] = { 10,10 }; // [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
-	 int motor2DeadBand[2] = { 10,10 }; // [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
-	 bool CalibEnd = 0;
+	 int motor1DeadBand[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
+	 int motor2DeadBand[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
+	 bool CalibEnd = 0;  ///< Bool signaling End of calibration
 
 // Non const variables - will be changed during program
 	 

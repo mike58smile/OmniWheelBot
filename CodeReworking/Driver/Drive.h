@@ -21,18 +21,19 @@
 #include "State.h"
 #include "Motors.h"
 
-constexpr auto SpeedRampDelayCalib = 80000; ///< Need to change
+constexpr auto SpeedRampDelayCalib = 80000; ///< 1/Slope of speed accelerating ramp during calibration - i.e. equals to 1/acceleration (when smaller - it accelerates more quickly)
+
 enum class CalibState { Init, Motor1, Motor2, End,   Size }; ///< Define MainState enum, Size is a little trick - contains number of elements in this enum
-#define calibStatePrint State.CalibStatePrint[static_cast<int>(State.calibState)]
+#define calibStatePrint State.CalibStatePrint[static_cast<int>(State.calibState)] ///< Use for printing calibState enum
  /**
  * \brief Class implementing all movements, reading from Encoders
  */
 class DriveClass
 {
  private:
-	 CalibState calibState = CalibState::Init;
+	 CalibState calibState = CalibState::Init; ///< Enum for Deadband calibration state machine 
 	 StateClass& State; ///< Storage for all shared variables 
-	 MotorsClass Motors; ///< motory
+	 MotorsClass Motors; ///< Motors object of MotorsClass class implementing speed control of 2 motors
 	 static unsigned long currentTime; ///< Current time updated with micros() in void read()
 	 static unsigned long previousTime; ///< Previous time updated with currentTime when currentTime >= TimerSpeedDelay_uS
 
@@ -42,20 +43,20 @@ class DriveClass
 	  */
 	 void read();
 
-	 double pid_Set1 = 0, pid_In1 = 0, pid_Out1 = 0;
-	 double pid_Set2 = 0, pid_In2 = 0, pid_Out2 = 0;
+	 double pid_Set1 = 0, pid_In1 = 0, pid_Out1 = 0; ///< Define signals for speed PID reg on motor 1
+	 double pid_Set2 = 0, pid_In2 = 0, pid_Out2 = 0; ///< Define signals for speed PID reg on motor 2
 
 	 //DeadbandCalib
-	 unsigned long currentTime_C = 0, previousTime_C = 0;
+	 unsigned long currentTime_C = 0, previousTime_C = 0; ///< Variables used for time reading in Deadband calibration
  public:
-	 const char* CalibStatePrint[static_cast<int>(CalibState::Size)] = { "Init", "Motor1", "Motor2", "End" }; ///< Used for printing mainState enum
+	 const char* CalibStatePrint[static_cast<int>(CalibState::Size)] = { "Init", "Motor1", "Motor2", "End" }; ///< Used for printing calibState enum
 	 PID pid1; ///< PID object for motor 1
 	 PID pid2; ///< PID object for motor 2
 	 Encoder enc1; ///< Encoder for motor 1
 	 Encoder enc2; ///< Encoder for motor 2
 
 	 /**
-	  * \brief C'tor from StateClass, also initialize Encoder objects
+	  * \brief C'tor from StateClass, also initialize Encoder and PID objects
 	  * \note This is the only constructor
 	  * \param state Reference to storage for all shared variables 
 	  */
@@ -63,14 +64,14 @@ class DriveClass
 	 pid1(&pid_In1, &pid_Out1, &pid_Set1, State.Kp_1, State.Ki_1, State.Kd_1, DIRECT), pid2(&pid_In2, &pid_Out2, &pid_Set2, State.Kp_2, State.Ki_2, State.Kd_2, DIRECT){}
 	 
 	 /**
-	  * \brief Initialize motors
+	  * \brief Initialize motors and sets operating mode and output limits of speed PID regulators
 	  * \note Use in void setup()
 	  */
 	 void init();
 
 	 /**
 	  * \brief Drive loop
-	  * \note Use in void loop()
+	  * \note Use in void loop() after Comm.loop()!
 	  */
 	 void loop();
 

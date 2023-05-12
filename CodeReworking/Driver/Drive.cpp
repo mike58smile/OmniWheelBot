@@ -9,7 +9,6 @@
 
 #include "Drive.h"
 
-
 //Initialize static class members
 unsigned long DriveClass::currentTime = 0;
 unsigned long DriveClass::previousTime = 0;
@@ -40,7 +39,8 @@ void DriveClass::read()
 }
 void DriveClass::loop()
 {
-    read();
+    read(); //Update speed of motors - reads encoders and writes speed of motors to State variables
+    //Read from commState and determine in which state controller wants driver to be in
     switch(State.commState){
     case CommState::Stop:
         Motors.Stop();
@@ -63,14 +63,14 @@ void DriveClass::loop()
         break;
     case CommState::CalibDeadBand:
         switch (calibState) {
-        case CalibState::Init:
+        case CalibState::Init: //Stop motors and reset some variables to zero
             Motors.Stop();
             State.requiredSpeed[0] = 0;
             State.requiredSpeed[1] = 0;
             State.CalibEnd = 0;
             calibState = CalibState::Motor1;
             break;
-        case CalibState::Motor1:
+        case CalibState::Motor1: //Calibrate first motor - Increment PWM on motor until it starts rotating (the real speed from encoders is bigger than 1 rad/s)
             if (State.actualRealSpeed[0] < 1) {
                 currentTime_C = micros();
                 if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
@@ -85,7 +85,7 @@ void DriveClass::loop()
                 calibState = CalibState::Motor2;
             }
             break;
-        case CalibState::Motor2:
+        case CalibState::Motor2: //Calibrate second motor - Increment PWM on motor until it starts rotating (the real speed from encoders is bigger than 1 rad/s)
             if (State.actualRealSpeed[1] < 1) {
                 currentTime_C = micros();
                 if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
@@ -100,7 +100,7 @@ void DriveClass::loop()
                 calibState = CalibState::End;
             }
             break;
-        case CalibState::End:
+        case CalibState::End: //End of calibration of both motors - indicated by State.CalibEnd making true - After first calibration it stays in this state forever
             State.CalibEnd = 1;
             break;
         }
@@ -121,7 +121,7 @@ void DriveClass::loop()
         //    State.CalibEnd = 1;
         //}
         break;
-    case CommState::ChangeConstPID:
+    case CommState::ChangeConstPID: //Change PID constants
         pid1.SetTunings(State.Kp_1, State.Ki_1, State.Kd_1);
         break;
     default:
