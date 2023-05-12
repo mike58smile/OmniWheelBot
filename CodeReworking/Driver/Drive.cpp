@@ -40,6 +40,7 @@ void DriveClass::read()
 void DriveClass::loop()
 {
     read(); //Update speed of motors - reads encoders and writes speed of motors to State variables
+    
     //Read from commState and determine in which state controller wants driver to be in
     switch(State.commState){
     case CommState::Stop:
@@ -104,22 +105,6 @@ void DriveClass::loop()
             State.CalibEnd = 1;
             break;
         }
-        ////predTym musia motory stat
-        //if (State.CalibEnd) break;
-        //if (State.actualRealSpeed[0] < 1) {
-        //    State.CalibEnd = 0;
-        //    currentTime_C = micros();
-        //    if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
-        //        previousTime_C = currentTime_C;
-        //        ++State.requiredSpeed[0];
-        //    }
-        //    Motors.Speed(State.requiredSpeed[0], 0);
-        //}
-        //else {
-        //    State.motor1DeadBand[0] = State.actualSpeed[0];
-        //    Motors.Stop();
-        //    State.CalibEnd = 1;
-        //}
         break;
     case CommState::ChangeConstPID: //Change PID constants
         pid1.SetTunings(State.Kp_1, State.Ki_1, State.Kd_1);
