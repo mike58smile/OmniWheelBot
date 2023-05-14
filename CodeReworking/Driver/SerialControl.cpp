@@ -16,6 +16,8 @@ void SerialControlClass::init()
 
 void SerialControlClass::loop()
 {
+   //Serial.print(String(State.actualRealSpeed[0]) + " " + String(State.actualRealSpeed[1]) + " " + String(State.motor1DeadBandReal[0]) + " " + String(State.motor2DeadBandReal[0]));
+   //Serial.println();
     if (Serial.available() > 0) {
         SerialString = Serial.readStringUntil('\n');
         SerialInt = SerialString.toInt();

@@ -30,6 +30,5 @@ void loop() {
 #ifdef SerialCtrl
 	SerialControl.loop(); //always before Drive.loop
 #endif // SerialCtrl
-
 	Drive.loop();
 }

@@ -44,6 +44,12 @@ class DriveClass
 	 Timer Timer_ramp2; ///< Not used - just for array of timers
 	 Timer* Timer_ramp[2] = { &Timer_ramp1, &Timer_ramp2 };
 
+	 bool accTillRotatingDone[2] = { 0, 0 };
+	 struct calibData {
+		 bool endCalib = false;
+		 int endSpeedPWM = 0;
+		 float endRealSpeed = 0;
+	 };
 	 /**
 	  * \brief Read data from encoders - calculate speeds with period = TimerSpeedDelay_uS
 	  * \note Time is measured using micros()
@@ -84,6 +90,8 @@ class DriveClass
 
 	 void rampInit(bool motSelect, int TimeSlope, int SpeedBegin = 0);
 	 void rampUpdate(bool motSelect, int increment);
+	 void AccTillRotating_init(bool motSelect, int TimeSlope);
+	 bool AccTillRotating_update(bool motSelect, unsigned int endSpeed, int increment);
 
 	 bool CalibDeadband();
 };

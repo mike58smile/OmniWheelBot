@@ -45,12 +45,6 @@ void MotorsClass::Stop()
     State.actualState = MainState::Stop; //Define in which state the driver operates
 }
 
-//void MotorsClass::skuska(int a, int b)
-//{
-//    if (a)
-//        b = 1;
-//    return;
-//}
 void MotorsClass::SpeedSingle(bool motSelect, int Spd)
 {
     if (motSelect == 0) {
@@ -85,10 +79,6 @@ void MotorsClass::SpeedSingle(bool motSelect, int Spd)
     }
 }
 
-void MotorsClass::skuska(int a)
-{
-    a = 2;
-}
 
 void MotorsClass::Speed(int Spd1, int Spd2)
 {
@@ -136,4 +126,3 @@ void MotorsClass::Speed_2(int Spd)
 
     State.actualState = MainState::Speed; //Define in which state the driver operates
 }
-

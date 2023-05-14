@@ -55,12 +55,32 @@ void DriveClass::rampUpdate(bool motSelect, int increment)
     if (Timer_ramp[motSelect]->isStopped()) {
         Timer_ramp[motSelect]->start();
         State.requiredSpeed[motSelect] += increment;
-        //Motors.Speed(2, 2);
-       // Motors.Speed(0, 2);
-    Motors.skuska(0);
+        Motors.SpeedSingle(motSelect, State.requiredSpeed[motSelect]);
     }
 }
+void DriveClass::AccTillRotating_init(bool motSelect, int TimeSlope)
+{
+    Motors.SpeedSingle(motSelect, 0);
+    rampInit(motSelect, TimeSlope);
+    accTillRotatingDone[motSelect] = false;
+}
 
+bool DriveClass::AccTillRotating_update(bool motSelect, unsigned int endSpeed, int increment)
+{
+    if (!accTillRotatingDone[motSelect]) {
+        if (State.actualRealSpeed[motSelect] <= endSpeed) {
+            rampUpdate(motSelect, increment);
+        }
+        else {
+            State.motor1DeadBandPWM[0] = State.actualSpeed[motSelect];
+            State.motor1DeadBandReal[0] = State.actualRealSpeed[motSelect];
+            accTillRotatingDone[motSelect] = true;
+        }
+    }
+    return accTillRotatingDone[motSelect];
+}
+
+bool a = 0, b = 0;
 bool DriveClass::CalibDeadband() {
     switch (calibState) {
     case CalibState::Init: //Stop motors and reset some variables to zero
@@ -69,18 +89,41 @@ bool DriveClass::CalibDeadband() {
         State.requiredSpeed[1] = 0;
         State.CalibEnd = 0;
         calibState = CalibState::Motor1_f;
-        rampInit(0,SpeedRampDelayCalib);
+        AccTillRotating_init(0, SpeedRampDelayCalib);
+        AccTillRotating_init(1, SpeedRampDelayCalib);
+        //rampInit(1, SpeedRampDelayCalib);
         break;
     case CalibState::Motor1_f: //Calibrate first motor - Increment PWM on motor until it starts rotating (the real speed from encoders is bigger than 1 rad/s)
-        if (State.actualRealSpeed[0] < 1) {
-            rampUpdate(0,1);
-        }
-        else {
-            State.motor1DeadBandPWM[0] = State.actualSpeed[0];
-            State.motor1DeadBandReal[0] = State.actualRealSpeed[0];
-            Motors.Stop();
+        //if (!a) {
+        //    if (State.actualRealSpeed[0] < 1) {
+        //        rampUpdate(0, 1);
+        //    }
+        //    else {
+        //        State.motor1DeadBandPWM[0] = State.actualSpeed[0];
+        //        State.motor1DeadBandReal[0] = State.actualRealSpeed[0];
+        //        a = 1;
+        //    }
+        //}
+        //AccTillRotating_update(0, 1, 1);
+        bool ret = AccTillRotating_update(1, 1, 1);
+        ret = AccTillRotating_update(0, 1, 1) && ret;
+        if(ret)
             calibState = CalibState::End;
-        }
+
+        //if (!b) {
+        //    if (State.actualRealSpeed[1] < 1) {
+        //        rampUpdate(1, 1);
+        //    }
+        //    else {
+        //        State.motor2DeadBandPWM[0] = State.actualSpeed[1];
+        //        State.motor2DeadBandReal[0] = State.actualRealSpeed[1];
+        //        //Motors.SpeedSingle(1, 0);
+        //        b = 1;
+        //    }
+        //}
+        //if (a && b) {
+        //    calibState = CalibState::End;
+        //}
         break;
     //    if (State.actualRealSpeed[0] < 1) {
     //        currentTime_C = micros();
@@ -160,8 +203,8 @@ void DriveClass::loop()
     switch(State.commState){
     case CommState::Stop:
         Motors.Stop();
-        enc1.write(0);
-        enc2.write(0);
+        enc1.write(0); //odstranit probably
+        enc2.write(0);//odstranit probably
         break;
     case CommState::Wait:
         break;

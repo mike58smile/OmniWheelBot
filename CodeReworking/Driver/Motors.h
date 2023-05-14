@@ -51,7 +51,6 @@ class MotorsClass
 	  */
 	 void SpeedSingle(bool motSelect, int Spd);
 
-	 void skuska(int a);
 
 	 /**
 	  * \brief Set Speed of both motors
@@ -61,6 +60,9 @@ class MotorsClass
 	 void Speed_1(int Spd);
 
 	 void Speed_2(int Spd);
+
+
+	 //void Speed_3(int Spd);
 
 
 };

@@ -39,7 +39,7 @@ using Pin = const uint8_t;
 class StateClass
 {
  public:
-	 static const int address = 0x11; ///< Define I2C address of this Driver - !!Need to be changed for different driver!!
+	 static const int address = 0x10; ///< Define I2C address of this Driver - !!Need to be changed for different driver!!
 
 	 const char* MainStatePrint[static_cast<int>(MainState::Size)] = { "Setup", "Speed", "Stop" }; ///< Used for printing mainState enum
 	 const char* CommStatePrint[static_cast<int>(CommState::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "ChangeConstPID", "CalibDeadBand", "Unknown" }; ///< Used for printing commState enum
@@ -75,7 +75,6 @@ class StateClass
 	 
 	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
 	 CommState commState = CommState::Stop; ///< Define communication state in which controller wants the driver to be in, only changed in Comm and SerialControl
-
 	 int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)
 	 unsigned int encSpeed[2] = { 0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
 	 int requiredSpeed[2] = { 0,0 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255)
