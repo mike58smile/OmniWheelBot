@@ -27,11 +27,15 @@ void SerialControlClass::loop()
             serialMode = SerialMode::Speed;
         else if (SerialString == "kp1")
             serialMode = SerialMode::Kp1;
+        else if (SerialString == "ki1")
+            serialMode = SerialMode::Ki1;
+        else if (SerialString == "kd1")
+            serialMode = SerialMode::Kd1;
         else if (SerialString == "real")
             serialMode = SerialMode::RealSpeed;
         else if (SerialString == "calib")
             serialMode = SerialMode::CalibDeadBand;
-        else if (SerialString == "get")
+        else if (SerialString == "get") //Not working now
             serialMode = SerialMode::EnableSerialGet;
 
         switch (serialMode) {
@@ -67,12 +71,18 @@ void SerialControlClass::loop()
             }
             break;
         case SerialMode::CalibDeadBand:
-            State.requiredSpeed[0] = 0;
-            State.CalibEnd = 0;
             State.commState = CommState::CalibDeadBand;
             break;
         case SerialMode::Kp1: //!funguje iba pred Speed
             State.Kp_1 = SerialFloat;
+            State.commState = CommState::ChangeConstPID;
+            break;
+        case SerialMode::Ki1: //!funguje iba pred Speed
+            State.Ki_1 = SerialFloat;
+            State.commState = CommState::ChangeConstPID;
+            break;
+        case SerialMode::Kd1: //!funguje iba pred Speed
+            State.Kd_1 = SerialFloat;
             State.commState = CommState::ChangeConstPID;
             break;
         case SerialMode::RealSpeed: //!funguje iba pred Speed

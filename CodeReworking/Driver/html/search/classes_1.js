@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['driveclass_0',['DriveClass',['../class_drive_class.html',1,'']]]
+  ['commclass_0',['CommClass',['../class_comm_class.html',1,'']]]
 ];

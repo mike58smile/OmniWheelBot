@@ -1,0 +1,33 @@
+\hypertarget{union_bytes_float_conv}{}\doxysection{Bytes\+Float\+Conv Union Reference}
+\label{union_bytes_float_conv}\index{BytesFloatConv@{BytesFloatConv}}
+
+
+For float to Byte conversion.  
+
+
+
+
+{\ttfamily \#include $<$Comm.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{union_bytes_float_conv_a483cc0ea9d052f772e782d9db74104cb}\label{union_bytes_float_conv_a483cc0ea9d052f772e782d9db74104cb}} 
+char {\bfseries buffer} \mbox{[}4\mbox{]}
+\item 
+\mbox{\Hypertarget{union_bytes_float_conv_a175ee12066cdbd117db561bba4ed7fe0}\label{union_bytes_float_conv_a175ee12066cdbd117db561bba4ed7fe0}} 
+float {\bfseries float\+Value}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+For float to Byte conversion. 
+
+\begin{DoxyNote}{Note}
+Union stores value on the same memory place -\/ we wrote to float\+Value and read from buffer which points to same memmorhy location as float so we read float value but outside it is considered char (buffer) 
+\end{DoxyNote}
+
+
+The documentation for this union was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_comm_8h}{Comm.\+h}}\end{DoxyCompactItemize}

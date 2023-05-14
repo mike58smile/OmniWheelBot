@@ -65,8 +65,10 @@ class StateClass
 	 double Kp_1 = 0, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1
 	 double Kp_2 = 0, Ki_2 = 0, Kd_2 = 0; ///< Speed PID constants for motor 2
 
-	 int motor1DeadBand[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
-	 int motor2DeadBand[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
+	 int motor1DeadBandPWM[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
+	 int motor2DeadBandPWM[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
+	 float motor1DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 1 starts rotating
+	 float motor2DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 2 starts rotating
 	 bool CalibEnd = 0;  ///< Bool signaling End of calibration
 
 // Non const variables - will be changed during program
@@ -176,3 +178,31 @@ Don't have specifics relative to switches .
 //char strBuffer[7];
 //Wire.write(dtostrf(State.actualRealSpeed[0], 7, 2, strBuffer)); //!odskusat ci funguje
 //Wire.write(dtostrf(State.actualRealSpeed[1], 7, 2, strBuffer));//!odskusat ci funguje  
+
+//RAMP:
+//bool ramp(int motor, int beginPWM = 0, float slope = 1);
+
+//Motors Speed:
+//// Set speed of first motor
+//if (Spd1 <= 0) {
+//    analogWrite(State.M1_LPWM, 0);
+//    analogWrite(State.M1_RPWM, abs(Spd1));
+//}
+//else{
+//    analogWrite(State.M1_RPWM, 0);
+//    analogWrite(State.M1_LPWM, abs(Spd1));
+//}
+
+//// Set speed of second motor
+//if (Spd2 <= 0) {
+//    analogWrite(State.M2_LPWM, 0);
+//    analogWrite(State.M2_RPWM, abs(Spd2));
+//}
+//else {
+//    analogWrite(State.M2_RPWM, 0);
+//    analogWrite(State.M2_LPWM, abs(Spd2));
+//}
+//
+//// Save current motor speeds to State
+//State.actualSpeed[0] = Spd1;
+//State.actualSpeed[1] = Spd2;

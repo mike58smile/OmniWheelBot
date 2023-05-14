@@ -1,12 +1,9 @@
 var searchData=
 [
-  ['serialcontrol_2ecpp_0',['SerialControl.cpp',['../_serial_control_8cpp.html',1,'']]],
-  ['serialcontrol_2eh_1',['SerialControl.h',['../_serial_control_8h.html',1,'']]],
-  ['serialcontrolclass_2',['SerialControlClass',['../class_serial_control_class.html',1,'SerialControlClass'],['../class_serial_control_class.html#af01fa17887ee0f8337bf6a24145e81e6',1,'SerialControlClass::SerialControlClass()']]],
-  ['speed_3',['Speed',['../class_motors_class.html#a2a742a3a0072e0933853e2517d267fdd',1,'MotorsClass']]],
-  ['state_4',['State',['../class_motors_class.html#a9a2f045b8db7d0e2640f91af0e4e1058',1,'MotorsClass']]],
-  ['state_2ecpp_5',['State.cpp',['../_state_8cpp.html',1,'']]],
-  ['state_2eh_6',['State.h',['../_state_8h.html',1,'']]],
-  ['stateclass_7',['StateClass',['../class_state_class.html',1,'']]],
-  ['stop_8',['Stop',['../class_motors_class.html#a0fe90b15769d3f1f219da0c2f4015f89',1,'MotorsClass']]]
+  ['mainstateprint_0',['MainStatePrint',['../class_state_class.html#aed17fb5caac0782ffe50a641966496d2',1,'StateClass']]],
+  ['motor1deadband_1',['motor1DeadBand',['../class_state_class.html#a48caf5d69573df9788af752f33afc2a9',1,'StateClass']]],
+  ['motor2deadband_2',['motor2DeadBand',['../class_state_class.html#a6bb7a7b7971117cec7063e503da22781',1,'StateClass']]],
+  ['motors_2ecpp_3',['Motors.cpp',['../_motors_8cpp.html',1,'']]],
+  ['motors_2eh_4',['Motors.h',['../_motors_8h.html',1,'']]],
+  ['motorsclass_5',['MotorsClass',['../class_motors_class.html',1,'MotorsClass'],['../class_motors_class.html#a56d0c7ccdab4d97486ac0a02d7efa466',1,'MotorsClass::MotorsClass()']]]
 ];

@@ -16,6 +16,9 @@ class \mbox{\hyperlink{class_state_class}{State\+Class}}
 \item 
 \mbox{\Hypertarget{_state_8h_af69b980e54bccf33202009afe3bc1f90}\label{_state_8h_af69b980e54bccf33202009afe3bc1f90}} 
 \#define {\bfseries USE\+\_\+\+TIMER\+\_\+2}~true
+\item 
+\mbox{\Hypertarget{_state_8h_a8e12c22fbc204169dd60974a9f2c5c4d}\label{_state_8h_a8e12c22fbc204169dd60974a9f2c5c4d}} 
+\#define {\bfseries comm\+State\+Print}~State.\+Comm\+State\+Print\mbox{[}static\+\_\+cast$<$int$>$(State.\+comm\+State)\mbox{]}
 \end{DoxyCompactItemize}
 \doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
@@ -30,6 +33,7 @@ using {\bfseries Pin} = const uint8\+\_\+t
 enum class {\bfseries Main\+State} \{ {\bfseries Setup}
 , {\bfseries Speed}
 , {\bfseries Stop}
+, {\bfseries Size}
  \}
 \item 
 \mbox{\Hypertarget{_state_8h_a034db3cdbc477a74dd207605c6960f5f}\label{_state_8h_a034db3cdbc477a74dd207605c6960f5f}} 
@@ -39,7 +43,10 @@ enum class {\bfseries Comm\+State} \{ \newline
 , {\bfseries Speed\+PWM}
 , {\bfseries Speed\+Real}
 , \newline
-{\bfseries Unknown}
+{\bfseries Change\+Const\+PID}
+, {\bfseries Calib\+Dead\+Band}
+, {\bfseries Unknown}
+, {\bfseries Size}
  \}
 \end{DoxyCompactItemize}
 \doxysubsection*{Functions}

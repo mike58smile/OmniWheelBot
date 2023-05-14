@@ -7,6 +7,7 @@
  * \date   April 2023
  *********************************************************************/
 
+#include <timerManager.h>
 #include "State.h" // Include before other classes!
 #include "Comm.h"
 #include "Drive.h"

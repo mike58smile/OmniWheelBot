@@ -71,7 +71,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">Comm.h File Reference</div></div>
 </div><!--header-->
@@ -88,23 +88,36 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="union_bytes_float_conv.html">BytesFloatConv</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">For float to Byte conversion.  <a href="union_bytes_float_conv.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_comm_class.html">CommClass</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for I2C and Serial communication.  <a href="class_comm_class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:accb08e37a676b398539f81152fb2b881"><td class="memItemLeft" align="right" valign="top"><a id="accb08e37a676b398539f81152fb2b881" name="accb08e37a676b398539f81152fb2b881"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>WireRead</b>&#160;&#160;&#160;(Wire.read() | Wire.read() &lt;&lt; 8)</td></tr>
-<tr class="separator:accb08e37a676b398539f81152fb2b881"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfcaf86a77ea181c29b9659f5cc89d87"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_comm_8h.html#abfcaf86a77ea181c29b9659f5cc89d87">WireWrite</a>(int16)</td></tr>
-<tr class="separator:abfcaf86a77ea181c29b9659f5cc89d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae8a11cbfae42a282386aec022604ab22"><td class="memItemLeft" align="right" valign="top"><a id="ae8a11cbfae42a282386aec022604ab22" name="ae8a11cbfae42a282386aec022604ab22"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>WireReadI</b> ()</td></tr>
+<tr class="separator:ae8a11cbfae42a282386aec022604ab22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aace372fd9457ee8cbdd74e2a5c0074e9"><td class="memItemLeft" align="right" valign="top"><a id="aace372fd9457ee8cbdd74e2a5c0074e9" name="aace372fd9457ee8cbdd74e2a5c0074e9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>WireWriteI</b> (int iValue)</td></tr>
+<tr class="separator:aace372fd9457ee8cbdd74e2a5c0074e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ab3d39a50c4d3a18cd262ee449d1eb1"><td class="memItemLeft" align="right" valign="top"><a id="a4ab3d39a50c4d3a18cd262ee449d1eb1" name="a4ab3d39a50c4d3a18cd262ee449d1eb1"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>WireReadF</b> ()</td></tr>
+<tr class="separator:a4ab3d39a50c4d3a18cd262ee449d1eb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80925e1c776ccb4d03a6bcbba55fbd9b"><td class="memItemLeft" align="right" valign="top"><a id="a80925e1c776ccb4d03a6bcbba55fbd9b" name="a80925e1c776ccb4d03a6bcbba55fbd9b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>WireWriteF</b> (float fValue)</td></tr>
+<tr class="separator:a80925e1c776ccb4d03a6bcbba55fbd9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a4151b622256aae8998965f539958ad42"><td class="memItemLeft" align="right" valign="top"><a id="a4151b622256aae8998965f539958ad42" name="a4151b622256aae8998965f539958ad42"></a>
 constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>BaudRate</b> = 115200</td></tr>
 <tr class="separator:a4151b622256aae8998965f539958ad42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4950003fc944dbdb4916b8aa1c5f38bd"><td class="memItemLeft" align="right" valign="top"><a id="a4950003fc944dbdb4916b8aa1c5f38bd" name="a4950003fc944dbdb4916b8aa1c5f38bd"></a>
+union <a class="el" href="union_bytes_float_conv.html">BytesFloatConv</a>&#160;</td><td class="memItemRight" valign="bottom"><b>bytesFloatConv</b></td></tr>
+<tr class="separator:a4950003fc944dbdb4916b8aa1c5f38bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac79351ee46345df1fea6ae84dd802cdc"><td class="memItemLeft" align="right" valign="top"><a id="ac79351ee46345df1fea6ae84dd802cdc" name="ac79351ee46345df1fea6ae84dd802cdc"></a>
 <a class="el" href="class_comm_class.html">CommClass</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Comm</b></td></tr>
 <tr class="separator:ac79351ee46345df1fea6ae84dd802cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,30 +127,7 @@ constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>BaudRate</b
 <p >Used for I2C communication with the Controller</p>
 <dl class="section author"><dt>Author</dt><dd>xmisko06 </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>April 2023 </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="abfcaf86a77ea181c29b9659f5cc89d87" name="abfcaf86a77ea181c29b9659f5cc89d87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfcaf86a77ea181c29b9659f5cc89d87">&#9670;&#160;</a></span>WireWrite</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define WireWrite</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">int16</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">{ \</div>
-<div class="line">Wire.write(int16); \</div>
-<div class="line">Wire.write((int16 &gt;&gt; 8)); \</div>
-<div class="line">}</div>
-</div><!-- fragment -->
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5

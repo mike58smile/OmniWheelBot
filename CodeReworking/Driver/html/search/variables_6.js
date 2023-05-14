@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['timerspeeddelay_5fms_0',['TimerSpeedDelay_mS',['../_state_8h.html#ace81b7721cfd2a469849f25fc66c43ff',1,'State.h']]],
-  ['timerspeeddelay_5fus_1',['TimerSpeedDelay_uS',['../_state_8h.html#a4cc6036eff1c3ecb0dd8898afb14e46d',1,'State.h']]]
+  ['requiredrealspeed_0',['requiredRealSpeed',['../class_state_class.html#a78697ac64c2a18d1d3885fc5ce29178a',1,'StateClass']]],
+  ['requiredspeed_1',['requiredSpeed',['../class_state_class.html#ad35700f8b8ec016a81c9b9ff2f049791',1,'StateClass']]]
 ];

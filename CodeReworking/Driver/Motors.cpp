@@ -45,35 +45,95 @@ void MotorsClass::Stop()
     State.actualState = MainState::Stop; //Define in which state the driver operates
 }
 
+//void MotorsClass::skuska(int a, int b)
+//{
+//    if (a)
+//        b = 1;
+//    return;
+//}
+void MotorsClass::SpeedSingle(bool motSelect, int Spd)
+{
+    if (motSelect == 0) {
+        // Set speed of first motor
+        if (Spd <= 0) {
+            analogWrite(State.M1_LPWM, 0);
+            analogWrite(State.M1_RPWM, abs(Spd));
+        }
+        else {
+            analogWrite(State.M1_RPWM, 0);
+            analogWrite(State.M1_LPWM, abs(Spd));
+        }
+        // Save current motor speeds to State
+        State.actualSpeed[0] = Spd;
+
+        State.actualState = MainState::Speed; //Define in which state the driver operates
+    }
+    else {
+        // Set speed of second motor
+        if (Spd <= 0) {
+            analogWrite(State.M2_LPWM, 0);
+            analogWrite(State.M2_RPWM, abs(Spd));
+        }
+        else {
+            analogWrite(State.M2_RPWM, 0);
+            analogWrite(State.M2_LPWM, abs(Spd));
+        }
+        // Save current motor speeds to State
+        State.actualSpeed[1] = Spd;
+
+        State.actualState = MainState::Speed; //Define in which state the driver operates
+    }
+}
+
+void MotorsClass::skuska(int a)
+{
+    a = 2;
+}
+
 void MotorsClass::Speed(int Spd1, int Spd2)
 {
     if (!Spd1 && !Spd2) {
         Stop();
         return;
     }
-    // Set speed of first motor
-    if (Spd1 <= 0) {
-        analogWrite(State.M1_LPWM, 0);
-        analogWrite(State.M1_RPWM, abs(Spd1));
-    }
-    else{
-        analogWrite(State.M1_RPWM, 0);
-        analogWrite(State.M1_LPWM, abs(Spd1));
-    }
 
-    // Set speed of second motor
-    if (Spd2 <= 0) {
-        analogWrite(State.M2_LPWM, 0);
-        analogWrite(State.M2_RPWM, abs(Spd2));
+    Speed_1(Spd1);
+    Speed_2(Spd2);
+    State.actualState = MainState::Speed; //Define in which state the driver operates
+}
+
+
+void MotorsClass::Speed_1(int Spd)
+{
+    // Set speed of first motor
+    if (Spd <= 0) {
+        analogWrite(State.M1_LPWM, 0);
+        analogWrite(State.M1_RPWM, abs(Spd));
     }
     else {
-        analogWrite(State.M2_RPWM, 0);
-        analogWrite(State.M2_LPWM, abs(Spd2));
+        analogWrite(State.M1_RPWM, 0);
+        analogWrite(State.M1_LPWM, abs(Spd));
     }
-    
     // Save current motor speeds to State
-    State.actualSpeed[0] = Spd1;
-    State.actualSpeed[1] = Spd2;
+    State.actualSpeed[0] = Spd;
 
     State.actualState = MainState::Speed; //Define in which state the driver operates
 }
+
+void MotorsClass::Speed_2(int Spd)
+{
+    // Set speed of second motor
+    if (Spd <= 0) {
+        analogWrite(State.M2_LPWM, 0);
+        analogWrite(State.M2_RPWM, abs(Spd));
+    }
+    else {
+        analogWrite(State.M2_RPWM, 0);
+        analogWrite(State.M2_LPWM, abs(Spd));
+    }
+    // Save current motor speeds to State
+    State.actualSpeed[1] = Spd;
+
+    State.actualState = MainState::Speed; //Define in which state the driver operates
+}
+

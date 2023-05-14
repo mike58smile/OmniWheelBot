@@ -18,7 +18,7 @@
 
 #include "State.h"
 
-enum class SerialMode { Idle, Comm, Speed, RealSpeed, Kp1, CalibDeadBand, EnableSerialGet,   Size }; ///< Enum for selected serial mode state machine, "Size" is a little trick - contains number of elements in this enum
+enum class SerialMode { Idle, Comm, Speed, RealSpeed, Kp1, Ki1, Kd1, CalibDeadBand, EnableSerialGet,   Size }; ///< Enum for selected serial mode state machine, "Size" is a little trick - contains number of elements in this enum
 
 /**
  * \brief Class implementing driver control through UART (Serial connection)
@@ -35,7 +35,7 @@ class SerialControlClass
 	 bool SerialGetEN = 0;
 
  public:
-	 const char* SerialModePrint[static_cast<int>(SerialMode::Size)] = { "Idle", "Comm", "Speed", "RealSpeed", "Kp1", "CalibDeadBand", "EnableSerialGet"}; ///< Used for printing mainState enum
+	 const char* SerialModePrint[static_cast<int>(SerialMode::Size)] = { "Idle", "Comm", "Speed", "RealSpeed", "Kp1", "Ki1", "Kd1", "CalibDeadBand", "EnableSerialGet"}; ///< Used for printing mainState enum
 	 
 	 /**
 	  * \brief C'tor from StateClass

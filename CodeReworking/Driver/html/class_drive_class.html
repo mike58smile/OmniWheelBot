@@ -85,10 +85,10 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a148ebca617d743610ab7421b249470b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_drive_class.html#a148ebca617d743610ab7421b249470b3">DriveClass</a> (<a class="el" href="class_state_class.html">StateClass</a> &amp;state)</td></tr>
-<tr class="memdesc:a148ebca617d743610ab7421b249470b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">C'tor from <a class="el" href="class_state_class.html" title="Class for variables storage (only header, without methods)">StateClass</a>, also initialize Encoder objects.  <a href="class_drive_class.html#a148ebca617d743610ab7421b249470b3">More...</a><br /></td></tr>
+<tr class="memdesc:a148ebca617d743610ab7421b249470b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">C'tor from <a class="el" href="class_state_class.html" title="Class for variables storage (only header, without methods)">StateClass</a>, also initialize Encoder and PID objects.  <a href="class_drive_class.html#a148ebca617d743610ab7421b249470b3">More...</a><br /></td></tr>
 <tr class="separator:a148ebca617d743610ab7421b249470b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af058246867930180e2e73d98d94075e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_drive_class.html#af058246867930180e2e73d98d94075e9">init</a> ()</td></tr>
-<tr class="memdesc:af058246867930180e2e73d98d94075e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize motors.  <a href="class_drive_class.html#af058246867930180e2e73d98d94075e9">More...</a><br /></td></tr>
+<tr class="memdesc:af058246867930180e2e73d98d94075e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize motors and sets operating mode and output limits of speed PID regulators.  <a href="class_drive_class.html#af058246867930180e2e73d98d94075e9">More...</a><br /></td></tr>
 <tr class="separator:af058246867930180e2e73d98d94075e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37365361d8fc1a2e99526602670a4e8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a">loop</a> ()</td></tr>
 <tr class="memdesc:a37365361d8fc1a2e99526602670a4e8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drive loop.  <a href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a">More...</a><br /></td></tr>
@@ -96,13 +96,25 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a755328156bfeed91c73655ec3b1a26fa"><td class="memItemLeft" align="right" valign="top"><a id="a755328156bfeed91c73655ec3b1a26fa" name="a755328156bfeed91c73655ec3b1a26fa"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>CalibStatePrint</b> [static_cast&lt; int &gt;(CalibState::Size)] = { &quot;Init&quot;, &quot;Motor1&quot;, &quot;Motor2&quot;, &quot;End&quot; }</td></tr>
+<tr class="memdesc:a755328156bfeed91c73655ec3b1a26fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for printing calibState enum. <br /></td></tr>
+<tr class="separator:a755328156bfeed91c73655ec3b1a26fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc25d7e18fba0c6faa7bbc1e4a071a58"><td class="memItemLeft" align="right" valign="top"><a id="adc25d7e18fba0c6faa7bbc1e4a071a58" name="adc25d7e18fba0c6faa7bbc1e4a071a58"></a>
+PID&#160;</td><td class="memItemRight" valign="bottom"><b>pid1</b></td></tr>
+<tr class="memdesc:adc25d7e18fba0c6faa7bbc1e4a071a58"><td class="mdescLeft">&#160;</td><td class="mdescRight">PID object for motor 1. <br /></td></tr>
+<tr class="separator:adc25d7e18fba0c6faa7bbc1e4a071a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1522b8234dfaea99d1d77e4730fe895f"><td class="memItemLeft" align="right" valign="top"><a id="a1522b8234dfaea99d1d77e4730fe895f" name="a1522b8234dfaea99d1d77e4730fe895f"></a>
+PID&#160;</td><td class="memItemRight" valign="bottom"><b>pid2</b></td></tr>
+<tr class="memdesc:a1522b8234dfaea99d1d77e4730fe895f"><td class="mdescLeft">&#160;</td><td class="mdescRight">PID object for motor 2. <br /></td></tr>
+<tr class="separator:a1522b8234dfaea99d1d77e4730fe895f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a220a780cced6ece3e94731bd9cefd850"><td class="memItemLeft" align="right" valign="top"><a id="a220a780cced6ece3e94731bd9cefd850" name="a220a780cced6ece3e94731bd9cefd850"></a>
 Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc1</b></td></tr>
-<tr class="memdesc:a220a780cced6ece3e94731bd9cefd850"><td class="mdescLeft">&#160;</td><td class="mdescRight">motor 1 <br /></td></tr>
+<tr class="memdesc:a220a780cced6ece3e94731bd9cefd850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encoder for motor 1. <br /></td></tr>
 <tr class="separator:a220a780cced6ece3e94731bd9cefd850"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a105582a5f5109076eb59d3556db0d428"><td class="memItemLeft" align="right" valign="top"><a id="a105582a5f5109076eb59d3556db0d428" name="a105582a5f5109076eb59d3556db0d428"></a>
 Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc2</b></td></tr>
-<tr class="memdesc:a105582a5f5109076eb59d3556db0d428"><td class="mdescLeft">&#160;</td><td class="mdescRight">motor 2 <br /></td></tr>
+<tr class="memdesc:a105582a5f5109076eb59d3556db0d428"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encoder for motor 2. <br /></td></tr>
 <tr class="separator:a105582a5f5109076eb59d3556db0d428"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -132,7 +144,7 @@ Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc2</b></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>C'tor from <a class="el" href="class_state_class.html" title="Class for variables storage (only header, without methods)">StateClass</a>, also initialize Encoder objects. </p>
+<p>C'tor from <a class="el" href="class_state_class.html" title="Class for variables storage (only header, without methods)">StateClass</a>, also initialize Encoder and PID objects. </p>
 <dl class="section note"><dt>Note</dt><dd>This is the only constructor </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -159,7 +171,7 @@ Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc2</b></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initialize motors. </p>
+<p>Initialize motors and sets operating mode and output limits of speed PID regulators. </p>
 <dl class="section note"><dt>Note</dt><dd>Use in void setup() </dd></dl>
 
 </div>
@@ -180,7 +192,7 @@ Encoder&#160;</td><td class="memItemRight" valign="bottom"><b>enc2</b></td></tr>
 </div><div class="memdoc">
 
 <p>Drive loop. </p>
-<dl class="section note"><dt>Note</dt><dd>Use in void <a class="el" href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a" title="Drive loop.">loop()</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Use in void <a class="el" href="class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a" title="Drive loop.">loop()</a> after Comm.loop()! </dd></dl>
 
 </div>
 </div>

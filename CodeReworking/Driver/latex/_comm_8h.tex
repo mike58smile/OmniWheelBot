@@ -12,21 +12,33 @@ Comm class header.
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
+union \mbox{\hyperlink{union_bytes_float_conv}{Bytes\+Float\+Conv}}
+\begin{DoxyCompactList}\small\item\em For float to Byte conversion. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_comm_class}{Comm\+Class}}
 \begin{DoxyCompactList}\small\item\em Class for I2C and Serial communication. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Macros}
+\doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{_comm_8h_accb08e37a676b398539f81152fb2b881}\label{_comm_8h_accb08e37a676b398539f81152fb2b881}} 
-\#define {\bfseries Wire\+Read}~(Wire.\+read() $\vert$ Wire.\+read() $<$$<$ 8)
+\mbox{\Hypertarget{_comm_8h_ae8a11cbfae42a282386aec022604ab22}\label{_comm_8h_ae8a11cbfae42a282386aec022604ab22}} 
+int {\bfseries Wire\+ReadI} ()
 \item 
-\#define \mbox{\hyperlink{_comm_8h_abfcaf86a77ea181c29b9659f5cc89d87}{Wire\+Write}}(int16)
+\mbox{\Hypertarget{_comm_8h_aace372fd9457ee8cbdd74e2a5c0074e9}\label{_comm_8h_aace372fd9457ee8cbdd74e2a5c0074e9}} 
+void {\bfseries Wire\+WriteI} (int i\+Value)
+\item 
+\mbox{\Hypertarget{_comm_8h_a4ab3d39a50c4d3a18cd262ee449d1eb1}\label{_comm_8h_a4ab3d39a50c4d3a18cd262ee449d1eb1}} 
+float {\bfseries Wire\+ReadF} ()
+\item 
+\mbox{\Hypertarget{_comm_8h_a80925e1c776ccb4d03a6bcbba55fbd9b}\label{_comm_8h_a80925e1c776ccb4d03a6bcbba55fbd9b}} 
+void {\bfseries Wire\+WriteF} (float f\+Value)
 \end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{_comm_8h_a4151b622256aae8998965f539958ad42}\label{_comm_8h_a4151b622256aae8998965f539958ad42}} 
 constexpr auto {\bfseries Baud\+Rate} = 115200
+\item 
+\mbox{\Hypertarget{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}\label{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}} 
+union \mbox{\hyperlink{union_bytes_float_conv}{Bytes\+Float\+Conv}} {\bfseries bytes\+Float\+Conv}
 \item 
 \mbox{\Hypertarget{_comm_8h_ac79351ee46345df1fea6ae84dd802cdc}\label{_comm_8h_ac79351ee46345df1fea6ae84dd802cdc}} 
 \mbox{\hyperlink{class_comm_class}{Comm\+Class}} {\bfseries Comm}
@@ -44,20 +56,3 @@ xmisko06
 \begin{DoxyDate}{Date}
 April 2023 
 \end{DoxyDate}
-
-
-\doxysubsection{Macro Definition Documentation}
-\mbox{\Hypertarget{_comm_8h_abfcaf86a77ea181c29b9659f5cc89d87}\label{_comm_8h_abfcaf86a77ea181c29b9659f5cc89d87}} 
-\index{Comm.h@{Comm.h}!WireWrite@{WireWrite}}
-\index{WireWrite@{WireWrite}!Comm.h@{Comm.h}}
-\doxysubsubsection{\texorpdfstring{WireWrite}{WireWrite}}
-{\footnotesize\ttfamily \#define Wire\+Write(\begin{DoxyParamCaption}\item[{}]{int16 }\end{DoxyParamCaption})}
-
-{\bfseries Value\+:}
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\{ \(\backslash\)}
-\DoxyCodeLine{Wire.write(int16); \(\backslash\)}
-\DoxyCodeLine{Wire.write((int16 >> 8)); \(\backslash\)}
-\DoxyCodeLine{\}}
-
-\end{DoxyCode}

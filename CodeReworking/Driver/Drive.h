@@ -15,15 +15,15 @@
 #else
 	#include "WProgram.h"
 #endif
-
+#include <timer.h>
 #include <Encoder.h>
 #include <PID_v1.h>
 #include "State.h"
 #include "Motors.h"
 
-constexpr auto SpeedRampDelayCalib = 80000; ///< 1/Slope of speed accelerating ramp during calibration - i.e. equals to 1/acceleration (when smaller - it accelerates more quickly)
+constexpr auto SpeedRampDelayCalib = 80; ///< 1/Slope of speed accelerating ramp during calibration - i.e. equals to 1/acceleration (when smaller - it accelerates more quickly)
 
-enum class CalibState { Init, Motor1, Motor2, End,   Size }; ///< CalibState enum, "Size" is a little trick - contains number of elements in this enum
+enum class CalibState { Init, Motor1_f, Motor1_b, Motor2_f, Motor2_b, End,   Size }; ///< CalibState enum, "Size" is a little trick - contains number of elements in this enum
 #define calibStatePrint State.CalibStatePrint[static_cast<int>(State.calibState)] ///< Use for printing calibState enum
  /**
  * \brief Class implementing all movements, reading from Encoders
@@ -34,8 +34,15 @@ class DriveClass
 	 CalibState calibState = CalibState::Init; ///< Enum for Deadband calibration state machine 
 	 StateClass& State; ///< Storage for all shared variables 
 	 MotorsClass Motors; ///< Motors object of MotorsClass class implementing speed control of 2 motors
+	 Timer timer; ///< Basic timer used for delayes when moving betweeen states
 	 static unsigned long currentTime; ///< Current time updated with micros() in void read()
 	 static unsigned long previousTime; ///< Previous time updated with currentTime when currentTime >= TimerSpeedDelay_uS
+
+	 //Ramp init variables
+	 bool rampInitDone[2] = { 0,0 }; ///< Indicates inicialization of ramp
+	 Timer Timer_ramp1; ///< Not used - just for array of timers
+	 Timer Timer_ramp2; ///< Not used - just for array of timers
+	 Timer* Timer_ramp[2] = { &Timer_ramp1, &Timer_ramp2 };
 
 	 /**
 	  * \brief Read data from encoders - calculate speeds with period = TimerSpeedDelay_uS
@@ -49,7 +56,7 @@ class DriveClass
 	 //DeadbandCalib
 	 unsigned long currentTime_C = 0, previousTime_C = 0; ///< Variables used for time reading in Deadband calibration
  public:
-	 const char* CalibStatePrint[static_cast<int>(CalibState::Size)] = { "Init", "Motor1", "Motor2", "End" }; ///< Used for printing calibState enum
+	 const char* CalibStatePrint[static_cast<int>(CalibState::Size)] = { "Init", "Motor1_f", "Motor1_b", "Motor2_f", "Motor2_b", "End" }; ///< Used for printing calibState enum
 	 PID pid1; ///< PID object for motor 1
 	 PID pid2; ///< PID object for motor 2
 	 Encoder enc1; ///< Encoder for motor 1
@@ -75,6 +82,10 @@ class DriveClass
 	  */
 	 void loop();
 
+	 void rampInit(bool motSelect, int TimeSlope, int SpeedBegin = 0);
+	 void rampUpdate(bool motSelect, int increment);
+
+	 bool CalibDeadband();
 };
 
 extern DriveClass Drive;

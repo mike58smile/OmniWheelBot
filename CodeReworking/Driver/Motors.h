@@ -45,9 +45,24 @@ class MotorsClass
 	 void Stop();
 
 	 /**
+	  * \brief Set Speed of single motor
+	  * \param motSelect Which motor to select 0/1
+	  * \param Spd Speed in PWM
+	  */
+	 void SpeedSingle(bool motSelect, int Spd);
+
+	 void skuska(int a);
+
+	 /**
 	  * \brief Set Speed of both motors
 	  */
 	 void Speed(int Spd1, int Spd2);
+
+	 void Speed_1(int Spd);
+
+	 void Speed_2(int Spd);
+
+
 };
 
 #endif

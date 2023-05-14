@@ -1,5 +1,14 @@
 \hypertarget{class_serial_control_class}{}\doxysection{Serial\+Control\+Class Class Reference}
 \label{class_serial_control_class}\index{SerialControlClass@{SerialControlClass}}
+
+
+Class implementing driver control through UART (Serial connection)  
+
+
+
+
+{\ttfamily \#include $<$Serial\+Control.\+h$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -9,22 +18,37 @@ void \mbox{\hyperlink{class_serial_control_class_a72b70293552a3fcce13b7148a28271
 \begin{DoxyCompactList}\small\item\em Initialize Serial controlling -\/ EMPTY. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_serial_control_class_abff1c29ded93c6908fd216ac62306c97}{loop}} ()
 \begin{DoxyCompactList}\small\item\em Wait for Serial available (data is sent through serial), reads data and change the operating state and state variables. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_serial_control_class_aa97e210e6b8fdea11a6a5d7d446e0375}\label{class_serial_control_class_aa97e210e6b8fdea11a6a5d7d446e0375}} 
+const char $\ast$ {\bfseries Serial\+Mode\+Print} \mbox{[}static\+\_\+cast$<$ int $>$(Serial\+Mode\+::\+Size)\mbox{]} = \{ \char`\"{}Idle\char`\"{}, \char`\"{}Comm\char`\"{}, \char`\"{}Speed\char`\"{}, \char`\"{}Real\+Speed\char`\"{}, \char`\"{}Kp1\char`\"{}, \char`\"{}Calib\+Dead\+Band\char`\"{}, \char`\"{}Enable\+Serial\+Get\char`\"{}\}
+\begin{DoxyCompactList}\small\item\em Used for printing main\+State enum. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{class_serial_control_class_adc4b377db4d23737b9c6dc81a9a5f61b}\label{class_serial_control_class_adc4b377db4d23737b9c6dc81a9a5f61b}} 
 \mbox{\hyperlink{class_state_class}{State\+Class}} \& {\bfseries State}
-\item 
-\mbox{\Hypertarget{class_serial_control_class_a6c9ec25d7e8c0971444f6f8c507eb307}\label{class_serial_control_class_a6c9ec25d7e8c0971444f6f8c507eb307}} 
-char {\bfseries Enable\+Serial\+Mode} = \textquotesingle{}x\textquotesingle{}
-\item 
+\begin{DoxyCompactList}\small\item\em Storage for all shared variables. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_serial_control_class_a139c6d121ae69694dbb952a1482b2ecd}\label{class_serial_control_class_a139c6d121ae69694dbb952a1482b2ecd}} 
+Serial\+Mode {\bfseries serial\+Mode} = Serial\+Mode\+::\+Idle
+\begin{DoxyCompactList}\small\item\em Enum for Deadband calibration state machine. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}\label{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}} 
 String {\bfseries Serial\+String} = \char`\"{}\char`\"{}
 \item 
 \mbox{\Hypertarget{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}\label{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}} 
 int {\bfseries Serial\+Int} = 0
+\item 
+\mbox{\Hypertarget{class_serial_control_class_a5a5bd70ca7841e178981f59b86b0e67f}\label{class_serial_control_class_a5a5bd70ca7841e178981f59b86b0e67f}} 
+float {\bfseries Serial\+Float} = 0
+\item 
+\mbox{\Hypertarget{class_serial_control_class_a5196afe2249dec8565988ff89a3be72d}\label{class_serial_control_class_a5196afe2249dec8565988ff89a3be72d}} 
+bool {\bfseries Serial\+Get\+EN} = 0
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Class implementing driver control through UART (Serial connection) 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{class_serial_control_class_af01fa17887ee0f8337bf6a24145e81e6}\label{class_serial_control_class_af01fa17887ee0f8337bf6a24145e81e6}} 
@@ -71,7 +95,9 @@ Wait for Serial available (data is sent through serial), reads data and change t
 \begin{DoxyNote}{Note}
 Use in void \mbox{\hyperlink{class_serial_control_class_abff1c29ded93c6908fd216ac62306c97}{loop()}} 
 \end{DoxyNote}
+funguje iba pred Speed
 
+funguje iba pred Speed
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
