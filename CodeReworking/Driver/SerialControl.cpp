@@ -13,7 +13,7 @@ void SerialControlClass::init()
 {
 
 }
-
+int speed;
 void SerialControlClass::loop()
 {
    //Serial.print(String(State.actualRealSpeed[0]) + " " + String(State.actualRealSpeed[1]) + " " + String(State.motor1DeadBandReal[0]) + " " + String(State.motor2DeadBandReal[0]));
@@ -39,7 +39,7 @@ void SerialControlClass::loop()
             serialMode = SerialMode::CalibDeadBand;
         else if (SerialString == "get") //Not working now
             serialMode = SerialMode::EnableSerialGet;
-
+        
         switch (serialMode) {
         case SerialMode::Comm:
             switch (SerialInt) {
@@ -75,19 +75,19 @@ void SerialControlClass::loop()
         case SerialMode::CalibDeadBand:
             State.commState = CommState::CalibDeadBand;
             break;
-        case SerialMode::Kp1: //!funguje iba pred Speed
+        case SerialMode::Kp1:
             State.Kp_1 = SerialFloat;
             State.commState = CommState::ChangeConstPID;
             break;
-        case SerialMode::Ki1: //!funguje iba pred Speed
+        case SerialMode::Ki1:
             State.Ki_1 = SerialFloat;
             State.commState = CommState::ChangeConstPID;
             break;
-        case SerialMode::Kd1: //!funguje iba pred Speed
+        case SerialMode::Kd1:
             State.Kd_1 = SerialFloat;
             State.commState = CommState::ChangeConstPID;
             break;
-        case SerialMode::RealSpeed: //!funguje iba pred Speed
+        case SerialMode::RealSpeed:
             State.requiredRealSpeed[0] = SerialFloat;
             State.requiredRealSpeed[1] = SerialFloat;
             State.commState = CommState::SpeedReal;
@@ -96,17 +96,19 @@ void SerialControlClass::loop()
             SerialGetEN = !SerialGetEN;
             break;
         case SerialMode::Speed:
-            int speed = SerialInt;
+        
+            speed = SerialInt;
             if (abs(speed) > 200) speed = sign(speed) * 200;
             State.requiredSpeed[0] = speed;
             State.requiredSpeed[1] = speed;
             State.commState = CommState::SpeedPWM; // need to asign commState for drive to catch the request for changing speed to required
             break;
+        
         default:
             break;
         }
     } //here goes breakpoint when debugging - Actions: //enc1={State.encSpeed[0]}, enc2={State.encSpeed[1]}, {Drive.enc1.read()} {State.actualRealSpeed[0]} {State.actualRealSpeed[1]} {State.actualSpeed[0]} {State.actualSpeed[1]} {State.requiredSpeed[0]} {State.requiredSpeed[1]} {State.CommStatePrint[static_cast<int>(State.commState)]} {static_cast<int>(State.commState)} {SerialString} {SerialInt} {EnableSerialMode}
     //enc1={State.encSpeed[0]}, enc2={State.encSpeed[1]}, {State.actualRealSpeed[0]} {State.actualRealSpeed[1]} {State.actualSpeed[0]} {State.actualSpeed[1]} {State.requiredSpeed[0]} {State.requiredSpeed[1]} {State.requiredRealSpeed[0]} {State.requiredRealSpeed[1]} {State.CommStatePrint[static_cast<int>(State.commState)]} {static_cast<int>(State.commState)} {SerialString} {SerialInt} {State.Kp_1} {SerialFloat} {SerialModePrint[static_cast<int>(serialMode)]} {State.motor1DeadBand[0]}
 }
-SerialControlClass SerialControl(State);
+SerialControlClass SerialControl{};
 

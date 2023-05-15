@@ -15,13 +15,20 @@
 #else
 	#include "WProgram.h"
 #endif
+//#include <stdfix.h> // maybe not fully implemented
 
 #define USE_TIMER_2 true
-constexpr auto TimerSpeedDelay_mS = 30; ///< Speed reading from encoder time period - Change only this !!
-constexpr auto TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
-constexpr float EncToRealSpd(int EncSpeed) {
-	return((float(EncSpeed) * TWO_PI) / (979.2 * (float(TimerSpeedDelay_mS) / 1000.0)));
+//Constexpr - lacks pointer to value, means nothing to this compiller 
+// Global values shouldnt be auto, short int = int probably
+
+constexpr int TimerSpeedDelay_mS = 30; ///< Speed reading from encoder time period - Change only this !!
+constexpr int TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
+const float num = TWO_PI / (979.2 * (TimerSpeedDelay_mS / 1000.0));
+
+inline float EncToRealSpd(int EncSpeed) {
+	return(float(EncSpeed) * num);
 }
+
 static inline int8_t sign(int val) {
 	if (val < 0) return -1;
 	if (val == 0) return 0;
@@ -31,8 +38,9 @@ static inline int8_t sign(int val) {
 //enum class is better cause the name of the enum elements can be used outside the enum as variables
 enum class MainState { Setup, Speed, Stop,   Size }; ///< Define MainState enum, Size is a little trick - contains number of elements in this enum
 enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Unknown,    Size }; ///< Define CommState enum, Size is a little trick - contains number of elements in this enum
-using Pin = const uint8_t;
+#define commStatePrint State.CommStatePrint[static_cast<int>(State.commState)] //inline function is much better
 
+using Pin = const uint8_t;
 /**
  * \brief Class for variables storage (only header, without methods) 
  */
@@ -43,7 +51,10 @@ class StateClass
 
 	 const char* MainStatePrint[static_cast<int>(MainState::Size)] = { "Setup", "Speed", "Stop" }; ///< Used for printing mainState enum
 	 const char* CommStatePrint[static_cast<int>(CommState::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "ChangeConstPID", "CalibDeadBand", "Unknown" }; ///< Used for printing commState enum
-#define commStatePrint State.CommStatePrint[static_cast<int>(State.commState)]
+
+	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
+	 CommState commState = CommState::CalibDeadBand; ///< Define communication state in which controller wants the driver to be in, only changed in Comm and SerialControl
+
 // Define pins
 	 //Motor1
 	 static Pin M1_LPWM = 5;
@@ -61,20 +72,22 @@ class StateClass
 	 static Pin Enc2_1 = 3;
 	 static Pin Enc2_2 = A0;
 
+	 const int maxSpeed = 80; ///< Value of maximal speed in PWM allowed for MotorsClass
+
 // Regulator parameters
 	 double Kp_1 = 0, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1
 	 double Kp_2 = 0, Ki_2 = 0, Kd_2 = 0; ///< Speed PID constants for motor 2
 
 	 int motor1DeadBandPWM[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
 	 int motor2DeadBandPWM[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
+	 int motorDeadBandPWM[2] = { 0, 0 };
 	 float motor1DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 1 starts rotating
 	 float motor2DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 2 starts rotating
+	 float motorDeadBandReal[2] = { 0, 0 };
 	 bool CalibEnd = 0;  ///< Bool signaling End of calibration
 
 // Non const variables - will be changed during program
-	 
-	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
-	 CommState commState = CommState::Stop; ///< Define communication state in which controller wants the driver to be in, only changed in Comm and SerialControl
+
 	 int actualSpeed[2] = { 0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite, (0 - 255)
 	 unsigned int encSpeed[2] = { 0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
 	 int requiredSpeed[2] = { 0,0 }; ///< Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 - 255)

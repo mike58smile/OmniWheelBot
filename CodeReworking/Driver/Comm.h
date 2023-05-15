@@ -31,6 +31,8 @@ inline void WireWriteI(int iValue) {
 /**
  * \brief For float to Byte conversion
  * \note Union stores value on the same memory place - we wrote to floatValue and read from buffer which points to same memmorhy location as float so we read float value but outside it is considered char (buffer)
+ * \warning If different architecture - char may be different from float
+ * \note Get pointer to memmory where the float is located and converse it to char
  */
 inline union BytesFloatConv {
 	char buffer[4]; //size is 4 bytes
@@ -51,16 +53,9 @@ inline void WireWriteF(float fValue) {
 /**
  * \brief Class for I2C and Serial communication
  */
-class CommClass
+class CommClass final
 {
- protected:
-	 StateClass& State;
  public:
-	 /**
-	  * \brief C'tor from StateClass
-	  * \param state Reference to storage for all shared variables
-	  */
-	 CommClass(StateClass& state) : State(state){}
 
 	 /**
 	  * \brief Initialize Serial and I2C communication

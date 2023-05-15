@@ -23,10 +23,9 @@ enum class SerialMode { Idle, Comm, Speed, RealSpeed, Kp1, Ki1, Kd1, CalibDeadBa
 /**
  * \brief Class implementing driver control through UART (Serial connection)
  */
-class SerialControlClass
+class SerialControlClass final
 {
  protected:
-	 StateClass& State; ///< Storage for all shared variables 
 	 SerialMode serialMode = SerialMode::Idle; ///< Enum for Deadband calibration state machine 
 	 //Variables used internally but needed to be zero at the beginnning
 	 String SerialString = ""; 
@@ -37,11 +36,6 @@ class SerialControlClass
  public:
 	 const char* SerialModePrint[static_cast<int>(SerialMode::Size)] = { "Idle", "Comm", "Speed", "RealSpeed", "Kp1", "Ki1", "Kd1", "CalibDeadBand", "EnableSerialGet"}; ///< Used for printing mainState enum
 	 
-	 /**
-	  * \brief C'tor from StateClass
-	  * \param state Reference to storage for all shared variables
-	  */
-	 SerialControlClass(StateClass& state) : State(state) {}
 
 	 /**
 	  * \brief Initialize Serial controlling - EMPTY
@@ -60,3 +54,5 @@ extern SerialControlClass SerialControl;
 
 #endif
 
+//Note:
+// Serial.println waits till the string is truly send 

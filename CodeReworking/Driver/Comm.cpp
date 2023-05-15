@@ -48,6 +48,8 @@ void receiveData(int x)
         break;
     case 4:
         State.Kp_1 = WireReadF();
+        State.Ki_1 = WireReadF();
+        State.Kd_1 = WireReadF();
         State.commState = CommState::ChangeConstPID;
         break;
     case 5:
@@ -65,7 +67,7 @@ void CommClass::init()
     Wire.onRequest(requestEvent);
 }
 
-CommClass Comm(State);
+CommClass Comm{};
 
     //if (mode == 0) { //funkcia ResetSetpoint v Main arduine
     //    syn_rozhodovac = false;
@@ -94,7 +96,8 @@ CommClass Comm(State);
     //    motorspeed2_synchro = (Wire.read() | Wire.read() << 8);
     //}
     //else if (mode == 8) {
-    //    /*Serial.print("motor speed1: ");Serial.print(motorspeed1); Serial.print(" ");
+    //    /*
+    // ("motor speed1: ");Serial.print(motorspeed1); Serial.print(" ");
     //    Serial.print("kraj 1: ");Serial.println(kraj_sp1);*/
     //    syn_rozhodovac = false;
     //    rozhodovac2 = true;

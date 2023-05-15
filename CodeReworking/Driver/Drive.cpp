@@ -42,6 +42,7 @@ void DriveClass::read()
 void DriveClass::rampInit(bool motSelect, int TimeSlope, int SpeedBegin)
 {
     State.requiredSpeed[motSelect] = SpeedBegin;
+    Timer_ramp[motSelect]->stop();
     Timer_ramp[motSelect]->setTimeout(TimeSlope);
     Timer_ramp[motSelect]->start();
     rampInitDone[motSelect] = true;
@@ -65,22 +66,44 @@ void DriveClass::AccTillRotating_init(bool motSelect, int TimeSlope)
     accTillRotatingDone[motSelect] = false;
 }
 
-bool DriveClass::AccTillRotating_update(bool motSelect, unsigned int endSpeed, int increment)
+bool DriveClass::AccTillRotating_update(bool motSelect, int increment, unsigned int endSpeed = 0)
 {
     if (!accTillRotatingDone[motSelect]) {
         if (State.actualRealSpeed[motSelect] <= endSpeed) {
             rampUpdate(motSelect, increment);
         }
         else {
-            State.motor1DeadBandPWM[0] = State.actualSpeed[motSelect];
-            State.motor1DeadBandReal[0] = State.actualRealSpeed[motSelect];
+            State.motor1DeadBandPWM[motSelect] = State.actualSpeed[motSelect];
+            State.motor1DeadBandReal[motSelect] = State.actualRealSpeed[motSelect];
             accTillRotatingDone[motSelect] = true;
         }
     }
     return accTillRotatingDone[motSelect];
 }
 
-bool a = 0, b = 0;
+void DriveClass::DeccTillRotating_init(bool motSelect, int timeSlope, int speedBegin)
+{
+    if (speedBegin) {
+        Motors.SpeedSingle(motSelect, speedBegin);
+    }
+    rampInit(motSelect, timeSlope, State.actualSpeed[motSelect]);
+    deccTillRotatingDone[motSelect] = false;
+}
+
+bool DriveClass::DeccTillRotating_update(bool motSelect, unsigned int decrement, unsigned int endSpeed = 0)
+{
+    if (!deccTillRotatingDone[motSelect]) {
+        if (State.actualRealSpeed[motSelect] > endSpeed) {
+            rampUpdate(motSelect, -1*sign(State.actualSpeed[motSelect])*decrement);
+        }
+        else {
+            State.motor2DeadBandPWM[motSelect] = State.actualSpeed[motSelect];
+            State.motor2DeadBandReal[motSelect] = State.actualRealSpeed[motSelect];
+            deccTillRotatingDone[motSelect] = true;
+        }
+    }
+    return deccTillRotatingDone[motSelect];
+}
 bool DriveClass::CalibDeadband() {
     switch (calibState) {
     case CalibState::Init: //Stop motors and reset some variables to zero
@@ -91,104 +114,30 @@ bool DriveClass::CalibDeadband() {
         calibState = CalibState::Motor1_f;
         AccTillRotating_init(0, SpeedRampDelayCalib);
         AccTillRotating_init(1, SpeedRampDelayCalib);
-        //rampInit(1, SpeedRampDelayCalib);
         break;
     case CalibState::Motor1_f: //Calibrate first motor - Increment PWM on motor until it starts rotating (the real speed from encoders is bigger than 1 rad/s)
-        //if (!a) {
-        //    if (State.actualRealSpeed[0] < 1) {
-        //        rampUpdate(0, 1);
-        //    }
-        //    else {
-        //        State.motor1DeadBandPWM[0] = State.actualSpeed[0];
-        //        State.motor1DeadBandReal[0] = State.actualRealSpeed[0];
-        //        a = 1;
-        //    }
-        //}
-        //AccTillRotating_update(0, 1, 1);
+    {
         bool ret = AccTillRotating_update(1, 1, 1);
         ret = AccTillRotating_update(0, 1, 1) && ret;
-        if(ret)
-            calibState = CalibState::End;
-
-        //if (!b) {
-        //    if (State.actualRealSpeed[1] < 1) {
-        //        rampUpdate(1, 1);
-        //    }
-        //    else {
-        //        State.motor2DeadBandPWM[0] = State.actualSpeed[1];
-        //        State.motor2DeadBandReal[0] = State.actualRealSpeed[1];
-        //        //Motors.SpeedSingle(1, 0);
-        //        b = 1;
-        //    }
-        //}
-        //if (a && b) {
-        //    calibState = CalibState::End;
-        //}
+        if (ret)
+            calibState = CalibState::Motor1_b;
         break;
-    //    if (State.actualRealSpeed[0] < 1) {
-    //        currentTime_C = micros();
-    //        if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
-    //            previousTime_C = currentTime_C;
-    //            ++State.requiredSpeed[0];
-    //        }
-    //        Motors.Speed(State.requiredSpeed[0], 0);
-    //    }
-    //    else {
-    //        State.motor1DeadBandPWM[0] = State.actualSpeed[0];
-    //        State.motor1DeadBandReal[0] = State.actualRealSpeed[0];
-    //        Motors.Stop();
-    //        calibState = CalibState::Motor1_b;
-    //    }
-    //    break;
-    //case CalibState::Motor1_b:
-    //    if (State.actualRealSpeed[0] < 1) {
-    //        currentTime_C = micros();
-    //        if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
-    //            previousTime_C = currentTime_C;
-    //            --State.requiredSpeed[0];
-    //        }
-    //        Motors.Speed(State.requiredSpeed[0], 0);
-    //    }
-    //    else {
-    //        State.motor1DeadBandPWM[1] = State.actualSpeed[0];
-    //        State.motor1DeadBandReal[1] = State.actualRealSpeed[0];
-    //        Motors.Stop();
-    //        calibState = CalibState::Motor2_f;
-    //    }
-    //    break;
-    //case CalibState::Motor2_f: //Calibrate second motor - Increment PWM on motor until it starts rotating (the real speed from encoders is bigger than 1 rad/s)
-    //    if (State.actualRealSpeed[1] < 1) {
-    //        currentTime_C = micros();
-    //        if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
-    //            previousTime_C = currentTime_C;
-    //            ++State.requiredSpeed[1];
-    //        }
-    //        Motors.Speed(0, State.requiredSpeed[1]);
-    //    }
-    //    else {
-    //        State.motor2DeadBandPWM[0] = State.actualSpeed[1];
-    //        State.motor2DeadBandReal[0] = State.actualRealSpeed[1];
-    //        Motors.Stop();
-    //        calibState = CalibState::Motor2_b;
-    //    }
-    //    break;
-    //case CalibState::Motor2_b:
-    //    if (State.actualRealSpeed[1] < 1) {
-    //        currentTime_C = micros();
-    //        if ((currentTime_C - previousTime_C) >= SpeedRampDelayCalib) {
-    //            previousTime_C = currentTime_C;
-    //            --State.requiredSpeed[1];
-    //        }
-    //        Motors.Speed(0, State.requiredSpeed[1]);
-    //    }
-    //    else {
-    //        State.motor2DeadBandPWM[1] = State.actualSpeed[1];
-    //        State.motor2DeadBandReal[1] = State.actualRealSpeed[1];
-    //        Motors.Stop();
-    //        calibState = CalibState::End;
-    //    }
-    //    break;
+    }
+    case CalibState::Motor1_b:
+        DeccTillRotating_init(0, SpeedRampDelayCalib);
+        DeccTillRotating_init(1, SpeedRampDelayCalib);
+        calibState = CalibState::Motor2_f;
+        break;
+    case CalibState::Motor2_f:
+    {
+        bool ret2 = DeccTillRotating_update(0, 1);
+        ret2 = DeccTillRotating_update(1, 1) && ret2;
+        if (ret2)
+            calibState = CalibState::End;
+        break;
+    }
     case CalibState::End: //End of calibration of both motors - indicated by State.CalibEnd making true - After first calibration it stays in this state forever
+        Motors.Stop();
         State.CalibEnd = 1;
         break;
     }
@@ -208,7 +157,7 @@ void DriveClass::loop()
         break;
     case CommState::Wait:
         break;
-    case CommState::SpeedPWM:
+    case CommState::SpeedPWM: 
         Motors.Speed(State.requiredSpeed[0], State.requiredSpeed[1]);
         break;
     case CommState::SpeedReal:
@@ -231,4 +180,31 @@ void DriveClass::loop()
     }//{roundf(pid_Out1)} {commStatePrint}
 }
 
-DriveClass Drive(State);
+DriveClass Drive{};
+
+//Garbage:
+    //case CalibState::Motor1_b:
+    //    Serial.println("in 1_b");
+
+    //    //Motors.Stop();
+
+    //    //AccTillRotating_init(0, SpeedRampDelayCalib);
+    //    //AccTillRotating_init(1, SpeedRampDelayCalib);
+
+    //    //DeccTillRotating_init(0, SpeedRampDelayCalib);
+    //    //DeccTillRotating_init(1, SpeedRampDelayCalib);
+    //    calibState = CalibState::Motor2_f;
+    //    break;
+    //case CalibState::Motor2_f:
+    //    Serial.println("in case");
+    //    //calibState = CalibState::End;
+    //    //bool ret2 = DeccTillRotating_update(1, 1, 1);
+    //    //ret2 = DeccTillRotating_update(0, 1, 0) && ret;
+    //    //if (ret2)
+    //    //    calibState = CalibState::End;
+
+    //    //bool ret2 = AccTillRotating_update(1, 1, 1);
+    //    //ret2 = AccTillRotating_update(0, 1, 1) && ret2;
+    //    //if (ret2)
+    //    //    calibState = CalibState::End;
+    //    break;

@@ -21,17 +21,11 @@
 /**
  * \brief Class directly controling motors
  */
-class MotorsClass
+class MotorsClass final //final means not herritable class - optimalisation
 {
  protected:
-	 StateClass& State; ///< Storage for all shared variables 
+	// StateClass& State; ///< Storage for all shared variables 
  public:
-	 
-	 /**
-	  * \brief C'tor from StateClass
-	  * \param state Reference to storage for all shared variables
-	  */
-	 MotorsClass(StateClass& state) : State(state) {};
 
 	 /**
 	  * \brief Initialize motor pinouts and motor driver
@@ -51,19 +45,16 @@ class MotorsClass
 	  */
 	 void SpeedSingle(bool motSelect, int Spd);
 
-
 	 /**
 	  * \brief Set Speed of both motors
 	  */
 	 void Speed(int Spd1, int Spd2);
 
-	 void Speed_1(int Spd);
+	 //void Speed_1(int Spd);
 
-	 void Speed_2(int Spd);
-
+	 //void Speed_2(int Spd);
 
 	 //void Speed_3(int Spd);
-
 
 };
 
