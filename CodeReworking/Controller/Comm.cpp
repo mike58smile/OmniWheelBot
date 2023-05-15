@@ -48,7 +48,6 @@ void CommClass::Stop()
 	Wire.write(0);
 	Wire.endTransmission();
 	State.controlState = ControlState::Stop;
-
 }
 
 void CommClass::SetPWM(int spd1, int spd2, int spd3, int spd4)
