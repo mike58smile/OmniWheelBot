@@ -23,7 +23,6 @@ void setup() {
 	Drive.init();
 }
 
-unsigned long int count = 0;
 /**
  * \brief The loop function which runs over and over again until power down or reset
  */
@@ -32,5 +31,5 @@ void loop() {
 	SerialControl.loop(); //always before Drive.loop
 #endif // SerialCtrl
 	Drive.loop();
-	++count;
+	Serial.println("$"+String(State.actualEncSpeed[0])+" "+String(State.requiredEncSpeed[0])+";");
 }

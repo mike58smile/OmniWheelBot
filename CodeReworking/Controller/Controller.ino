@@ -13,6 +13,8 @@
 #include "State.h"
 #include "Comm.h"
 #include "IR.h"
+#include "SerialControl.h"
+//#define IR_test
 
 void setup() {
 	Comm.init();
@@ -21,7 +23,12 @@ void setup() {
 
 // the loop function runs over and over again until power down or reset
 void loop() {
-	Comm.SerialDebug();
+#ifdef IR_test
+	while(true)
+		IR.test();
+#endif
+	//Comm.SerialDebug();
+	SerialControl.loop();
 	IR.control();
 	Comm.loop();
 

@@ -76,6 +76,25 @@ void CommClass::SetPWM(int spd)
     SetPWM(spd, spd, spd, spd);
 }
 
+void CommClass::SetPID(float Kp_add, float Ki_add, float Kd_add)
+{
+    Wire.beginTransmission(State.adress[0]);
+    Wire.write(4);
+    WireWriteF(Kp_add);
+    WireWriteF(Ki_add);
+    WireWriteF(Kd_add);
+    Wire.endTransmission();
+    //constants for the next motor same... useless
+    Wire.beginTransmission(State.adress[1]);
+    Wire.write(4);
+    WireWriteF(Kp_add);
+    WireWriteF(Ki_add);
+    WireWriteF(Kd_add);
+    Wire.endTransmission();
+
+    State.controlState = ControlState::SetPID;
+}
+
 void CommClass::SerialDebug() {
     if (Serial.available() > 0) {
         SerialString = Serial.readStringUntil('\n');

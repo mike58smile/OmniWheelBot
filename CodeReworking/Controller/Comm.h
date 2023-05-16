@@ -72,6 +72,7 @@ class CommClass
 	 void Stop();
 	 void SetPWM(int spd1, int spd2, int spd3, int spd4);
 	 void SetPWM(int spd);
+	 void SetPID(float Kp_add, float Ki_add, float Kd_add);
 	 void SerialDebug();
 };
 

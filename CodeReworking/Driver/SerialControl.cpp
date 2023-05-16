@@ -18,6 +18,8 @@ void SerialControlClass::loop()
 {
    //Serial.print(String(State.actualRealSpeed[0]) + " " + String(State.actualRealSpeed[1]) + " " + String(State.motor1DeadBandReal[0]) + " " + String(State.motor2DeadBandReal[0]));
    //Serial.println();
+    if (State.commStatePrev != State.commState)
+        State.commStatePrev = State.commState;
     if (Serial.available() > 0) {
         SerialString = Serial.readStringUntil('\n');
         SerialInt = SerialString.toInt();
@@ -57,8 +59,8 @@ void SerialControlClass::loop()
                 State.commState = CommState::SpeedPWM;
                 break;
             case 3:
-                State.requiredRealSpeed[0] = 10;
-                State.requiredRealSpeed[1] = 10;
+                State.requiredEncSpeed[0] = 20;
+                State.requiredEncSpeed[1] = 20;
                 State.commState = CommState::SpeedReal;
                 break;
             case 4:
@@ -76,20 +78,20 @@ void SerialControlClass::loop()
             State.commState = CommState::CalibDeadBand;
             break;
         case SerialMode::Kp1:
-            State.Kp_1 = SerialFloat;
+            State.Kp_1 += SerialFloat;
             State.commState = CommState::ChangeConstPID;
             break;
         case SerialMode::Ki1:
-            State.Ki_1 = SerialFloat;
+            State.Ki_1 += SerialFloat;
             State.commState = CommState::ChangeConstPID;
             break;
         case SerialMode::Kd1:
-            State.Kd_1 = SerialFloat;
+            State.Kd_1 += SerialFloat;
             State.commState = CommState::ChangeConstPID;
             break;
         case SerialMode::RealSpeed:
-            State.requiredRealSpeed[0] = SerialFloat;
-            State.requiredRealSpeed[1] = SerialFloat;
+            State.requiredEncSpeed[0] = SerialInt;
+            State.requiredEncSpeed[1] = SerialInt;
             State.commState = CommState::SpeedReal;
             break;
         case SerialMode::EnableSerialGet: //Now doing nothing - big delay when added condition to breakpoint - UNUSABLE

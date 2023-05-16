@@ -15,8 +15,10 @@ void requestEvent()
 {
     WireWriteI(State.actualSpeed[0]);
     WireWriteI(State.actualSpeed[1]);
-    WireWriteF(State.actualRealSpeed[0]);
-    WireWriteF(State.actualRealSpeed[1]);
+    WireWriteI(State.actualEncSpeed[0]);
+    WireWriteI(State.actualEncSpeed[1]);
+    //WireWriteF(State.actualRealSpeed[0]);
+    //WireWriteF(State.actualRealSpeed[1]);
 }
 
 /**
@@ -24,6 +26,8 @@ void requestEvent()
  */
 void receiveData(int x)
 {
+    if(State.commStatePrev != State.commState)
+        State.commStatePrev = State.commState;
     int mode = Wire.read();
     switch (mode) {
     case 0:
@@ -47,9 +51,9 @@ void receiveData(int x)
         State.commState = CommState::SpeedReal;
         break;
     case 4:
-        State.Kp_1 = WireReadF();
-        State.Ki_1 = WireReadF();
-        State.Kd_1 = WireReadF();
+        State.Kp_1 += WireReadF();
+        State.Ki_1 += WireReadF();
+        State.Kd_1 += WireReadF();
         State.commState = CommState::ChangeConstPID;
         break;
     case 5:

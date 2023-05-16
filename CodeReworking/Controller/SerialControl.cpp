@@ -12,7 +12,6 @@
 void SerialControlClass::init()
 {
 
-
 }
 
 void SerialControlClass::loop()
@@ -21,12 +20,14 @@ void SerialControlClass::loop()
         SerialString = Serial.readStringUntil('\n');
         SerialInt = SerialString.toInt();
         SerialFloat = SerialString.toFloat();
+
         if (SerialString == "com" || SerialString == "comm")
-            EnableSerialMode = 'c';
+            serialMode = SerialMode::Comm;
         else if (SerialString == "spd" || SerialString == "speed")
-            EnableSerialMode = 's';
-        switch (EnableSerialMode) {
-        case 'c':
+            serialMode = SerialMode::Speed;
+
+        switch (serialMode) {
+        case SerialMode::Comm:
             switch (SerialInt) {
             case 0:
                 //Stop motor (and reset PID)
@@ -39,17 +40,20 @@ void SerialControlClass::loop()
                 //set speed
                 Comm.SetPWM(50, 50, 50, 50);
                 break;
-            case 3:
-
+            case 4:
+                Comm.SetPID(-0.5, 1.56, 40);
+                break;
             default:
                 break;
             }
             break;
-        case 's':
+        case SerialMode::Speed:
+        {
             int speed = SerialInt;
             if (abs(speed) > 200) speed = sign(speed) * 200;
             Comm.SetPWM(speed, speed, speed, speed);
             break;
+        }
         default:
             break;
         }

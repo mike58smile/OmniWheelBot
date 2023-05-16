@@ -36,7 +36,6 @@ class SerialControlClass final
  public:
 	 const char* SerialModePrint[static_cast<int>(SerialMode::Size)] = { "Idle", "Comm", "Speed", "RealSpeed", "Kp1", "Ki1", "Kd1", "CalibDeadBand", "EnableSerialGet"}; ///< Used for printing mainState enum
 	 
-
 	 /**
 	  * \brief Initialize Serial controlling - EMPTY
 	  * \note Use in void setup()

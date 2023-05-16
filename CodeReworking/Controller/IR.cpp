@@ -55,20 +55,21 @@ bool IRClass::detectLongPress(uint16_t aLongPressDurationMillis)
 
 void IRClass::control()
 {
+    using namespace IR_denon; //Using DENON IR remote control
     bool readIR = read();
     if (readIR) {
         switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
-        case 0xF001B140: //UP
+        case UP: //UP
             Serial.println("UP");
             Comm.SetPWM(20);
             break;
-        case 0xB001F140: //ENTER
+        case ENTER: //ENTER
             Serial.println("ENTER");
             Comm.Stop();
             break;
-        case 0x8001C140: //DOWN
+        case DOWN: //DOWN
             Serial.println("DOWN");
-            Comm.SetPWM(40);
+            Comm.SetPID(0.5, 0.5, 0.5);
             break;
         }
     }
@@ -77,6 +78,8 @@ void IRClass::control()
         Serial.println(currentRecievedFlag, HEX);
         if(currentRecievedFlag == 0xF001B140)
             Comm.SetPWM(30);
+        if(currentRecievedFlag == 0x8001C140)
+            Comm.SetPWM(50);
     }
 }
 
