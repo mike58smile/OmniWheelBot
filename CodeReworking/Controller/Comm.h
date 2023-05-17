@@ -56,6 +56,8 @@ inline void WireWriteI(int iValue) {
 //Wire.write((int16 >> 8)); \
 //}
 
+enum class MeasType { Calib, Ramp, Ramp_optim }; ///< Type of meassurements
+
 class CommClass
 {
  protected:
@@ -66,14 +68,16 @@ class CommClass
 	 String SerialString = "";
 	 int SerialInt = 0;
  public:
+
 	 CommClass(StateClass& state) : State(state) {}
 	 void init();
 	 void loop();
 	 void Stop();
 	 void SetPWM(int spd1, int spd2, int spd3, int spd4);
 	 void SetPWM(int spd);
+	 void SetReal(float spd1, float spd2, float spd3, float spd4);
 	 void SetPID(float Kp_add, float Ki_add, float Kd_add);
-	 void SerialDebug();
+	 void SetMeas(MeasType type, int motSelect = 0);
 };
 
 extern CommClass Comm;

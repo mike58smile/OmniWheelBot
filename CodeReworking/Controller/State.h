@@ -16,6 +16,21 @@
 	#include "WProgram.h"
 #endif
 
+//---Here are changable constants
+constexpr int TimerSpeedDelay_mS = 30; ///< NEED TO BE SAME AS IN DRIVER!! Speed reading from encoder time period - Change only this !!
+
+//-------------------------------
+constexpr int TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
+
+const float speedConvSlope = TWO_PI / (979.2 * (TimerSpeedDelay_mS / 1000.0)); ///< Speed conversion slope (Enc speed - Real speed
+inline float EncToRealSpd(int EncSpeed) {
+	return(float(EncSpeed) * speedConvSlope);
+}
+
+inline int RealToEncSpd(float RealSpeed) {
+	return int(RealSpeed / speedConvSlope);
+}
+
 static inline int8_t sign(int val) {
 	if (val < 0) return -1;
 	if (val == 0) return 0;
@@ -24,7 +39,7 @@ static inline int8_t sign(int val) {
 using Pin = const uint8_t;
 
 
-enum class ControlState { Stop, Wait, SpeedPWM, SpeedReal, SetPID, Unknown,   Size }; ///< Define CommState enum
+enum class ControlState { Stop, Wait, SpeedPWM, SpeedReal, SetPID, SetMeas, Unknown,   Size }; ///< Define CommState enum
 #define controlStatePrint State.ControlStatePrint[static_cast<int>(State.controlState)] //inline function is much better
 
  /**
@@ -41,6 +56,7 @@ class StateClass
 
 	 int actualSpeed[4] = { 0,0,0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite in Driver in range (0 - 255)
 	 float actualRealSpeed[4] = { 0,0,0,0 }; ///< Actual real speed of two motors in rad/s
+	 int actualEncSpeed[4] = { 0,0,0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
 	 int adress[2] = { 0x10, 0x11 }; ///< Adress of drivers - 0x10 = motors 1,2 ; 0x11 = motors 3,4
 };
 

@@ -26,23 +26,27 @@ void CommClass::init()
  */
 void CommClass::loop()
 {
-    Wire.requestFrom(State.adress[0], countBytes(2,2));
+    Wire.requestFrom(State.adress[0], countBytes(4, 0)); //Need to change countBytes, maybe use macro __SIZEOF_FLOAT__ and also for int
 	State.actualSpeed[0] = WireReadI();
 	State.actualSpeed[1] = WireReadI();
-    State.actualRealSpeed[0] = WireReadF();
-	State.actualRealSpeed[1] = WireReadF();
+    State.actualEncSpeed[0] = WireReadI();
+    State.actualEncSpeed[1] = WireReadI();
+    //State.actualRealSpeed[0] = WireReadF();
+	//State.actualRealSpeed[1] = WireReadF();
 
-    Wire.requestFrom(State.adress[1], countBytes(2, 2));
+    Wire.requestFrom(State.adress[1], countBytes(4, 0)); //Need to change countBytes
     State.actualSpeed[2] = WireReadI();
     State.actualSpeed[3] = WireReadI();
-    State.actualRealSpeed[2] = WireReadF();
-    State.actualRealSpeed[3] = WireReadF();
+    State.actualEncSpeed[0] = WireReadI();
+    State.actualEncSpeed[1] = WireReadI();
+    //State.actualRealSpeed[2] = WireReadF();
+    //State.actualRealSpeed[3] = WireReadF();
 }
 
 void CommClass::Stop()
 {
 	Wire.beginTransmission(State.adress[0]);
-	Wire.write(0);
+	Wire.write(0); //Send only 8bit for state recognition
 	Wire.endTransmission();
 	Wire.beginTransmission(State.adress[1]);
 	Wire.write(0);
@@ -76,6 +80,24 @@ void CommClass::SetPWM(int spd)
     SetPWM(spd, spd, spd, spd);
 }
 
+void CommClass::SetReal(float spd1, float spd2, float spd3, float spd4)
+{
+    RealToEncSpd(spd1);
+
+    Wire.beginTransmission(State.adress[0]);
+    Wire.write(3);
+    WireWriteI(RealToEncSpd(spd1));
+    WireWriteI(RealToEncSpd(spd2));
+    Wire.endTransmission();
+
+    Wire.beginTransmission(State.adress[1]);
+    Wire.write(3);
+    WireWriteI(RealToEncSpd(spd3));
+    WireWriteI(RealToEncSpd(spd4));
+    Wire.endTransmission();
+    State.controlState = ControlState::SpeedReal;
+}
+
 void CommClass::SetPID(float Kp_add, float Ki_add, float Kd_add)
 {
     Wire.beginTransmission(State.adress[0]);
@@ -95,40 +117,64 @@ void CommClass::SetPID(float Kp_add, float Ki_add, float Kd_add)
     State.controlState = ControlState::SetPID;
 }
 
-void CommClass::SerialDebug() {
-    if (Serial.available() > 0) {
-        SerialString = Serial.readStringUntil('\n');
-        SerialInt = SerialString.toInt();
-        if (SerialString == "com" || SerialString == "comm")
-            EnableSerialMode = 'c';
-        else if (SerialString == "spd" || SerialString == "speed")
-            EnableSerialMode = 's';
-        switch (EnableSerialMode) {
-        case 'c':
-            switch (SerialInt) {
-            case 0:
-                //Stop motor (and reset PID)
-                Stop();
-                break;
-            case 1:
-                State.controlState = ControlState::Wait;
-                break;
-            case 2:
-                //set speed
-                SetPWM(50, 50, 50, 50);
-                break;
-            default:
-                break;
-            }
-            break;
-        case 's':
-            int speed = SerialInt;
-            if (abs(speed) > 200) speed = sign(speed) * 200;
-            SetPWM(speed, speed, speed, speed);
-            break;
-        default:
-            break;
-        }
+void CommClass::SetMeas(MeasType type, int motSelect)
+{
+    if (motSelect == 0 || motSelect == 1) {
+        Wire.beginTransmission(State.adress[0]);
+        Wire.write(10);
+        WireWriteI(motSelect);
+        WireWriteI(static_cast<int>(type));
+        Wire.endTransmission();
     }
+    else if (motSelect == 2 || motSelect == 3) {
+        Wire.beginTransmission(State.adress[1]);
+        Wire.write(10);
+        WireWriteI(motSelect - 2);
+        WireWriteI(static_cast<int>(type));
+        Wire.endTransmission();
+    }
+    State.controlState = ControlState::SetMeas;
 }
+
 CommClass Comm(State);
+
+//Garbage:
+// In Comm.h
+// 	 void SerialDebug();
+// In Comm.cpp
+//void CommClass::SerialDebug() {
+//    if (Serial.available() > 0) {
+//        SerialString = Serial.readStringUntil('\n');
+//        SerialInt = SerialString.toInt();
+//        if (SerialString == "com" || SerialString == "comm")
+//            EnableSerialMode = 'c';
+//        else if (SerialString == "spd" || SerialString == "speed")
+//            EnableSerialMode = 's';
+//        switch (EnableSerialMode) {
+//        case 'c':
+//            switch (SerialInt) {
+//            case 0:
+//                //Stop motor (and reset PID)
+//                Stop();
+//                break;
+//            case 1:
+//                State.controlState = ControlState::Wait;
+//                break;
+//            case 2:
+//                //set speed
+//                SetPWM(50, 50, 50, 50);
+//                break;
+//            default:
+//                break;
+//            }
+//            break;
+//        case 's':
+//            int speed = SerialInt;
+//            if (abs(speed) > 200) speed = sign(speed) * 200;
+//            SetPWM(speed, speed, speed, speed);
+//            break;
+//        default:
+//            break;
+//        }
+//    }
+//}

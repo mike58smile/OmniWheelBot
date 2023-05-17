@@ -25,7 +25,20 @@ void SerialControlClass::loop()
             serialMode = SerialMode::Comm;
         else if (SerialString == "spd" || SerialString == "speed")
             serialMode = SerialMode::Speed;
-
+        else if (SerialString == "kp1")
+            serialMode = SerialMode::Kp1;
+        else if (SerialString == "ki1")
+            serialMode = SerialMode::Ki1;
+        else if (SerialString == "kd1")
+            serialMode = SerialMode::Kd1;
+        else if (SerialString == "real")
+            serialMode = SerialMode::RealSpeed;
+        else if (SerialString == "calib")
+            serialMode = SerialMode::CalibDeadBand;
+        else if (SerialString == "meas1")
+            serialMode = SerialMode::Meas1;
+        else if (SerialString == "meas2")
+            serialMode = SerialMode::Meas2;
         switch (serialMode) {
         case SerialMode::Comm:
             switch (SerialInt) {
@@ -41,7 +54,7 @@ void SerialControlClass::loop()
                 Comm.SetPWM(50, 50, 50, 50);
                 break;
             case 4:
-                Comm.SetPID(-0.5, 1.56, 40);
+                Comm.SetPID(1,1,1);
                 break;
             default:
                 break;
@@ -54,6 +67,27 @@ void SerialControlClass::loop()
             Comm.SetPWM(speed, speed, speed, speed);
             break;
         }
+        case SerialMode::Kp1:
+            Comm.SetPID(SerialFloat, 0, 0);
+            break;
+        case SerialMode::Ki1:
+            Comm.SetPID(0, SerialFloat, 0);
+            break;
+        case SerialMode::Kd1:
+            Comm.SetPID(0, 0, SerialFloat);
+            break;
+        case SerialMode::RealSpeed:
+            Comm.SetReal(SerialFloat, 0, 0, 0);
+            break;
+        case SerialMode::Meas1:
+            Comm.SetMeas(MeasType::Ramp);
+            break;
+        case SerialMode::Meas2:
+            Comm.SetMeas(MeasType::Ramp_optim);
+            break;
+        case SerialMode::CalibDeadBand:
+            Comm.SetMeas(MeasType::Calib);
+            break;
         default:
             break;
         }
