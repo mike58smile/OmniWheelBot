@@ -92,9 +92,17 @@ class DriveClass final
 	  */
 	 void loop();
 
+private:
+	struct OptimizedSpd {
+		int zeroPWM = 3;
+		int minPWM = 20;
+	} optimizedSpd;
+public:
 	 inline int PWMtoOptimizedPWM(int PWMspeed, int zeroVal, int minPWM);
+
+
 	 void rampInit(bool motSelect, int TimeSlope);
-	 void rampInit(bool motSelect, int TimeSlope, int SpeedBegin);
+	 void rampInit(bool motSelect, int TimeSlope, int SpeedBegin, bool optim = 0);
 	 void rampUpdate(bool motSelect, int increment, bool optim = false);
 
 	 void AccTillRotating_init(bool motSelect, int TimeSlope);
@@ -105,11 +113,11 @@ class DriveClass final
 
 
 	 void AccTillPWM_init(bool motSelect, int TimeSlope);
-	 void AccTillPWM_init(bool motSelect, int TimeSlope, int speedBegin);
+	 void AccTillPWM_init(bool motSelect, int TimeSlope, int speedBegin, bool optim = 0);
 	 bool AccTillPWM_update(bool motSelect, int increment, int endSpeed, bool optim = 0);
 
 	 void DeccTillPWM_init(bool motSelect, int timeSlope);
-	 void DeccTillPWM_init(bool motSelect, int timeSlope, int speedBegin);
+	 void DeccTillPWM_init(bool motSelect, int timeSlope, int speedBegin, bool optim = 0);
 	 bool DeccTillPWM_update(bool motSelect, unsigned int decrement, int endSpeed, bool optim = 0);
 
 private:

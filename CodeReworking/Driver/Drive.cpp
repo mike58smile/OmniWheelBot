@@ -56,14 +56,16 @@ inline int DriveClass::PWMtoOptimizedPWM(int PWMspeed, int zeroVal, int minPWM)
 }
 void DriveClass::rampInit(bool motSelect, int TimeSlope)
 {
+    //State.requiredSpeed[motSelect] = State.actualSpeed[motSelect]; //added
     Timer_ramp[motSelect]->stop();
     Timer_ramp[motSelect]->setTimeout(TimeSlope);
     Timer_ramp[motSelect]->start();
     rampInitDone[motSelect] = true;
 }
-void DriveClass::rampInit(bool motSelect, int TimeSlope, int SpeedBegin)
+void DriveClass::rampInit(bool motSelect, int TimeSlope, int SpeedBegin, bool optim)
 {
-    State.requiredSpeed[motSelect] = SpeedBegin;
+    State.requiredSpeed[motSelect] = SpeedBegin; //= optim ? PWMtoOptimizedPWM(SpeedBegin, 3, 20) : SpeedBegin;
+    Motors.SpeedSingle(motSelect, (optim ? PWMtoOptimizedPWM(State.requiredSpeed[motSelect], optimizedSpd.zeroPWM, optimizedSpd.minPWM) : State.requiredSpeed[motSelect]));
     Timer_ramp[motSelect]->stop();
     Timer_ramp[motSelect]->setTimeout(TimeSlope);
     Timer_ramp[motSelect]->start();
@@ -79,7 +81,7 @@ void DriveClass::rampUpdate(bool motSelect, int increment, bool optim)
         Timer_ramp[motSelect]->start();
         State.requiredSpeed[motSelect] += increment;
         if(optim)
-            Motors.SpeedSingle(motSelect, PWMtoOptimizedPWM(State.requiredSpeed[motSelect], 3, 20));
+            Motors.SpeedSingle(motSelect, PWMtoOptimizedPWM(State.requiredSpeed[motSelect], optimizedSpd.zeroPWM, optimizedSpd.minPWM));
         else
             Motors.SpeedSingle(motSelect, State.requiredSpeed[motSelect]);
     }
@@ -138,17 +140,17 @@ void DriveClass::AccTillPWM_init(bool motSelect, int TimeSlope)
     rampInit(motSelect, TimeSlope);
     accTillPWMDone[motSelect] = false;
 }
-void DriveClass::AccTillPWM_init(bool motSelect, int TimeSlope, int speedBegin)
+void DriveClass::AccTillPWM_init(bool motSelect, int TimeSlope, int speedBegin, bool optim)
 {
-    Motors.SpeedSingle(motSelect, speedBegin);
-    rampInit(motSelect, TimeSlope, speedBegin);
+    //Motors.SpeedSingle(motSelect, speedBegin);
+    rampInit(motSelect, TimeSlope, speedBegin, optim);
     accTillPWMDone[motSelect] = false;
 }
 
 bool DriveClass::AccTillPWM_update(bool motSelect, int increment, int endSpeed, bool optim)
 {
     if (!accTillPWMDone[motSelect]) {
-        if ((optim ? PWMtoOptimizedPWM(State.actualSpeed[motSelect], 3, 20) : State.actualSpeed[motSelect]) < endSpeed)
+        if (State.actualSpeed[motSelect] < (optim ? PWMtoOptimizedPWM(endSpeed, optimizedSpd.zeroPWM, optimizedSpd.minPWM) : endSpeed)) //(optim ? PWMtoOptimizedPWM(State.actualSpeed[motSelect], 3, 20) : State.actualSpeed[motSelect])
             rampUpdate(motSelect, increment, optim);
         else 
             accTillPWMDone[motSelect] = true;
@@ -156,16 +158,16 @@ bool DriveClass::AccTillPWM_update(bool motSelect, int increment, int endSpeed, 
     return accTillPWMDone[motSelect];
 }
 
-void DriveClass::DeccTillPWM_init(bool motSelect, int timeSlope, int speedBegin)
+void DriveClass::DeccTillPWM_init(bool motSelect, int timeSlope, int speedBegin, bool optim)
 {
-    Motors.SpeedSingle(motSelect, speedBegin);
-    rampInit(motSelect, timeSlope, speedBegin);
+    //Motors.SpeedSingle(motSelect, speedBegin);
+    rampInit(motSelect, timeSlope, speedBegin, optim);
     deccTillPWMDone[motSelect] = false;
 }
 
 void DriveClass::DeccTillPWM_init(bool motSelect, int timeSlope)
 {
-    rampInit(motSelect, timeSlope, State.actualSpeed[motSelect]);
+    rampInit(motSelect, timeSlope);//, State.actualSpeed[motSelect]);
     deccTillPWMDone[motSelect] = false;
 }
 
@@ -223,7 +225,7 @@ bool DriveClass::CalibDeadband() {
 bool DriveClass::LinearityRamp_meassure(int maxSpeed, int motSelect, bool optim) {
     switch (linearityRamp_state) {
     case LinearityRamp_state::InitAcc:
-        AccTillPWM_init(motSelect, SpeedRampDelayCalib,-maxSpeed);
+        AccTillPWM_init(motSelect, SpeedRampDelayCalib,-maxSpeed, optim);
         linearityRamp_state = LinearityRamp_state::Acc;
         break;
     case LinearityRamp_state::Acc:
@@ -293,7 +295,7 @@ void DriveClass::loop()
             //LinearityRamp_meassure(70, State.meas.motSelect, 0);
             break;
         case MeasType::Ramp_optim:
-            if(LinearityRamp_meassure(50,State.meas.motSelect,1)) State.commState = CommState::Wait;
+            if(LinearityRamp_meassure(40,State.meas.motSelect,1)) State.commState = CommState::Wait; //maxSpd in non optimized PWM
             //LinearityRamp_meassure(50, State.meas.motSelect, 1);
             break;
         }

@@ -13,7 +13,7 @@ void SerialControlClass::init()
 {
 
 }
-int speed;
+
 void SerialControlClass::loop()
 {
    //Serial.print(String(State.actualRealSpeed[0]) + " " + String(State.actualRealSpeed[1]) + " " + String(State.motor1DeadBandReal[0]) + " " + String(State.motor2DeadBandReal[0]));
@@ -112,13 +112,14 @@ void SerialControlClass::loop()
             SerialGetEN = !SerialGetEN;
             break;
         case SerialMode::Speed:
-            speed = SerialInt;
+        {
+            int speed = SerialInt;
             if (abs(speed) > 200) speed = sign(speed) * 200;
             State.requiredSpeed[0] = speed;
             State.requiredSpeed[1] = speed;
             State.commState = CommState::SpeedPWM; // need to asign commState for drive to catch the request for changing speed to required
             break;
-        
+        }
         default:
             break;
         }
