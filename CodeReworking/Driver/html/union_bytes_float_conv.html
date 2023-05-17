@@ -93,6 +93,8 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>floatValue</b></td><
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >For float to Byte conversion. </p>
 <dl class="section note"><dt>Note</dt><dd>Union stores value on the same memory place - we wrote to floatValue and read from buffer which points to same memmorhy location as float so we read float value but outside it is considered char (buffer) </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If different architecture - char may be different from float </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Get pointer to memmory where the float is located and converse it to char </dd></dl>
 </div><hr/>The documentation for this union was generated from the following file:<ul>
 <li><a class="el" href="_comm_8h_source.html">Comm.h</a></li>
 </ul>

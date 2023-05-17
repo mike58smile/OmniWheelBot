@@ -14,9 +14,6 @@ class \mbox{\hyperlink{class_state_class}{State\+Class}}
 \doxysubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{_state_8h_af69b980e54bccf33202009afe3bc1f90}\label{_state_8h_af69b980e54bccf33202009afe3bc1f90}} 
-\#define {\bfseries USE\+\_\+\+TIMER\+\_\+2}~true
-\item 
 \mbox{\Hypertarget{_state_8h_a8e12c22fbc204169dd60974a9f2c5c4d}\label{_state_8h_a8e12c22fbc204169dd60974a9f2c5c4d}} 
 \#define {\bfseries comm\+State\+Print}~State.\+Comm\+State\+Print\mbox{[}static\+\_\+cast$<$int$>$(State.\+comm\+State)\mbox{]}
 \end{DoxyCompactItemize}
@@ -52,18 +49,21 @@ enum class {\bfseries Comm\+State} \{ \newline
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{_state_8h_a0a82d7ddb4b5181047aef0729639bb48}\label{_state_8h_a0a82d7ddb4b5181047aef0729639bb48}} 
-constexpr float {\bfseries Enc\+To\+Real\+Spd} (int Enc\+Speed)
+\mbox{\Hypertarget{_state_8h_a69d4b58df7198b25a6b25265f8199e73}\label{_state_8h_a69d4b58df7198b25a6b25265f8199e73}} 
+float {\bfseries Enc\+To\+Real\+Spd} (int Enc\+Speed)
 \end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{_state_8h_ace81b7721cfd2a469849f25fc66c43ff}\label{_state_8h_ace81b7721cfd2a469849f25fc66c43ff}} 
-constexpr auto {\bfseries Timer\+Speed\+Delay\+\_\+mS} = 30
+\mbox{\Hypertarget{_state_8h_a19b74d5ea8b2d5e4bd7afd11f8a5dde5}\label{_state_8h_a19b74d5ea8b2d5e4bd7afd11f8a5dde5}} 
+const unsigned long {\bfseries Timer\+Speed\+Delay\+\_\+mS} = 30
 \begin{DoxyCompactList}\small\item\em Speed reading from encoder time period -\/ Change only this !! \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{_state_8h_a4cc6036eff1c3ecb0dd8898afb14e46d}\label{_state_8h_a4cc6036eff1c3ecb0dd8898afb14e46d}} 
-constexpr auto {\bfseries Timer\+Speed\+Delay\+\_\+uS} = \mbox{\hyperlink{_state_8h_ace81b7721cfd2a469849f25fc66c43ff}{Timer\+Speed\+Delay\+\_\+mS}} $\ast$ 1000
+\mbox{\Hypertarget{_state_8h_a22bfcbace3609c2784ea6cef76982799}\label{_state_8h_a22bfcbace3609c2784ea6cef76982799}} 
+const unsigned long {\bfseries Timer\+Speed\+Delay\+\_\+uS} = \mbox{\hyperlink{_state_8h_a19b74d5ea8b2d5e4bd7afd11f8a5dde5}{Timer\+Speed\+Delay\+\_\+mS}} $\ast$ 1000
 \begin{DoxyCompactList}\small\item\em Period of reading speed (Period of TIMER\+\_\+1 interrupts) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{_state_8h_a5cdc0c0d93cbc298c134fef161834b8c}\label{_state_8h_a5cdc0c0d93cbc298c134fef161834b8c}} 
+const float {\bfseries num} = TWO\+\_\+\+PI / (979.\+2 $\ast$ (\mbox{\hyperlink{_state_8h_a19b74d5ea8b2d5e4bd7afd11f8a5dde5}{Timer\+Speed\+Delay\+\_\+mS}} / 1000.\+0))
+\item 
 \mbox{\Hypertarget{_state_8h_aa0cc817b371dc08979042179019be7da}\label{_state_8h_aa0cc817b371dc08979042179019be7da}} 
 \mbox{\hyperlink{class_state_class}{State\+Class}} {\bfseries State}
 \end{DoxyCompactItemize}

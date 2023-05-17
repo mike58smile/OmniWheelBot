@@ -6,6 +6,7 @@ Drive class header.
 
 
 {\ttfamily \#include \char`\"{}WProgram.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$timer.\+h$>$}\newline
 {\ttfamily \#include $<$Encoder.\+h$>$}\newline
 {\ttfamily \#include $<$PID\+\_\+v1.\+h$>$}\newline
 {\ttfamily \#include \char`\"{}State.\+h\char`\"{}}\newline
@@ -19,7 +20,7 @@ class \mbox{\hyperlink{class_drive_class}{Drive\+Class}}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{_drive_8h_a526bd455c7ccc9d714aecc718e244fcf}\label{_drive_8h_a526bd455c7ccc9d714aecc718e244fcf}} 
-\#define {\bfseries calib\+State\+Print}~State.\+Calib\+State\+Print\mbox{[}static\+\_\+cast$<$int$>$(State.\+calib\+State)\mbox{]}
+\#define {\bfseries calib\+State\+Print}~Calib\+State\+Print\mbox{[}static\+\_\+cast$<$int$>$(calib\+State)\mbox{]}
 \begin{DoxyCompactList}\small\item\em Use for printing calib\+State enum. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
@@ -27,18 +28,20 @@ class \mbox{\hyperlink{class_drive_class}{Drive\+Class}}
 \mbox{\Hypertarget{_drive_8h_ae175537ad324cf7d5a689415dcb426c2}\label{_drive_8h_ae175537ad324cf7d5a689415dcb426c2}} 
 enum class {\bfseries Calib\+State} \{ \newline
 {\bfseries Init}
-, {\bfseries Motor1}
-, {\bfseries Motor2}
-, {\bfseries End}
+, {\bfseries Motor1\+\_\+f}
+, {\bfseries Motor1\+\_\+b}
+, {\bfseries Motor2\+\_\+f}
 , \newline
-{\bfseries Size}
+{\bfseries Motor2\+\_\+b}
+, {\bfseries End}
+, {\bfseries Size}
  \}
 \end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{_drive_8h_aabb5eb13d6075d416b5e86c1b6a285ad}\label{_drive_8h_aabb5eb13d6075d416b5e86c1b6a285ad}} 
-constexpr auto {\bfseries Speed\+Ramp\+Delay\+Calib} = 80000
+constexpr auto {\bfseries Speed\+Ramp\+Delay\+Calib} = 80
 \begin{DoxyCompactList}\small\item\em 1/\+Slope of speed accelerating ramp during calibration -\/ i.\+e. equals to 1/acceleration (when smaller -\/ it accelerates more quickly) \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{_drive_8h_a64da7ad8a6d174214da363dfc663c61b}\label{_drive_8h_a64da7ad8a6d174214da363dfc663c61b}} 
 \mbox{\hyperlink{class_drive_class}{Drive\+Class}} {\bfseries Drive}

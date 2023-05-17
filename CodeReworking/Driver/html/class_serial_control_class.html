@@ -74,7 +74,7 @@ $(function() {
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_serial_control_class-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">SerialControlClass Class Reference</div></div>
+  <div class="headertitle"><div class="title">SerialControlClass Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -85,9 +85,6 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af01fa17887ee0f8337bf6a24145e81e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_serial_control_class.html#af01fa17887ee0f8337bf6a24145e81e6">SerialControlClass</a> (<a class="el" href="class_state_class.html">StateClass</a> &amp;state)</td></tr>
-<tr class="memdesc:af01fa17887ee0f8337bf6a24145e81e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">C'tor from <a class="el" href="class_state_class.html" title="Class for variables storage (only header, without methods)">StateClass</a>.  <a href="class_serial_control_class.html#af01fa17887ee0f8337bf6a24145e81e6">More...</a><br /></td></tr>
-<tr class="separator:af01fa17887ee0f8337bf6a24145e81e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72b70293552a3fcce13b7148a28271e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_serial_control_class.html#a72b70293552a3fcce13b7148a28271e5">init</a> ()</td></tr>
 <tr class="memdesc:a72b70293552a3fcce13b7148a28271e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize Serial controlling - EMPTY.  <a href="class_serial_control_class.html#a72b70293552a3fcce13b7148a28271e5">More...</a><br /></td></tr>
 <tr class="separator:a72b70293552a3fcce13b7148a28271e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -98,16 +95,12 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aa97e210e6b8fdea11a6a5d7d446e0375"><td class="memItemLeft" align="right" valign="top"><a id="aa97e210e6b8fdea11a6a5d7d446e0375" name="aa97e210e6b8fdea11a6a5d7d446e0375"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>SerialModePrint</b> [static_cast&lt; int &gt;(SerialMode::Size)] = { &quot;Idle&quot;, &quot;Comm&quot;, &quot;Speed&quot;, &quot;RealSpeed&quot;, &quot;Kp1&quot;, &quot;CalibDeadBand&quot;, &quot;EnableSerialGet&quot;}</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>SerialModePrint</b> [static_cast&lt; int &gt;(SerialMode::Size)] = { &quot;Idle&quot;, &quot;Comm&quot;, &quot;Speed&quot;, &quot;RealSpeed&quot;, &quot;Kp1&quot;, &quot;Ki1&quot;, &quot;Kd1&quot;, &quot;CalibDeadBand&quot;, &quot;EnableSerialGet&quot;}</td></tr>
 <tr class="memdesc:aa97e210e6b8fdea11a6a5d7d446e0375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for printing mainState enum. <br /></td></tr>
 <tr class="separator:aa97e210e6b8fdea11a6a5d7d446e0375"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:adc4b377db4d23737b9c6dc81a9a5f61b"><td class="memItemLeft" align="right" valign="top"><a id="adc4b377db4d23737b9c6dc81a9a5f61b" name="adc4b377db4d23737b9c6dc81a9a5f61b"></a>
-<a class="el" href="class_state_class.html">StateClass</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>State</b></td></tr>
-<tr class="memdesc:adc4b377db4d23737b9c6dc81a9a5f61b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storage for all shared variables. <br /></td></tr>
-<tr class="separator:adc4b377db4d23737b9c6dc81a9a5f61b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a139c6d121ae69694dbb952a1482b2ecd"><td class="memItemLeft" align="right" valign="top"><a id="a139c6d121ae69694dbb952a1482b2ecd" name="a139c6d121ae69694dbb952a1482b2ecd"></a>
 SerialMode&#160;</td><td class="memItemRight" valign="bottom"><b>serialMode</b> = SerialMode::Idle</td></tr>
 <tr class="memdesc:a139c6d121ae69694dbb952a1482b2ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for Deadband calibration state machine. <br /></td></tr>
@@ -127,42 +120,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>SerialGetEN</b> = 0</
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Class implementing driver control through UART (Serial connection) </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af01fa17887ee0f8337bf6a24145e81e6" name="af01fa17887ee0f8337bf6a24145e81e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af01fa17887ee0f8337bf6a24145e81e6">&#9670;&#160;</a></span>SerialControlClass()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">SerialControlClass::SerialControlClass </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_state_class.html">StateClass</a> &amp;&#160;</td>
-          <td class="paramname"><em>state</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>C'tor from <a class="el" href="class_state_class.html" title="Class for variables storage (only header, without methods)">StateClass</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">state</td><td>Reference to storage for all shared variables </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a72b70293552a3fcce13b7148a28271e5" name="a72b70293552a3fcce13b7148a28271e5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72b70293552a3fcce13b7148a28271e5">&#9670;&#160;</a></span>init()</h2>
 
@@ -200,8 +158,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>SerialGetEN</b> = 0</
 
 <p>Wait for Serial available (data is sent through serial), reads data and change the operating state and state variables. </p>
 <dl class="section note"><dt>Note</dt><dd>Use in void <a class="el" href="class_serial_control_class.html#abff1c29ded93c6908fd216ac62306c97" title="Wait for Serial available (data is sent through serial), reads data and change the operating state an...">loop()</a> </dd></dl>
-<p >funguje iba pred Speed</p>
-<p >funguje iba pred Speed</p>
 
 </div>
 </div>

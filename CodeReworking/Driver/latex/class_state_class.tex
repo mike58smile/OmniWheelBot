@@ -18,6 +18,18 @@ const char $\ast$ {\bfseries Main\+State\+Print} \mbox{[}static\+\_\+cast$<$ int
 \mbox{\Hypertarget{class_state_class_a91fc6ed96f3a93e0ad9053909d331420}\label{class_state_class_a91fc6ed96f3a93e0ad9053909d331420}} 
 const char $\ast$ {\bfseries Comm\+State\+Print} \mbox{[}static\+\_\+cast$<$ int $>$(Comm\+State\+::\+Size)\mbox{]} = \{ \char`\"{}Stop\char`\"{}, \char`\"{}Wait\char`\"{}, \char`\"{}Speed\+PWM\char`\"{}, \char`\"{}Speed\+Real\char`\"{}, \char`\"{}Change\+Const\+PID\char`\"{}, \char`\"{}Calib\+Dead\+Band\char`\"{}, \char`\"{}Unknown\char`\"{} \}
 \begin{DoxyCompactList}\small\item\em Used for printing comm\+State enum. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_a3b06994bd0056d2f5c9b7037defeec13}\label{class_state_class_a3b06994bd0056d2f5c9b7037defeec13}} 
+Main\+State {\bfseries actual\+State} = Main\+State\+::\+Setup
+\begin{DoxyCompactList}\small\item\em Define actual state in which the driver operates. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_af71f651eebc7746f9c57a33520180c60}\label{class_state_class_af71f651eebc7746f9c57a33520180c60}} 
+Comm\+State {\bfseries comm\+State} = Comm\+State\+::\+Stop
+\begin{DoxyCompactList}\small\item\em Define communication state in which controller wants the driver to be in, only changed in Comm and Serial\+Control. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_a96cc5cffee1f08339bbe2ea43f363232}\label{class_state_class_a96cc5cffee1f08339bbe2ea43f363232}} 
+Comm\+State {\bfseries comm\+State\+Prev} = Comm\+State\+::\+Stop
+\item 
+\mbox{\Hypertarget{class_state_class_a9ba03cd7cdb105fdbf73bb0448e486da}\label{class_state_class_a9ba03cd7cdb105fdbf73bb0448e486da}} 
+const int {\bfseries max\+Speed} = 80
+\begin{DoxyCompactList}\small\item\em Value of maximal speed in PWM allowed for \mbox{\hyperlink{class_motors_class}{Motors\+Class}}. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_state_class_aba4721f9cf041b18c3c55ab07d1422a8}\label{class_state_class_aba4721f9cf041b18c3c55ab07d1422a8}} 
 double {\bfseries Kp\+\_\+1} = 0
 \item 
@@ -36,30 +48,39 @@ double {\bfseries Ki\+\_\+2} = 0
 \mbox{\Hypertarget{class_state_class_a9cbed008c5caff5f2c4a3f97ae4dfa32}\label{class_state_class_a9cbed008c5caff5f2c4a3f97ae4dfa32}} 
 double {\bfseries Kd\+\_\+2} = 0
 \begin{DoxyCompactList}\small\item\em Speed PID constants for motor 2. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_state_class_a48caf5d69573df9788af752f33afc2a9}\label{class_state_class_a48caf5d69573df9788af752f33afc2a9}} 
-int {\bfseries motor1\+Dead\+Band} \mbox{[}2\mbox{]} = \{ 10,10 \}
+\mbox{\Hypertarget{class_state_class_a5ac9eef8d2090a6339f349a3bb78aa49}\label{class_state_class_a5ac9eef8d2090a6339f349a3bb78aa49}} 
+int {\bfseries motor1\+Dead\+Band\+PWM} \mbox{[}2\mbox{]} = \{ 10,10 \}
 \begin{DoxyCompactList}\small\item\em \mbox{[}forward,backward\mbox{]} -\/ What is the minimum PWM value on which Motor 1 starts rotating \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_state_class_a6bb7a7b7971117cec7063e503da22781}\label{class_state_class_a6bb7a7b7971117cec7063e503da22781}} 
-int {\bfseries motor2\+Dead\+Band} \mbox{[}2\mbox{]} = \{ 10,10 \}
+\mbox{\Hypertarget{class_state_class_ae0cb1fa57240aeece9e15b302e909530}\label{class_state_class_ae0cb1fa57240aeece9e15b302e909530}} 
+int {\bfseries motor2\+Dead\+Band\+PWM} \mbox{[}2\mbox{]} = \{ 10,10 \}
 \begin{DoxyCompactList}\small\item\em \mbox{[}forward,backward\mbox{]} -\/ What is the minimum PWM value on which Motor 2 starts rotating \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_afc7517372f0c836ea25c5eb441c6177f}\label{class_state_class_afc7517372f0c836ea25c5eb441c6177f}} 
+int {\bfseries motor\+Dead\+Band\+PWM} \mbox{[}2\mbox{]} = \{ 0, 0 \}
+\item 
+\mbox{\Hypertarget{class_state_class_aab7f9315384a9a54c1a142df3770d6c6}\label{class_state_class_aab7f9315384a9a54c1a142df3770d6c6}} 
+float {\bfseries motor1\+Dead\+Band\+Real} \mbox{[}2\mbox{]} = \{ 0,0 \}
+\begin{DoxyCompactList}\small\item\em \mbox{[}forward,backward\mbox{]} -\/ What is the minimum speed \mbox{[}rad/s\mbox{]} on which Motor 1 starts rotating \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_a9b8933cd26b8d3374f12952405b9a6da}\label{class_state_class_a9b8933cd26b8d3374f12952405b9a6da}} 
+float {\bfseries motor2\+Dead\+Band\+Real} \mbox{[}2\mbox{]} = \{ 0,0 \}
+\begin{DoxyCompactList}\small\item\em \mbox{[}forward,backward\mbox{]} -\/ What is the minimum speed \mbox{[}rad/s\mbox{]} on which Motor 2 starts rotating \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_aedf14bb9ea72d22465dc75acfca9c76d}\label{class_state_class_aedf14bb9ea72d22465dc75acfca9c76d}} 
+float {\bfseries motor\+Dead\+Band\+Real} \mbox{[}2\mbox{]} = \{ 0, 0 \}
+\item 
 \mbox{\Hypertarget{class_state_class_ab1e985ffb2b291bd0d296394fccaaff5}\label{class_state_class_ab1e985ffb2b291bd0d296394fccaaff5}} 
 bool {\bfseries Calib\+End} = 0
 \begin{DoxyCompactList}\small\item\em Bool signaling End of calibration. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_state_class_a3b06994bd0056d2f5c9b7037defeec13}\label{class_state_class_a3b06994bd0056d2f5c9b7037defeec13}} 
-Main\+State {\bfseries actual\+State} = Main\+State\+::\+Setup
-\begin{DoxyCompactList}\small\item\em Define actual state in which the driver operates. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_state_class_af71f651eebc7746f9c57a33520180c60}\label{class_state_class_af71f651eebc7746f9c57a33520180c60}} 
-Comm\+State {\bfseries comm\+State} = Comm\+State\+::\+Stop
-\begin{DoxyCompactList}\small\item\em Define communication state in which controller wants the driver to be in, only changed in Comm and Serial\+Control. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_state_class_a37816025e4f99f25401ae08862a660c9}\label{class_state_class_a37816025e4f99f25401ae08862a660c9}} 
 int {\bfseries actual\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
 \begin{DoxyCompactList}\small\item\em Actual speed in PWM of two motors which is sent by analog\+Write, (0 -\/ 255) \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_state_class_a581cb51181287947b25b549ab5f67d7d}\label{class_state_class_a581cb51181287947b25b549ab5f67d7d}} 
-unsigned int {\bfseries enc\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
-\begin{DoxyCompactList}\small\item\em Actual number of encoder pulses updated every period of reading speed. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_state_class_ad35700f8b8ec016a81c9b9ff2f049791}\label{class_state_class_ad35700f8b8ec016a81c9b9ff2f049791}} 
 int {\bfseries required\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
-\begin{DoxyCompactList}\small\item\em Required speed of two motors by Controler (recieved through I2C), write only in Comm class! (0 -\/ 255) \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Required speed of two motors in PWM by Controler (recieved through I2C), write only in Comm class! (0 -\/ 255) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_a22e8e7efc4b25e9c8c117607768a23b6}\label{class_state_class_a22e8e7efc4b25e9c8c117607768a23b6}} 
+int {\bfseries actual\+Enc\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
+\begin{DoxyCompactList}\small\item\em Actual number of encoder pulses updated every period of reading speed. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_aca81ce882f72fc7b4de88632272fc754}\label{class_state_class_aca81ce882f72fc7b4de88632272fc754}} 
+int {\bfseries required\+Enc\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
+\item 
 \mbox{\Hypertarget{class_state_class_a262f7357126ca5e0bc0c12c7243df553}\label{class_state_class_a262f7357126ca5e0bc0c12c7243df553}} 
 float {\bfseries actual\+Real\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
 \begin{DoxyCompactList}\small\item\em Actual real speed of two motors in rad/s, write only in Timer\+Speed\+Handler interrupt routine. \end{DoxyCompactList}\item 
@@ -70,7 +91,7 @@ float {\bfseries required\+Real\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{class_state_class_add9036be5fc71d613818f077e994a890}\label{class_state_class_add9036be5fc71d613818f077e994a890}} 
-static const int {\bfseries address} = 0x11
+static const int {\bfseries address} = 0x10
 \begin{DoxyCompactList}\small\item\em Define I2C address of this Driver -\/ !!\+Need to be changed for different driver!! \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_state_class_af16be3bdd352108b7e52b9b300426f8a}\label{class_state_class_af16be3bdd352108b7e52b9b300426f8a}} 
 static Pin {\bfseries M1\+\_\+\+LPWM} = 5

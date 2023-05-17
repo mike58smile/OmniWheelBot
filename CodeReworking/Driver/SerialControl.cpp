@@ -39,6 +39,10 @@ void SerialControlClass::loop()
             serialMode = SerialMode::RealSpeed;
         else if (SerialString == "calib")
             serialMode = SerialMode::CalibDeadBand;
+        else if (SerialString == "meas1")
+            serialMode = SerialMode::Meas1;
+        else if (SerialString == "meas2")
+            serialMode = SerialMode::Meas2;
         else if (SerialString == "get") //Not working now
             serialMode = SerialMode::EnableSerialGet;
         
@@ -75,7 +79,8 @@ void SerialControlClass::loop()
             }
             break;
         case SerialMode::CalibDeadBand:
-            State.commState = CommState::CalibDeadBand;
+            State.meas.measType = MeasType::Calib;
+            State.commState = CommState::Meas;
             break;
         case SerialMode::Kp1:
             State.Kp_1 += SerialFloat;
@@ -94,11 +99,19 @@ void SerialControlClass::loop()
             State.requiredEncSpeed[1] = SerialInt;
             State.commState = CommState::SpeedReal;
             break;
+        case SerialMode::Meas1:
+            //State.commState = CommState::Meas1;
+            State.meas.measType = MeasType::Ramp;
+            State.commState = CommState::Meas;
+            break;
+        case SerialMode::Meas2:
+            State.meas.measType = MeasType::Ramp_optim;
+            State.commState = CommState::Meas;
+            break;
         case SerialMode::EnableSerialGet: //Now doing nothing - big delay when added condition to breakpoint - UNUSABLE
             SerialGetEN = !SerialGetEN;
             break;
         case SerialMode::Speed:
-        
             speed = SerialInt;
             if (abs(speed) > 200) speed = sign(speed) * 200;
             State.requiredSpeed[0] = speed;

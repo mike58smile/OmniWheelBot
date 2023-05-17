@@ -29,6 +29,7 @@ void receiveData(int x)
     if(State.commStatePrev != State.commState)
         State.commStatePrev = State.commState;
     int mode = Wire.read();
+    State.tempMode = mode;
     switch (mode) {
     case 0:
         //stop motor (and reset PID)
@@ -46,8 +47,8 @@ void receiveData(int x)
         State.commState = CommState::SpeedPWM;
         break;
     case 3:
-        State.requiredRealSpeed[0] = WireReadF();
-        State.requiredRealSpeed[1] = WireReadF();
+        State.requiredEncSpeed[0] = WireReadI();
+        State.requiredEncSpeed[1] = WireReadI();
         State.commState = CommState::SpeedReal;
         break;
     case 4:
@@ -58,6 +59,13 @@ void receiveData(int x)
         break;
     case 5:
         State.commState = CommState::CalibDeadBand;
+        break;
+    case 10:
+        State.meas.motSelect = WireReadI();
+        State.meas.temp = WireReadI();
+        State.meas.measType = static_cast<MeasType>(State.meas.temp);
+        State.commState = CommState::Meas;
+        break;
     default:
         State.commState = CommState::Unknown;
         break;
@@ -69,6 +77,7 @@ void CommClass::init()
     Wire.begin(State.address);
     Wire.onReceive(receiveData);
     Wire.onRequest(requestEvent);
+    Serial.println();
 }
 
 CommClass Comm{};

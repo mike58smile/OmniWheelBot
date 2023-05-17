@@ -17,12 +17,12 @@
 #endif
 //#include <stdfix.h> // maybe not fully implemented
 
-#define USE_TIMER_2 true
+//#define USE_TIMER_2 true
 //Constexpr - lacks pointer to value, means nothing to this compiller 
 // Global values shouldnt be auto, short int = int probably
 
-constexpr int TimerSpeedDelay_mS = 30; ///< Speed reading from encoder time period - Change only this !!
-constexpr int TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
+const unsigned long TimerSpeedDelay_mS = 30; ///< Speed reading from encoder time period - Change only this !!
+const unsigned long TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
 const float num = TWO_PI / (979.2 * (TimerSpeedDelay_mS / 1000.0));
 
 inline float EncToRealSpd(int EncSpeed) {
@@ -37,8 +37,10 @@ static inline int8_t sign(int val) {
 // User defined data types:
 //enum class is better cause the name of the enum elements can be used outside the enum as variables
 enum class MainState { Setup, Speed, Stop,   Size }; ///< Define MainState enum, Size is a little trick - contains number of elements in this enum
-enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Unknown,    Size }; ///< Define CommState enum, Size is a little trick - contains number of elements in this enum
+enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Meas1, Unknown, Meas,    Size }; ///< Define CommState enum, Size is a little trick - contains number of elements in this enum
 #define commStatePrint State.CommStatePrint[static_cast<int>(State.commState)] //inline function is much better
+
+enum class MeasType { Calib, Ramp, Ramp_optim }; ///< Same enum as in Controller
 
 using Pin = const uint8_t;
 /**
@@ -75,15 +77,15 @@ class StateClass
 	 const int maxSpeed = 80; ///< Value of maximal speed in PWM allowed for MotorsClass
 
 // Regulator parameters
-	 double Kp_1 = 0, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1
+	 double Kp_1 = 1, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1
 	 double Kp_2 = 0, Ki_2 = 0, Kd_2 = 0; ///< Speed PID constants for motor 2
 
 	 int motor1DeadBandPWM[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
 	 int motor2DeadBandPWM[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
 	 int motorDeadBandPWM[2] = { 0, 0 };
-	 float motor1DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 1 starts rotating
-	 float motor2DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 2 starts rotating
-	 float motorDeadBandReal[2] = { 0, 0 };
+	 int motor1DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 1 starts rotating
+	 int motor2DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 2 starts rotating
+	 //float motorDeadBandReal[2] = { 0, 0 };
 	 bool CalibEnd = 0;  ///< Bool signaling End of calibration
 
 // Non const variables - will be changed during program
@@ -94,6 +96,16 @@ class StateClass
 	 int requiredEncSpeed[2] = { 0,0 };
 	 float actualRealSpeed[2] = { 0,0 }; ///< Actual real speed of two motors in rad/s, write only in TimerSpeedHandler interrupt routine
 	 float requiredRealSpeed[2] = { 0,0 }; ///< Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class!
+
+// Measurements variables:
+	 struct Meas {
+		 MeasType measType;
+		 int motSelect = 0;
+		 int temp = 0;
+	 } meas;
+
+	 unsigned long readSpeed = 0; ///< Speed of reading from encoders [ms]
+	 int tempMode;
 };
 
 extern StateClass State;

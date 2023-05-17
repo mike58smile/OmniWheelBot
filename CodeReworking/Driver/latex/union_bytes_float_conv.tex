@@ -26,6 +26,12 @@ For float to Byte conversion.
 \begin{DoxyNote}{Note}
 Union stores value on the same memory place -\/ we wrote to float\+Value and read from buffer which points to same memmorhy location as float so we read float value but outside it is considered char (buffer) 
 \end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+If different architecture -\/ char may be different from float 
+\end{DoxyWarning}
+\begin{DoxyNote}{Note}
+Get pointer to memmory where the float is located and converse it to char 
+\end{DoxyNote}
 
 
 The documentation for this union was generated from the following file\+:\begin{DoxyCompactItemize}

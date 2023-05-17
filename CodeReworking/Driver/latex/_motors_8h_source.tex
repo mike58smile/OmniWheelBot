@@ -13,22 +13,29 @@
 \DoxyCodeLine{18 }
 \DoxyCodeLine{19 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_state_8h}{State.h}}"{}}}
 \DoxyCodeLine{20 }
-\DoxyCodeLine{24 \textcolor{keyword}{class }\mbox{\hyperlink{class_motors_class}{MotorsClass}}}
+\DoxyCodeLine{24 \textcolor{keyword}{class }\mbox{\hyperlink{class_motors_class}{MotorsClass}} final \textcolor{comment}{//final means not herritable class -\/ optimalisation}}
 \DoxyCodeLine{25 \{}
 \DoxyCodeLine{26  \textcolor{keyword}{protected}:}
-\DoxyCodeLine{27      \mbox{\hyperlink{class_state_class}{StateClass}}\& \mbox{\hyperlink{class_motors_class_a9a2f045b8db7d0e2640f91af0e4e1058}{State}}; }
+\DoxyCodeLine{27     \textcolor{comment}{// StateClass\& State; ///< Storage for all shared variables }}
 \DoxyCodeLine{28  \textcolor{keyword}{public}:}
-\DoxyCodeLine{29      }
-\DoxyCodeLine{34      \mbox{\hyperlink{class_motors_class_a56d0c7ccdab4d97486ac0a02d7efa466}{MotorsClass}}(\mbox{\hyperlink{class_state_class}{StateClass}}\& state) : \mbox{\hyperlink{class_motors_class_a9a2f045b8db7d0e2640f91af0e4e1058}{State}}(state) \{\};}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{34      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_motors_class_a876ccfb589e9a826276bde4f9a99ba31}{init}}();}
 \DoxyCodeLine{35 }
-\DoxyCodeLine{40      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_motors_class_a876ccfb589e9a826276bde4f9a99ba31}{init}}();}
-\DoxyCodeLine{41 }
-\DoxyCodeLine{45      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_motors_class_a0fe90b15769d3f1f219da0c2f4015f89}{Stop}}();}
-\DoxyCodeLine{46 }
-\DoxyCodeLine{50      \textcolor{keywordtype}{void} Speed(\textcolor{keywordtype}{int} Spd1, \textcolor{keywordtype}{int} Spd2);}
-\DoxyCodeLine{51 \};}
+\DoxyCodeLine{39      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_motors_class_a0fe90b15769d3f1f219da0c2f4015f89}{Stop}}();}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{46      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_motors_class_a70605092d428f680bac44f44d1bb52de}{SpeedSingle}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} Spd);}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{51      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_motors_class_a2a742a3a0072e0933853e2517d267fdd}{Speed}}(\textcolor{keywordtype}{int} Spd1, \textcolor{keywordtype}{int} Spd2);}
 \DoxyCodeLine{52 }
-\DoxyCodeLine{53 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{53      \textcolor{comment}{//void Speed\_1(int Spd);}}
 \DoxyCodeLine{54 }
+\DoxyCodeLine{55      \textcolor{comment}{//void Speed\_2(int Spd);}}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57      \textcolor{comment}{//void Speed\_3(int Spd);}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{62 }
 
 \end{DoxyCode}

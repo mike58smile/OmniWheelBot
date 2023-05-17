@@ -94,9 +94,6 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:af69b980e54bccf33202009afe3bc1f90"><td class="memItemLeft" align="right" valign="top"><a id="af69b980e54bccf33202009afe3bc1f90" name="af69b980e54bccf33202009afe3bc1f90"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>USE_TIMER_2</b>&#160;&#160;&#160;true</td></tr>
-<tr class="separator:af69b980e54bccf33202009afe3bc1f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e12c22fbc204169dd60974a9f2c5c4d"><td class="memItemLeft" align="right" valign="top"><a id="a8e12c22fbc204169dd60974a9f2c5c4d" name="a8e12c22fbc204169dd60974a9f2c5c4d"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>commStatePrint</b>&#160;&#160;&#160;State.CommStatePrint[static_cast&lt;int&gt;(State.commState)]</td></tr>
 <tr class="separator:a8e12c22fbc204169dd60974a9f2c5c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,20 +128,23 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0a82d7ddb4b5181047aef0729639bb48"><td class="memItemLeft" align="right" valign="top"><a id="a0a82d7ddb4b5181047aef0729639bb48" name="a0a82d7ddb4b5181047aef0729639bb48"></a>
-constexpr float&#160;</td><td class="memItemRight" valign="bottom"><b>EncToRealSpd</b> (int EncSpeed)</td></tr>
-<tr class="separator:a0a82d7ddb4b5181047aef0729639bb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69d4b58df7198b25a6b25265f8199e73"><td class="memItemLeft" align="right" valign="top"><a id="a69d4b58df7198b25a6b25265f8199e73" name="a69d4b58df7198b25a6b25265f8199e73"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>EncToRealSpd</b> (int EncSpeed)</td></tr>
+<tr class="separator:a69d4b58df7198b25a6b25265f8199e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ace81b7721cfd2a469849f25fc66c43ff"><td class="memItemLeft" align="right" valign="top"><a id="ace81b7721cfd2a469849f25fc66c43ff" name="ace81b7721cfd2a469849f25fc66c43ff"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>TimerSpeedDelay_mS</b> = 30</td></tr>
-<tr class="memdesc:ace81b7721cfd2a469849f25fc66c43ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Speed reading from encoder time period - Change only this !! <br /></td></tr>
-<tr class="separator:ace81b7721cfd2a469849f25fc66c43ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cc6036eff1c3ecb0dd8898afb14e46d"><td class="memItemLeft" align="right" valign="top"><a id="a4cc6036eff1c3ecb0dd8898afb14e46d" name="a4cc6036eff1c3ecb0dd8898afb14e46d"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>TimerSpeedDelay_uS</b> = <a class="el" href="_state_8h.html#ace81b7721cfd2a469849f25fc66c43ff">TimerSpeedDelay_mS</a> * 1000</td></tr>
-<tr class="memdesc:a4cc6036eff1c3ecb0dd8898afb14e46d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Period of reading speed (Period of TIMER_1 interrupts) <br /></td></tr>
-<tr class="separator:a4cc6036eff1c3ecb0dd8898afb14e46d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19b74d5ea8b2d5e4bd7afd11f8a5dde5"><td class="memItemLeft" align="right" valign="top"><a id="a19b74d5ea8b2d5e4bd7afd11f8a5dde5" name="a19b74d5ea8b2d5e4bd7afd11f8a5dde5"></a>
+const unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>TimerSpeedDelay_mS</b> = 30</td></tr>
+<tr class="memdesc:a19b74d5ea8b2d5e4bd7afd11f8a5dde5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Speed reading from encoder time period - Change only this !! <br /></td></tr>
+<tr class="separator:a19b74d5ea8b2d5e4bd7afd11f8a5dde5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22bfcbace3609c2784ea6cef76982799"><td class="memItemLeft" align="right" valign="top"><a id="a22bfcbace3609c2784ea6cef76982799" name="a22bfcbace3609c2784ea6cef76982799"></a>
+const unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>TimerSpeedDelay_uS</b> = <a class="el" href="_state_8h.html#a19b74d5ea8b2d5e4bd7afd11f8a5dde5">TimerSpeedDelay_mS</a> * 1000</td></tr>
+<tr class="memdesc:a22bfcbace3609c2784ea6cef76982799"><td class="mdescLeft">&#160;</td><td class="mdescRight">Period of reading speed (Period of TIMER_1 interrupts) <br /></td></tr>
+<tr class="separator:a22bfcbace3609c2784ea6cef76982799"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cdc0c0d93cbc298c134fef161834b8c"><td class="memItemLeft" align="right" valign="top"><a id="a5cdc0c0d93cbc298c134fef161834b8c" name="a5cdc0c0d93cbc298c134fef161834b8c"></a>
+const float&#160;</td><td class="memItemRight" valign="bottom"><b>num</b> = TWO_PI / (979.2 * (<a class="el" href="_state_8h.html#a19b74d5ea8b2d5e4bd7afd11f8a5dde5">TimerSpeedDelay_mS</a> / 1000.0))</td></tr>
+<tr class="separator:a5cdc0c0d93cbc298c134fef161834b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0cc817b371dc08979042179019be7da"><td class="memItemLeft" align="right" valign="top"><a id="aa0cc817b371dc08979042179019be7da" name="aa0cc817b371dc08979042179019be7da"></a>
 <a class="el" href="class_state_class.html">StateClass</a>&#160;</td><td class="memItemRight" valign="bottom"><b>State</b></td></tr>
 <tr class="separator:aa0cc817b371dc08979042179019be7da"><td class="memSeparator" colspan="2">&#160;</td></tr>

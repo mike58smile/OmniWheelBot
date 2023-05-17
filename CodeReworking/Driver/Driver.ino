@@ -27,9 +27,12 @@ void setup() {
  * \brief The loop function which runs over and over again until power down or reset
  */
 void loop() {
+	
 #ifdef SerialCtrl
 	SerialControl.loop(); //always before Drive.loop
 #endif // SerialCtrl
 	Drive.loop();
-	Serial.println("$"+String(State.actualEncSpeed[0])+" "+String(State.requiredEncSpeed[0])+";");
+	Serial.println(State.tempMode);
+	//Serial.println("$"+String(State.actualEncSpeed[0])+" "+String(State.requiredEncSpeed[0])+" "+String(Drive.pid_Out1)+";");
+	//Serial.println("$" + String(State.readSpeed) + " " + String(State.actualEncSpeed[0]) + " " + String(State.actualSpeed[0])+";");
 }

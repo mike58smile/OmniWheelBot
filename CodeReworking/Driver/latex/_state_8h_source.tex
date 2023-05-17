@@ -10,152 +10,192 @@
 \DoxyCodeLine{15 \textcolor{preprocessor}{\#else}}
 \DoxyCodeLine{16 \textcolor{preprocessor}{    \#include "{}WProgram.h"{}}}
 \DoxyCodeLine{17 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{18 }
-\DoxyCodeLine{19 \textcolor{preprocessor}{\#define USE\_TIMER\_2 true}}
-\DoxyCodeLine{20 \textcolor{keyword}{constexpr} \textcolor{keyword}{auto} \mbox{\hyperlink{_state_8h_ace81b7721cfd2a469849f25fc66c43ff}{TimerSpeedDelay\_mS}} = 30; }
-\DoxyCodeLine{21 \textcolor{keyword}{constexpr} \textcolor{keyword}{auto} \mbox{\hyperlink{_state_8h_a4cc6036eff1c3ecb0dd8898afb14e46d}{TimerSpeedDelay\_uS}} = \mbox{\hyperlink{_state_8h_ace81b7721cfd2a469849f25fc66c43ff}{TimerSpeedDelay\_mS}} * 1000; }
-\DoxyCodeLine{22 \textcolor{keyword}{constexpr} \textcolor{keywordtype}{float} EncToRealSpd(\textcolor{keywordtype}{int} EncSpeed) \{}
-\DoxyCodeLine{23     \textcolor{keywordflow}{return}((\textcolor{keywordtype}{float}(EncSpeed) * TWO\_PI) / (979.2 * (\textcolor{keywordtype}{float}(\mbox{\hyperlink{_state_8h_ace81b7721cfd2a469849f25fc66c43ff}{TimerSpeedDelay\_mS}}) / 1000.0)));}
-\DoxyCodeLine{24 \}}
-\DoxyCodeLine{25 \textcolor{keyword}{static} \textcolor{keyword}{inline} int8\_t sign(\textcolor{keywordtype}{int} val) \{}
-\DoxyCodeLine{26     \textcolor{keywordflow}{if} (val < 0) \textcolor{keywordflow}{return} -\/1;}
-\DoxyCodeLine{27     \textcolor{keywordflow}{if} (val == 0) \textcolor{keywordflow}{return} 0;}
-\DoxyCodeLine{28     \textcolor{keywordflow}{return} 1;}
-\DoxyCodeLine{29 \}}
-\DoxyCodeLine{30 \textcolor{comment}{// User defined data types:}}
-\DoxyCodeLine{31 \textcolor{comment}{//enum class is better cause the name of the enum elements can be used outside the enum as variables}}
-\DoxyCodeLine{32 \textcolor{keyword}{enum class} MainState \{ Setup, Speed, Stop,   Size \}; }
-\DoxyCodeLine{33 \textcolor{keyword}{enum class} CommState \{ Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Unknown,    Size \}; }
-\DoxyCodeLine{34 \textcolor{keyword}{using }Pin = \textcolor{keyword}{const} uint8\_t;}
-\DoxyCodeLine{35 }
-\DoxyCodeLine{39 \textcolor{keyword}{class }\mbox{\hyperlink{class_state_class}{StateClass}}}
-\DoxyCodeLine{40 \{}
-\DoxyCodeLine{41  \textcolor{keyword}{public}:}
-\DoxyCodeLine{42      \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_add9036be5fc71d613818f077e994a890}{address}} = 0x11; }
-\DoxyCodeLine{43 }
-\DoxyCodeLine{44      \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{class_state_class_aed17fb5caac0782ffe50a641966496d2}{MainStatePrint}}[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(MainState::Size)] = \{ \textcolor{stringliteral}{"{}Setup"{}}, \textcolor{stringliteral}{"{}Speed"{}}, \textcolor{stringliteral}{"{}Stop"{}} \}; }
-\DoxyCodeLine{45      \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{class_state_class_a91fc6ed96f3a93e0ad9053909d331420}{CommStatePrint}}[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(CommState::Size)] = \{ \textcolor{stringliteral}{"{}Stop"{}}, \textcolor{stringliteral}{"{}Wait"{}}, \textcolor{stringliteral}{"{}SpeedPWM"{}}, \textcolor{stringliteral}{"{}SpeedReal"{}}, \textcolor{stringliteral}{"{}ChangeConstPID"{}}, \textcolor{stringliteral}{"{}CalibDeadBand"{}}, \textcolor{stringliteral}{"{}Unknown"{}} \}; }
-\DoxyCodeLine{46 \textcolor{preprocessor}{\#define commStatePrint State.CommStatePrint[static\_cast<int>(State.commState)]}}
-\DoxyCodeLine{47 \textcolor{comment}{// Define pins}}
-\DoxyCodeLine{48      \textcolor{comment}{//Motor1}}
-\DoxyCodeLine{49      \textcolor{keyword}{static} Pin M1\_LPWM = 5;}
-\DoxyCodeLine{50      \textcolor{keyword}{static} Pin M1\_RPWM = 6;}
-\DoxyCodeLine{51      \textcolor{keyword}{static} Pin M1\_REN = 4;}
-\DoxyCodeLine{52      \textcolor{keyword}{static} Pin M1\_LEN = 7;}
-\DoxyCodeLine{53      \textcolor{comment}{//Motor2}}
-\DoxyCodeLine{54      \textcolor{keyword}{static} Pin M2\_RPWM = 10;}
-\DoxyCodeLine{55      \textcolor{keyword}{static} Pin M2\_LPWM = 11;}
-\DoxyCodeLine{56      \textcolor{keyword}{static} Pin M2\_REN = 8;}
-\DoxyCodeLine{57      \textcolor{keyword}{static} Pin M2\_LEN = 9;}
-\DoxyCodeLine{58      \textcolor{comment}{//define Encoder pins}}
-\DoxyCodeLine{59      \textcolor{keyword}{static} Pin Enc1\_1 = 2;}
-\DoxyCodeLine{60      \textcolor{keyword}{static} Pin Enc1\_2 = 12;}
-\DoxyCodeLine{61      \textcolor{keyword}{static} Pin Enc2\_1 = 3;}
-\DoxyCodeLine{62      \textcolor{keyword}{static} Pin Enc2\_2 = A0;}
-\DoxyCodeLine{63 }
-\DoxyCodeLine{64 \textcolor{comment}{// Regulator parameters}}
-\DoxyCodeLine{65      \textcolor{keywordtype}{double} Kp\_1 = 0, Ki\_1 = 0, \mbox{\hyperlink{class_state_class_a192af399e0e1edf8f7c5a70598c13206}{Kd\_1}} = 0; }
-\DoxyCodeLine{66      \textcolor{keywordtype}{double} Kp\_2 = 0, Ki\_2 = 0, \mbox{\hyperlink{class_state_class_a9cbed008c5caff5f2c4a3f97ae4dfa32}{Kd\_2}} = 0; }
-\DoxyCodeLine{67 }
-\DoxyCodeLine{68      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_a48caf5d69573df9788af752f33afc2a9}{motor1DeadBand}}[2] = \{ 10,10 \}; }
-\DoxyCodeLine{69      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_a6bb7a7b7971117cec7063e503da22781}{motor2DeadBand}}[2] = \{ 10,10 \}; }
-\DoxyCodeLine{70      \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_state_class_ab1e985ffb2b291bd0d296394fccaaff5}{CalibEnd}} = 0;  }
-\DoxyCodeLine{71 }
-\DoxyCodeLine{72 \textcolor{comment}{// Non const variables -\/ will be changed during program}}
-\DoxyCodeLine{73      }
-\DoxyCodeLine{74      MainState \mbox{\hyperlink{class_state_class_a3b06994bd0056d2f5c9b7037defeec13}{actualState}} = MainState::Setup; }
-\DoxyCodeLine{75      CommState \mbox{\hyperlink{class_state_class_af71f651eebc7746f9c57a33520180c60}{commState}} = CommState::Stop; }
+\DoxyCodeLine{18 \textcolor{comment}{//\#include <stdfix.h> // maybe not fully implemented}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{comment}{//\#define USE\_TIMER\_2 true}}
+\DoxyCodeLine{21 \textcolor{comment}{//Constexpr -\/ lacks pointer to value, means nothing to this compiller }}
+\DoxyCodeLine{22 \textcolor{comment}{// Global values shouldnt be auto, short int = int probably}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \mbox{\hyperlink{_state_8h_a19b74d5ea8b2d5e4bd7afd11f8a5dde5}{TimerSpeedDelay\_mS}} = 30; }
+\DoxyCodeLine{25 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \mbox{\hyperlink{_state_8h_a22bfcbace3609c2784ea6cef76982799}{TimerSpeedDelay\_uS}} = \mbox{\hyperlink{_state_8h_a19b74d5ea8b2d5e4bd7afd11f8a5dde5}{TimerSpeedDelay\_mS}} * 1000; }
+\DoxyCodeLine{26 \textcolor{keyword}{const} \textcolor{keywordtype}{float} num = TWO\_PI / (979.2 * (\mbox{\hyperlink{_state_8h_a19b74d5ea8b2d5e4bd7afd11f8a5dde5}{TimerSpeedDelay\_mS}} / 1000.0));}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} EncToRealSpd(\textcolor{keywordtype}{int} EncSpeed) \{}
+\DoxyCodeLine{29     \textcolor{keywordflow}{return}(\textcolor{keywordtype}{float}(EncSpeed) * num);}
+\DoxyCodeLine{30 \}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{static} \textcolor{keyword}{inline} int8\_t sign(\textcolor{keywordtype}{int} val) \{}
+\DoxyCodeLine{33     \textcolor{keywordflow}{if} (val < 0) \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{34     \textcolor{keywordflow}{if} (val == 0) \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{35     \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{36 \}}
+\DoxyCodeLine{37 \textcolor{comment}{// User defined data types:}}
+\DoxyCodeLine{38 \textcolor{comment}{//enum class is better cause the name of the enum elements can be used outside the enum as variables}}
+\DoxyCodeLine{39 \textcolor{keyword}{enum class} MainState \{ Setup, Speed, Stop,   Size \}; }
+\DoxyCodeLine{40 \textcolor{keyword}{enum class} CommState \{ Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Unknown,    Size \}; }
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define commStatePrint State.CommStatePrint[static\_cast<int>(State.commState)] }\textcolor{comment}{//inline function is much better}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{keyword}{using }Pin = \textcolor{keyword}{const} uint8\_t;}
+\DoxyCodeLine{47 \textcolor{keyword}{class }\mbox{\hyperlink{class_state_class}{StateClass}}}
+\DoxyCodeLine{48 \{}
+\DoxyCodeLine{49  \textcolor{keyword}{public}:}
+\DoxyCodeLine{50      \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_add9036be5fc71d613818f077e994a890}{address}} = 0x10; }
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52      \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{class_state_class_aed17fb5caac0782ffe50a641966496d2}{MainStatePrint}}[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(MainState::Size)] = \{ \textcolor{stringliteral}{"{}Setup"{}}, \textcolor{stringliteral}{"{}Speed"{}}, \textcolor{stringliteral}{"{}Stop"{}} \}; }
+\DoxyCodeLine{53      \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{class_state_class_a91fc6ed96f3a93e0ad9053909d331420}{CommStatePrint}}[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(CommState::Size)] = \{ \textcolor{stringliteral}{"{}Stop"{}}, \textcolor{stringliteral}{"{}Wait"{}}, \textcolor{stringliteral}{"{}SpeedPWM"{}}, \textcolor{stringliteral}{"{}SpeedReal"{}}, \textcolor{stringliteral}{"{}ChangeConstPID"{}}, \textcolor{stringliteral}{"{}CalibDeadBand"{}}, \textcolor{stringliteral}{"{}Unknown"{}} \}; }
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55      MainState \mbox{\hyperlink{class_state_class_a3b06994bd0056d2f5c9b7037defeec13}{actualState}} = MainState::Setup; }
+\DoxyCodeLine{56      CommState \mbox{\hyperlink{class_state_class_af71f651eebc7746f9c57a33520180c60}{commState}} = CommState::Stop; }
+\DoxyCodeLine{57      CommState commStatePrev = CommState::Stop;}
+\DoxyCodeLine{58 \textcolor{comment}{// Define pins}}
+\DoxyCodeLine{59      \textcolor{comment}{//Motor1}}
+\DoxyCodeLine{60      \textcolor{keyword}{static} Pin M1\_LPWM = 5;}
+\DoxyCodeLine{61      \textcolor{keyword}{static} Pin M1\_RPWM = 6;}
+\DoxyCodeLine{62      \textcolor{keyword}{static} Pin M1\_REN = 4;}
+\DoxyCodeLine{63      \textcolor{keyword}{static} Pin M1\_LEN = 7;}
+\DoxyCodeLine{64      \textcolor{comment}{//Motor2}}
+\DoxyCodeLine{65      \textcolor{keyword}{static} Pin M2\_RPWM = 10;}
+\DoxyCodeLine{66      \textcolor{keyword}{static} Pin M2\_LPWM = 11;}
+\DoxyCodeLine{67      \textcolor{keyword}{static} Pin M2\_REN = 8;}
+\DoxyCodeLine{68      \textcolor{keyword}{static} Pin M2\_LEN = 9;}
+\DoxyCodeLine{69      \textcolor{comment}{//define Encoder pins}}
+\DoxyCodeLine{70      \textcolor{keyword}{static} Pin Enc1\_1 = 2;}
+\DoxyCodeLine{71      \textcolor{keyword}{static} Pin Enc1\_2 = 12;}
+\DoxyCodeLine{72      \textcolor{keyword}{static} Pin Enc2\_1 = 3;}
+\DoxyCodeLine{73      \textcolor{keyword}{static} Pin Enc2\_2 = A0;}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75      \textcolor{keyword}{const} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_a9ba03cd7cdb105fdbf73bb0448e486da}{maxSpeed}} = 80; }
 \DoxyCodeLine{76 }
-\DoxyCodeLine{77      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_a37816025e4f99f25401ae08862a660c9}{actualSpeed}}[2] = \{ 0,0 \}; }
-\DoxyCodeLine{78      \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_a581cb51181287947b25b549ab5f67d7d}{encSpeed}}[2] = \{ 0,0 \}; }
-\DoxyCodeLine{79      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_ad35700f8b8ec016a81c9b9ff2f049791}{requiredSpeed}}[2] = \{ 0,0 \}; }
-\DoxyCodeLine{80      \textcolor{keywordtype}{float} \mbox{\hyperlink{class_state_class_a262f7357126ca5e0bc0c12c7243df553}{actualRealSpeed}}[2] = \{ 0,0 \}; }
-\DoxyCodeLine{81      \textcolor{keywordtype}{float} \mbox{\hyperlink{class_state_class_a78697ac64c2a18d1d3885fc5ce29178a}{requiredRealSpeed}}[2] = \{ 0,0 \}; }
-\DoxyCodeLine{82 \};}
-\DoxyCodeLine{83 }
-\DoxyCodeLine{84 \textcolor{keyword}{extern} \mbox{\hyperlink{class_state_class}{StateClass}} State;}
-\DoxyCodeLine{85 }
-\DoxyCodeLine{86 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{87 }
-\DoxyCodeLine{99 \textcolor{comment}{/* Garbage:}}
-\DoxyCodeLine{100 \textcolor{comment}{Initialization of static const array in .h file}}
-\DoxyCodeLine{101 \textcolor{comment}{     static const uint8\_t Enc1Pin(size\_t index) \{}}
-\DoxyCodeLine{102 \textcolor{comment}{         static const uint8\_t x[] = \{ 1,2 \};}}
-\DoxyCodeLine{103 \textcolor{comment}{         return x[index];}}
-\DoxyCodeLine{104 \textcolor{comment}{     \}}}
-\DoxyCodeLine{105 \textcolor{comment}{*/}}
-\DoxyCodeLine{106 }
-\DoxyCodeLine{107 \textcolor{comment}{/* RPM Debounce}}
-\DoxyCodeLine{108 \textcolor{comment}{ Relative to RPM readout and triggering to start  a thread path:}}
-\DoxyCodeLine{109 \textcolor{comment}{}}
-\DoxyCodeLine{110 \textcolor{comment}{  Index debounce will affect the sensitivity of the index signal. IT basically is how many interrupt periods the signal must be present, or not present before a change is actually sensed in that line. SO if set to 2 for example, when the index appears it will be ignored for 2 periods to make sure it isnt noise. Same with when it disappears. Setting debounce too high will make the index go away altogether.}}
-\DoxyCodeLine{111 \textcolor{comment}{}}
-\DoxyCodeLine{112 \textcolor{comment}{  Since the length of the index is dependent on spindle speed, minimum length is variable, but the time must be at least 1 period at a debounce of zero. SO in 25000, thats 40us.}}
-\DoxyCodeLine{113 \textcolor{comment}{  If a person notices a dropoff in RPM at a certain speed, they need usually a lower index debounce. Index inputs from an encoder are usually pretty short and will limit speed readings at some point as you go higher.}}
-\DoxyCodeLine{114 \textcolor{comment}{}}
-\DoxyCodeLine{115 \textcolor{comment}{If you have the debounce setting too high the axis will just sit there waiting to confirm the rpm}}
-\DoxyCodeLine{116 \textcolor{comment}{before the start of a thread path.}}
-\DoxyCodeLine{117 \textcolor{comment}{}}
-\DoxyCodeLine{118 \textcolor{comment}{Don't have specifics relative to switches .}}
-\DoxyCodeLine{119 \textcolor{comment}{ */}}
-\DoxyCodeLine{120 }
-\DoxyCodeLine{121 \textcolor{comment}{//READ spd with millis}}
-\DoxyCodeLine{122 \textcolor{comment}{//     unsigned long currentMillis\_1 = 0;}}
-\DoxyCodeLine{123 \textcolor{comment}{//     unsigned long previousMillis\_1 = 0;}}
-\DoxyCodeLine{124 \textcolor{comment}{// }}
-\DoxyCodeLine{125  \textcolor{comment}{//    currentMillis\_1 = millis();}}
-\DoxyCodeLine{126  \textcolor{comment}{//    if ((currentMillis\_1 -\/ previousMillis\_1) >= 200) \{}}
-\DoxyCodeLine{127  \textcolor{comment}{//        encSpeed[0] = abs(Drive.enc1.read());}}
-\DoxyCodeLine{128  \textcolor{comment}{//        Drive.enc1.write(0);}}
-\DoxyCodeLine{129  \textcolor{comment}{//        encSpeed[1] = abs(Drive.enc2.read());}}
-\DoxyCodeLine{130  \textcolor{comment}{//        Drive.enc2.write(0);}}
-\DoxyCodeLine{131  \textcolor{comment}{//;       previousMillis\_1 = currentMillis\_1;}}
-\DoxyCodeLine{132  \textcolor{comment}{//    \}}}
-\DoxyCodeLine{133 }
-\DoxyCodeLine{134 }
-\DoxyCodeLine{135 \textcolor{comment}{// Using timer interrupt}}
-\DoxyCodeLine{136 \textcolor{comment}{// INCLUDES}}
-\DoxyCodeLine{137 \textcolor{comment}{// \#include <ISR\_Timer.h>}}
-\DoxyCodeLine{138 \textcolor{comment}{//\#include <TimerInterrupt.hpp>}}
-\DoxyCodeLine{139 \textcolor{comment}{//\#include <TimerInterrupt.h>}}
-\DoxyCodeLine{140 \textcolor{comment}{//\#include <ISR\_Timer.hpp> }}
-\DoxyCodeLine{141 }
-\DoxyCodeLine{142 \textcolor{comment}{//SETUP:}}
-\DoxyCodeLine{143 \textcolor{comment}{// Timer init}}
-\DoxyCodeLine{144 \textcolor{comment}{//ITimer2.init();}}
-\DoxyCodeLine{145 \textcolor{comment}{//if (ITimer2.attachInterruptInterval(TimerSpeedDelayMS, TimerSpeedHandler))}}
-\DoxyCodeLine{146 \textcolor{comment}{//\{}}
-\DoxyCodeLine{147 \textcolor{comment}{//    Serial.println(F("{}Starting  ITimer1 OK, millis() = "{})); Serial.println(millis());}}
-\DoxyCodeLine{148 \textcolor{comment}{//\}}}
-\DoxyCodeLine{149 \textcolor{comment}{//else}}
-\DoxyCodeLine{150 \textcolor{comment}{//    Serial.println(F("{}Can't set ITimer1. Select another freq. or timer"{}));}}
-\DoxyCodeLine{151 }
-\DoxyCodeLine{152 \textcolor{comment}{//GLOBAL in .ino}}
-\DoxyCodeLine{153 \textcolor{comment}{//Global variables}}
-\DoxyCodeLine{154 \textcolor{comment}{//static volatile bool flagReadSpeed = 0; ///< Will be set true in interrupt routine}}
-\DoxyCodeLine{155 \textcolor{comment}{//static volatile int interruptNum = 0; ///< Will increment in interrupt routine}}
-\DoxyCodeLine{156 \textcolor{comment}{//void TimerSpeedHandler()}}
-\DoxyCodeLine{157 \textcolor{comment}{//\{}}
-\DoxyCodeLine{158 \textcolor{comment}{//    flagReadSpeed = 1;}}
-\DoxyCodeLine{159 \textcolor{comment}{//    ++interruptNum;}}
-\DoxyCodeLine{160 \textcolor{comment}{//\}}}
-\DoxyCodeLine{161 }
-\DoxyCodeLine{162 \textcolor{comment}{//In void loop:}}
-\DoxyCodeLine{163 \textcolor{comment}{//if (flagReadSpeed) \{}}
-\DoxyCodeLine{164 \textcolor{comment}{//    Drive.read();}}
-\DoxyCodeLine{165 \textcolor{comment}{//    flagReadSpeed = 0;}}
-\DoxyCodeLine{166 \textcolor{comment}{//    interruptNum = 0;}}
-\DoxyCodeLine{167 \textcolor{comment}{//\}}}
-\DoxyCodeLine{168 }
-\DoxyCodeLine{169 \textcolor{comment}{//In Drive.read:}}
-\DoxyCodeLine{170 \textcolor{comment}{//State.encSpeed[0] = abs(enc1.read());}}
-\DoxyCodeLine{171 \textcolor{comment}{//enc1.write(0);}}
-\DoxyCodeLine{172 \textcolor{comment}{//State.encSpeed[1] = abs(enc2.read());}}
-\DoxyCodeLine{173 \textcolor{comment}{//enc2.write(0);}}
-\DoxyCodeLine{174 }
-\DoxyCodeLine{175 \textcolor{comment}{//In Comm::RequestEvent:}}
-\DoxyCodeLine{176 \textcolor{comment}{//char strBuffer[7];}}
-\DoxyCodeLine{177 \textcolor{comment}{//Wire.write(dtostrf(State.actualRealSpeed[0], 7, 2, strBuffer)); //!odskusat ci funguje}}
-\DoxyCodeLine{178 \textcolor{comment}{//Wire.write(dtostrf(State.actualRealSpeed[1], 7, 2, strBuffer));//!odskusat ci funguje  }}
+\DoxyCodeLine{77 \textcolor{comment}{// Regulator parameters}}
+\DoxyCodeLine{78      \textcolor{keywordtype}{double} Kp\_1 = 0, Ki\_1 = 0, \mbox{\hyperlink{class_state_class_a192af399e0e1edf8f7c5a70598c13206}{Kd\_1}} = 0; }
+\DoxyCodeLine{79      \textcolor{keywordtype}{double} Kp\_2 = 0, Ki\_2 = 0, \mbox{\hyperlink{class_state_class_a9cbed008c5caff5f2c4a3f97ae4dfa32}{Kd\_2}} = 0; }
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_a5ac9eef8d2090a6339f349a3bb78aa49}{motor1DeadBandPWM}}[2] = \{ 10,10 \}; }
+\DoxyCodeLine{82      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_ae0cb1fa57240aeece9e15b302e909530}{motor2DeadBandPWM}}[2] = \{ 10,10 \}; }
+\DoxyCodeLine{83      \textcolor{keywordtype}{int} motorDeadBandPWM[2] = \{ 0, 0 \};}
+\DoxyCodeLine{84      \textcolor{keywordtype}{float} \mbox{\hyperlink{class_state_class_aab7f9315384a9a54c1a142df3770d6c6}{motor1DeadBandReal}}[2] = \{ 0,0 \}; }
+\DoxyCodeLine{85      \textcolor{keywordtype}{float} \mbox{\hyperlink{class_state_class_a9b8933cd26b8d3374f12952405b9a6da}{motor2DeadBandReal}}[2] = \{ 0,0 \}; }
+\DoxyCodeLine{86      \textcolor{keywordtype}{float} motorDeadBandReal[2] = \{ 0, 0 \};}
+\DoxyCodeLine{87      \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_state_class_ab1e985ffb2b291bd0d296394fccaaff5}{CalibEnd}} = 0;  }
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89 \textcolor{comment}{// Non const variables -\/ will be changed during program}}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_a37816025e4f99f25401ae08862a660c9}{actualSpeed}}[2] = \{ 0,0 \}; }
+\DoxyCodeLine{92      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_ad35700f8b8ec016a81c9b9ff2f049791}{requiredSpeed}}[2] = \{ 0,0 \}; }
+\DoxyCodeLine{93      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_state_class_a22e8e7efc4b25e9c8c117607768a23b6}{actualEncSpeed}}[2] = \{ 0,0 \}; }
+\DoxyCodeLine{94      \textcolor{keywordtype}{int} requiredEncSpeed[2] = \{ 0,0 \};}
+\DoxyCodeLine{95      \textcolor{keywordtype}{float} \mbox{\hyperlink{class_state_class_a262f7357126ca5e0bc0c12c7243df553}{actualRealSpeed}}[2] = \{ 0,0 \}; }
+\DoxyCodeLine{96      \textcolor{keywordtype}{float} \mbox{\hyperlink{class_state_class_a78697ac64c2a18d1d3885fc5ce29178a}{requiredRealSpeed}}[2] = \{ 0,0 \}; }
+\DoxyCodeLine{97 \};}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99 \textcolor{keyword}{extern} \mbox{\hyperlink{class_state_class}{StateClass}} State;}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{114 \textcolor{comment}{/* Garbage:}}
+\DoxyCodeLine{115 \textcolor{comment}{Initialization of static const array in .h file}}
+\DoxyCodeLine{116 \textcolor{comment}{     static const uint8\_t Enc1Pin(size\_t index) \{}}
+\DoxyCodeLine{117 \textcolor{comment}{         static const uint8\_t x[] = \{ 1,2 \};}}
+\DoxyCodeLine{118 \textcolor{comment}{         return x[index];}}
+\DoxyCodeLine{119 \textcolor{comment}{     \}}}
+\DoxyCodeLine{120 \textcolor{comment}{*/}}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122 \textcolor{comment}{/* RPM Debounce}}
+\DoxyCodeLine{123 \textcolor{comment}{ Relative to RPM readout and triggering to start  a thread path:}}
+\DoxyCodeLine{124 \textcolor{comment}{}}
+\DoxyCodeLine{125 \textcolor{comment}{  Index debounce will affect the sensitivity of the index signal. IT basically is how many interrupt periods the signal must be present, or not present before a change is actually sensed in that line. SO if set to 2 for example, when the index appears it will be ignored for 2 periods to make sure it isnt noise. Same with when it disappears. Setting debounce too high will make the index go away altogether.}}
+\DoxyCodeLine{126 \textcolor{comment}{}}
+\DoxyCodeLine{127 \textcolor{comment}{  Since the length of the index is dependent on spindle speed, minimum length is variable, but the time must be at least 1 period at a debounce of zero. SO in 25000, thats 40us.}}
+\DoxyCodeLine{128 \textcolor{comment}{  If a person notices a dropoff in RPM at a certain speed, they need usually a lower index debounce. Index inputs from an encoder are usually pretty short and will limit speed readings at some point as you go higher.}}
+\DoxyCodeLine{129 \textcolor{comment}{}}
+\DoxyCodeLine{130 \textcolor{comment}{If you have the debounce setting too high the axis will just sit there waiting to confirm the rpm}}
+\DoxyCodeLine{131 \textcolor{comment}{before the start of a thread path.}}
+\DoxyCodeLine{132 \textcolor{comment}{}}
+\DoxyCodeLine{133 \textcolor{comment}{Don't have specifics relative to switches .}}
+\DoxyCodeLine{134 \textcolor{comment}{ */}}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136 \textcolor{comment}{//READ spd with millis}}
+\DoxyCodeLine{137 \textcolor{comment}{//     unsigned long currentMillis\_1 = 0;}}
+\DoxyCodeLine{138 \textcolor{comment}{//     unsigned long previousMillis\_1 = 0;}}
+\DoxyCodeLine{139 \textcolor{comment}{// }}
+\DoxyCodeLine{140  \textcolor{comment}{//    currentMillis\_1 = millis();}}
+\DoxyCodeLine{141  \textcolor{comment}{//    if ((currentMillis\_1 -\/ previousMillis\_1) >= 200) \{}}
+\DoxyCodeLine{142  \textcolor{comment}{//        encSpeed[0] = abs(Drive.enc1.read());}}
+\DoxyCodeLine{143  \textcolor{comment}{//        Drive.enc1.write(0);}}
+\DoxyCodeLine{144  \textcolor{comment}{//        encSpeed[1] = abs(Drive.enc2.read());}}
+\DoxyCodeLine{145  \textcolor{comment}{//        Drive.enc2.write(0);}}
+\DoxyCodeLine{146  \textcolor{comment}{//;       previousMillis\_1 = currentMillis\_1;}}
+\DoxyCodeLine{147  \textcolor{comment}{//    \}}}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150 \textcolor{comment}{// Using timer interrupt}}
+\DoxyCodeLine{151 \textcolor{comment}{// INCLUDES}}
+\DoxyCodeLine{152 \textcolor{comment}{// \#include <ISR\_Timer.h>}}
+\DoxyCodeLine{153 \textcolor{comment}{//\#include <TimerInterrupt.hpp>}}
+\DoxyCodeLine{154 \textcolor{comment}{//\#include <TimerInterrupt.h>}}
+\DoxyCodeLine{155 \textcolor{comment}{//\#include <ISR\_Timer.hpp> }}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157 \textcolor{comment}{//SETUP:}}
+\DoxyCodeLine{158 \textcolor{comment}{// Timer init}}
+\DoxyCodeLine{159 \textcolor{comment}{//ITimer2.init();}}
+\DoxyCodeLine{160 \textcolor{comment}{//if (ITimer2.attachInterruptInterval(TimerSpeedDelayMS, TimerSpeedHandler))}}
+\DoxyCodeLine{161 \textcolor{comment}{//\{}}
+\DoxyCodeLine{162 \textcolor{comment}{//    Serial.println(F("{}Starting  ITimer1 OK, millis() = "{})); Serial.println(millis());}}
+\DoxyCodeLine{163 \textcolor{comment}{//\}}}
+\DoxyCodeLine{164 \textcolor{comment}{//else}}
+\DoxyCodeLine{165 \textcolor{comment}{//    Serial.println(F("{}Can't set ITimer1. Select another freq. or timer"{}));}}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167 \textcolor{comment}{//GLOBAL in .ino}}
+\DoxyCodeLine{168 \textcolor{comment}{//Global variables}}
+\DoxyCodeLine{169 \textcolor{comment}{//static volatile bool flagReadSpeed = 0; ///< Will be set true in interrupt routine}}
+\DoxyCodeLine{170 \textcolor{comment}{//static volatile int interruptNum = 0; ///< Will increment in interrupt routine}}
+\DoxyCodeLine{171 \textcolor{comment}{//void TimerSpeedHandler()}}
+\DoxyCodeLine{172 \textcolor{comment}{//\{}}
+\DoxyCodeLine{173 \textcolor{comment}{//    flagReadSpeed = 1;}}
+\DoxyCodeLine{174 \textcolor{comment}{//    ++interruptNum;}}
+\DoxyCodeLine{175 \textcolor{comment}{//\}}}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{177 \textcolor{comment}{//In void loop:}}
+\DoxyCodeLine{178 \textcolor{comment}{//if (flagReadSpeed) \{}}
+\DoxyCodeLine{179 \textcolor{comment}{//    Drive.read();}}
+\DoxyCodeLine{180 \textcolor{comment}{//    flagReadSpeed = 0;}}
+\DoxyCodeLine{181 \textcolor{comment}{//    interruptNum = 0;}}
+\DoxyCodeLine{182 \textcolor{comment}{//\}}}
+\DoxyCodeLine{183 }
+\DoxyCodeLine{184 \textcolor{comment}{//In Drive.read:}}
+\DoxyCodeLine{185 \textcolor{comment}{//State.encSpeed[0] = abs(enc1.read());}}
+\DoxyCodeLine{186 \textcolor{comment}{//enc1.write(0);}}
+\DoxyCodeLine{187 \textcolor{comment}{//State.encSpeed[1] = abs(enc2.read());}}
+\DoxyCodeLine{188 \textcolor{comment}{//enc2.write(0);}}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{190 \textcolor{comment}{//In Comm::RequestEvent:}}
+\DoxyCodeLine{191 \textcolor{comment}{//char strBuffer[7];}}
+\DoxyCodeLine{192 \textcolor{comment}{//Wire.write(dtostrf(State.actualRealSpeed[0], 7, 2, strBuffer)); //!odskusat ci funguje}}
+\DoxyCodeLine{193 \textcolor{comment}{//Wire.write(dtostrf(State.actualRealSpeed[1], 7, 2, strBuffer));//!odskusat ci funguje  }}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195 \textcolor{comment}{//RAMP:}}
+\DoxyCodeLine{196 \textcolor{comment}{//bool ramp(int motor, int beginPWM = 0, float slope = 1);}}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{198 \textcolor{comment}{//Motors Speed:}}
+\DoxyCodeLine{200 \textcolor{comment}{}\textcolor{comment}{//if (Spd1 <= 0) \{}}
+\DoxyCodeLine{201 \textcolor{comment}{//    analogWrite(State.M1\_LPWM, 0);}}
+\DoxyCodeLine{202 \textcolor{comment}{//    analogWrite(State.M1\_RPWM, abs(Spd1));}}
+\DoxyCodeLine{203 \textcolor{comment}{//\}}}
+\DoxyCodeLine{204 \textcolor{comment}{//else\{}}
+\DoxyCodeLine{205 \textcolor{comment}{//    analogWrite(State.M1\_RPWM, 0);}}
+\DoxyCodeLine{206 \textcolor{comment}{//    analogWrite(State.M1\_LPWM, abs(Spd1));}}
+\DoxyCodeLine{207 \textcolor{comment}{//\}}}
+\DoxyCodeLine{208 }
+\DoxyCodeLine{210 \textcolor{comment}{//if (Spd2 <= 0) \{}}
+\DoxyCodeLine{211 \textcolor{comment}{//    analogWrite(State.M2\_LPWM, 0);}}
+\DoxyCodeLine{212 \textcolor{comment}{//    analogWrite(State.M2\_RPWM, abs(Spd2));}}
+\DoxyCodeLine{213 \textcolor{comment}{//\}}}
+\DoxyCodeLine{214 \textcolor{comment}{//else \{}}
+\DoxyCodeLine{215 \textcolor{comment}{//    analogWrite(State.M2\_RPWM, 0);}}
+\DoxyCodeLine{216 \textcolor{comment}{//    analogWrite(State.M2\_LPWM, abs(Spd2));}}
+\DoxyCodeLine{217 \textcolor{comment}{//\}}}
+\DoxyCodeLine{218 \textcolor{comment}{//}}
+\DoxyCodeLine{220 \textcolor{comment}{}\textcolor{comment}{//State.actualSpeed[0] = Spd1;}}
+\DoxyCodeLine{221 \textcolor{comment}{//State.actualSpeed[1] = Spd2;}}
 
 \end{DoxyCode}

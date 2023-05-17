@@ -16,12 +16,13 @@
 	#include "WProgram.h"
 #endif
 #include <timer.h>
+
+//#define ENCODER_OPTIMIZE_INTERRUPTS
 #include <Encoder.h>
 #include <PID_v1.h>
 #include "State.h"
 #include "Motors.h"
 
-constexpr auto SpeedRampDelayCalib = 80; ///< 1/Slope of speed accelerating ramp during calibration - i.e. equals to 1/acceleration (when smaller - it accelerates more quickly)
 
 enum class CalibState { Init, Motor1_f, Motor1_b, Motor2_f, Motor2_b, End,   Size }; ///< CalibState enum, "Size" is a little trick - contains number of elements in this enum
 #define calibStatePrint CalibStatePrint[static_cast<int>(calibState)] ///< Use for printing calibState enum
@@ -31,11 +32,13 @@ enum class CalibState { Init, Motor1_f, Motor1_b, Motor2_f, Motor2_b, End,   Siz
 class DriveClass final
 {
  private:
+	 const int SpeedRampDelayCalib = 80; ///< 1/Slope of speed accelerating ramp during calibration - i.e. equals to 1/acceleration (when smaller - it accelerates more quickly)
+
 	 CalibState calibState = CalibState::Init; ///< Enum for Deadband calibration state machine 
 	 MotorsClass Motors{}; ///< Motors object of MotorsClass class implementing speed control of 2 motors
 	 Timer timer; ///< Basic timer used for delayes when moving betweeen states
-	 static unsigned long currentTime; ///< Current time updated with micros() in void read()
-	 static unsigned long previousTime; ///< Previous time updated with currentTime when currentTime >= TimerSpeedDelay_uS
+	 unsigned long currentTime; ///< Current time updated with micros() in void read()
+	 unsigned long previousTime; ///< Previous time updated with currentTime when currentTime >= TimerSpeedDelay_uS
 
 	 //Ramp init variables
 	 bool rampInitDone[2] = { 0,0 }; ///< Indicates inicialization of ramp
@@ -57,12 +60,12 @@ class DriveClass final
 	  */
 	 void read();
 
-	 double pid_Set1 = 0, pid_In1 = 0, pid_Out1 = 0; ///< Define signals for speed PID reg on motor 1
-	 double pid_Set2 = 0, pid_In2 = 0, pid_Out2 = 0; ///< Define signals for speed PID reg on motor 2
-
 	 //DeadbandCalib
 	 unsigned long currentTime_C = 0, previousTime_C = 0; ///< Variables used for time reading in Deadband calibration
  public:
+	 double pid_Set1 = 0, pid_In1 = 0, pid_Out1 = 0; ///< Define signals for speed PID reg on motor 1
+	 double pid_Set2 = 0, pid_In2 = 0, pid_Out2 = 0; ///< Define signals for speed PID reg on motor 2
+
 	 const char* CalibStatePrint[static_cast<int>(CalibState::Size)] = { "Init", "Motor1_f", "Motor1_b", "Motor2_f", "Motor2_b", "End" }; ///< Used for printing calibState enum
 	 PID pid1; ///< PID object for motor 1
 	 PID pid2; ///< PID object for motor 2
@@ -89,15 +92,37 @@ class DriveClass final
 	  */
 	 void loop();
 
+	 inline int PWMtoOptimizedPWM(int PWMspeed, int zeroVal, int minPWM);
+
 	 void rampInit(bool motSelect, int TimeSlope, int SpeedBegin = 0);
-	 void rampUpdate(bool motSelect, int increment);
+	 void rampUpdate(bool motSelect, int increment, bool optim = false);
+
 	 void AccTillRotating_init(bool motSelect, int TimeSlope);
 	 bool AccTillRotating_update(bool motSelect, int increment, unsigned int endSpeed = 0);
 	 
 	 void DeccTillRotating_init(bool motSelect, int timeSlope, int speedBegin = 0);
 	 bool DeccTillRotating_update(bool motSelect, unsigned int decrement, unsigned int endSpeed = 0);
 
+
+	 void AccTillPWM_init(bool motSelect, int TimeSlope);
+	 void AccTillPWM_init(bool motSelect, int TimeSlope, int speedBegin);
+	 bool AccTillPWM_update(bool motSelect, int increment, int endSpeed, bool optim = 0);
+
+	 void DeccTillPWM_init(bool motSelect, int timeSlope);
+	 void DeccTillPWM_init(bool motSelect, int timeSlope, int speedBegin);
+	 bool DeccTillPWM_update(bool motSelect, unsigned int decrement, int endSpeed, bool optim = 0);
+
+private:
+	bool accTillPWMDone[2] = { 0,0 };
+	bool deccTillPWMDone[2] = { 0,0 };
+public:
+	 //-----Calibrations----
 	 bool CalibDeadband();
+	 //------Meassures------
+public:
+	 bool LinearityRamp_meassure(int maxSpeed = 70, int motSelect = 0, bool optim = 0);
+private:
+	enum class LinearityRamp_state { InitDecc, Decc, InitAcc, Acc, End} linearityRamp_state = LinearityRamp_state::InitAcc;
 };
 
 extern DriveClass Drive;
