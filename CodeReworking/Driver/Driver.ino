@@ -7,6 +7,18 @@
  * \date   April 2023
  *********************************************************************/
 
+/**Handy notes:
+ * Shortcuts:
+ * Ctrl+M+S - collapsing region
+ * Ctrl+M+E - expanding region
+ * Ctrl+Tab - go back to last opened file
+ * Ctrl+(-) - go back to last important place in code (VS somehow determins the importance
+ */
+
+/**
+ * IMPORTANT:
+ * [PWM] is a int value in range <-255 - 255> -> however sometimes only absolut value is allowed, that means <0 - 255>
+ */
 //#include <timerManager.h>
 #include "State.h" // Include before other classes!
 #include "Comm.h"

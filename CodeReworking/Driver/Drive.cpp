@@ -9,10 +9,6 @@
 
 #include "Drive.h"
 
-////Initialize static class members
-//unsigned long DriveClass::currentTime = 0;
-//unsigned long DriveClass::previousTime = 0;
-
 void DriveClass::init()
 {
     Motors.init();
@@ -46,30 +42,28 @@ void DriveClass::read()
     }
 }
 
-
-inline int DriveClass::PWMtoOptimizedPWM(int PWMspeed, int zeroVal, int minPWM)
+inline int DriveClass::PWMtoOptimizedPWM(int PWMspeed, unsigned int zeroVal, unsigned int minPWM)
 {
-    if (abs(roundf(PWMspeed)) <= zeroVal)
+    if (abs(PWMspeed) <= zeroVal)
         return 0;
     else
-       return sign(roundf(PWMspeed)) * (abs(roundf(PWMspeed)) + minPWM);
+       return sign(PWMspeed) * (abs(PWMspeed) + minPWM ); //- (zeroVal + 1)
 }
-void DriveClass::rampInit(bool motSelect, int TimeSlope)
+
+void DriveClass::rampInit(bool motSelect, int timeSlope)
 {
     //State.requiredSpeed[motSelect] = State.actualSpeed[motSelect]; //added
     Timer_ramp[motSelect]->stop();
-    Timer_ramp[motSelect]->setTimeout(TimeSlope);
+    Timer_ramp[motSelect]->setTimeout(timeSlope);
     Timer_ramp[motSelect]->start();
     rampInitDone[motSelect] = true;
 }
-void DriveClass::rampInit(bool motSelect, int TimeSlope, int SpeedBegin, bool optim)
+
+void DriveClass::rampInit(bool motSelect, int timeSlope, int SpeedBegin, bool optim)
 {
     State.requiredSpeed[motSelect] = SpeedBegin; //= optim ? PWMtoOptimizedPWM(SpeedBegin, 3, 20) : SpeedBegin;
-    Motors.SpeedSingle(motSelect, (optim ? PWMtoOptimizedPWM(State.requiredSpeed[motSelect], optimizedSpd.zeroPWM, optimizedSpd.minPWM) : State.requiredSpeed[motSelect]));
-    Timer_ramp[motSelect]->stop();
-    Timer_ramp[motSelect]->setTimeout(TimeSlope);
-    Timer_ramp[motSelect]->start();
-    rampInitDone[motSelect] = true;
+    Motors.SpeedSingle(motSelect, (optim ? PWMtoOptimizedPWM(State.requiredSpeed[motSelect], 3,20) : State.requiredSpeed[motSelect]));
+    rampInit(motSelect, timeSlope);
 }
 
 void DriveClass::rampUpdate(bool motSelect, int increment, bool optim)
@@ -81,17 +75,15 @@ void DriveClass::rampUpdate(bool motSelect, int increment, bool optim)
         Timer_ramp[motSelect]->start();
         State.requiredSpeed[motSelect] += increment;
         if(optim)
-            Motors.SpeedSingle(motSelect, PWMtoOptimizedPWM(State.requiredSpeed[motSelect], optimizedSpd.zeroPWM, optimizedSpd.minPWM));
+            Motors.SpeedSingle(motSelect, PWMtoOptimizedPWM(State.requiredSpeed[motSelect],3,20));
         else
             Motors.SpeedSingle(motSelect, State.requiredSpeed[motSelect]);
     }
 }
 
-
-void DriveClass::AccTillRotating_init(bool motSelect, int TimeSlope)
+void DriveClass::AccTillRotating_init(bool motSelect, int timeSlope)
 {
-    Motors.SpeedSingle(motSelect, 0);
-    rampInit(motSelect, TimeSlope, 0);
+    rampInit(motSelect, timeSlope, 0);
     accTillRotatingDone[motSelect] = false;
 }
 
@@ -105,6 +97,7 @@ bool DriveClass::AccTillRotating_update(bool motSelect, int increment, unsigned 
             State.motor1DeadBandPWM[motSelect] = State.actualSpeed[motSelect];
             State.motor1DeadBandReal[motSelect] = State.actualEncSpeed[motSelect];
             Serial.println("Speed of motor " + String(motSelect) + " after acceleration when start moving : [PWM] = " + String(State.motor1DeadBandPWM[motSelect]) + ", [ENC] = "+String(State.motor1DeadBandReal[motSelect]));
+            rampInitDone[motSelect] = false;
             accTillRotatingDone[motSelect] = true;
         }
     }
@@ -130,36 +123,40 @@ bool DriveClass::DeccTillRotating_update(bool motSelect, unsigned int decrement,
             State.motor2DeadBandPWM[motSelect] = State.actualSpeed[motSelect];
             State.motor2DeadBandReal[motSelect] = State.actualEncSpeed[motSelect];
             Serial.println("Speed of motor " + String(motSelect) + " after decceleration when stop moving : [PWM] = " + String(State.motor2DeadBandPWM[motSelect]) + ", [ENC] = " + String(State.motor2DeadBandReal[motSelect]));
+            rampInitDone[motSelect] = false;
             deccTillRotatingDone[motSelect] = true;
         }
     }
     return deccTillRotatingDone[motSelect];
 }
-void DriveClass::AccTillPWM_init(bool motSelect, int TimeSlope)
+void DriveClass::AccTillPWM_init(bool motSelect, int timeSlope)
 {
-    rampInit(motSelect, TimeSlope);
+    rampInit(motSelect, timeSlope);
     accTillPWMDone[motSelect] = false;
 }
-void DriveClass::AccTillPWM_init(bool motSelect, int TimeSlope, int speedBegin, bool optim)
+void DriveClass::AccTillPWM_init(bool motSelect, int timeSlope, int speedBegin, bool optim)
 {
     //Motors.SpeedSingle(motSelect, speedBegin);
-    rampInit(motSelect, TimeSlope, speedBegin, optim);
+    rampInit(motSelect, timeSlope, speedBegin, optim);
     accTillPWMDone[motSelect] = false;
 }
 
 bool DriveClass::AccTillPWM_update(bool motSelect, int increment, int endSpeed, bool optim)
 {
     if (!accTillPWMDone[motSelect]) {
-        if (State.actualSpeed[motSelect] < (optim ? PWMtoOptimizedPWM(endSpeed, optimizedSpd.zeroPWM, optimizedSpd.minPWM) : endSpeed)) //(optim ? PWMtoOptimizedPWM(State.actualSpeed[motSelect], 3, 20) : State.actualSpeed[motSelect])
+        if (State.actualSpeed[motSelect] < (optim ? PWMtoOptimizedPWM(endSpeed,3,20) : endSpeed)) //(optim ? PWMtoOptimizedPWM(State.actualSpeed[motSelect], 3, 20) : State.actualSpeed[motSelect])
             rampUpdate(motSelect, increment, optim);
-        else 
+        else {
+            rampInitDone[motSelect] = false;
             accTillPWMDone[motSelect] = true;
+        }
     }
     return accTillPWMDone[motSelect];
 }
 
 void DriveClass::DeccTillPWM_init(bool motSelect, int timeSlope, int speedBegin, bool optim)
 {
+
     //Motors.SpeedSingle(motSelect, speedBegin);
     rampInit(motSelect, timeSlope, speedBegin, optim);
     deccTillPWMDone[motSelect] = false;
@@ -174,47 +171,49 @@ void DriveClass::DeccTillPWM_init(bool motSelect, int timeSlope)
 bool DriveClass::DeccTillPWM_update(bool motSelect, unsigned int decrement, int endSpeed, bool optim)
 {
     if (!deccTillPWMDone[motSelect]) {
-        if (State.actualSpeed[motSelect] > endSpeed)
+        if (State.actualSpeed[motSelect] > (optim ? PWMtoOptimizedPWM(endSpeed,3,20) : endSpeed))
             rampUpdate(motSelect, -decrement, optim);
-        else
+        else {
+            rampInitDone[motSelect] = false;
             deccTillPWMDone[motSelect] = true;
+        }
     }
     return deccTillPWMDone[motSelect];
 }
 
 bool DriveClass::CalibDeadband() {
-    switch (calibState) {
-    case CalibState::Init: //Stop motors and reset some variables to zero
+    switch (state_calib) {
+    case State_calib::Init: //Stop motors and reset some variables to zero
         Motors.Stop();
         State.requiredSpeed[0] = 0;
         State.requiredSpeed[1] = 0;
         State.CalibEnd = 0;
-        calibState = CalibState::Motor1_f;
+        state_calib = State_calib::Motor1_f;
         AccTillRotating_init(0, SpeedRampDelayCalib);
         AccTillRotating_init(1, SpeedRampDelayCalib);
         break;
-    case CalibState::Motor1_f: //Calibrate first motor - Increment PWM on motor until it starts rotating (the real speed from encoders is bigger than 1 rad/s)
+    case State_calib::Motor1_f: //Calibrate first motor - Increment PWM on motor until it starts rotating (the real speed from encoders is bigger than 1 rad/s)
     {
         bool ret = AccTillRotating_update(1, 1, 1);
         ret = AccTillRotating_update(0, 1, 1) && ret;
         if (ret)
-            calibState = CalibState::Motor1_b;
+            state_calib = State_calib::Motor1_b;
         break;
     }
-    case CalibState::Motor1_b:
+    case State_calib::Motor1_b:
         DeccTillRotating_init(0, SpeedRampDelayCalib);
         DeccTillRotating_init(1, SpeedRampDelayCalib);
-        calibState = CalibState::Motor2_f;
+        state_calib = State_calib::Motor2_f;
         break;
-    case CalibState::Motor2_f:
+    case State_calib::Motor2_f:
     {
         bool ret2 = DeccTillRotating_update(0, 1, 1);
         ret2 = DeccTillRotating_update(1, 1, 1) && ret2;
         if (ret2)
-            calibState = CalibState::End;
+            state_calib = State_calib::End;
         break;
     }
-    case CalibState::End: //End of calibration of both motors - indicated by State.CalibEnd making true - After first calibration it stays in this state forever
+    case State_calib::End: //End of calibration of both motors - indicated by State.CalibEnd making true - After first calibration it stays in this state forever
         Motors.Stop();
         State.CalibEnd = 1;
         break;
@@ -222,25 +221,25 @@ bool DriveClass::CalibDeadband() {
     return State.CalibEnd;
 }
 
-bool DriveClass::LinearityRamp_meassure(int maxSpeed, int motSelect, bool optim) {
-    switch (linearityRamp_state) {
-    case LinearityRamp_state::InitAcc:
+bool DriveClass::LinearityRamp_meassure(unsigned int maxSpeed, int motSelect, bool optim) {
+    switch (state_rampMeas) {
+    case State_rampMeas::InitAcc:
         AccTillPWM_init(motSelect, SpeedRampDelayCalib,-maxSpeed, optim);
-        linearityRamp_state = LinearityRamp_state::Acc;
+        state_rampMeas = State_rampMeas::Acc;
         break;
-    case LinearityRamp_state::Acc:
+    case State_rampMeas::Acc:
         if(AccTillPWM_update(motSelect, 1, maxSpeed, optim))
-            linearityRamp_state = LinearityRamp_state::InitDecc;
+            state_rampMeas = State_rampMeas::InitDecc;
         break;
-    case LinearityRamp_state::InitDecc:
+    case State_rampMeas::InitDecc:
         DeccTillPWM_init(motSelect, SpeedRampDelayCalib);
-        linearityRamp_state = LinearityRamp_state::Decc;
+        state_rampMeas = State_rampMeas::Decc;
         break;
-    case LinearityRamp_state::Decc:
+    case State_rampMeas::Decc:
         if(DeccTillPWM_update(motSelect, 1, 0, optim))
-            linearityRamp_state = LinearityRamp_state::End;
+            state_rampMeas = State_rampMeas::End;
         break;
-    case LinearityRamp_state::End:
+    case State_rampMeas::End:
         return true;
         break;
     }
@@ -262,8 +261,8 @@ void DriveClass::loop()
         enc2.write(0);//odstranit probably
         break;
     case CommState::Wait:
-        calibState = CalibState::Init;
-        linearityRamp_state = LinearityRamp_state::InitAcc;
+        state_calib = State_calib::Init;
+        state_rampMeas = State_rampMeas::InitAcc;
         break;
     case CommState::SpeedPWM: 
         Motors.Speed(State.requiredSpeed[0], State.requiredSpeed[1]);
@@ -318,7 +317,7 @@ void DriveClass::loop()
 DriveClass Drive{};
 
 //Garbage:
-    //case CalibState::Motor1_b:
+    //case State_calib::Motor1_b:
     //    Serial.println("in 1_b");
 
     //    //Motors.Stop();
@@ -328,18 +327,18 @@ DriveClass Drive{};
 
     //    //DeccTillRotating_init(0, SpeedRampDelayCalib);
     //    //DeccTillRotating_init(1, SpeedRampDelayCalib);
-    //    calibState = CalibState::Motor2_f;
+    //    state_calib = State_calib::Motor2_f;
     //    break;
-    //case CalibState::Motor2_f:
+    //case State_calib::Motor2_f:
     //    Serial.println("in case");
-    //    //calibState = CalibState::End;
+    //    //state_calib = State_calib::End;
     //    //bool ret2 = DeccTillRotating_update(1, 1, 1);
     //    //ret2 = DeccTillRotating_update(0, 1, 0) && ret;
     //    //if (ret2)
-    //    //    calibState = CalibState::End;
+    //    //    state_calib = State_calib::End;
 
     //    //bool ret2 = AccTillRotating_update(1, 1, 1);
     //    //ret2 = AccTillRotating_update(0, 1, 1) && ret2;
     //    //if (ret2)
-    //    //    calibState = CalibState::End;
+    //    //    state_calib = State_calib::End;
     //    break;

@@ -112,6 +112,7 @@ extern StateClass State;
 
 #endif
 
+
 /** Konzultacia
  * Drive - explicit konstruktor
  * Pin - aky DT?
