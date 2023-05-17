@@ -93,8 +93,8 @@ class DriveClass final
 	 void loop();
 
 	 inline int PWMtoOptimizedPWM(int PWMspeed, int zeroVal, int minPWM);
-
-	 void rampInit(bool motSelect, int TimeSlope, int SpeedBegin = 0);
+	 void rampInit(bool motSelect, int TimeSlope);
+	 void rampInit(bool motSelect, int TimeSlope, int SpeedBegin);
 	 void rampUpdate(bool motSelect, int increment, bool optim = false);
 
 	 void AccTillRotating_init(bool motSelect, int TimeSlope);

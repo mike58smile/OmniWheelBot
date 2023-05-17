@@ -54,7 +54,13 @@ inline int DriveClass::PWMtoOptimizedPWM(int PWMspeed, int zeroVal, int minPWM)
     else
        return sign(roundf(PWMspeed)) * (abs(roundf(PWMspeed)) + minPWM);
 }
-
+void DriveClass::rampInit(bool motSelect, int TimeSlope)
+{
+    Timer_ramp[motSelect]->stop();
+    Timer_ramp[motSelect]->setTimeout(TimeSlope);
+    Timer_ramp[motSelect]->start();
+    rampInitDone[motSelect] = true;
+}
 void DriveClass::rampInit(bool motSelect, int TimeSlope, int SpeedBegin)
 {
     State.requiredSpeed[motSelect] = SpeedBegin;
@@ -83,7 +89,7 @@ void DriveClass::rampUpdate(bool motSelect, int increment, bool optim)
 void DriveClass::AccTillRotating_init(bool motSelect, int TimeSlope)
 {
     Motors.SpeedSingle(motSelect, 0);
-    rampInit(motSelect, TimeSlope);
+    rampInit(motSelect, TimeSlope, 0);
     accTillRotatingDone[motSelect] = false;
 }
 
@@ -142,7 +148,7 @@ void DriveClass::AccTillPWM_init(bool motSelect, int TimeSlope, int speedBegin)
 bool DriveClass::AccTillPWM_update(bool motSelect, int increment, int endSpeed, bool optim)
 {
     if (!accTillPWMDone[motSelect]) {
-        if (State.actualSpeed[motSelect] < endSpeed)
+        if ((optim ? PWMtoOptimizedPWM(State.actualSpeed[motSelect], 3, 20) : State.actualSpeed[motSelect]) < endSpeed)
             rampUpdate(motSelect, increment, optim);
         else 
             accTillPWMDone[motSelect] = true;

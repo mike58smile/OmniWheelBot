@@ -29,7 +29,7 @@ void receiveData(int x)
     if(State.commStatePrev != State.commState)
         State.commStatePrev = State.commState;
     int mode = Wire.read();
-    State.tempMode = mode;
+    //State.tempMode = mode;
     switch (mode) {
     case 0:
         //stop motor (and reset PID)
