@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['enc1_0',['enc1',['../class_drive_class.html#a220a780cced6ece3e94731bd9cefd850',1,'DriveClass']]],
-  ['enc2_1',['enc2',['../class_drive_class.html#a105582a5f5109076eb59d3556db0d428',1,'DriveClass']]]
+  ['init_0',['init',['../class_comm_class.html#aee9c8ae3f60a08ea48bd8d6a8ca036cd',1,'CommClass::init()'],['../class_drive_class.html#af058246867930180e2e73d98d94075e9',1,'DriveClass::init()'],['../class_motors_class.html#a876ccfb589e9a826276bde4f9a99ba31',1,'MotorsClass::init()'],['../class_serial_control_class.html#a72b70293552a3fcce13b7148a28271e5',1,'SerialControlClass::init()']]]
 ];

@@ -1,12 +1,10 @@
 var searchData=
 [
-  ['mainstateprint_0',['MainStatePrint',['../class_state_class.html#aed17fb5caac0782ffe50a641966496d2',1,'StateClass']]],
-  ['maxspeed_1',['maxSpeed',['../class_state_class.html#a9ba03cd7cdb105fdbf73bb0448e486da',1,'StateClass']]],
-  ['motor1deadbandpwm_2',['motor1DeadBandPWM',['../class_state_class.html#a5ac9eef8d2090a6339f349a3bb78aa49',1,'StateClass']]],
-  ['motor1deadbandreal_3',['motor1DeadBandReal',['../class_state_class.html#aab7f9315384a9a54c1a142df3770d6c6',1,'StateClass']]],
-  ['motor2deadbandpwm_4',['motor2DeadBandPWM',['../class_state_class.html#ae0cb1fa57240aeece9e15b302e909530',1,'StateClass']]],
-  ['motor2deadbandreal_5',['motor2DeadBandReal',['../class_state_class.html#a9b8933cd26b8d3374f12952405b9a6da',1,'StateClass']]],
-  ['motors_2ecpp_6',['Motors.cpp',['../_motors_8cpp.html',1,'']]],
-  ['motors_2eh_7',['Motors.h',['../_motors_8h.html',1,'']]],
-  ['motorsclass_8',['MotorsClass',['../class_motors_class.html',1,'']]]
+  ['rampinit_0',['rampInit',['../class_drive_class.html#accb2b97167cad8aa4d927dc6c6e1eb16',1,'DriveClass::rampInit(bool motSelect, int timeSlope)'],['../class_drive_class.html#ab811e50a84a704824e37a8b2a6429aaf',1,'DriveClass::rampInit(bool motSelect, int timeSlope, int SpeedBegin, bool optim=0)']]],
+  ['rampupdate_1',['rampUpdate',['../class_drive_class.html#ad18a96b8cc9762cc931aa3d6cf868669',1,'DriveClass']]],
+  ['readspeed_2',['readSpeed',['../class_state_class.html#abfef7b427ef851b42ca9b508481a7cd1',1,'StateClass']]],
+  ['receivedata_3',['receiveData',['../_comm_8cpp.html#ae8cf89abd23293e8367e245bdc60e669',1,'Comm.cpp']]],
+  ['requestevent_4',['requestEvent',['../_comm_8cpp.html#ac10b80b8aaeaf66cecbf0bb5eff5ae33',1,'Comm.cpp']]],
+  ['requiredrealspeed_5',['requiredRealSpeed',['../class_state_class.html#a78697ac64c2a18d1d3885fc5ce29178a',1,'StateClass']]],
+  ['requiredspeed_6',['requiredSpeed',['../class_state_class.html#ad35700f8b8ec016a81c9b9ff2f049791',1,'StateClass']]]
 ];

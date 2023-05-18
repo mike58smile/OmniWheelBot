@@ -1,7 +1,14 @@
 var searchData=
 [
-  ['pid1_0',['pid1',['../class_drive_class.html#adc25d7e18fba0c6faa7bbc1e4a071a58',1,'DriveClass']]],
-  ['pid2_1',['pid2',['../class_drive_class.html#a1522b8234dfaea99d1d77e4730fe895f',1,'DriveClass']]],
-  ['pid_5fout1_2',['pid_Out1',['../class_drive_class.html#a029425aedf46cfd45533255750ea5fa2',1,'DriveClass']]],
-  ['pid_5fout2_3',['pid_Out2',['../class_drive_class.html#a3644e3c2fbbf291a54ba3875a9d8d859',1,'DriveClass']]]
+  ['serialcontrol_2ecpp_0',['SerialControl.cpp',['../_serial_control_8cpp.html',1,'']]],
+  ['serialcontrol_2eh_1',['SerialControl.h',['../_serial_control_8h.html',1,'']]],
+  ['serialcontrolclass_2',['SerialControlClass',['../class_serial_control_class.html',1,'']]],
+  ['serialmode_3',['serialMode',['../class_serial_control_class.html#a139c6d121ae69694dbb952a1482b2ecd',1,'SerialControlClass']]],
+  ['serialmodeprint_4',['SerialModePrint',['../class_serial_control_class.html#aa97e210e6b8fdea11a6a5d7d446e0375',1,'SerialControlClass']]],
+  ['speed_5',['Speed',['../class_motors_class.html#a2a742a3a0072e0933853e2517d267fdd',1,'MotorsClass']]],
+  ['speedsingle_6',['SpeedSingle',['../class_motors_class.html#a70605092d428f680bac44f44d1bb52de',1,'MotorsClass']]],
+  ['state_2ecpp_7',['State.cpp',['../_state_8cpp.html',1,'']]],
+  ['state_2eh_8',['State.h',['../_state_8h.html',1,'']]],
+  ['stateclass_9',['StateClass',['../class_state_class.html',1,'']]],
+  ['stop_10',['Stop',['../class_motors_class.html#a0fe90b15769d3f1f219da0c2f4015f89',1,'MotorsClass']]]
 ];

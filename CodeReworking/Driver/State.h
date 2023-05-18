@@ -15,13 +15,10 @@
 #else
 	#include "WProgram.h"
 #endif
-//#include <stdfix.h> // maybe not fully implemented
 
-//#define USE_TIMER_2 true
-//Constexpr - lacks pointer to value, means nothing to this compiller 
-// Global values shouldnt be auto, short int = int probably
-
+/*************************************************** Setup variables *********************************************************************/
 const unsigned long TimerSpeedDelay_mS = 30; ///< Speed reading from encoder time period - Change only this !!
+/*****************************************************************************************************************************************/
 const unsigned long TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
 const float num = TWO_PI / (979.2 * (TimerSpeedDelay_mS / 1000.0));
 
@@ -35,28 +32,34 @@ static inline int8_t sign(int val) {
 	return 1;
 }
 // User defined data types:
-//enum class is better cause the name of the enum elements can be used outside the enum as variables
-enum class MainState { Setup, Speed, Stop,   Size }; ///< Define MainState enum, Size is a little trick - contains number of elements in this enum
-enum class CommState { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Meas1, Unknown, Meas,    Size }; ///< Define CommState enum, Size is a little trick - contains number of elements in this enum
-#define commStatePrint State.CommStatePrint[static_cast<int>(State.commState)] //inline function is much better
-
-enum class MeasType { Calib, Ramp, Ramp_optim }; ///< Same enum as in Controller
 
 using Pin = const uint8_t;
+
+#define printState_comm State.stateArr_comm[static_cast<int>(State.state_comm)] //inline function is much better
+#define printState_actual State.stateArr_actual[static_cast<int>(State.state_actual)] //inline function is much better
+#define printState_measType State.stateArr_measType[static_cast<int>(State.meas.state_measType)] //inline function is much better
+	 
+enum class State_measType { Calib, Ramp, Ramp_optim,   Size }; ///< Meassurement type state - have to be same as in Controller, Size contains number of elements in enum, used for printing
+static const char* stateArr_measType[static_cast<int>(State_measType::Size)] = { "Calib", "Ramp", "Ramp_optim" }; ///< Array for printing meas.state_measType 
+
+enum class State_actual { Setup, Speed, Stop, Size }; ///< Actual state in which the driver operates, Size contains number of elements in enum, used for printing, Size contains number of elements in enum, used for printing
+static const char* stateArr_actual[static_cast<int>(State_actual::Size)] = { "Setup", "Speed", "Stop" }; ///< Array for printing state_actual
+
+enum class State_comm { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Meas1, Unknown, Meas, Size }; ///< Communication state in which controller wants the driver to be in, only changed in Comm and SerialControl, Size contains number of elements in enum, used for printing
+static const char* stateArr_comm[static_cast<int>(State_comm::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "ChangeConstPID", "CalibDeadBand", "Unknown" }; ///< Array for printing state_comm
+
 /**
  * \brief Class for variables storage (only header, without methods) 
  */
 class StateClass
 {
  public:
-	 static const int address = 0x10; ///< Define I2C address of this Driver - !!Need to be changed for different driver!!
+	 State_actual state_actual = State_actual::Setup; ///< Actual state in which the driver operates, Size contains number of elements in enum, used for printing
+	 State_comm state_comm = State_comm::Stop; ///< Communication state in which controller wants the driver to be in, only changed in Comm and SerialControl
+	 State_comm state_commPrev = State_comm::Stop; ///< Previous communication state
+	 
+	 static const int address = 0x10; ///< Define I2C address of this Driver - !!Need to be changed for different driver
 
-	 const char* MainStatePrint[static_cast<int>(MainState::Size)] = { "Setup", "Speed", "Stop" }; ///< Used for printing mainState enum
-	 const char* CommStatePrint[static_cast<int>(CommState::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "ChangeConstPID", "CalibDeadBand", "Unknown" }; ///< Used for printing commState enum
-
-	 MainState actualState = MainState::Setup; ///< Define actual state in which the driver operates 
-	 CommState commState = CommState::Stop; ///< Define communication state in which controller wants the driver to be in, only changed in Comm and SerialControl
-	 CommState commStatePrev = CommState::Stop;
 // Define pins
 	 //Motor1
 	 static Pin M1_LPWM = 5;
@@ -80,8 +83,8 @@ class StateClass
 	 double Kp_1 = 1, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1
 	 double Kp_2 = 0, Ki_2 = 0, Kd_2 = 0; ///< Speed PID constants for motor 2
 
-	 int motor1DeadBandPWM[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
-	 int motor2DeadBandPWM[2] = { 10,10 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
+	 int motor1DeadBandPWM[2] = { 0,0 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
+	 int motor2DeadBandPWM[2] = { 0,0 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating
 	 int motorDeadBandPWM[2] = { 0, 0 };
 	 int motor1DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 1 starts rotating
 	 int motor2DeadBandReal[2] = { 0,0 }; ///< [forward,backward] - What is the minimum speed [rad/s] on which Motor 2 starts rotating
@@ -99,8 +102,8 @@ class StateClass
 
 // Measurements variables:
 	 struct Meas {
-		 MeasType measType;
-		 int motSelect = 0;
+		 State_measType state_measType;
+		 unsigned int motSelect = 0;
 		 int temp = 0;
 	 } meas;
 
@@ -125,6 +128,19 @@ extern StateClass State;
 
 
 /* Garbage:
+* 
+* //#define USE_TIMER_2 true //Use before TimerInterrupt library included - defines which timer to use for interrupts (but it isn't working with Encoders)
+* 
+* inline static const char* printState_measType() {
+	return stateArr_measType[static_cast<int>(State.meas.state_measType)];
+}
+inline static const char* printState_actual() {
+ return stateArr_actual[static_cast<int>(State.state_actual)];
+}
+inline static const char* printState_comm() {
+ return stateArr_comm[static_cast<int>(State.State.state_comm)];
+}
+* 
 Initialization of static const array in .h file
 	 static const uint8_t Enc1Pin(size_t index) {
 		 static const uint8_t x[] = { 1,2 };

@@ -10,75 +10,146 @@
 \DoxyCodeLine{15 \textcolor{preprocessor}{\#else}}
 \DoxyCodeLine{16 \textcolor{preprocessor}{    \#include "{}WProgram.h"{}}}
 \DoxyCodeLine{17 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <timer.h>}}
-\DoxyCodeLine{19 }
-\DoxyCodeLine{20 \textcolor{comment}{//\#define ENCODER\_OPTIMIZE\_INTERRUPTS}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <timer.h>}}
+\DoxyCodeLine{20 \textcolor{comment}{//\#define ENCODER\_OPTIMIZE\_INTERRUPTS //Encoder reading optimization -\/ written in assembly -\/ but not working -\/ with first came interrupt the program freezes}}
 \DoxyCodeLine{21 \textcolor{preprocessor}{\#include <Encoder.h>}}
 \DoxyCodeLine{22 \textcolor{preprocessor}{\#include <PID\_v1.h>}}
 \DoxyCodeLine{23 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_state_8h}{State.h}}"{}}}
 \DoxyCodeLine{24 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_motors_8h}{Motors.h}}"{}}}
 \DoxyCodeLine{25 }
-\DoxyCodeLine{26 \textcolor{keyword}{constexpr} \textcolor{keyword}{auto} \mbox{\hyperlink{_drive_8h_aabb5eb13d6075d416b5e86c1b6a285ad}{SpeedRampDelayCalib}} = 80; }
-\DoxyCodeLine{27 }
-\DoxyCodeLine{28 \textcolor{keyword}{enum class} CalibState \{ Init, Motor1\_f, Motor1\_b, Motor2\_f, Motor2\_b, End,   Size \}; }
-\DoxyCodeLine{29 \textcolor{preprocessor}{\#define calibStatePrint CalibStatePrint[static\_cast<int>(calibState)] }}
-\DoxyCodeLine{33 \textcolor{keyword}{class }\mbox{\hyperlink{class_drive_class}{DriveClass}} final}
-\DoxyCodeLine{34 \{}
-\DoxyCodeLine{35  \textcolor{keyword}{private}:}
-\DoxyCodeLine{36      CalibState calibState = CalibState::Init; }
-\DoxyCodeLine{37      \mbox{\hyperlink{class_motors_class}{MotorsClass}} Motors\{\}; }
-\DoxyCodeLine{38      Timer timer; }
-\DoxyCodeLine{39       \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} currentTime; }
-\DoxyCodeLine{40      \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} previousTime; }
-\DoxyCodeLine{41 }
-\DoxyCodeLine{42      \textcolor{comment}{//Ramp init variables}}
-\DoxyCodeLine{43      \textcolor{keywordtype}{bool} rampInitDone[2] = \{ 0,0 \}; }
-\DoxyCodeLine{44      Timer Timer\_ramp1; }
-\DoxyCodeLine{45      Timer Timer\_ramp2; }
-\DoxyCodeLine{46      Timer* Timer\_ramp[2] = \{ \&Timer\_ramp1, \&Timer\_ramp2 \};}
-\DoxyCodeLine{47 }
-\DoxyCodeLine{48      \textcolor{keywordtype}{bool} accTillRotatingDone[2] = \{ 0, 0 \};}
-\DoxyCodeLine{49      \textcolor{keywordtype}{bool} deccTillRotatingDone[2] = \{ 0, 0 \};}
-\DoxyCodeLine{50      \textcolor{keyword}{struct }calibData \{}
-\DoxyCodeLine{51          \textcolor{keywordtype}{bool} endCalib = \textcolor{keyword}{false};}
-\DoxyCodeLine{52          \textcolor{keywordtype}{int} endSpeedPWM = 0;}
-\DoxyCodeLine{53          \textcolor{keywordtype}{float} endRealSpeed = 0;}
-\DoxyCodeLine{54      \};}
+\DoxyCodeLine{29 \textcolor{keyword}{class }\mbox{\hyperlink{class_drive_class}{DriveClass}} final}
+\DoxyCodeLine{30 \{}
+\DoxyCodeLine{31  \textcolor{keyword}{private}:}
+\DoxyCodeLine{32      \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/Setup variables-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{33      \textcolor{keyword}{const} \textcolor{keywordtype}{int} SpeedRampDelayCalib = 80; }
+\DoxyCodeLine{34     \textcolor{keyword}{struct }OptimizedSpd \{}
+\DoxyCodeLine{35         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} zeroPWM = 3;}
+\DoxyCodeLine{36         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} minPWM = 20;}
+\DoxyCodeLine{37     \} optimizedSpd;}
+\DoxyCodeLine{38      \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#pragma region Variables\_Speed }}
+\DoxyCodeLine{41      \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/Reading/Controlling speed variables/functions/objects-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{42      \mbox{\hyperlink{class_motors_class}{MotorsClass}} Motors\{\}; }
+\DoxyCodeLine{43      Encoder enc1; }
+\DoxyCodeLine{44      Encoder enc2; }
+\DoxyCodeLine{45      \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} currentTime = 0; }
+\DoxyCodeLine{46      \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} previousTime = 0; }
+\DoxyCodeLine{47      }
+\DoxyCodeLine{52      \textcolor{keywordtype}{void} read();}
+\DoxyCodeLine{53      \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#pragma endregion -\/ Reading/Controlling speed variables/functions/objects}}
 \DoxyCodeLine{55 }
-\DoxyCodeLine{60      \textcolor{keywordtype}{void} read();}
-\DoxyCodeLine{61 }
-\DoxyCodeLine{62      \textcolor{comment}{//DeadbandCalib}}
-\DoxyCodeLine{63      \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} currentTime\_C = 0, previousTime\_C = 0; }
-\DoxyCodeLine{64  \textcolor{keyword}{public}:}
-\DoxyCodeLine{65      \textcolor{keywordtype}{double} pid\_Set1 = 0, pid\_In1 = 0, \mbox{\hyperlink{class_drive_class_a029425aedf46cfd45533255750ea5fa2}{pid\_Out1}} = 0; }
-\DoxyCodeLine{66      \textcolor{keywordtype}{double} pid\_Set2 = 0, pid\_In2 = 0, \mbox{\hyperlink{class_drive_class_a3644e3c2fbbf291a54ba3875a9d8d859}{pid\_Out2}} = 0; }
-\DoxyCodeLine{67 }
-\DoxyCodeLine{68      \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{class_drive_class_a755328156bfeed91c73655ec3b1a26fa}{CalibStatePrint}}[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(CalibState::Size)] = \{ \textcolor{stringliteral}{"{}Init"{}}, \textcolor{stringliteral}{"{}Motor1\_f"{}}, \textcolor{stringliteral}{"{}Motor1\_b"{}}, \textcolor{stringliteral}{"{}Motor2\_f"{}}, \textcolor{stringliteral}{"{}Motor2\_b"{}}, \textcolor{stringliteral}{"{}End"{}} \}; }
-\DoxyCodeLine{69      PID \mbox{\hyperlink{class_drive_class_adc25d7e18fba0c6faa7bbc1e4a071a58}{pid1}}; }
-\DoxyCodeLine{70      PID \mbox{\hyperlink{class_drive_class_a1522b8234dfaea99d1d77e4730fe895f}{pid2}}; }
-\DoxyCodeLine{71      Encoder \mbox{\hyperlink{class_drive_class_a220a780cced6ece3e94731bd9cefd850}{enc1}}; }
-\DoxyCodeLine{72      Encoder \mbox{\hyperlink{class_drive_class_a105582a5f5109076eb59d3556db0d428}{enc2}}; }
-\DoxyCodeLine{73 }
-\DoxyCodeLine{79      \mbox{\hyperlink{class_drive_class_aef5772bb8a2193ea69c6a55b25850887}{DriveClass}}() : \mbox{\hyperlink{class_drive_class_a220a780cced6ece3e94731bd9cefd850}{enc1}}(State.Enc1\_1, State.Enc1\_2), \mbox{\hyperlink{class_drive_class_a105582a5f5109076eb59d3556db0d428}{enc2}}(State.Enc2\_1, State.Enc2\_2),}
-\DoxyCodeLine{80      \mbox{\hyperlink{class_drive_class_adc25d7e18fba0c6faa7bbc1e4a071a58}{pid1}}(\&pid\_In1, \&\mbox{\hyperlink{class_drive_class_a029425aedf46cfd45533255750ea5fa2}{pid\_Out1}}, \&pid\_Set1, State.Kp\_1, State.Ki\_1, State.Kd\_1, DIRECT), \mbox{\hyperlink{class_drive_class_a1522b8234dfaea99d1d77e4730fe895f}{pid2}}(\&pid\_In2, \&\mbox{\hyperlink{class_drive_class_a3644e3c2fbbf291a54ba3875a9d8d859}{pid\_Out2}}, \&pid\_Set2, State.Kp\_2, State.Ki\_2, State.Kd\_2, DIRECT)\{\}}
-\DoxyCodeLine{81      }
-\DoxyCodeLine{86      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_af058246867930180e2e73d98d94075e9}{init}}();}
-\DoxyCodeLine{87 }
-\DoxyCodeLine{92      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}{loop}}();}
-\DoxyCodeLine{93 }
-\DoxyCodeLine{94      \textcolor{keywordtype}{void} rampInit(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} TimeSlope, \textcolor{keywordtype}{int} SpeedBegin = 0);}
-\DoxyCodeLine{95      \textcolor{keywordtype}{void} rampUpdate(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} increment);}
-\DoxyCodeLine{96      \textcolor{keywordtype}{void} AccTillRotating\_init(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} TimeSlope);}
-\DoxyCodeLine{97      \textcolor{keywordtype}{bool} AccTillRotating\_update(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} increment, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} endSpeed = 0);}
-\DoxyCodeLine{98      }
-\DoxyCodeLine{99      \textcolor{keywordtype}{void} DeccTillRotating\_init(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} timeSlope, \textcolor{keywordtype}{int} speedBegin = 0);}
-\DoxyCodeLine{100      \textcolor{keywordtype}{bool} DeccTillRotating\_update(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} decrement, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} endSpeed = 0);}
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#pragma region Variables\_Pid}}
+\DoxyCodeLine{57      \textcolor{keywordtype}{double} pid\_Set1 = 0, pid\_In1 = 0, pid\_Out1 = 0; }
+\DoxyCodeLine{58      \textcolor{keywordtype}{double} pid\_Set2 = 0, pid\_In2 = 0, pid\_Out2 = 0; }
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60      PID pid1; }
+\DoxyCodeLine{61      PID pid2; }
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#pragma endregion -\/ PID variables(signals) and objects}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65      }
+\DoxyCodeLine{66 \textcolor{preprocessor}{\#pragma region Variables\_Ramp}}
+\DoxyCodeLine{67 \textcolor{keyword}{private}:}
+\DoxyCodeLine{68      \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/Ramp function variables/functions/objects-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{69      \textcolor{keywordtype}{bool} rampInitDone[2] = \{ 0,0 \}; }
+\DoxyCodeLine{70      Timer Timer\_ramp1; }
+\DoxyCodeLine{71      Timer Timer\_ramp2; }
+\DoxyCodeLine{72      Timer* Timer\_ramp[2] = \{ \&Timer\_ramp1, \&Timer\_ramp2 \}; }
+\DoxyCodeLine{73 \textcolor{keyword}{public}:}
+\DoxyCodeLine{79      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_accb2b97167cad8aa4d927dc6c6e1eb16}{rampInit}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} timeSlope);}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{89      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_accb2b97167cad8aa4d927dc6c6e1eb16}{rampInit}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} timeSlope, \textcolor{keywordtype}{int} SpeedBegin, \textcolor{keywordtype}{bool} optim = 0);}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{98      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_ad18a96b8cc9762cc931aa3d6cf868669}{rampUpdate}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} increment, \textcolor{keywordtype}{bool} optim = \textcolor{keyword}{false});}
+\DoxyCodeLine{99      \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{\#pragma endregion -\/ Variables/functions/objects}}
 \DoxyCodeLine{101 }
-\DoxyCodeLine{102      \textcolor{keywordtype}{bool} CalibDeadband();}
-\DoxyCodeLine{103 \};}
-\DoxyCodeLine{104 }
-\DoxyCodeLine{105 \textcolor{keyword}{extern} \mbox{\hyperlink{class_drive_class}{DriveClass}} Drive;}
-\DoxyCodeLine{106 }
-\DoxyCodeLine{107 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{102  \textcolor{keyword}{public}:}
+\DoxyCodeLine{108      \mbox{\hyperlink{class_drive_class_aef5772bb8a2193ea69c6a55b25850887}{DriveClass}}() : enc1(State.Enc1\_1, State.Enc1\_2), enc2(State.Enc2\_1, State.Enc2\_2),}
+\DoxyCodeLine{109      pid1(\&pid\_In1, \&pid\_Out1, \&pid\_Set1, State.Kp\_1, State.Ki\_1, State.Kd\_1, DIRECT), pid2(\&pid\_In2, \&pid\_Out2, \&pid\_Set2, State.Kp\_2, State.Ki\_2, State.Kd\_2, DIRECT)\{\}}
+\DoxyCodeLine{110      }
+\DoxyCodeLine{115      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_af058246867930180e2e73d98d94075e9}{init}}();}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{121      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_a37365361d8fc1a2e99526602670a4e8a}{loop}}();}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 \textcolor{keyword}{private}:}
+\DoxyCodeLine{132      \textcolor{keyword}{inline} \textcolor{keywordtype}{int} PWMtoOptimizedPWM(\textcolor{keywordtype}{int} PWMspeed, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} zeroVal, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} minPWM);}
+\DoxyCodeLine{133      }
+\DoxyCodeLine{139      \textcolor{keyword}{inline} \textcolor{keywordtype}{int} PWMtoOptimizedPWM(\textcolor{keywordtype}{int} PWMspeed) \{}
+\DoxyCodeLine{140          PWMtoOptimizedPWM(PWMspeed, optimizedSpd.zeroPWM, optimizedSpd.minPWM);}
+\DoxyCodeLine{141      \}}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144 \textcolor{preprocessor}{\#pragma region Functions\_Accelerations }}
+\DoxyCodeLine{145 \textcolor{keyword}{public}:}
+\DoxyCodeLine{151      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_a79329dcb5ca9bdc8b36e82e7c0b8d2f2}{AccTillRotating\_init}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} timeSlope);}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{160      \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_drive_class_a9f915ea6d23d4c27f731db55c0b7c48c}{AccTillRotating\_update}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} increment, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} endSpeed = 0);}
+\DoxyCodeLine{161      }
+\DoxyCodeLine{168      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_ad2e6126c23a6d7b8ca855c23b5b7769a}{DeccTillRotating\_init}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} timeSlope, \textcolor{keywordtype}{int} speedBegin = 0);}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{177      \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_drive_class_a441b36561ac0cc7dae9a7442af7904ee}{DeccTillRotating\_update}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} decrement, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} endSpeed = 0);}
+\DoxyCodeLine{178 }
+\DoxyCodeLine{184      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_ae1bc182df0569903829a23d1b977b139}{AccTillPWM\_init}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} timeSlope);}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{193      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_ae1bc182df0569903829a23d1b977b139}{AccTillPWM\_init}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} timeSlope, \textcolor{keywordtype}{int} speedBegin, \textcolor{keywordtype}{bool} optim = 0);}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{204      \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_drive_class_adee65062113cefe6fc7a94396c1772e0}{AccTillPWM\_update}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} increment, \textcolor{keywordtype}{int} endSpeed, \textcolor{keywordtype}{bool} optim = 0);}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{211      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_a66bb4c79289ff9d25699e6cb7fc000c9}{DeccTillPWM\_init}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} timeSlope);}
+\DoxyCodeLine{212 }
+\DoxyCodeLine{220      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_drive_class_a66bb4c79289ff9d25699e6cb7fc000c9}{DeccTillPWM\_init}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{int} timeSlope, \textcolor{keywordtype}{int} speedBegin, \textcolor{keywordtype}{bool} optim = 0);}
+\DoxyCodeLine{221 }
+\DoxyCodeLine{231      \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_drive_class_ab8878c242d66361e3d15d7c49e239c0c}{DeccTillPWM\_update}}(\textcolor{keywordtype}{bool} motSelect, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} decrement, \textcolor{keywordtype}{int} endSpeed, \textcolor{keywordtype}{bool} optim = 0);}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233 \textcolor{keyword}{private}:}
+\DoxyCodeLine{234     \textcolor{keywordtype}{bool} accTillRotatingDone[2] = \{ 0, 0 \}; }
+\DoxyCodeLine{235     \textcolor{keywordtype}{bool} deccTillRotatingDone[2] = \{ 0, 0 \}; }
+\DoxyCodeLine{236     \textcolor{keywordtype}{bool} accTillPWMDone[2] = \{ 0,0 \}; }
+\DoxyCodeLine{237     \textcolor{keywordtype}{bool} deccTillPWMDone[2] = \{ 0,0 \}; }
+\DoxyCodeLine{238 \textcolor{preprocessor}{\#pragma endregion}}
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240 \textcolor{preprocessor}{\#pragma region Functions\_Meassurements}}
+\DoxyCodeLine{241 \textcolor{keyword}{public}:}
+\DoxyCodeLine{246      \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_drive_class_a875eeb410726a45e69096513210b7889}{Meassure\_deadband}}(); }
+\DoxyCodeLine{247 }
+\DoxyCodeLine{255      \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_drive_class_a9564de87aa1cad0f4c1461746b9f0c3c}{Meassure\_linearityRamp}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} maxSpeed = 70, \textcolor{keywordtype}{int} motSelect = 0, \textcolor{keywordtype}{bool} optim = 0);}
+\DoxyCodeLine{256 \textcolor{preprocessor}{\#pragma endregion}}
+\DoxyCodeLine{257 }
+\DoxyCodeLine{258 \textcolor{preprocessor}{\#pragma region State\_Enums}}
+\DoxyCodeLine{259 \textcolor{keyword}{private}:}
+\DoxyCodeLine{260     \textcolor{keyword}{enum class} State\_deadbandMeas \{ Init, Motor1\_f, Motor1\_b, Motor2\_f, Motor2\_b, End,   Size \} state\_deadbandMeas = State\_deadbandMeas::Init; }
+\DoxyCodeLine{261     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* printState\_deadbandMeas[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(State\_deadbandMeas::Size)] = \{ \textcolor{stringliteral}{"{}Init"{}}, \textcolor{stringliteral}{"{}Motor1\_f"{}}, \textcolor{stringliteral}{"{}Motor1\_b"{}}, \textcolor{stringliteral}{"{}Motor2\_f"{}}, \textcolor{stringliteral}{"{}Motor2\_b"{}}, \textcolor{stringliteral}{"{}End"{}} \}; }
+\DoxyCodeLine{262     }
+\DoxyCodeLine{263     \textcolor{keyword}{enum class} State\_rampMeas \{ InitDecc, Decc, InitAcc, Acc, End,   Size \} state\_rampMeas = State\_rampMeas::InitAcc; }
+\DoxyCodeLine{264     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* printState\_rampMeas[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(State\_rampMeas::Size)] = \{ \textcolor{stringliteral}{"{}InitDecc"{}}, \textcolor{stringliteral}{"{}Decc"{}}, \textcolor{stringliteral}{"{}InitAcc"{}}, \textcolor{stringliteral}{"{}Acc"{}}, \textcolor{stringliteral}{"{}End"{}} \}; }
+\DoxyCodeLine{265 \textcolor{keyword}{public}:}
+\DoxyCodeLine{266     \textcolor{keyword}{inline} \textcolor{keyword}{const} \textcolor{keywordtype}{char}* printState\_deadband() \{}
+\DoxyCodeLine{267         \textcolor{keywordflow}{return} printState\_deadbandMeas[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(state\_deadbandMeas)];}
+\DoxyCodeLine{268     \}}
+\DoxyCodeLine{269     \textcolor{keyword}{inline} \textcolor{keyword}{const} \textcolor{keywordtype}{char}* printState\_ramp() \{}
+\DoxyCodeLine{270         \textcolor{keywordflow}{return} printState\_deadbandMeas[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(state\_deadbandMeas)];}
+\DoxyCodeLine{271     \}}
+\DoxyCodeLine{272 \textcolor{preprocessor}{\#pragma endregion State\_Enums -\/ for state machines, also printing functions}}
+\DoxyCodeLine{273 }
+\DoxyCodeLine{274 \};}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276 \textcolor{keyword}{extern} \mbox{\hyperlink{class_drive_class}{DriveClass}} Drive;}
+\DoxyCodeLine{277 }
+\DoxyCodeLine{278 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{279 }
+\DoxyCodeLine{280 \textcolor{comment}{//Garbage:}}
+\DoxyCodeLine{282 \textcolor{comment}{}\textcolor{comment}{// * \(\backslash\)brief Struct for Deadband calibration out -\/ not used}}
+\DoxyCodeLine{283 \textcolor{comment}{// */}}
+\DoxyCodeLine{284 \textcolor{comment}{//struct calibData \{}}
+\DoxyCodeLine{285 \textcolor{comment}{// bool endCalib = false;}}
+\DoxyCodeLine{286 \textcolor{comment}{// int endSpeedPWM = 0;}}
+\DoxyCodeLine{287 \textcolor{comment}{// float endRealSpeed = 0;}}
+\DoxyCodeLine{288 \textcolor{comment}{//\};}}
+\DoxyCodeLine{289 }
+\DoxyCodeLine{290 \textcolor{comment}{//\#define calibStatePrint CalibStatePrint[static\_cast<int>(calibState)] ///< Use for printing state\_deadbandMeas enum -\/ needs to make inline function instead!!}}
 
 \end{DoxyCode}

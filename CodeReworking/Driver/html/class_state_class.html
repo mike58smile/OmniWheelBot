@@ -70,6 +70,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="class_state_class-members.html">List of all members</a>  </div>
@@ -82,6 +83,11 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="_state_8h_source.html">State.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_state_class_1_1_meas.html">Meas</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aed17fb5caac0782ffe50a641966496d2"><td class="memItemLeft" align="right" valign="top"><a id="aed17fb5caac0782ffe50a641966496d2" name="aed17fb5caac0782ffe50a641966496d2"></a>
@@ -108,7 +114,7 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><b>maxSpeed</b> = 8
 <tr class="memdesc:a9ba03cd7cdb105fdbf73bb0448e486da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Value of maximal speed in PWM allowed for <a class="el" href="class_motors_class.html" title="Class directly controling motors.">MotorsClass</a>. <br /></td></tr>
 <tr class="separator:a9ba03cd7cdb105fdbf73bb0448e486da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba4721f9cf041b18c3c55ab07d1422a8"><td class="memItemLeft" align="right" valign="top"><a id="aba4721f9cf041b18c3c55ab07d1422a8" name="aba4721f9cf041b18c3c55ab07d1422a8"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>Kp_1</b> = 0</td></tr>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>Kp_1</b> = 1</td></tr>
 <tr class="separator:aba4721f9cf041b18c3c55ab07d1422a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2556544809340c960c0078fcabf26487"><td class="memItemLeft" align="right" valign="top"><a id="a2556544809340c960c0078fcabf26487" name="a2556544809340c960c0078fcabf26487"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>Ki_1</b> = 0</td></tr>
@@ -138,17 +144,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>motor2DeadBandPWM</b> 
 <tr class="memitem:afc7517372f0c836ea25c5eb441c6177f"><td class="memItemLeft" align="right" valign="top"><a id="afc7517372f0c836ea25c5eb441c6177f" name="afc7517372f0c836ea25c5eb441c6177f"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>motorDeadBandPWM</b> [2] = { 0, 0 }</td></tr>
 <tr class="separator:afc7517372f0c836ea25c5eb441c6177f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab7f9315384a9a54c1a142df3770d6c6"><td class="memItemLeft" align="right" valign="top"><a id="aab7f9315384a9a54c1a142df3770d6c6" name="aab7f9315384a9a54c1a142df3770d6c6"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>motor1DeadBandReal</b> [2] = { 0,0 }</td></tr>
-<tr class="memdesc:aab7f9315384a9a54c1a142df3770d6c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">[forward,backward] - What is the minimum speed [rad/s] on which Motor 1 starts rotating <br /></td></tr>
-<tr class="separator:aab7f9315384a9a54c1a142df3770d6c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b8933cd26b8d3374f12952405b9a6da"><td class="memItemLeft" align="right" valign="top"><a id="a9b8933cd26b8d3374f12952405b9a6da" name="a9b8933cd26b8d3374f12952405b9a6da"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>motor2DeadBandReal</b> [2] = { 0,0 }</td></tr>
-<tr class="memdesc:a9b8933cd26b8d3374f12952405b9a6da"><td class="mdescLeft">&#160;</td><td class="mdescRight">[forward,backward] - What is the minimum speed [rad/s] on which Motor 2 starts rotating <br /></td></tr>
-<tr class="separator:a9b8933cd26b8d3374f12952405b9a6da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedf14bb9ea72d22465dc75acfca9c76d"><td class="memItemLeft" align="right" valign="top"><a id="aedf14bb9ea72d22465dc75acfca9c76d" name="aedf14bb9ea72d22465dc75acfca9c76d"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>motorDeadBandReal</b> [2] = { 0, 0 }</td></tr>
-<tr class="separator:aedf14bb9ea72d22465dc75acfca9c76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80224cd0333fc8c57507fd3c126dda96"><td class="memItemLeft" align="right" valign="top"><a id="a80224cd0333fc8c57507fd3c126dda96" name="a80224cd0333fc8c57507fd3c126dda96"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>motor1DeadBandReal</b> [2] = { 0,0 }</td></tr>
+<tr class="memdesc:a80224cd0333fc8c57507fd3c126dda96"><td class="mdescLeft">&#160;</td><td class="mdescRight">[forward,backward] - What is the minimum speed [rad/s] on which Motor 1 starts rotating <br /></td></tr>
+<tr class="separator:a80224cd0333fc8c57507fd3c126dda96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21f7edb723246a6d12b225928c8edeb2"><td class="memItemLeft" align="right" valign="top"><a id="a21f7edb723246a6d12b225928c8edeb2" name="a21f7edb723246a6d12b225928c8edeb2"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>motor2DeadBandReal</b> [2] = { 0,0 }</td></tr>
+<tr class="memdesc:a21f7edb723246a6d12b225928c8edeb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">[forward,backward] - What is the minimum speed [rad/s] on which Motor 2 starts rotating <br /></td></tr>
+<tr class="separator:a21f7edb723246a6d12b225928c8edeb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1e985ffb2b291bd0d296394fccaaff5"><td class="memItemLeft" align="right" valign="top"><a id="ab1e985ffb2b291bd0d296394fccaaff5" name="ab1e985ffb2b291bd0d296394fccaaff5"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>CalibEnd</b> = 0</td></tr>
 <tr class="memdesc:ab1e985ffb2b291bd0d296394fccaaff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bool signaling End of calibration. <br /></td></tr>
@@ -176,6 +179,16 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>actualRealSpeed</b> 
 float&#160;</td><td class="memItemRight" valign="bottom"><b>requiredRealSpeed</b> [2] = { 0,0 }</td></tr>
 <tr class="memdesc:a78697ac64c2a18d1d3885fc5ce29178a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class! <br /></td></tr>
 <tr class="separator:a78697ac64c2a18d1d3885fc5ce29178a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af71942d5a7ee612dfa4ca7883392dd83"><td class="memItemLeft" align="right" valign="top"><a id="af71942d5a7ee612dfa4ca7883392dd83" name="af71942d5a7ee612dfa4ca7883392dd83"></a>
+struct <a class="el" href="struct_state_class_1_1_meas.html">StateClass::Meas</a>&#160;</td><td class="memItemRight" valign="bottom"><b>meas</b></td></tr>
+<tr class="separator:af71942d5a7ee612dfa4ca7883392dd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfef7b427ef851b42ca9b508481a7cd1"><td class="memItemLeft" align="right" valign="top"><a id="abfef7b427ef851b42ca9b508481a7cd1" name="abfef7b427ef851b42ca9b508481a7cd1"></a>
+unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>readSpeed</b> = 0</td></tr>
+<tr class="memdesc:abfef7b427ef851b42ca9b508481a7cd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Speed of reading from encoders [ms]. <br /></td></tr>
+<tr class="separator:abfef7b427ef851b42ca9b508481a7cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9af462c4008bd3fb2442b2042d47331"><td class="memItemLeft" align="right" valign="top"><a id="ab9af462c4008bd3fb2442b2042d47331" name="ab9af462c4008bd3fb2442b2042d47331"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>tempMode</b></td></tr>
+<tr class="separator:ab9af462c4008bd3fb2442b2042d47331"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>

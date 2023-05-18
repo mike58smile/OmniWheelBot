@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['receivedata_0',['receiveData',['../_comm_8cpp.html#ae8cf89abd23293e8367e245bdc60e669',1,'Comm.cpp']]],
-  ['requestevent_1',['requestEvent',['../_comm_8cpp.html#ac10b80b8aaeaf66cecbf0bb5eff5ae33',1,'Comm.cpp']]],
-  ['requiredrealspeed_2',['requiredRealSpeed',['../class_state_class.html#a78697ac64c2a18d1d3885fc5ce29178a',1,'StateClass']]],
-  ['requiredspeed_3',['requiredSpeed',['../class_state_class.html#ad35700f8b8ec016a81c9b9ff2f049791',1,'StateClass']]]
+  ['timerspeeddelay_5fms_0',['TimerSpeedDelay_mS',['../_state_8h.html#a19b74d5ea8b2d5e4bd7afd11f8a5dde5',1,'State.h']]],
+  ['timerspeeddelay_5fus_1',['TimerSpeedDelay_uS',['../_state_8h.html#a22bfcbace3609c2784ea6cef76982799',1,'State.h']]]
 ];

@@ -29,7 +29,7 @@ void MotorsClass::init()
     digitalWrite(State.M2_REN, HIGH);
     digitalWrite(State.M2_LEN, HIGH);
 
-    State.actualState = MainState::Setup; //Define in which state the driver operates
+    State.state_actual = State_actual::Setup; //Define in which state the driver operates
 }
 
 void MotorsClass::Stop()
@@ -42,7 +42,7 @@ void MotorsClass::Stop()
     // Save current motor speeds to State
     State.actualSpeed[0] = 0;
     State.actualSpeed[1] = 0;
-    State.actualState = MainState::Stop; //Define in which state the driver operates
+    State.state_actual = State_actual::Stop; //Define in which state the driver operates
 }
 
 void MotorsClass::SpeedSingle(bool motSelect, int Spd)
@@ -62,7 +62,7 @@ void MotorsClass::SpeedSingle(bool motSelect, int Spd)
         // Save current motor speeds to State
         State.actualSpeed[0] = Spd;
 
-        State.actualState = MainState::Speed; //Define in which state the driver operates
+        State.state_actual = State_actual::Speed; //Define in which state the driver operates
     }
     else {
         // Set speed of second motor
@@ -77,7 +77,7 @@ void MotorsClass::SpeedSingle(bool motSelect, int Spd)
         // Save current motor speeds to State
         State.actualSpeed[1] = Spd;
 
-        State.actualState = MainState::Speed; //Define in which state the driver operates
+        State.state_actual = State_actual::Speed; //Define in which state the driver operates
     }
 }
 
@@ -90,7 +90,7 @@ void MotorsClass::Speed(int Spd1, int Spd2)
     }
     SpeedSingle(0, Spd1);
     SpeedSingle(1, Spd2);
-    State.actualState = MainState::Speed; //Define in which state the driver operates
+    State.state_actual = State_actual::Speed; //Define in which state the driver operates
 }
 
 
@@ -108,7 +108,7 @@ void MotorsClass::Speed(int Spd1, int Spd2)
 //    // Save current motor speeds to State
 //    State.actualSpeed[0] = Spd;
 //
-//    State.actualState = MainState::Speed; //Define in which state the driver operates
+//    State.state_actual = State_actual::Speed; //Define in which state the driver operates
 //}
 //
 //void MotorsClass::Speed_2(int Spd)
@@ -125,5 +125,5 @@ void MotorsClass::Speed(int Spd1, int Spd2)
 //    // Save current motor speeds to State
 //    State.actualSpeed[1] = Spd;
 //
-//    State.actualState = MainState::Speed; //Define in which state the driver operates
+//    State.state_actual = State_actual::Speed; //Define in which state the driver operates
 //}

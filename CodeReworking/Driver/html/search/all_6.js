@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['kd_5f1_0',['Kd_1',['../class_state_class.html#a192af399e0e1edf8f7c5a70598c13206',1,'StateClass']]],
-  ['kd_5f2_1',['Kd_2',['../class_state_class.html#a9cbed008c5caff5f2c4a3f97ae4dfa32',1,'StateClass']]]
+  ['loop_0',['loop',['../class_drive_class.html#a37365361d8fc1a2e99526602670a4e8a',1,'DriveClass::loop()'],['../class_serial_control_class.html#abff1c29ded93c6908fd216ac62306c97',1,'SerialControlClass::loop()']]]
 ];

@@ -9,6 +9,11 @@ Class for variables storage (only header, without methods)
 
 {\ttfamily \#include $<$State.\+h$>$}
 
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_state_class_1_1_meas}{Meas}}
+\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -31,7 +36,7 @@ Comm\+State {\bfseries comm\+State\+Prev} = Comm\+State\+::\+Stop
 const int {\bfseries max\+Speed} = 80
 \begin{DoxyCompactList}\small\item\em Value of maximal speed in PWM allowed for \mbox{\hyperlink{class_motors_class}{Motors\+Class}}. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_state_class_aba4721f9cf041b18c3c55ab07d1422a8}\label{class_state_class_aba4721f9cf041b18c3c55ab07d1422a8}} 
-double {\bfseries Kp\+\_\+1} = 0
+double {\bfseries Kp\+\_\+1} = 1
 \item 
 \mbox{\Hypertarget{class_state_class_a2556544809340c960c0078fcabf26487}\label{class_state_class_a2556544809340c960c0078fcabf26487}} 
 double {\bfseries Ki\+\_\+1} = 0
@@ -57,15 +62,12 @@ int {\bfseries motor2\+Dead\+Band\+PWM} \mbox{[}2\mbox{]} = \{ 10,10 \}
 \mbox{\Hypertarget{class_state_class_afc7517372f0c836ea25c5eb441c6177f}\label{class_state_class_afc7517372f0c836ea25c5eb441c6177f}} 
 int {\bfseries motor\+Dead\+Band\+PWM} \mbox{[}2\mbox{]} = \{ 0, 0 \}
 \item 
-\mbox{\Hypertarget{class_state_class_aab7f9315384a9a54c1a142df3770d6c6}\label{class_state_class_aab7f9315384a9a54c1a142df3770d6c6}} 
-float {\bfseries motor1\+Dead\+Band\+Real} \mbox{[}2\mbox{]} = \{ 0,0 \}
+\mbox{\Hypertarget{class_state_class_a80224cd0333fc8c57507fd3c126dda96}\label{class_state_class_a80224cd0333fc8c57507fd3c126dda96}} 
+int {\bfseries motor1\+Dead\+Band\+Real} \mbox{[}2\mbox{]} = \{ 0,0 \}
 \begin{DoxyCompactList}\small\item\em \mbox{[}forward,backward\mbox{]} -\/ What is the minimum speed \mbox{[}rad/s\mbox{]} on which Motor 1 starts rotating \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_state_class_a9b8933cd26b8d3374f12952405b9a6da}\label{class_state_class_a9b8933cd26b8d3374f12952405b9a6da}} 
-float {\bfseries motor2\+Dead\+Band\+Real} \mbox{[}2\mbox{]} = \{ 0,0 \}
+\mbox{\Hypertarget{class_state_class_a21f7edb723246a6d12b225928c8edeb2}\label{class_state_class_a21f7edb723246a6d12b225928c8edeb2}} 
+int {\bfseries motor2\+Dead\+Band\+Real} \mbox{[}2\mbox{]} = \{ 0,0 \}
 \begin{DoxyCompactList}\small\item\em \mbox{[}forward,backward\mbox{]} -\/ What is the minimum speed \mbox{[}rad/s\mbox{]} on which Motor 2 starts rotating \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_state_class_aedf14bb9ea72d22465dc75acfca9c76d}\label{class_state_class_aedf14bb9ea72d22465dc75acfca9c76d}} 
-float {\bfseries motor\+Dead\+Band\+Real} \mbox{[}2\mbox{]} = \{ 0, 0 \}
-\item 
 \mbox{\Hypertarget{class_state_class_ab1e985ffb2b291bd0d296394fccaaff5}\label{class_state_class_ab1e985ffb2b291bd0d296394fccaaff5}} 
 bool {\bfseries Calib\+End} = 0
 \begin{DoxyCompactList}\small\item\em Bool signaling End of calibration. \end{DoxyCompactList}\item 
@@ -86,7 +88,16 @@ float {\bfseries actual\+Real\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
 \begin{DoxyCompactList}\small\item\em Actual real speed of two motors in rad/s, write only in Timer\+Speed\+Handler interrupt routine. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{class_state_class_a78697ac64c2a18d1d3885fc5ce29178a}\label{class_state_class_a78697ac64c2a18d1d3885fc5ce29178a}} 
 float {\bfseries required\+Real\+Speed} \mbox{[}2\mbox{]} = \{ 0,0 \}
-\begin{DoxyCompactList}\small\item\em Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class! \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class! \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_af71942d5a7ee612dfa4ca7883392dd83}\label{class_state_class_af71942d5a7ee612dfa4ca7883392dd83}} 
+struct \mbox{\hyperlink{struct_state_class_1_1_meas}{State\+Class\+::\+Meas}} {\bfseries meas}
+\item 
+\mbox{\Hypertarget{class_state_class_abfef7b427ef851b42ca9b508481a7cd1}\label{class_state_class_abfef7b427ef851b42ca9b508481a7cd1}} 
+unsigned long {\bfseries read\+Speed} = 0
+\begin{DoxyCompactList}\small\item\em Speed of reading from encoders \mbox{[}ms\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_state_class_ab9af462c4008bd3fb2442b2042d47331}\label{class_state_class_ab9af462c4008bd3fb2442b2042d47331}} 
+int {\bfseries temp\+Mode}
+\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 

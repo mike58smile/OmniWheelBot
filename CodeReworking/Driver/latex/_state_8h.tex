@@ -10,7 +10,9 @@ State class.
 \begin{DoxyCompactItemize}
 \item 
 class \mbox{\hyperlink{class_state_class}{State\+Class}}
-\begin{DoxyCompactList}\small\item\em Class for variables storage (only header, without methods) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Class for variables storage (only header, without methods) \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_state_class_1_1_meas}{State\+Class\+::\+Meas}}
+\end{DoxyCompactItemize}
 \doxysubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
@@ -42,8 +44,17 @@ enum class {\bfseries Comm\+State} \{ \newline
 , \newline
 {\bfseries Change\+Const\+PID}
 , {\bfseries Calib\+Dead\+Band}
+, {\bfseries Meas1}
 , {\bfseries Unknown}
+, \newline
+{\bfseries Meas}
 , {\bfseries Size}
+ \}
+\item 
+\mbox{\Hypertarget{_state_8h_a345353317bfc3ec7320183182c59e57e}\label{_state_8h_a345353317bfc3ec7320183182c59e57e}} 
+enum class {\bfseries Meas\+Type} \{ {\bfseries Calib}
+, {\bfseries Ramp}
+, {\bfseries Ramp\+\_\+optim}
  \}
 \end{DoxyCompactItemize}
 \doxysubsection*{Functions}

@@ -61,14 +61,7 @@ class DriveClass final
 	 PID pid2; ///< PID object for motor 2
 #pragma endregion - PID variables(signals) and objects
 
-public:
-	 /**
-	  * \brief C'tor from StateClass, also initialize Encoder and PID objects
-	  * \note This is the only constructor
-	  * \param state Reference to storage for all shared variables 
-	  */
-	 DriveClass() : enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2),
-	 pid1(&pid_In1, &pid_Out1, &pid_Set1, State.Kp_1, State.Ki_1, State.Kd_1, DIRECT), pid2(&pid_In2, &pid_Out2, &pid_Set2, State.Kp_2, State.Ki_2, State.Kd_2, DIRECT){}
+
 	 
 #pragma region Variables_Ramp
 private:
@@ -106,10 +99,14 @@ public:
 	 //---------------------------------------------------------------------------------------------------
 #pragma endregion - Variables/functions/objects
 
-	 bool accTillRotatingDone[2] = { 0, 0 }; ///< Indication of acceleration done - used in AccTillRotating...() functions
-	 bool deccTillRotatingDone[2] = { 0, 0 }; ///< Indication of decceleration done - used in DeccTillRotating...() functions
-
  public:
+	 /**
+	  * \brief C'tor from StateClass, also initialize Encoder and PID objects
+	  * \note This is the only constructor
+	  * \param state Reference to storage for all shared variables 
+	  */
+	 DriveClass() : enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2),
+	 pid1(&pid_In1, &pid_Out1, &pid_Set1, State.Kp_1, State.Ki_1, State.Kd_1, DIRECT), pid2(&pid_In2, &pid_Out2, &pid_Set2, State.Kp_2, State.Ki_2, State.Kd_2, DIRECT){}
 	 
 	 /**
 	  * \brief Initialize motors and sets operating mode and output limits of speed PID regulators
@@ -143,8 +140,9 @@ private:
 		 PWMtoOptimizedPWM(PWMspeed, optimizedSpd.zeroPWM, optimizedSpd.minPWM);
 	 }
 
-public:
 
+#pragma region Functions_Accelerations 
+public:
 	/**
 	 * \brief Init acceleration till motor starts rotating - calls rampInit and sets accTillRotatingDone = 0
 	 * \param motSelect {0,1} motor
@@ -233,19 +231,19 @@ public:
 	 bool DeccTillPWM_update(bool motSelect, unsigned int decrement, int endSpeed, bool optim = 0);
 
 private:
+	bool accTillRotatingDone[2] = { 0, 0 }; ///< Indication of acceleration done - used in AccTillRotating...() functions
+	bool deccTillRotatingDone[2] = { 0, 0 }; ///< Indication of decceleration done - used in DeccTillRotating...() functions
 	bool accTillPWMDone[2] = { 0,0 }; ///< Indication of acceleration done - used in AccTillPWM...() functions
 	bool deccTillPWMDone[2] = { 0,0 }; ///< Indication of acceleration done - used in DeccTillPWM...() functions
-public:
-	 //-----Calibrations----
+#pragma endregion
 
+#pragma region Functions_Meassurements
+public:
 	/**
 	 * \brief Deadband meassurement state machine
 	 * \return true after end of calibration - state enum is in its last state (End)
 	 */
-	 bool CalibDeadband(); 
-
-	 //------Meassures------
-public:
+	 bool Meassure_deadband(); 
 
 	/**
 	 * \brief Linearity ramp meassurement state machine
@@ -254,18 +252,25 @@ public:
 	 * \param optim Use optimized PWM speed
 	 * \return true after end of meassurement - state enum is in its last state (End)
 	 */
-	 bool LinearityRamp_meassure(unsigned int maxSpeed = 70, int motSelect = 0, bool optim = 0);
-private:
+	 bool Meassure_linearityRamp(unsigned int maxSpeed = 70, int motSelect = 0, bool optim = 0);
+#pragma endregion
 
 #pragma region State_Enums
-	enum class State_calib { Init, Motor1_f, Motor1_b, Motor2_f, Motor2_b, End,   Size } state_calib = State_calib::Init; ///< Enum for Deadband calibration state machine, Size contains number of elements in enum, used for printing
-	const char* statePrint_calib[static_cast<int>(State_calib::Size)] = { "Init", "Motor1_f", "Motor1_b", "Motor2_f", "Motor2_b", "End" }; ///< Array for printing state_calib 
+private:
+	enum class State_deadbandMeas { Init, Motor1_f, Motor1_b, Motor2_f, Motor2_b, End,   Size } state_deadbandMeas = State_deadbandMeas::Init; ///< Enum for Deadband calibration state machine, Size contains number of elements in enum, used for printing
+	const char* printState_deadbandMeas[static_cast<int>(State_deadbandMeas::Size)] = { "Init", "Motor1_f", "Motor1_b", "Motor2_f", "Motor2_b", "End" }; ///< Array for printing state_deadbandMeas 
 	
-	enum class State_rampMeas { InitDecc, Decc, InitAcc, Acc, End,   Size } state_rampMeas = State_rampMeas::InitAcc; ///< Enum for ramp deadband (linearity) meassurements, used in LinearityRamp_meassure(), Size contains number of elements in enum, used for printing
-	const char* statePrint_rampMeas[static_cast<int>(State_rampMeas::Size)] = { "InitDecc", "Decc", "InitAcc", "Acc", "End" }; ///< Array for printing state_rampMeas
+	enum class State_rampMeas { InitDecc, Decc, InitAcc, Acc, End, Size } state_rampMeas = State_rampMeas::InitAcc; ///< Enum for ramp deadband (linearity) meassurements, used in Meassure_linearityRamp(), Size contains number of elements in enum, used for printing
+	const char* printState_rampMeas[static_cast<int>(State_rampMeas::Size)] = { "InitDecc", "Decc", "InitAcc", "Acc", "End" }; ///< Array for printing state_rampMeas
+public:
+	inline const char* printState_deadband() {
+		return printState_deadbandMeas[static_cast<int>(state_deadbandMeas)];
+	}
+	inline const char* printState_ramp() {
+		return printState_deadbandMeas[static_cast<int>(state_deadbandMeas)];
+	}
 #pragma endregion State_Enums - for state machines, also printing functions
 
-#define calibStatePrint CalibStatePrint[static_cast<int>(calibState)] ///< Use for printing state_calib enum - needs to make inline function instead!!
 };
 
 extern DriveClass Drive;
@@ -281,3 +286,5 @@ extern DriveClass Drive;
 // int endSpeedPWM = 0;
 // float endRealSpeed = 0;
 //};
+
+//#define calibStatePrint CalibStatePrint[static_cast<int>(calibState)] ///< Use for printing state_deadbandMeas enum - needs to make inline function instead!!

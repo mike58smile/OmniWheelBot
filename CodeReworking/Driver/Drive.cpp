@@ -181,39 +181,39 @@ bool DriveClass::DeccTillPWM_update(bool motSelect, unsigned int decrement, int 
     return deccTillPWMDone[motSelect];
 }
 
-bool DriveClass::CalibDeadband() {
-    switch (state_calib) {
-    case State_calib::Init: //Stop motors and reset some variables to zero
+bool DriveClass::Meassure_deadband() {
+    switch (state_deadbandMeas) {
+    case State_deadbandMeas::Init: //Stop motors and reset some variables to zero
         Motors.Stop();
         State.requiredSpeed[0] = 0;
         State.requiredSpeed[1] = 0;
         State.CalibEnd = 0;
-        state_calib = State_calib::Motor1_f;
+        state_deadbandMeas = State_deadbandMeas::Motor1_f;
         AccTillRotating_init(0, SpeedRampDelayCalib);
         AccTillRotating_init(1, SpeedRampDelayCalib);
         break;
-    case State_calib::Motor1_f: //Calibrate first motor - Increment PWM on motor until it starts rotating (the real speed from encoders is bigger than 1 rad/s)
+    case State_deadbandMeas::Motor1_f: //Calibrate first motor - Increment PWM on motor until it starts rotating (the real speed from encoders is bigger than 1 rad/s)
     {
         bool ret = AccTillRotating_update(1, 1, 1);
         ret = AccTillRotating_update(0, 1, 1) && ret;
         if (ret)
-            state_calib = State_calib::Motor1_b;
+            state_deadbandMeas = State_deadbandMeas::Motor1_b;
         break;
     }
-    case State_calib::Motor1_b:
+    case State_deadbandMeas::Motor1_b:
         DeccTillRotating_init(0, SpeedRampDelayCalib);
         DeccTillRotating_init(1, SpeedRampDelayCalib);
-        state_calib = State_calib::Motor2_f;
+        state_deadbandMeas = State_deadbandMeas::Motor2_f;
         break;
-    case State_calib::Motor2_f:
+    case State_deadbandMeas::Motor2_f:
     {
         bool ret2 = DeccTillRotating_update(0, 1, 1);
         ret2 = DeccTillRotating_update(1, 1, 1) && ret2;
         if (ret2)
-            state_calib = State_calib::End;
+            state_deadbandMeas = State_deadbandMeas::End;
         break;
     }
-    case State_calib::End: //End of calibration of both motors - indicated by State.CalibEnd making true - After first calibration it stays in this state forever
+    case State_deadbandMeas::End: //End of calibration of both motors - indicated by State.CalibEnd making true - After first calibration it stays in this state forever
         Motors.Stop();
         State.CalibEnd = 1;
         break;
@@ -221,7 +221,7 @@ bool DriveClass::CalibDeadband() {
     return State.CalibEnd;
 }
 
-bool DriveClass::LinearityRamp_meassure(unsigned int maxSpeed, int motSelect, bool optim) {
+bool DriveClass::Meassure_linearityRamp(unsigned int maxSpeed, int motSelect, bool optim) {
     switch (state_rampMeas) {
     case State_rampMeas::InitAcc:
         AccTillPWM_init(motSelect, SpeedRampDelayCalib,-maxSpeed, optim);
@@ -253,21 +253,21 @@ void DriveClass::loop()
 {
     read(); //Update speed of motors - reads encoders and writes speed of motors to State variables
     
-    //Read from commState and determine in which state controller wants driver to be in
-    switch(State.commState){
-    case CommState::Stop:
+    //Read from State.state_comm and determine in which state controller wants driver to be in
+    switch(State.state_comm){
+    case State_comm::Stop:
         Motors.Stop();
         //enc1.write(0); //odstranit probably
         enc2.write(0);//odstranit probably
         break;
-    case CommState::Wait:
-        state_calib = State_calib::Init;
+    case State_comm::Wait:
+        state_deadbandMeas = State_deadbandMeas::Init;
         state_rampMeas = State_rampMeas::InitAcc;
         break;
-    case CommState::SpeedPWM: 
+    case State_comm::SpeedPWM: 
         Motors.Speed(State.requiredSpeed[0], State.requiredSpeed[1]);
         break;
-    case CommState::SpeedReal:
+    case State_comm::SpeedReal:
         //pid_In1 = State.actualRealSpeed[0];
         //pid_Set1 = State.requiredRealSpeed[0];
         //pid1.Compute();
@@ -284,30 +284,30 @@ void DriveClass::loop()
         //Motors.Speed(roundf(pid_Out1), 0);
         //use pid to set real speed
         break;
-    case CommState::Meas:
-        switch (State.meas.measType) {
-        case MeasType::Calib:
-            if(CalibDeadband()) State.commState = CommState::Wait;
+    case State_comm::Meas:
+        switch (State.meas.state_measType) {
+        case State_measType::Calib:
+            if(Meassure_deadband()) State.state_comm = State_comm::Wait;
             break;
-        case MeasType::Ramp:
-            if(LinearityRamp_meassure(70, State.meas.motSelect, 0)) State.commState = CommState::Wait;
-            //LinearityRamp_meassure(70, State.meas.motSelect, 0);
+        case State_measType::Ramp:
+            if(Meassure_linearityRamp(70, State.meas.motSelect, 0)) State.state_comm = State_comm::Wait;
+            //Meassure_linearityRamp(70, State.meas.motSelect, 0);
             break;
-        case MeasType::Ramp_optim:
-            if(LinearityRamp_meassure(40,State.meas.motSelect,1)) State.commState = CommState::Wait; //maxSpd in non optimized PWM
-            //LinearityRamp_meassure(50, State.meas.motSelect, 1);
+        case State_measType::Ramp_optim:
+            if(Meassure_linearityRamp(40,State.meas.motSelect,1)) State.state_comm = State_comm::Wait; //maxSpd in non optimized PWM
+            //Meassure_linearityRamp(50, State.meas.motSelect, 1);
             break;
         }
         break;
-    case CommState::CalibDeadBand:
-        CalibDeadband();
+    case State_comm::CalibDeadBand:
+        Meassure_deadband();
         break;
-    case CommState::Meas1:
-        LinearityRamp_meassure(50, State.meas.motSelect, 1);
+    case State_comm::Meas1:
+        Meassure_linearityRamp(50, State.meas.motSelect, 1);
         break;
-    case CommState::ChangeConstPID: //Change PID constants
+    case State_comm::ChangeConstPID: //Change PID constants
         pid1.SetTunings(State.Kp_1, State.Ki_1, State.Kd_1); //Constants should be already updated
-        State.commState = State.commStatePrev; //So it is here only once
+        State.state_comm = State.state_commPrev; //So it is here only once
         break;
     default:
         break;
@@ -317,7 +317,7 @@ void DriveClass::loop()
 DriveClass Drive{};
 
 //Garbage:
-    //case State_calib::Motor1_b:
+    //case State_deadbandMeas::Motor1_b:
     //    Serial.println("in 1_b");
 
     //    //Motors.Stop();
@@ -327,18 +327,18 @@ DriveClass Drive{};
 
     //    //DeccTillRotating_init(0, SpeedRampDelayCalib);
     //    //DeccTillRotating_init(1, SpeedRampDelayCalib);
-    //    state_calib = State_calib::Motor2_f;
+    //    state_deadbandMeas = State_deadbandMeas::Motor2_f;
     //    break;
-    //case State_calib::Motor2_f:
+    //case State_deadbandMeas::Motor2_f:
     //    Serial.println("in case");
-    //    //state_calib = State_calib::End;
+    //    //state_deadbandMeas = State_deadbandMeas::End;
     //    //bool ret2 = DeccTillRotating_update(1, 1, 1);
     //    //ret2 = DeccTillRotating_update(0, 1, 0) && ret;
     //    //if (ret2)
-    //    //    state_calib = State_calib::End;
+    //    //    state_deadbandMeas = State_deadbandMeas::End;
 
     //    //bool ret2 = AccTillRotating_update(1, 1, 1);
     //    //ret2 = AccTillRotating_update(0, 1, 1) && ret2;
     //    //if (ret2)
-    //    //    state_calib = State_calib::End;
+    //    //    state_deadbandMeas = State_deadbandMeas::End;
     //    break;

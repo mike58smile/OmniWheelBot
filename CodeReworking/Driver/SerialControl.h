@@ -34,7 +34,7 @@ class SerialControlClass final
 	 bool SerialGetEN = 0;
 
  public:
-	 const char* SerialModePrint[static_cast<int>(SerialMode::Size)] = { "Idle", "Comm", "Speed", "RealSpeed", "Kp1", "Ki1", "Kd1", "CalibDeadBand", "EnableSerialGet"}; ///< Used for printing mainState enum
+	 const char* SerialModePrint[static_cast<int>(SerialMode::Size)] = { "Idle", "Comm", "Speed", "RealSpeed", "Kp1", "Ki1", "Kd1", "CalibDeadBand", "EnableSerialGet"}; ///< Used for printing State_actual enum
 	 
 	 /**
 	  * \brief Initialize Serial controlling - EMPTY

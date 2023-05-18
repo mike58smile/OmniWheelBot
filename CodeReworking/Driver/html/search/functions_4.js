@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['speed_0',['Speed',['../class_motors_class.html#a2a742a3a0072e0933853e2517d267fdd',1,'MotorsClass']]],
-  ['speedsingle_1',['SpeedSingle',['../class_motors_class.html#a70605092d428f680bac44f44d1bb52de',1,'MotorsClass']]],
-  ['stop_2',['Stop',['../class_motors_class.html#a0fe90b15769d3f1f219da0c2f4015f89',1,'MotorsClass']]]
+  ['meassure_5fdeadband_0',['Meassure_deadband',['../class_drive_class.html#a875eeb410726a45e69096513210b7889',1,'DriveClass']]],
+  ['meassure_5flinearityramp_1',['Meassure_linearityRamp',['../class_drive_class.html#a9564de87aa1cad0f4c1461746b9f0c3c',1,'DriveClass']]]
 ];

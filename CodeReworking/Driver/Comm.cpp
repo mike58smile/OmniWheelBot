@@ -26,8 +26,8 @@ void requestEvent()
  */
 void receiveData(int x)
 {
-    if(State.commStatePrev != State.commState)
-        State.commStatePrev = State.commState;
+    if(State.state_commPrev != State.state_comm)
+        State.state_commPrev = State.state_comm;
     int mode = Wire.read();
     //State.tempMode = mode;
     switch (mode) {
@@ -35,39 +35,39 @@ void receiveData(int x)
         //stop motor (and reset PID)
         State.requiredSpeed[0] = 0;
         State.requiredSpeed[1] = 0;
-        State.commState = CommState::Stop;
+        State.state_comm = State_comm::Stop;
         break;
     case 1:
-        State.commState = CommState::Wait;
+        State.state_comm = State_comm::Wait;
         break;
     case 2:
         //set speed
         State.requiredSpeed[0] = WireReadI();
         State.requiredSpeed[1] = WireReadI();
-        State.commState = CommState::SpeedPWM;
+        State.state_comm = State_comm::SpeedPWM;
         break;
     case 3:
         State.requiredEncSpeed[0] = WireReadI();
         State.requiredEncSpeed[1] = WireReadI();
-        State.commState = CommState::SpeedReal;
+        State.state_comm = State_comm::SpeedReal;
         break;
     case 4:
         State.Kp_1 += WireReadF();
         State.Ki_1 += WireReadF();
         State.Kd_1 += WireReadF();
-        State.commState = CommState::ChangeConstPID;
+        State.state_comm = State_comm::ChangeConstPID;
         break;
     case 5:
-        State.commState = CommState::CalibDeadBand;
+        State.state_comm = State_comm::CalibDeadBand;
         break;
     case 10:
         State.meas.motSelect = WireReadI();
         State.meas.temp = WireReadI();
-        State.meas.measType = static_cast<MeasType>(State.meas.temp);
-        State.commState = CommState::Meas;
+        State.meas.state_measType = static_cast<State_measType>(State.meas.temp);
+        State.state_comm = State_comm::Meas;
         break;
     default:
-        State.commState = CommState::Unknown;
+        State.state_comm = State_comm::Unknown;
         break;
     }
 }
