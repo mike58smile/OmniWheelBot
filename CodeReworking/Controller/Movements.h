@@ -9,10 +9,12 @@
 	#include "WProgram.h"
 #endif
 #include "State.h"
-#include "Comm.h"
+#include "Comm.h" // Also includes Wire.h
+#include <PID_v1.h>
+#include <MPU6050_tockn.h>
 
-#define B 0.14 //%polomer robota v metroch
-#define R 0.025 //%polomer kolesa v metroch
+#define B 0.14 //chassis radius [m]
+#define R 0.025 // wheel radius [m]
 #define alfa1 HALF_PI 
 #define alfa2 PI
 #define alfa3 -HALF_PI
@@ -20,25 +22,30 @@
 class MovementsClass
 {
  protected:
-	 //float v = 0.3, w = 0;
-	 //int alfa = 180;
+
+	 //********For speed calculations - calcSpd*************
 	 float tempAlfa = 0;
-	 float tempV = 0;
-	 float spd1 = 0;
-	 float spd2 = 0;
-	 float spd3 = 0;
-	 float spd4 = 0;
 	 unsigned long ElapsedTime = 0;
 	 unsigned long CurrentTime = 0;
-	 bool circularMove = 0;
 	 float alfaR;
-	 float vy = 0.1, vx = -0.1;
-	 float tg_alfaR = 0;
+	 float vy, vx;
+	 float tg_alfaR;
 	 float w1, w2, w3, w4;
+
+	 //********For gyro PID*************************
+	 int gyroUpdateMS = 50;
+	 double pid_Set = 0, pid_In = 0, pid_Out = 0; ///< Define signals for PID gyro reg
+	 PID pid;
+	 MPU6050 mpu6050; ///< Gyroscope MPU6050 object
+	 long timer = 0;
+
  public:
+	MovementsClass(): pid(&pid_In, &pid_Out, &pid_Set, State.Kp, State.Ki, State.Kd, DIRECT), mpu6050(Wire){}
 	void init();
 	void circle(float spd, float radius);
 	void calcSpd(float spd, int alfa, float w);
+	void gyroTest();
+	void gyroPid(); ///< call in loop to work
 	void loop();
 };
 

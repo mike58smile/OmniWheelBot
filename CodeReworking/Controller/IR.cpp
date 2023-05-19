@@ -133,7 +133,31 @@ void IRClass::control()
                 Comm.SetPWM(50);
         }
     }
-    else if (State.state_movement == State_movement::CalcSpd || State.state_movement == State_movement::Circle) {
+    else if (State.state_movement == State_movement::MeasGyro) {
+        if (readIR) {
+            switch (currentRecievedFlag) {
+            case NUM_1:
+                State.wantedW = (State.wantedW == 0) ? 0.8 : signF(State.wantedW) * 0.8; //75000 NA VYSTUPE
+                break;
+            case NUM_2:
+                State.wantedW = (State.wantedW == 0) ? 1 : signF(State.wantedW) * 1;
+                break;
+            case NUM_3:
+                State.wantedW = (State.wantedW == 0) ? 1.5 : signF(State.wantedW) * 1.5;
+                break;
+            case ENTER:
+                State.wantedW = 0;
+                break;
+            case VOL_UP:
+                State.wantedW = 1 * abs(State.wantedW);
+                break;
+            case VOL_DOWN:
+                State.wantedW *= -1 * abs(State.wantedW);
+                break;
+            }
+        }
+    }
+    else if (State.state_movement == State_movement::Circle || State.state_movement == State_movement::CalcSpd) {
         if (readIR) { //True only once when new button pressed
             switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
             case UP: //UP
@@ -179,8 +203,10 @@ void IRClass::control()
                 break;
             }
         }
+
     }
 }
+
 bool IRClass::read()
 {
     LongPressFlag = 0;

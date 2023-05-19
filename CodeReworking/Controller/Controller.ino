@@ -17,9 +17,11 @@
 #include "SerialControl.h"
 
 //#define IR_test
+//#define Gyro_test
 
 void setup() {
 	Comm.init();
+	Movements.init();
 	IR.init();
 }
 
@@ -29,10 +31,15 @@ void loop() {
 	while(true)
 		IR.test();
 #endif
+#ifdef Gyro_test
+	while (true)
+		Movements.gyroTest();
+#endif
 	//Comm.SerialDebug();
-	SerialControl.loop();
-	IR.control();
 	Comm.loop();
+	//SerialControl.loop();
+	IR.control();
+	//Movements.gyroTest();
 	Movements.loop();
 	//Serial.println("$" + String(millis()) + " " + String(State.actualEncSpeed[0]) + " " + String(State.requiredEncSpeed[0]) + " " + String(State.actualSpeed[0]) + " " + String(State.Kp_1) + " " + String(State.Ki_1) + " " + String(State.Kd_1) + "; ");
 

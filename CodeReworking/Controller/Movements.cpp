@@ -10,8 +10,8 @@
 
 void MovementsClass::init()
 {
-
-
+    mpu6050.begin();
+    mpu6050.calcGyroOffsets(true); //delays the program for 3s
 }
 
 void MovementsClass::circle(float spd, float radius)
@@ -32,7 +32,7 @@ void MovementsClass::calcSpd(float spd, int alfa, float w)
     if ((alfa <= -90 && alfa > -270) || (alfa >= 90 && alfa < 270)) invert = 1; //kvoli nespojitostiam tangensu
     alfaR = alfa * DEG_TO_RAD;
     alfaR = fmod(alfaR, TWO_PI);
-    float tg_alfaR = tan(alfaR);
+    tg_alfaR = tan(alfaR);
     vx = spd / (sqrt(pow(tg_alfaR, 2) + 1));
     vy = spd * tg_alfaR / (sqrt(pow(tg_alfaR, 2) + 1));
     if (invert) {
@@ -43,7 +43,6 @@ void MovementsClass::calcSpd(float spd, int alfa, float w)
     w2 = (B * w + vy * cos(alfa2) - vx * sin(alfa2)) / R;
     w3 = (B * w + vy * cos(alfa3) - vx * sin(alfa3)) / R;
     w4 = (B * w + vy) / R;
-    float t = millis() / 1000.0; // get program time
     //old print Serial.println("alfa: "+String(alfa)+" "+"spd1:"+String(spd1)+"spd2:"+String(spd2)+"spd3:"+String(spd3)+"spd4:"+String(spd4)+"w1:"+String(w1)+"w2:"+String(w2)+"w3:"+String(w3)+"w4:"+String(w4)+"vy:"+String(vy)+"vx"+String(vx));//+"tg_alfaR:"+String(tg_alfaR)+"pow(tg_alfaR,2) + 1:"+String(pow(tg_alfaR,2) + 1)+"sqrt(pow(tg_alfaR,2) + 1):"+String(sqrt(pow(tg_alfaR,2) + 1))+"sin(alfa3):"+String(sin(alfa3))
     //Serial.println(String(alfaR) + " " + String(spd1) + " " + String(spd2) + " " + String(spd3) + " " + String(spd4) + " " + String(w1) + " " + String(w2) + " " + String(w3) + " " + String(w4) + " " + String(vy) + " " + String(vx));
     Comm.SetReal(w1, w2, w3, w4);
@@ -60,9 +59,41 @@ void MovementsClass::loop()
     case State_movement::Circle:
         circle(State.wantedV, State.wantedRadius);
         break;
+    case State_movement::MeasGyro:
+        calcSpd(0, 0, State.wantedW);
+    }
+}
+
+void MovementsClass::gyroTest()
+{
+    mpu6050.update();
+    if (millis() - timer > gyroUpdateMS) {
+        long angleVelocityZ = long(mpu6050.getGyroZ() * 1000.0);
+        // Serial.print("\tgyroZ : ");Serial.print(mpu6050.getGyroZ()); Serial.print(" ");
+        // Serial.print("\tgyroAngleZ : ");Serial.println(mpu6050.getGyroAngleZ());
+        // Serial.print("\tangleZ : ");Serial.println(mpu6050.getAngleZ());
+        Serial.print(angleVelocityZ); Serial.println(" ");
+        timer = millis();
+    }
+}
+
+void MovementsClass::gyroPid()
+{
+    mpu6050.update();
+    if (millis() - timer > gyroUpdateMS) {
+        //long angleVelocityZ = long(mpu6050.getGyroZ() * 1000.0); //for calculations with long - removes float
+        pid_In = mpu6050.getGyroZ();
+        pid_Set = State.wantedW;
+        if (!pid_In && !pid_Set) {
+            pid.SetMode(MANUAL);
+            pid_Out = 0;
+        }
+        else pid.SetMode(AUTOMATIC);
+        pid.Compute();
+        timer = millis();
     }
 }
 
 
-MovementsClass Movements;
+MovementsClass Movements{};
 
