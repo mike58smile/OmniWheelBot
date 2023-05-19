@@ -32,20 +32,12 @@ void DriveClass::read()
         //State.actualRealSpeed[1] = EncToRealSpd(State.actualEncSpeed[1]);
         pid_In1 = State.actualEncSpeed[0];
         pid_Set1 = State.requiredEncSpeed[0];
-        if (!pid_In1 && !pid_Set1) {
-            pid1.SetMode(MANUAL);
-            pid_Out1 = 0;
-        }
-        else pid1.SetMode(AUTOMATIC);
+
         pid1.Compute();
 
         pid_In2 = State.actualEncSpeed[1];
         pid_Set2 = State.requiredEncSpeed[1];
-        if (!pid_In2 && !pid_Set2) {
-            pid2.SetMode(MANUAL);
-            pid_Out2 = 0;
-        }
-        else pid2.SetMode(AUTOMATIC);
+
         pid2.Compute();
 
         previousTime = currentTime;
@@ -288,6 +280,17 @@ void DriveClass::loop()
         //    actualPidOut1 = 0;
         //else
         //    actualPidOut1 = sign(roundf(pid_Out1))*(abs(roundf(pid_Out1)) + deadbandPWM);
+        if (!pid_In1 && !pid_Set1) {
+            pid1.SetMode(MANUAL);
+            pid_Out1 = 0;
+        }
+        else pid1.SetMode(AUTOMATIC);
+
+        if (!pid_In2 && !pid_Set2) {
+            pid2.SetMode(MANUAL);
+            pid_Out2 = 0;
+        }
+        else pid2.SetMode(AUTOMATIC);
         Motors.Speed(PWMtoOptimizedPWM(roundf(pid_Out1)), PWMtoOptimizedPWM(roundf(pid_Out2)));
         //Motors.Speed(roundf(pid_Out1), 0);
         //use pid to set real speed
