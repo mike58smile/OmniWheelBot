@@ -171,8 +171,13 @@ void IRClass::control()
             case VOL_DOWN:
                 State.wantedV -= 0.05;
                 break;
+            case CH_UP:
+                State.wantedRadius += 0.01;
+                break;
+            case CH_DOWN:
+                State.wantedRadius -= 0.01;
+                break;
             }
-
         }
     }
 }

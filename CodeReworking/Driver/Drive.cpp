@@ -15,10 +15,10 @@ void DriveClass::init()
     
     //Init PID on both motors
     pid1.SetMode(AUTOMATIC);
-    pid1.SetOutputLimits(-80, 80); //Set max output of PID action
+    pid1.SetOutputLimits(-PWMtoOptimizedPWM(maxSpeed), PWMtoOptimizedPWM(maxSpeed)); //Set max output of PID action
 
     pid2.SetMode(AUTOMATIC);
-    pid2.SetOutputLimits(-80, 80); //Set max output of PID action
+    pid2.SetOutputLimits(-PWMtoOptimizedPWM(maxSpeed), PWMtoOptimizedPWM(maxSpeed)); //Set max output of PID action
 }
 void DriveClass::read()
 {

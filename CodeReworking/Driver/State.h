@@ -17,7 +17,9 @@
 #endif
 
 /*************************************************** Setup variables *********************************************************************/
+const int maxSpeed = 200; ///< Value of maximal speed in PWM allowed for MotorsClass
 const unsigned long TimerSpeedDelay_mS = 20; ///< Speed reading from encoder time period - Change only this !!
+const int Address = 0x10;
 /*****************************************************************************************************************************************/
 const unsigned long TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
 const float num = TWO_PI / (979.2 * (TimerSpeedDelay_mS / 1000.0));
@@ -56,11 +58,12 @@ static const char* stateArr_comm[static_cast<int>(State_comm::Size)] = { "Stop",
 class StateClass
 {
  public:
+	 static const int address = Address; ///< Define I2C address of this Driver - !!Need to be changed for different driver
+
 	 State_actual state_actual = State_actual::Setup; ///< Actual state in which the driver operates, Size contains number of elements in enum, used for printing
 	 State_comm state_comm = State_comm::Stop; ///< Communication state in which controller wants the driver to be in, only changed in Comm and SerialControl
 	 State_comm state_commPrev = State_comm::Stop; ///< Previous communication state
 	 
-	 static const int address = 0x11; ///< Define I2C address of this Driver - !!Need to be changed for different driver
 
 // Regulator parameters
 	 double Kp_1 = 0.8, Ki_1 = 4, Kd_1 = 0; ///< Speed PID constants for motor 1
@@ -83,7 +86,6 @@ class StateClass
 	 static Pin Enc2_1 = 3;
 	 static Pin Enc2_2 = A0;
 
-	 const int maxSpeed = 80; ///< Value of maximal speed in PWM allowed for MotorsClass
 
 
 	 int motor1DeadBandPWM[2] = { 0,0 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating

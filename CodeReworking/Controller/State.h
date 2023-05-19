@@ -54,7 +54,7 @@ class StateClass
 	 const char* ControlStatePrint[static_cast<int>(ControlState::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "SetPID", "Unknown" }; ///< Used for printing controlState enum
 	 ControlState controlState = ControlState::Stop; ///< Define control state in which controller wants the driver to be in, only changed in Comm and SerialControl
 	 State_movement state_movement = State_movement::CalcSpd;
-	 float wantedW = 0, wantedV = 0.2;
+	 float wantedW = 0, wantedV = 0.2, wantedRadius = 0.2;
 	 int wantedAlfa = 0;
 
 	 float Kp_1 = 1, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1

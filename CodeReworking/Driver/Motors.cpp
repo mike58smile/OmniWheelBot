@@ -47,8 +47,8 @@ void MotorsClass::Stop()
 
 void MotorsClass::SpeedSingle(bool motSelect, int Spd)
 {
-    if (abs(Spd) > State.maxSpeed)
-        Spd = sign(Spd) * State.maxSpeed;
+    if (abs(Spd) > maxSpeed)
+        Spd = sign(Spd) * maxSpeed;
     if (motSelect == 0) {
         // Set speed of first motor
         if (Spd <= 0) {
