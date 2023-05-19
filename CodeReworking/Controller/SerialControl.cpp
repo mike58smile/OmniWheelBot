@@ -33,6 +33,8 @@ void SerialControlClass::loop()
             serialMode = SerialMode::Kd1;
         else if (SerialString == "real")
             serialMode = SerialMode::RealSpeed;
+        else if (SerialString == "enc")
+            serialMode = SerialMode::EncSpeed;
         else if (SerialString == "calib")
             serialMode = SerialMode::CalibDeadBand;
         else if (SerialString == "meas1")
@@ -78,6 +80,9 @@ void SerialControlClass::loop()
             break;
         case SerialMode::RealSpeed:
             Comm.SetReal(SerialFloat, 0, 0, 0);
+            break;
+        case SerialMode::EncSpeed:
+            Comm.SetRealEnc(SerialFloat, 0, 0, 0);
             break;
         case SerialMode::Meas1:
             Comm.SetMeas(MeasType::Ramp);

@@ -8,6 +8,7 @@
  *********************************************************************/
 
 #include "Comm.h"
+#include "Drive.h"
  /**
   * \brief I2C send data - Wire request event
   */
@@ -55,7 +56,12 @@ void receiveData(int x)
         State.Kp_1 += WireReadF();
         State.Ki_1 += WireReadF();
         State.Kd_1 += WireReadF();
-        State.state_comm = State_comm::ChangeConstPID;
+        State.Kp_2 = State.Kp_1;
+        State.Ki_2 = State.Ki_1;
+        State.Kd_2 = State.Kd_2;
+        Drive.pid1.SetTunings(State.Kp_1, State.Ki_1, State.Kd_1);
+        Drive.pid2.SetTunings(State.Kp_2, State.Ki_2, State.Kd_2);
+        //State.state_comm = State_comm::ChangeConstPID;
         break;
     case 5:
         State.state_comm = State_comm::CalibDeadBand;

@@ -16,6 +16,7 @@
 	#include "WProgram.h"
 #endif
 
+#include <timer.h>
 #include "State.h"
 
 //using IRval = constexpr uint32_t;
@@ -37,10 +38,13 @@ namespace IR_denon {
 	IRval NUM_4 = 0x70013140;
 	IRval NUM_5 = 0x14140;
 	IRval NUM_6 = 0x10015140;
-	IRval NUM_7 = 0x40010140;
-	IRval NUM_8 = 0x50011140;
+	IRval NUM_7 = 0x20016140;
+	IRval NUM_8 = 0x30017140;
 	IRval NUM_9 = 0xC0018140;
 };
+
+constexpr float add = 0.1;
+static int realSpdBegin = 30;
 /**
  * \brief Class handling recieving IR signal
  */
@@ -50,14 +54,15 @@ class IRClass
 	 StateClass& State; ///< Storage for all shared variables 
 	 //IRrecv Irrecv; ///< Object for recieving IR signals
 	 //decode_results results;
-
+	 Timer timer;
 	 uint32_t lastRecieved = 0, currentRecievedFlag = 0;
-	 bool isSameRecieved = 0;
+	 bool isSameRecieved = 0, isSingleClick = 0;
 	 // For Long press detection
-	 unsigned long sMillisOfFirstReceive;
-	 bool sLongJustPressed; ///<
+	 unsigned long sMillisOfFirstReceive = 0, sMillisOfFirstReceive2 = 0;
+	 bool sLongJustPressed = 0, sLongJustPressed2 = 0; ///<
 	 bool LongPressFlag;
 	 bool detectLongPress(uint16_t aLongPressDurationMillis);
+	 bool detectNextPress(uint16_t aLongPressDurationMillis);
 	 bool read();
  public:
 	 /**

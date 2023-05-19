@@ -14,6 +14,7 @@
 #include "Comm.h"
 #include "IR.h"
 #include "SerialControl.h"
+
 //#define IR_test
 
 void setup() {
@@ -31,5 +32,5 @@ void loop() {
 	SerialControl.loop();
 	IR.control();
 	Comm.loop();
-
+	Serial.println("$" + String(millis()) + " " + String(State.actualEncSpeed[0]) + " " + String(State.requiredEncSpeed[0]) + " " + String(State.actualSpeed[0]) + " " + String(State.Kp_1) + " " + String(State.Kd_1) + " " + String(State.Ki_1) + "; ");
 }

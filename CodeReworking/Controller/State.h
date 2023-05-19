@@ -48,16 +48,17 @@ enum class ControlState { Stop, Wait, SpeedPWM, SpeedReal, SetPID, SetMeas, Unkn
 class StateClass
 {
  protected:
-
  public:
+	 int adress[2] = { 0x10, 0x11 }; ///< Adress of drivers - 0x10 = motors 1,2 ; 0x11 = motors 3,4
 	 const char* ControlStatePrint[static_cast<int>(ControlState::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "SetPID", "Unknown" }; ///< Used for printing controlState enum
 	 ControlState controlState = ControlState::Stop; ///< Define control state in which controller wants the driver to be in, only changed in Comm and SerialControl
 	 static Pin IRPin = 40; ///< Define IR signal recieving pin
 
+	 float Kp_1 = 1, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1
 	 int actualSpeed[4] = { 0,0,0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite in Driver in range (0 - 255)
-	 float actualRealSpeed[4] = { 0,0,0,0 }; ///< Actual real speed of two motors in rad/s
 	 int actualEncSpeed[4] = { 0,0,0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
-	 int adress[2] = { 0x10, 0x11 }; ///< Adress of drivers - 0x10 = motors 1,2 ; 0x11 = motors 3,4
+	 int requiredEncSpeed[4] = { 0,0,0,0 }; ///< Required speed sent to Driver [enc]
+	 float actualRealSpeed[4] = { 0,0,0,0 }; ///< Actual real speed of two motors in rad/s
 };
 
 extern StateClass State;

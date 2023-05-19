@@ -37,8 +37,8 @@ void CommClass::loop()
     Wire.requestFrom(State.adress[1], countBytes(4, 0)); //Need to change countBytes
     State.actualSpeed[2] = WireReadI();
     State.actualSpeed[3] = WireReadI();
-    State.actualEncSpeed[0] = WireReadI();
-    State.actualEncSpeed[1] = WireReadI();
+    State.actualEncSpeed[2] = WireReadI();
+    State.actualEncSpeed[3] = WireReadI();
     //State.actualRealSpeed[2] = WireReadF();
     //State.actualRealSpeed[3] = WireReadF();
 }
@@ -98,8 +98,31 @@ void CommClass::SetReal(float spd1, float spd2, float spd3, float spd4)
     State.controlState = ControlState::SpeedReal;
 }
 
+void CommClass::SetRealEnc(int spd1, int spd2, int spd3, int spd4)
+{
+    State.requiredEncSpeed[0] = spd1;
+    State.requiredEncSpeed[1] = spd2;
+    State.requiredEncSpeed[2] = spd3;
+    State.requiredEncSpeed[3] = spd4;
+
+    Wire.beginTransmission(State.adress[0]);
+    Wire.write(3);
+    WireWriteI(spd1);
+    WireWriteI(spd2);
+    Wire.endTransmission();
+
+    Wire.beginTransmission(State.adress[1]);
+    Wire.write(3);
+    WireWriteI(spd3);
+    WireWriteI(spd4);
+    Wire.endTransmission();
+    State.controlState = ControlState::SpeedReal;
+}
+
+
 void CommClass::SetPID(float Kp_add, float Ki_add, float Kd_add)
 {
+    State.Kp_1 += Kp_add; State.Ki_1 += Ki_add; State.Kd_1 += Kd_add;
     Wire.beginTransmission(State.adress[0]);
     Wire.write(4);
     WireWriteF(Kp_add);

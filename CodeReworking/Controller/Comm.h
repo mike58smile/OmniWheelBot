@@ -76,6 +76,7 @@ class CommClass
 	 void SetPWM(int spd1, int spd2, int spd3, int spd4);
 	 void SetPWM(int spd);
 	 void SetReal(float spd1, float spd2, float spd3, float spd4);
+	 void SetRealEnc(int spd1, int spd2, int spd3, int spd4);
 	 void SetPID(float Kp_add, float Ki_add, float Kd_add);
 	 void SetMeas(MeasType type, int motSelect = 0);
 };

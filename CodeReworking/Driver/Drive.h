@@ -54,13 +54,12 @@ class DriveClass final
 #pragma endregion - Reading/Controlling speed variables/functions/objects
 
 #pragma region Variables_Pid
+public:
 	 double pid_Set1 = 0, pid_In1 = 0, pid_Out1 = 0; ///< Define signals for speed PID reg on motor 1
 	 double pid_Set2 = 0, pid_In2 = 0, pid_Out2 = 0; ///< Define signals for speed PID reg on motor 2
-
 	 PID pid1; ///< PID object for motor 1
 	 PID pid2; ///< PID object for motor 2
 #pragma endregion - PID variables(signals) and objects
-
 
 	 
 #pragma region Variables_Ramp
@@ -137,7 +136,7 @@ private:
 	  * \return Optimized speed [PWM]
 	  */
 	 inline int PWMtoOptimizedPWM(int PWMspeed) {
-		 PWMtoOptimizedPWM(PWMspeed, optimizedSpd.zeroPWM, optimizedSpd.minPWM);
+		 return PWMtoOptimizedPWM(PWMspeed, optimizedSpd.zeroPWM, optimizedSpd.minPWM);
 	 }
 
 

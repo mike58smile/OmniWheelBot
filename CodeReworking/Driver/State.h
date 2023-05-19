@@ -17,7 +17,7 @@
 #endif
 
 /*************************************************** Setup variables *********************************************************************/
-const unsigned long TimerSpeedDelay_mS = 30; ///< Speed reading from encoder time period - Change only this !!
+const unsigned long TimerSpeedDelay_mS = 20; ///< Speed reading from encoder time period - Change only this !!
 /*****************************************************************************************************************************************/
 const unsigned long TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
 const float num = TWO_PI / (979.2 * (TimerSpeedDelay_mS / 1000.0));
@@ -35,9 +35,11 @@ static inline int8_t sign(int val) {
 
 using Pin = const uint8_t;
 
-#define printState_comm State.stateArr_comm[static_cast<int>(State.state_comm)] //inline function is much better
-#define printState_actual State.stateArr_actual[static_cast<int>(State.state_actual)] //inline function is much better
-#define printState_measType State.stateArr_measType[static_cast<int>(State.meas.state_measType)] //inline function is much better
+#define printState_comm stateArr_comm[static_cast<int>(State.state_comm)] //inline function is much better
+#define printState_commPrev stateArr_comm[static_cast<int>(State.state_commPrev)] //inline function is much better
+
+#define printState_actual stateArr_actual[static_cast<int>(State.state_actual)] //inline function is much better
+#define printState_measType stateArr_measType[static_cast<int>(State.meas.state_measType)] //inline function is much better
 	 
 enum class State_measType { Calib, Ramp, Ramp_optim,   Size }; ///< Meassurement type state - have to be same as in Controller, Size contains number of elements in enum, used for printing
 static const char* stateArr_measType[static_cast<int>(State_measType::Size)] = { "Calib", "Ramp", "Ramp_optim" }; ///< Array for printing meas.state_measType 
@@ -60,6 +62,10 @@ class StateClass
 	 
 	 static const int address = 0x10; ///< Define I2C address of this Driver - !!Need to be changed for different driver
 
+// Regulator parameters
+	 double Kp_1 = 0.8, Ki_1 = 4, Kd_1 = 0; ///< Speed PID constants for motor 1
+	 double Kp_2 = 0.8, Ki_2 = 4, Kd_2 = 0; ///< Speed PID constants for motor 2
+
 // Define pins
 	 //Motor1
 	 static Pin M1_LPWM = 5;
@@ -79,9 +85,6 @@ class StateClass
 
 	 const int maxSpeed = 80; ///< Value of maximal speed in PWM allowed for MotorsClass
 
-// Regulator parameters
-	 double Kp_1 = 1, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1
-	 double Kp_2 = 0, Ki_2 = 0, Kd_2 = 0; ///< Speed PID constants for motor 2
 
 	 int motor1DeadBandPWM[2] = { 0,0 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
 	 int motor2DeadBandPWM[2] = { 0,0 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating

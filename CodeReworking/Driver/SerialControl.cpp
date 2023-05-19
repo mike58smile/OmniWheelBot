@@ -24,6 +24,7 @@ void SerialControlClass::loop()
         SerialString = Serial.readStringUntil('\n');
         SerialInt = SerialString.toInt();
         SerialFloat = SerialString.toFloat();
+
         //Need if statements because in switch, u can't compare strings ..sad
         if (SerialString == "com" || SerialString == "comm")
             serialMode = SerialMode::Comm;
