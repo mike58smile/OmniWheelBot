@@ -19,7 +19,7 @@
 #include "State.h"
 #include "Comm.h"
 
-enum class SerialMode { Idle, Comm, Speed, RealSpeed, EncSpeed, Kp1, Ki1, Kd1, CalibDeadBand, Meas1, Meas2, Size }; ///< Enum for selected serial mode state machine, "Size" is a little trick - contains number of elements in this enum
+enum class SerialMode { Idle, Comm, Speed, RealSpeed, EncSpeed, Kp1, Ki1, Kd1, CalibDeadBand, Meas1, Meas2, CalcSpd, CalcV, Circle, Size }; ///< Enum for selected serial mode state machine, "Size" is a little trick - contains number of elements in this enum
 class SerialControlClass
 {
 protected:

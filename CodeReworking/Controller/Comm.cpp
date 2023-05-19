@@ -35,10 +35,10 @@ void CommClass::loop()
 	//State.actualRealSpeed[1] = WireReadF();
 
     Wire.requestFrom(State.adress[1], countBytes(4, 0)); //Need to change countBytes
-    State.actualSpeed[2] = WireReadI();
     State.actualSpeed[3] = WireReadI();
-    State.actualEncSpeed[2] = WireReadI();
+    State.actualSpeed[2] = WireReadI();
     State.actualEncSpeed[3] = WireReadI();
+    State.actualEncSpeed[2] = WireReadI();
     //State.actualRealSpeed[2] = WireReadF();
     //State.actualRealSpeed[3] = WireReadF();
 }
@@ -67,8 +67,8 @@ void CommClass::SetPWM(int spd1, int spd2, int spd3, int spd4)
 
 	Wire.beginTransmission(State.adress[1]);
 	Wire.write(2);
-	WireWriteI(spd3);
 	WireWriteI(spd4);
+	WireWriteI(spd3);
 	Wire.endTransmission();
 	State.controlState = ControlState::SpeedPWM;
 }
@@ -82,8 +82,6 @@ void CommClass::SetPWM(int spd)
 
 void CommClass::SetReal(float spd1, float spd2, float spd3, float spd4)
 {
-    RealToEncSpd(spd1);
-
     Wire.beginTransmission(State.adress[0]);
     Wire.write(3);
     WireWriteI(RealToEncSpd(spd1));
@@ -92,8 +90,8 @@ void CommClass::SetReal(float spd1, float spd2, float spd3, float spd4)
 
     Wire.beginTransmission(State.adress[1]);
     Wire.write(3);
+    WireWriteI(RealToEncSpd(spd4)); //Different then above
     WireWriteI(RealToEncSpd(spd3));
-    WireWriteI(RealToEncSpd(spd4));
     Wire.endTransmission();
     State.controlState = ControlState::SpeedReal;
 }
@@ -113,8 +111,8 @@ void CommClass::SetRealEnc(int spd1, int spd2, int spd3, int spd4)
 
     Wire.beginTransmission(State.adress[1]);
     Wire.write(3);
-    WireWriteI(spd3);
     WireWriteI(spd4);
+    WireWriteI(spd3);
     Wire.endTransmission();
     State.controlState = ControlState::SpeedReal;
 }

@@ -60,7 +60,7 @@ class StateClass
 	 State_comm state_comm = State_comm::Stop; ///< Communication state in which controller wants the driver to be in, only changed in Comm and SerialControl
 	 State_comm state_commPrev = State_comm::Stop; ///< Previous communication state
 	 
-	 static const int address = 0x10; ///< Define I2C address of this Driver - !!Need to be changed for different driver
+	 static const int address = 0x11; ///< Define I2C address of this Driver - !!Need to be changed for different driver
 
 // Regulator parameters
 	 double Kp_1 = 0.8, Ki_1 = 4, Kd_1 = 0; ///< Speed PID constants for motor 1

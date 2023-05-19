@@ -15,6 +15,7 @@ void IRClass::init()
 {
     IrReceiver.begin(State.IRPin, ENABLE_LED_FEEDBACK); // Start the receiver
 }
+
 uint32_t IRClass::test() {
     if (IrReceiver.decode()) {
         IrReceiver.resume(); // Enable receiving of the next value
@@ -74,65 +75,107 @@ void IRClass::control()
 {
     using namespace IR_denon; //Using DENON IR remote control
     bool readIR = read();
-    if (readIR) {
-        switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
-        case UP: //UP
-            Serial.println("UP");
-            Comm.SetRealEnc(realSpdBegin, realSpdBegin,0,0);
-            break;
-        case ENTER: //ENTER
-            Serial.println("ENTER");
-            Comm.SetRealEnc(0, 0, 0, 0);
-            //Comm.Stop();
-            break;
-        case DOWN: //DOWN
-            Serial.println("DOWN");
-            Comm.SetRealEnc(35,0,0,0);
-            break;
+    if (State.state_movement == State_movement::IR_movement) {
+        if (readIR) { //True only once when new button pressed
+            switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
+            case UP: //UP
+                Serial.println("UP");
+                Comm.SetRealEnc(realSpdBegin, realSpdBegin, 0, 0);
+                break;
+            case ENTER: //ENTER
+                Serial.println("ENTER");
+                Comm.SetRealEnc(0, 0, 0, 0);
+                //Comm.Stop();
+                break;
+            case DOWN: //DOWN
+                Serial.println("DOWN");
+                Comm.SetRealEnc(35, 0, 0, 0);
+                break;
+            }
+        }
+        if (isSingleClick) { //true after pressed for 100ms (and kinda also on beginning)
+            switch (currentRecievedFlag) {
+            case NUM_1:
+                Comm.SetPID(add, 0, 0);
+                break;
+            case NUM_2:
+                Comm.SetPID(0, add, 0);
+                break;
+            case NUM_3:
+                Comm.SetPID(0, 0, add);
+                break;
+            case NUM_7:
+                Comm.SetPID(-add, 0, 0);
+                break;
+            case NUM_8:
+                Comm.SetPID(0, -add, 0);
+                break;
+            case NUM_9:
+                Comm.SetPID(0, 0, -add);
+                break;
+            case VOL_UP:
+                ++realSpdBegin;
+                Comm.SetRealEnc(realSpdBegin, realSpdBegin, 0, 0);
+                break;
+            case VOL_DOWN:
+                --realSpdBegin;
+                Comm.SetRealEnc(realSpdBegin, realSpdBegin, 0, 0);
+                break;
+            }
+        }
+        //Serial.println(currentRecievedFlag);
+        if (LongPressFlag) {
+            Serial.print("LONG PRESSED: ");
+            Serial.println(currentRecievedFlag, HEX);
+            if (currentRecievedFlag == 0xF001B140)
+                Comm.SetPWM(30);
+            if (currentRecievedFlag == 0x8001C140)
+                Comm.SetPWM(50);
         }
     }
+    else if (State.state_movement == State_movement::CalcSpd || State.state_movement == State_movement::Circle) {
+        if (readIR) { //True only once when new button pressed
+            switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
+            case UP: //UP
+                Serial.println("UP");
+                State.wantedAlfa = 135;
+                break;
+            case RIGHT:
+                State.wantedAlfa = 225;
+                break;
+            case DOWN:
+                State.wantedAlfa = 315;
+                break;
+            case LEFT:
+                State.wantedAlfa = 45;
+                break;
+            case ENTER: //ENTER
+                Serial.println("ENTER");
+                State.wantedV = 0;
+                //Comm.Stop();
+                break;
+            case NUM_1:
+                State.state_movement = State_movement::CalcSpd;
+                break;
+            case NUM_2:
+                State.state_movement = State_movement::Circle;
+                break;
+            }
+        }
 
-    if (isSingleClick) { //true after pressed for 100ms (and kinda also on beginning)
-        switch (currentRecievedFlag) {
-        case NUM_1:
-            Comm.SetPID(add, 0, 0);
-            break;
-        case NUM_2:
-            Comm.SetPID(0, add, 0);
-            break;
-        case NUM_3:
-            Comm.SetPID(0, 0, add);
-            break;
-        case NUM_7:
-            Comm.SetPID(-add, 0, 0);
-            break;
-        case NUM_8:
-            Comm.SetPID(0, -add, 0);
-            break;
-        case NUM_9:
-            Comm.SetPID(0, 0, -add);
-            break;
-        case VOL_UP:
-            ++realSpdBegin;
-            Comm.SetRealEnc(realSpdBegin, realSpdBegin, 0, 0);
-            break;
-        case VOL_DOWN:
-            --realSpdBegin;
-            Comm.SetRealEnc(realSpdBegin, realSpdBegin, 0, 0);
-            break;
+        if (isSingleClick) { //true after pressed for 100ms (and kinda also on beginning)
+            switch (currentRecievedFlag) {
+            case VOL_UP:
+                State.wantedV += 0.05;
+                break;
+            case VOL_DOWN:
+                State.wantedV -= 0.05;
+                break;
+            }
+
         }
-    }
-    //Serial.println(currentRecievedFlag);
-    if (LongPressFlag) {
-        Serial.print("LONG PRESSED: ");
-        Serial.println(currentRecievedFlag, HEX);
-        if(currentRecievedFlag == 0xF001B140)
-            Comm.SetPWM(30);
-        if(currentRecievedFlag == 0x8001C140)
-            Comm.SetPWM(50);
     }
 }
-bool tempReceived = 0;
 bool IRClass::read()
 {
     LongPressFlag = 0;

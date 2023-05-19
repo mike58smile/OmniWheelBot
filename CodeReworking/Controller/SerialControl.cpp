@@ -41,6 +41,12 @@ void SerialControlClass::loop()
             serialMode = SerialMode::Meas1;
         else if (SerialString == "meas2")
             serialMode = SerialMode::Meas2;
+        else if (SerialString == "calc")
+            serialMode = SerialMode::CalcSpd;
+        else if (SerialString == "calcV")
+            serialMode = SerialMode::CalcV;
+        else if (SerialString == "circ")
+            serialMode = SerialMode::Circle;
         switch (serialMode) {
         case SerialMode::Comm:
             switch (SerialInt) {
@@ -64,6 +70,7 @@ void SerialControlClass::loop()
             break;
         case SerialMode::Speed:
         {
+            State.state_movement = State_movement::IR_movement;
             int speed = SerialInt;
             if (abs(speed) > 200) speed = sign(speed) * 200;
             Comm.SetPWM(speed, speed, speed, speed);
@@ -79,9 +86,11 @@ void SerialControlClass::loop()
             Comm.SetPID(0, 0, SerialFloat);
             break;
         case SerialMode::RealSpeed:
+            State.state_movement = State_movement::IR_movement;
             Comm.SetReal(SerialFloat, 0, 0, 0);
             break;
         case SerialMode::EncSpeed:
+            State.state_movement = State_movement::IR_movement;
             Comm.SetRealEnc(SerialFloat, 0, 0, 0);
             break;
         case SerialMode::Meas1:
@@ -92,6 +101,16 @@ void SerialControlClass::loop()
             break;
         case SerialMode::CalibDeadBand:
             Comm.SetMeas(MeasType::Calib);
+            break;
+        case SerialMode::CalcSpd:
+            State.state_movement = State_movement::CalcSpd;
+            State.wantedAlfa = SerialInt;
+            break;
+        case SerialMode::CalcV:
+            State.wantedV = SerialFloat;
+            break;
+        case SerialMode::Circle:
+            State.state_movement = State_movement::Circle;
             break;
         default:
             break;

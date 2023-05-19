@@ -17,12 +17,12 @@
 #endif
 
 //---Here are changable constants
-constexpr int TimerSpeedDelay_mS = 30; ///< NEED TO BE SAME AS IN DRIVER!! Speed reading from encoder time period - Change only this !!
+constexpr int TimerSpeedDelay_mS = 20; ///< NEED TO BE SAME AS IN DRIVER!! Speed reading from encoder time period - Change only this !!
 
 //-------------------------------
 constexpr int TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
-
-const float speedConvSlope = TWO_PI / (979.2 * (TimerSpeedDelay_mS / 1000.0)); ///< Speed conversion slope (Enc speed - Real speed
+constexpr float TimerSpeedDelay_S = TimerSpeedDelay_mS / 1000.0;
+const float speedConvSlope = TWO_PI / (979.2 * TimerSpeedDelay_S); ///< Speed conversion slope (Enc speed - Real speed
 inline float EncToRealSpd(int EncSpeed) {
 	return(float(EncSpeed) * speedConvSlope);
 }
@@ -41,7 +41,7 @@ using Pin = const uint8_t;
 
 enum class ControlState { Stop, Wait, SpeedPWM, SpeedReal, SetPID, SetMeas, Unknown,   Size }; ///< Define CommState enum
 #define controlStatePrint State.ControlStatePrint[static_cast<int>(State.controlState)] //inline function is much better
-
+enum class State_movement{ IR_movement, CalcSpd, Circle };
  /**
   * \brief Class for variables storage (only header, without methods)
   */
@@ -49,10 +49,13 @@ class StateClass
 {
  protected:
  public:
+	 static Pin IRPin = 40; ///< Define IR signal recieving pin
 	 int adress[2] = { 0x10, 0x11 }; ///< Adress of drivers - 0x10 = motors 1,2 ; 0x11 = motors 3,4
 	 const char* ControlStatePrint[static_cast<int>(ControlState::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "SetPID", "Unknown" }; ///< Used for printing controlState enum
 	 ControlState controlState = ControlState::Stop; ///< Define control state in which controller wants the driver to be in, only changed in Comm and SerialControl
-	 static Pin IRPin = 40; ///< Define IR signal recieving pin
+	 State_movement state_movement = State_movement::CalcSpd;
+	 float wantedW = 0, wantedV = 0.2;
+	 int wantedAlfa = 0;
 
 	 float Kp_1 = 1, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1
 	 int actualSpeed[4] = { 0,0,0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite in Driver in range (0 - 255)
