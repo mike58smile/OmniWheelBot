@@ -18,23 +18,21 @@
 
 #include "State.h"
 #include <Wire.h>
-#include <MPU6050_tockn.h>
+#include <MPU6050.h>
+#include <MegunoLink.h>
+#include "Filter.h"
+ //#include <MPU6050_tockn.h>
 
 class GyroClass
 {
  protected:
-	 MPU6050 mpu6050;
-	 StateClass& State;
+	 ExponentialFilter<long> ADCFilter; // Create a new exponential filter with a weight of 10 and initial value of 0. 
  public:
-	 /**
-	  * \brief C'tor from StateClass, also initialize mpu6050 object
-	  * \note This is the only constructor
-	  * \param state Reference to storage for all shared variables
-	  */
-	 GyroClass(StateClass& state) : State(state), mpu6050(Wire) {}
-
-
+	 GyroClass() : ADCFilter(5, 0) {}
+	 MPU6050 mpu;
+	 void checkSettings();
 	 void init();
+	 float read(bool raw = 0);
 };
 
 extern GyroClass Gyro;

@@ -19,7 +19,7 @@
 /*************************************************** Setup variables *********************************************************************/
 const int maxSpeed = 80; ///< Value of maximal speed in PWM allowed for MotorsClass
 const unsigned long TimerSpeedDelay_mS = 20; ///< Speed reading from encoder time period - Change only this !!
-const int Address = 0x11;
+const int Address = 0x10;
 /*****************************************************************************************************************************************/
 const unsigned long TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
 const float num = TWO_PI / (979.2 * (TimerSpeedDelay_mS / 1000.0));

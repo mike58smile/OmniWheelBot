@@ -10,8 +10,13 @@
 
 void MovementsClass::init()
 {
-    mpu6050.begin();
-    mpu6050.calcGyroOffsets(true); //delays the program for 3s
+    pid.SetMode(AUTOMATIC);
+    pid.SetOutputLimits(-20,20); //Set max output of PID action
+    Gyro.init();
+    Serial.println("DONE");
+    //mpu6050.begin();
+    //mpu6050.setGyroOffsets(-1.04, -0.88, -1.51);
+    //mpu6050.calcGyroOffsets(true); //delays the program for 3s
 }
 
 void MovementsClass::circle(float spd, float radius)
@@ -61,35 +66,50 @@ void MovementsClass::loop()
         break;
     case State_movement::MeasGyro:
         calcSpd(0, 0, State.wantedW);
+        break;
+    case State_movement::PidGyro:
+        if((pid.GetKp() != State.Kp) || (pid.GetKi() != State.Ki) || (pid.GetKd() != State.Kd))
+            pid.SetTunings(State.Kp, State.Ki, State.Kd);
+        gyroPid();
+        calcSpd(0, 0, pid_Out);
+        Serial.println(String(State.wantedW) + " " + ((pid_In > 0)? " " : "") + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd));
+        break;
     }
 }
 
 void MovementsClass::gyroTest()
 {
-    mpu6050.update();
+   // Serial.println("gyro test begin");
+    //Serial.println("vectors before");
+    //Vector rawGyro = mpu.readRawGyro();
+    //Vector normGyro = mpu.readNormalizeGyro();
+    //return ((raw)? rawGyro.ZAxis: normGyro.ZAxis);
+  //  gyro.read();
+    //Serial.println("vectors adfetr");
+    //Serial.print(gyro.read());
+    //mpu6050.update();
+    // 
     if (millis() - timer > gyroUpdateMS) {
-        long angleVelocityZ = long(mpu6050.getGyroZ() * 1000.0);
-        // Serial.print("\tgyroZ : ");Serial.print(mpu6050.getGyroZ()); Serial.print(" ");
-        // Serial.print("\tgyroAngleZ : ");Serial.println(mpu6050.getGyroAngleZ());
-        // Serial.print("\tangleZ : ");Serial.println(mpu6050.getAngleZ());
-        Serial.print(angleVelocityZ); Serial.println(" ");
+        gyro.read();
         timer = millis();
     }
 }
 
 void MovementsClass::gyroPid()
 {
-    mpu6050.update();
+    //mpu6050.update();
     if (millis() - timer > gyroUpdateMS) {
         //long angleVelocityZ = long(mpu6050.getGyroZ() * 1000.0); //for calculations with long - removes float
-        pid_In = mpu6050.getGyroZ();
+        pid_In = gyro.read();
         pid_Set = State.wantedW;
-        if (!pid_In && !pid_Set) {
+
+        if (abs(pid_Set - pid_In) > 0.1)
+            pid.Compute();
+        if (!pid_Set && !pid_In) {
             pid.SetMode(MANUAL);
             pid_Out = 0;
         }
         else pid.SetMode(AUTOMATIC);
-        pid.Compute();
         timer = millis();
     }
 }

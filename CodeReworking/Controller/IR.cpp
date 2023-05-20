@@ -133,29 +133,53 @@ void IRClass::control()
                 Comm.SetPWM(50);
         }
     }
-    else if (State.state_movement == State_movement::MeasGyro) {
+    else if (State.state_movement == State_movement::MeasGyro || State.state_movement == State_movement::PidGyro) {
         if (readIR) {
             switch (currentRecievedFlag) {
-            case NUM_1:
+            case LEFT:
                 State.wantedW = (State.wantedW == 0) ? 0.8 : signF(State.wantedW) * 0.8; //75000 NA VYSTUPE
                 break;
-            case NUM_2:
+            case UP:
                 State.wantedW = (State.wantedW == 0) ? 1 : signF(State.wantedW) * 1;
                 break;
-            case NUM_3:
+            case RIGHT:
                 State.wantedW = (State.wantedW == 0) ? 1.5 : signF(State.wantedW) * 1.5;
                 break;
             case ENTER:
                 State.wantedW = 0;
                 break;
             case VOL_UP:
-                State.wantedW = 1 * abs(State.wantedW);
+                State.wantedW = 1.0 * float(abs(State.wantedW));
                 break;
             case VOL_DOWN:
-                State.wantedW *= -1 * abs(State.wantedW);
+                State.wantedW = -1.0 * float(abs(State.wantedW));
                 break;
             }
         }
+
+        if (isSingleClick) { //true after pressed for 100ms (and kinda also on beginning)
+            switch (currentRecievedFlag) {
+            case NUM_1:
+                State.Kp += 0.1;
+                break;
+            case NUM_2:
+                State.Ki += 0.1;
+                break;
+            case NUM_3:
+                State.Kd += 0.1;
+                break;
+            case NUM_7:
+                State.Kp -= 0.1;
+                break;
+            case NUM_8:
+                State.Ki -= 0.1;
+                break;
+            case NUM_9:
+                State.Kd -= 0.1;
+                break;
+            }
+        }
+
     }
     else if (State.state_movement == State_movement::Circle || State.state_movement == State_movement::CalcSpd) {
         if (readIR) { //True only once when new button pressed

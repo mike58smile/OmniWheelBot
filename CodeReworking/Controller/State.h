@@ -46,7 +46,7 @@ using Pin = const uint8_t;
 
 enum class ControlState { Stop, Wait, SpeedPWM, SpeedReal, SetPID, SetMeas, Unknown,   Size }; ///< Define CommState enum
 #define controlStatePrint State.ControlStatePrint[static_cast<int>(State.controlState)] //inline function is much better
-enum class State_movement{ IR_movement, CalcSpd, Circle, MeasGyro };
+enum class State_movement{ IR_movement, CalcSpd, Circle, MeasGyro, PidGyro};
  /**
   * \brief Class for variables storage (only header, without methods)
   */
@@ -55,13 +55,13 @@ class StateClass
  protected:
 
  public:
-	 double Kp = 0, Ki = 0, Kd = 0; ///< PID gyro constants
+	 float Kp = 0, Ki = 0, Kd = 0; ///< PID gyro constants
 
 	 static Pin IRPin = 40; ///< Define IR signal recieving pin
 	 int adress[2] = { 0x10, 0x11 }; ///< Adress of drivers - 0x10 = motors 1,2 ; 0x11 = motors 3,4
 	 const char* ControlStatePrint[static_cast<int>(ControlState::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "SetPID", "Unknown" }; ///< Used for printing controlState enum
 	 ControlState controlState = ControlState::Stop; ///< Define control state in which controller wants the driver to be in, only changed in Comm and SerialControl
-	 State_movement state_movement = State_movement::MeasGyro;
+	 State_movement state_movement = State_movement::PidGyro;
 	 float wantedW = 0, wantedV = 0, wantedRadius = 0.2;
 	 int wantedAlfa = 0;
 
