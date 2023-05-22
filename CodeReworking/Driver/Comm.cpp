@@ -36,6 +36,8 @@ void receiveData(int x)
         //stop motor (and reset PID)
         State.requiredSpeed[0] = 0;
         State.requiredSpeed[1] = 0;
+        State.requiredEncSpeed[0] = 0; //Added
+        State.requiredEncSpeed[0] = 0; //Added
         State.state_comm = State_comm::Stop;
         break;
     case 1:

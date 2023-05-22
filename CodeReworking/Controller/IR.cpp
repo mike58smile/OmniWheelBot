@@ -71,16 +71,100 @@ bool IRClass::detectNextPress(uint16_t aLongPressDurationMillis)
     }
     return sLongJustPressed2; // No long press here
 }
+
+void setRealSingle(int motSelect, float spd) {
+    switch (motSelect) {
+    case 0:
+        Comm.SetReal(spd, 0, 0, 0);
+        break;
+    case 1:
+        Comm.SetReal(0, spd, 0, 0);
+        break;
+    case 2:
+        Comm.SetReal(0, 0, spd, 0);
+        break;
+    case 3:
+        Comm.SetReal(0, 0, 0, spd);
+        break;
+    }
+}
+
 void IRClass::control()
 {
     using namespace IR_denon; //Using DENON IR remote control
     bool readIR = read();
+    if (readIR) {
+        switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
+        case MUTE:
+            State.state_movement = State_movement::Meas;
+            break;
+        case FAST_BACKWARD:
+            State.state_movement = State_movement::IR_movement;
+            break;
+        case PAUSE:
+            State.state_movement = State_movement::CalcSpd;
+            break;
+        case STOP:
+            State.state_movement = State_movement::Circle;
+            break;
+        case FAST_FORWARD:
+            State.state_movement = State_movement::PidGyro;
+            break;
+        }
+    }
+
+    if (State.state_movement == State_movement::Meas) {
+        if (readIR) {
+            switch (currentRecievedFlag) {
+            case ENTER:
+                Comm.SetReal(0, 0, 0, 0);
+                break;
+            case NUM_1:
+                setRealSingle(State.motSelectMeas, 8);
+                //Comm.SetReal(8, 0, 0, 0);
+                break;
+            case NUM_2:
+                setRealSingle(State.motSelectMeas, 10);
+                //Comm.SetReal(10, 0, 0, 0);
+                break;
+            case NUM_3:
+                setRealSingle(State.motSelectMeas, 12);
+                //Comm.SetReal(12, 0, 0, 0);
+                break;
+            case NUM_7:
+                Comm.SetReal(14, 0, 0, 0);
+                break;
+            case NUM_8:
+                break;
+            case NUM_9:
+                break;
+            case CH_UP:
+                State.motSelectMeas = 0;
+                break;
+            case CH_DOWN:
+                State.motSelectMeas = 1;
+                break;
+            case VOL_UP:
+                State.motSelectMeas = 2;
+                break;
+            case VOL_DOWN:
+                State.motSelectMeas = 3;
+                break;
+            }
+        }
+    }
+
+
+
+
+
     if (State.state_movement == State_movement::IR_movement) {
         if (readIR) { //True only once when new button pressed
             switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
             case UP: //UP
                 Serial.println("UP");
-                Comm.SetRealEnc(realSpdBegin, realSpdBegin, 0, 0);
+                //Comm.SetRealEnc(realSpdBegin, realSpdBegin, 0, 0);
+                Comm.SetReal(8, 0, 0, 0);
                 break;
             case ENTER: //ENTER
                 Serial.println("ENTER");
@@ -89,7 +173,8 @@ void IRClass::control()
                 break;
             case DOWN: //DOWN
                 Serial.println("DOWN");
-                Comm.SetRealEnc(35, 0, 0, 0);
+                Comm.SetReal(0.2,0.2,0.2,0.2);
+                //Comm.SetRealEnc(35, 0, 0, 0);
                 break;
             }
         }
@@ -177,19 +262,25 @@ void IRClass::control()
             case NUM_9:
                 State.Kd -= 0.1;
                 break;
+            case CH_UP:
+                State.gyroUpdateMS += 10;
+                break;
+            case CH_DOWN:
+                State.gyroUpdateMS -= 10;
+                break;
             }
         }
-
     }
+
     else if (State.state_movement == State_movement::Circle || State.state_movement == State_movement::CalcSpd) {
         if (readIR) { //True only once when new button pressed
             switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
             case UP: //UP
                 Serial.println("UP");
-                State.wantedAlfa = 135;
+                State.wantedAlfa = 0;//135;
                 break;
             case RIGHT:
-                State.wantedAlfa = 225;
+                State.wantedAlfa = 90;//225;
                 break;
             case DOWN:
                 State.wantedAlfa = 315;
@@ -203,10 +294,37 @@ void IRClass::control()
                 //Comm.Stop();
                 break;
             case NUM_1:
-                State.state_movement = State_movement::CalcSpd;
+                State.wantedV = 0.45;
+                State.wantedRadius = 0.4;
                 break;
             case NUM_2:
-                State.state_movement = State_movement::Circle;
+                State.wantedV = 0.6;
+                State.wantedRadius = 0.4;
+                break;
+            case NUM_3:
+                State.wantedV = 0.5;
+                State.wantedRadius = 0.2;
+                break;
+            case NUM_4:
+                State.wantedV = 0.3;
+                break;
+            case NUM_5:
+                State.wantedV = 0.45;
+                break;
+            case NUM_6:
+                State.wantedW = 1.5;
+                break;
+            case NUM_7:
+                State.wantedV = 0.5;
+                State.wantedRadius = 0.2;
+                break;
+            case NUM_8:
+                State.wantedV = 0.5;
+                State.wantedRadius = 0.1;
+                break;
+            case NUM_9:
+                State.wantedV = 0.5;
+                State.wantedRadius = 0.4;
                 break;
             }
         }

@@ -291,8 +291,9 @@ void DriveClass::loop()
             pid_Out2 = 0;
         }
         else pid2.SetMode(AUTOMATIC);
-        Motors.Speed(PWMtoOptimizedPWM(roundf(pid_Out1)), PWMtoOptimizedPWM(roundf(pid_Out2)));
-        //Motors.Speed(roundf(pid_Out1), 0);
+        Motors.Speed(PWMtoOptimizedPWM(roundf(pid_Out1)), PWMtoOptimizedPWM(roundf(pid_Out2))); //use linearized system
+        //Motors.Speed(roundf(pid_Out1), roundf(pid_Out2)); //dont use linearized system
+        
         //use pid to set real speed
         break;
     case State_comm::Meas:

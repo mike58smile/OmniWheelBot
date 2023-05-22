@@ -82,6 +82,11 @@ void CommClass::SetPWM(int spd)
 
 void CommClass::SetReal(float spd1, float spd2, float spd3, float spd4)
 {
+    State.requiredSpeed[0] = spd1;
+    State.requiredSpeed[1] = spd2;
+    State.requiredSpeed[2] = spd3;
+    State.requiredSpeed[3] = spd4;
+
     Wire.beginTransmission(State.adress[0]);
     Wire.write(3);
     WireWriteI(RealToEncSpd(spd1));

@@ -19,7 +19,7 @@ void MovementsClass::init()
     //mpu6050.calcGyroOffsets(true); //delays the program for 3s
 }
 
-void MovementsClass::circle(float spd, float radius)
+void MovementsClass::circle(float spd, float radius, float w)
 {
     //pohyb po kruznici
         CurrentTime = millis();
@@ -27,7 +27,7 @@ void MovementsClass::circle(float spd, float radius)
             ElapsedTime = CurrentTime;
             tempAlfa += 57.295779513082320876798154814105 * (spd * TimerSpeedDelay_S / radius);
         }
-    calcSpd(State.wantedV, tempAlfa, 0);
+    calcSpd(State.wantedV, tempAlfa, w);
 }
 
 void MovementsClass::calcSpd(float spd, int alfa, float w)
@@ -59,20 +59,22 @@ void MovementsClass::loop()
     case State_movement::IR_movement:
         break;
     case State_movement::CalcSpd:
-        calcSpd(State.wantedV, State.wantedAlfa, State.wantedW);
+        gyroPid();
+        calcSpd(State.wantedV, State.wantedAlfa, pid_Out);
         break;
     case State_movement::Circle:
-        circle(State.wantedV, State.wantedRadius);
+        //gyroPid();
+        circle(State.wantedV, State.wantedRadius, 0);
         break;
     case State_movement::MeasGyro:
         calcSpd(0, 0, State.wantedW);
         break;
-    case State_movement::PidGyro:
+    case State_movement::PidGyro: 
         if((pid.GetKp() != State.Kp) || (pid.GetKi() != State.Ki) || (pid.GetKd() != State.Kd))
             pid.SetTunings(State.Kp, State.Ki, State.Kd);
         gyroPid();
         calcSpd(0, 0, pid_Out);
-        Serial.println(String(State.wantedW) + " " + ((pid_In > 0)? " " : "") + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd));
+        Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
         break;
     }
 }
@@ -89,7 +91,7 @@ void MovementsClass::gyroTest()
     //Serial.print(gyro.read());
     //mpu6050.update();
     // 
-    if (millis() - timer > gyroUpdateMS) {
+    if (millis() - timer > State.gyroUpdateMS) {
         gyro.read();
         timer = millis();
     }
@@ -98,18 +100,18 @@ void MovementsClass::gyroTest()
 void MovementsClass::gyroPid()
 {
     //mpu6050.update();
-    if (millis() - timer > gyroUpdateMS) {
+    if (millis() - timer > State.gyroUpdateMS) {
         //long angleVelocityZ = long(mpu6050.getGyroZ() * 1000.0); //for calculations with long - removes float
         pid_In = gyro.read();
         pid_Set = State.wantedW;
-
-        if (abs(pid_Set - pid_In) > 0.1)
-            pid.Compute();
         if (!pid_Set && !pid_In) {
             pid.SetMode(MANUAL);
             pid_Out = 0;
         }
         else pid.SetMode(AUTOMATIC);
+
+        if (abs(pid_Set - pid_In) > 0.1)
+            pid.Compute();
         timer = millis();
     }
 }

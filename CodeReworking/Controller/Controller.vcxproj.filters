@@ -39,9 +39,6 @@
     <ClCompile Include="Movements.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MPU6050.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Controller.vsarduino.h">
@@ -63,9 +60,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Movements.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MPU6050.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

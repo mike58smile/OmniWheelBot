@@ -17,7 +17,7 @@
 #endif
 
 /*************************************************** Setup variables *********************************************************************/
-const int maxSpeed = 80; ///< Value of maximal speed in PWM allowed for MotorsClass
+const int maxSpeed = 220; ///< Value of maximal speed in PWM allowed for MotorsClass
 const unsigned long TimerSpeedDelay_mS = 20; ///< Speed reading from encoder time period - Change only this !!
 const int Address = 0x10;
 /*****************************************************************************************************************************************/
@@ -66,8 +66,8 @@ class StateClass
 	 
 
 // Regulator parameters
-	 double Kp_1 = 0.8, Ki_1 = 4, Kd_1 = 0; ///< Speed PID constants for motor 1
-	 double Kp_2 = 0.8, Ki_2 = 4, Kd_2 = 0; ///< Speed PID constants for motor 2
+	 double Kp_1 = 0.8, Ki_1 = 8, Kd_1 = 0; ///< Speed PID constants for motor 1
+	 double Kp_2 = 0.8, Ki_2 = 8, Kd_2 = 0; ///< Speed PID constants for motor 2
 
 // Define pins
 	 //Motor1

@@ -18,7 +18,7 @@
 #include "State.h"
 #include <Wire.h>
 
-constexpr auto BaudRate = 115200;
+constexpr auto BaudRate = 38400;
 inline size_t countBytes(size_t numInt16, size_t numFloat32) {
 	return numInt16 * 2 + numFloat32 * 4;
 }

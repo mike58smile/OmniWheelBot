@@ -34,7 +34,7 @@ class MovementsClass
 	 float w1, w2, w3, w4;
 
 	 //********For gyro PID*************************
-	 int gyroUpdateMS = 100;
+	 
 	 double pid_Set = 0, pid_In = 0, pid_Out = 0; ///< Define signals for PID gyro reg
 	 GyroClass gyro;
 	 //MPU6050 mpu6050; ///< Gyroscope MPU6050 object
@@ -44,7 +44,7 @@ class MovementsClass
 
 	MovementsClass(): pid(&pid_In, &pid_Out, &pid_Set, State.Kp, State.Ki, State.Kd, DIRECT){}
 	void init();
-	void circle(float spd, float radius);
+	void circle(float spd, float radius, float w);
 	void calcSpd(float spd, int alfa, float w);
 	void gyroTest();
 	void gyroPid(); ///< call in loop to work

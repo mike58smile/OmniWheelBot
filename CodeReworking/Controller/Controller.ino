@@ -42,6 +42,6 @@ void loop() {
 	IR.control();
 	//Movements.gyroTest();
 	Movements.loop();
-	//Serial.println("$" + String(millis()) + " " + String(State.actualEncSpeed[0]) + " " + String(State.requiredEncSpeed[0]) + " " + String(State.actualSpeed[0]) + " " + String(State.Kp_1) + " " + String(State.Ki_1) + " " + String(State.Kd_1) + "; ");
+	//Serial.println("$" + String(millis()) + " " + String(EncToRealSpd(State.actualEncSpeed[State.motSelectMeas]), 2) + " " + String(State.requiredSpeed[State.motSelectMeas], 2) + " " + String(State.actualSpeed[State.motSelectMeas]) + " " + String(State.Kp_1, 2) + " " + String(State.Ki_1, 2) + "; ");
 
 }
