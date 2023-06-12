@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Gyro.h
  * \brief  Gyro	class header
- * \details For sensing and processing the data from accelerometer/gyro MPU6050
+ * \details Class sensing and processing the data from accelerometer/gyro MPU6050
  * 
  * \author xmisko06
  * \date   May 2023
@@ -20,8 +20,7 @@
 #include <Wire.h>
 #include <MPU6050.h>
 #include <MegunoLink.h>
-#include "Filter.h"
- //#include <MPU6050_tockn.h>
+#include "Filter.h" //
 
 class GyroClass
 {
@@ -32,7 +31,7 @@ class GyroClass
 	 MPU6050 mpu;
 	 void checkSettings();
 	 void init();
-	 float read(bool raw = 0);
+	 float read(bool raw = 0, bool useFilter = 0);
 };
 
 extern GyroClass Gyro;

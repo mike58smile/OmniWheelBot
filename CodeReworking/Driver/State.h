@@ -106,20 +106,47 @@ class StateClass
 	 float requiredRealSpeed[2] = { 0,0 }; ///< Required real speed of two motors in rad/s by Controler (recieved through I2C), write only in Comm class!
 
 // Measurements variables:
+	 /**
+	  * \brief Data for selected meassurement
+	  */
 	 struct Meas {
-		 State_measType state_measType;
-		 unsigned int motSelect = 0;
-		 int temp = 0;
+		 State_measType state_measType; ///< Selected meassurement state
+		 unsigned int motSelect = 0; ///< Selected motor for meassurement
+		 int temp = 0; ///< Temp val used in some funciton - DONT read/write from outside
 	 } meas;
 
 	 unsigned long readSpeed = 0; ///< Speed of reading from encoders [ms]
-	 int tempMode;
 };
 
 extern StateClass State;
 
 #endif
 
+//Garbage
+/** 
+ 
+//pid_In1 = State.actualRealSpeed[0];
+//pid_Set1 = State.requiredRealSpeed[0];
+//pid1.Compute();
+//if (abs(roundf(pid_Out1)) < (State.motor1DeadBand[0] - 10))
+//    pid_Out1 = sign(pid_Out1) * (State.motor1DeadBand[0] - 10);
+//
+
+//if (abs(roundf(pid_Out1)) <= 5)
+//    actualPidOut1 = 0;
+//else
+//    actualPidOut1 = sign(roundf(pid_Out1))*(abs(roundf(pid_Out1)) + deadbandPWM);
+ 
+ 
+ //Serial.println(State.Kp_1);
+//Serial.println(State.tempMode);
+//Serial.println("$"+String(millis())+" "+String(State.actualEncSpeed[0]) + " " + String(State.requiredEncSpeed[0]) + " " + String(Drive.pid_Out1) + " " + String(State.Kp_1) + " " + String(State.Kd_1) + " " + String(State.Ki_1) + "; ");
+//Serial.println("$" + String(State.readSpeed) + " " + String(State.actualEncSpeed[0]) + " " + String(State.actualSpeed[0])+ " " + String(State.requiredSpeed[0]) + ";");
+	
+//debuging Spds
+//Serial.print("$" + String(State.readSpeed) + " " + String(State.actualEncSpeed[0]) + " " + String(State.actualSpeed[0]) + " " + String(State.requiredSpeed[0]) + " next  ");
+//Serial.println(String(State.actualEncSpeed[1]) + " " + String(State.actualSpeed[1]) + " " + String(State.requiredSpeed[1]) + ";");
+ */
 
 /** Konzultacia
  * Drive - explicit konstruktor

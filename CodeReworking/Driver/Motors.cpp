@@ -92,38 +92,3 @@ void MotorsClass::Speed(int Spd1, int Spd2)
     SpeedSingle(1, Spd2);
     State.state_actual = State_actual::Speed; //Define in which state the driver operates
 }
-
-
-//void MotorsClass::Speed_1(int Spd)
-//{
-//    // Set speed of first motor
-//    if (Spd <= 0) {
-//        analogWrite(State.M1_LPWM, 0);
-//        analogWrite(State.M1_RPWM, abs(Spd));
-//    }
-//    else {
-//        analogWrite(State.M1_RPWM, 0);
-//        analogWrite(State.M1_LPWM, abs(Spd));
-//    }
-//    // Save current motor speeds to State
-//    State.actualSpeed[0] = Spd;
-//
-//    State.state_actual = State_actual::Speed; //Define in which state the driver operates
-//}
-//
-//void MotorsClass::Speed_2(int Spd)
-//{
-//    // Set speed of second motor
-//    if (Spd <= 0) {
-//        analogWrite(State.M2_LPWM, 0);
-//        analogWrite(State.M2_RPWM, abs(Spd));
-//    }
-//    else {
-//        analogWrite(State.M2_RPWM, 0);
-//        analogWrite(State.M2_LPWM, abs(Spd));
-//    }
-//    // Save current motor speeds to State
-//    State.actualSpeed[1] = Spd;
-//
-//    State.state_actual = State_actual::Speed; //Define in which state the driver operates
-//}

@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Movements.cpp
  * \brief  Movements class source file
- * \details 
+ * \details Class implementing kinematics calculations and advanced movements
  * 
  * \author xmisko06
  * \date   May 2023
@@ -14,9 +14,6 @@ void MovementsClass::init()
     pid.SetOutputLimits(-20,20); //Set max output of PID action
     Gyro.init();
     Serial.println("DONE");
-    //mpu6050.begin();
-    //mpu6050.setGyroOffsets(-1.04, -0.88, -1.51);
-    //mpu6050.calcGyroOffsets(true); //delays the program for 3s
 }
 
 void MovementsClass::circle(float spd, float radius, float w)
@@ -48,8 +45,6 @@ void MovementsClass::calcSpd(float spd, int alfa, float w)
     w2 = (B * w + vy * cos(alfa2) - vx * sin(alfa2)) / R;
     w3 = (B * w + vy * cos(alfa3) - vx * sin(alfa3)) / R;
     w4 = (B * w + vy) / R;
-    //old print Serial.println("alfa: "+String(alfa)+" "+"spd1:"+String(spd1)+"spd2:"+String(spd2)+"spd3:"+String(spd3)+"spd4:"+String(spd4)+"w1:"+String(w1)+"w2:"+String(w2)+"w3:"+String(w3)+"w4:"+String(w4)+"vy:"+String(vy)+"vx"+String(vx));//+"tg_alfaR:"+String(tg_alfaR)+"pow(tg_alfaR,2) + 1:"+String(pow(tg_alfaR,2) + 1)+"sqrt(pow(tg_alfaR,2) + 1):"+String(sqrt(pow(tg_alfaR,2) + 1))+"sin(alfa3):"+String(sin(alfa3))
-    //Serial.println(String(alfaR) + " " + String(spd1) + " " + String(spd2) + " " + String(spd3) + " " + String(spd4) + " " + String(w1) + " " + String(w2) + " " + String(w3) + " " + String(w4) + " " + String(vy) + " " + String(vx));
     Comm.SetReal(w1, w2, w3, w4);
 }
 
@@ -60,37 +55,57 @@ void MovementsClass::loop()
         break;
     case State_movement::CalcSpd:
         gyroPid();
-        calcSpd(State.wantedV, State.wantedAlfa, pid_Out);
+        Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
+        State.GyroRegON ? calcSpd(State.wantedV, State.wantedAlfa, pid_Out) : calcSpd(State.wantedV, State.wantedAlfa, State.wantedW);
         break;
     case State_movement::Circle:
-        //gyroPid();
-        circle(State.wantedV, State.wantedRadius, 0);
+        gyroPid();
+        Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
+        State.GyroRegON ? circle(State.wantedV, State.wantedRadius, pid_Out) : circle(State.wantedV, State.wantedRadius, State.wantedW);
         break;
     case State_movement::MeasGyro:
         calcSpd(0, 0, State.wantedW);
         break;
-    case State_movement::PidGyro: 
-        if((pid.GetKp() != State.Kp) || (pid.GetKi() != State.Ki) || (pid.GetKd() != State.Kd))
+    case State_movement::PidGyro:
+        if ((pid.GetKp() != State.Kp) || (pid.GetKi() != State.Ki) || (pid.GetKd() != State.Kd))
             pid.SetTunings(State.Kp, State.Ki, State.Kd);
         gyroPid();
         calcSpd(0, 0, pid_Out);
         Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
         break;
+
+    case State_movement::ShowTime_Dir:
+    {
+        gyroPid();
+        //Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
+        State.GyroRegON ? calcSpd(State.wantedV, State.wantedAlfa, pid_Out) : calcSpd(State.wantedV, State.wantedAlfa, State.wantedW);
+        //calcSpd(State.wantedV, State.wantedAlfa, pid_Out);
+        break;
+    }
+    case State_movement::ShowTime_Circ:
+    {
+        //Serial.println(State.stopCirc);
+        if (!State.stopCirc) {
+            gyroPid();
+            //Serial.print(State.GyroRegON);
+            //Serial.print(" ");
+            //Serial.println(State.stopCirc);
+            //Serial.print(" ");
+            //Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
+            State.GyroRegON ? circle(State.wantedV, State.wantedRadius, pid_Out) : circle(State.wantedV, State.wantedRadius, State.wantedW);
+            //circle(State.wantedV, State.wantedRadius, pid_Out);
+        }
+        else {
+            tempAlfa = 0;
+            calcSpd(0, 0, 0);
+        }
+        break;
+    }
     }
 }
 
 void MovementsClass::gyroTest()
 {
-   // Serial.println("gyro test begin");
-    //Serial.println("vectors before");
-    //Vector rawGyro = mpu.readRawGyro();
-    //Vector normGyro = mpu.readNormalizeGyro();
-    //return ((raw)? rawGyro.ZAxis: normGyro.ZAxis);
-  //  gyro.read();
-    //Serial.println("vectors adfetr");
-    //Serial.print(gyro.read());
-    //mpu6050.update();
-    // 
     if (millis() - timer > State.gyroUpdateMS) {
         gyro.read();
         timer = millis();
@@ -110,7 +125,7 @@ void MovementsClass::gyroPid()
         }
         else pid.SetMode(AUTOMATIC);
 
-        if (abs(pid_Set - pid_In) > 0.1)
+        if (fabs(pid_Set - pid_In) > 0.1)
             pid.Compute();
         timer = millis();
     }
@@ -118,4 +133,8 @@ void MovementsClass::gyroPid()
 
 
 MovementsClass Movements{};
+
+//Garbage:
+//old print Serial.println("alfa: "+String(alfa)+" "+"spd1:"+String(spd1)+"spd2:"+String(spd2)+"spd3:"+String(spd3)+"spd4:"+String(spd4)+"w1:"+String(w1)+"w2:"+String(w2)+"w3:"+String(w3)+"w4:"+String(w4)+"vy:"+String(vy)+"vx"+String(vx));//+"tg_alfaR:"+String(tg_alfaR)+"pow(tg_alfaR,2) + 1:"+String(pow(tg_alfaR,2) + 1)+"sqrt(pow(tg_alfaR,2) + 1):"+String(sqrt(pow(tg_alfaR,2) + 1))+"sin(alfa3):"+String(sin(alfa3))
+//Serial.println(String(alfaR) + " " + String(spd1) + " " + String(spd2) + " " + String(spd3) + " " + String(spd4) + " " + String(w1) + " " + String(w2) + " " + String(w3) + " " + String(w4) + " " + String(vy) + " " + String(vx));
 

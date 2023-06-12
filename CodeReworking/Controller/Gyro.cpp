@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   Gyro.cpp
  * \brief  Gyro	class source file
- * \details For sensing and processing the data from accelerometer/gyro MPU6050
+ * \details Class sensing and processing the data from accelerometer/gyro MPU6050
  * 
  * \author xmisko06
  * \date   May 2023
@@ -76,10 +76,10 @@ void GyroClass::checkSettings()
     Serial.println();
 }
 
-float GyroClass::read(bool raw = 0)
+float GyroClass::read(bool raw, bool useFilter)
 {
     float sens = ((raw) ? Gyro.mpu.readRawGyro().ZAxis : Gyro.mpu.readNormalizeGyro().ZAxis)* 0.01;
-    //ADCFilter.Filter(sens);
+    if(useFilter) ADCFilter.Filter(sens);
     //Serial.println(sens);
     return sens;
 }

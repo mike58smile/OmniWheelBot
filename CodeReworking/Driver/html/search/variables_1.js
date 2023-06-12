@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['calibend_0',['CalibEnd',['../class_state_class.html#ab1e985ffb2b291bd0d296394fccaaff5',1,'StateClass']]],
-  ['commstate_1',['commState',['../class_state_class.html#af71f651eebc7746f9c57a33520180c60',1,'StateClass']]],
-  ['commstateprint_2',['CommStatePrint',['../class_state_class.html#a91fc6ed96f3a93e0ad9053909d331420',1,'StateClass']]]
+  ['baudrate_0',['BaudRate',['../_comm_8h.html#a4151b622256aae8998965f539958ad42',1,'Comm.h']]],
+  ['buffer_1',['buffer',['../union_bytes_float_conv.html#a483cc0ea9d052f772e782d9db74104cb',1,'BytesFloatConv']]],
+  ['bytesfloatconv_2',['bytesFloatConv',['../_comm_8h.html#a4950003fc944dbdb4916b8aa1c5f38bd',1,'Comm.h']]]
 ];

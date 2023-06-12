@@ -1,15 +1,12 @@
 var searchData=
 [
-  ['mainstateprint_0',['MainStatePrint',['../class_state_class.html#aed17fb5caac0782ffe50a641966496d2',1,'StateClass']]],
-  ['maxspeed_1',['maxSpeed',['../class_state_class.html#a9ba03cd7cdb105fdbf73bb0448e486da',1,'StateClass']]],
-  ['meas_2',['Meas',['../struct_state_class_1_1_meas.html',1,'StateClass']]],
-  ['meassure_5fdeadband_3',['Meassure_deadband',['../class_drive_class.html#a875eeb410726a45e69096513210b7889',1,'DriveClass']]],
-  ['meassure_5flinearityramp_4',['Meassure_linearityRamp',['../class_drive_class.html#a9564de87aa1cad0f4c1461746b9f0c3c',1,'DriveClass']]],
-  ['motor1deadbandpwm_5',['motor1DeadBandPWM',['../class_state_class.html#a5ac9eef8d2090a6339f349a3bb78aa49',1,'StateClass']]],
-  ['motor1deadbandreal_6',['motor1DeadBandReal',['../class_state_class.html#a80224cd0333fc8c57507fd3c126dda96',1,'StateClass']]],
-  ['motor2deadbandpwm_7',['motor2DeadBandPWM',['../class_state_class.html#ae0cb1fa57240aeece9e15b302e909530',1,'StateClass']]],
-  ['motor2deadbandreal_8',['motor2DeadBandReal',['../class_state_class.html#a21f7edb723246a6d12b225928c8edeb2',1,'StateClass']]],
-  ['motors_2ecpp_9',['Motors.cpp',['../_motors_8cpp.html',1,'']]],
-  ['motors_2eh_10',['Motors.h',['../_motors_8h.html',1,'']]],
-  ['motorsclass_11',['MotorsClass',['../class_motors_class.html',1,'']]]
+  ['kd1_0',['Kd1',['../_serial_control_8h.html#ab78caf3d1a1fc77e1145393984a03ab1a7886f8a3b615fe5fd36d61eb496b152b',1,'SerialControl.h']]],
+  ['kd_5f1_1',['Kd_1',['../class_state_class.html#a192af399e0e1edf8f7c5a70598c13206',1,'StateClass']]],
+  ['kd_5f2_2',['Kd_2',['../class_state_class.html#a9cbed008c5caff5f2c4a3f97ae4dfa32',1,'StateClass']]],
+  ['ki1_3',['Ki1',['../_serial_control_8h.html#ab78caf3d1a1fc77e1145393984a03ab1a8214963a4a3fee591b133f9d5aaa7fb9',1,'SerialControl.h']]],
+  ['ki_5f1_4',['Ki_1',['../class_state_class.html#a2556544809340c960c0078fcabf26487',1,'StateClass']]],
+  ['ki_5f2_5',['Ki_2',['../class_state_class.html#a334cea4cfd61e58255558f1a9c62f437',1,'StateClass']]],
+  ['kp1_6',['Kp1',['../_serial_control_8h.html#ab78caf3d1a1fc77e1145393984a03ab1a34d1a180bb4f27f74654996c39a5e1ae',1,'SerialControl.h']]],
+  ['kp_5f1_7',['Kp_1',['../class_state_class.html#aba4721f9cf041b18c3c55ab07d1422a8',1,'StateClass']]],
+  ['kp_5f2_8',['Kp_2',['../class_state_class.html#afc2f36adc48bfa088a24426d537a8dc9',1,'StateClass']]]
 ];

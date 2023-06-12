@@ -9,6 +9,15 @@ Class implementing all movements, meassurements, reading from Encoders.
 
 {\ttfamily \#include $<$Drive.\+h$>$}
 
+
+
+Collaboration diagram for Drive\+Class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{class_drive_class__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -46,14 +55,31 @@ bool \mbox{\hyperlink{class_drive_class_ab8878c242d66361e3d15d7c49e239c0c}{Decc\
 \begin{DoxyCompactList}\small\item\em Deccelerate till motor starts rotating at speed \texorpdfstring{$>$}{>} end\+Speed. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_drive_class_a875eeb410726a45e69096513210b7889}{Meassure\+\_\+deadband}} ()
 \begin{DoxyCompactList}\small\item\em Deadband meassurement state machine. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{class_drive_class_a9564de87aa1cad0f4c1461746b9f0c3c}{Meassure\+\_\+linearity\+Ramp}} (unsigned int max\+Speed=70, int mot\+Select=0, bool optim=0)
+bool \mbox{\hyperlink{class_drive_class_a9564de87aa1cad0f4c1461746b9f0c3c}{Meassure\+\_\+linearity\+Ramp}} (unsigned int \mbox{\hyperlink{_state_8h_af1ee17c0956f0fbad7ddac68c0a7bdc8}{max\+Speed}}=70, int mot\+Select=0, bool optim=0)
 \begin{DoxyCompactList}\small\item\em Linearity ramp meassurement state machine. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_drive_class_a4c83206ea5d62c72eaccdbdf2bc619fb}\label{class_drive_class_a4c83206ea5d62c72eaccdbdf2bc619fb}} 
-const char $\ast$ {\bfseries print\+State\+\_\+deadband} ()
+const char $\ast$ \mbox{\hyperlink{class_drive_class_a4c83206ea5d62c72eaccdbdf2bc619fb}{print\+State\+\_\+deadband}} ()
 \item 
-\mbox{\Hypertarget{class_drive_class_ab72727a4e72fa804c610868d9ed25fe3}\label{class_drive_class_ab72727a4e72fa804c610868d9ed25fe3}} 
-const char $\ast$ {\bfseries print\+State\+\_\+ramp} ()
+const char $\ast$ \mbox{\hyperlink{class_drive_class_ab72727a4e72fa804c610868d9ed25fe3}{print\+State\+\_\+ramp}} ()
 \end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{class_drive_class_ad54982e8f532f5330038e817f85803f6}{pid\+\_\+\+Set1}} = 0
+\item 
+double \mbox{\hyperlink{class_drive_class_ac334a2786dab7b0012bcbed9362af3eb}{pid\+\_\+\+In1}} = 0
+\item 
+double \mbox{\hyperlink{class_drive_class_a029425aedf46cfd45533255750ea5fa2}{pid\+\_\+\+Out1}} = 0
+\begin{DoxyCompactList}\small\item\em Define signals for speed PID reg on motor 1. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_drive_class_aec36216d760299b9ef19de2470ccd97d}{pid\+\_\+\+Set2}} = 0
+\item 
+double \mbox{\hyperlink{class_drive_class_aba97a141968bbc06bf6963226f8c84a0}{pid\+\_\+\+In2}} = 0
+\item 
+double \mbox{\hyperlink{class_drive_class_a3644e3c2fbbf291a54ba3875a9d8d859}{pid\+\_\+\+Out2}} = 0
+\begin{DoxyCompactList}\small\item\em Define signals for speed PID reg on motor 2. \end{DoxyCompactList}\item 
+PID \mbox{\hyperlink{class_drive_class_adc25d7e18fba0c6faa7bbc1e4a071a58}{pid1}}
+\begin{DoxyCompactList}\small\item\em PID object for motor 1. \end{DoxyCompactList}\item 
+PID \mbox{\hyperlink{class_drive_class_a1522b8234dfaea99d1d77e4730fe895f}{pid2}}
+\begin{DoxyCompactList}\small\item\em PID object for motor 2. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -352,6 +378,18 @@ Linearity ramp meassurement state machine.
 \begin{DoxyReturn}{Returns}
 true after end of meassurement -\/ state enum is in its last state (End) 
 \end{DoxyReturn}
+\mbox{\Hypertarget{class_drive_class_a4c83206ea5d62c72eaccdbdf2bc619fb}\label{class_drive_class_a4c83206ea5d62c72eaccdbdf2bc619fb}} 
+\index{DriveClass@{DriveClass}!printState\_deadband@{printState\_deadband}}
+\index{printState\_deadband@{printState\_deadband}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{printState\_deadband()}{printState\_deadband()}}
+{\footnotesize\ttfamily const char $\ast$ Drive\+Class\+::print\+State\+\_\+deadband (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_drive_class_ab72727a4e72fa804c610868d9ed25fe3}\label{class_drive_class_ab72727a4e72fa804c610868d9ed25fe3}} 
+\index{DriveClass@{DriveClass}!printState\_ramp@{printState\_ramp}}
+\index{printState\_ramp@{printState\_ramp}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{printState\_ramp()}{printState\_ramp()}}
+{\footnotesize\ttfamily const char $\ast$ Drive\+Class\+::print\+State\+\_\+ramp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
 \mbox{\Hypertarget{class_drive_class_accb2b97167cad8aa4d927dc6c6e1eb16}\label{class_drive_class_accb2b97167cad8aa4d927dc6c6e1eb16}} 
 \index{DriveClass@{DriveClass}!rampInit@{rampInit}}
 \index{rampInit@{rampInit}!DriveClass@{DriveClass}}
@@ -414,6 +452,73 @@ Increment speed when timer \texorpdfstring{$>$}{>}= time\+Slope (defined when ca
 \begin{DoxyWarning}{Warning}
 ramp\+Init has to be done and all functions which uses ramp\+Update have to set ramp\+Init to false after end of procedure 
 \end{DoxyWarning}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_drive_class_adc25d7e18fba0c6faa7bbc1e4a071a58}\label{class_drive_class_adc25d7e18fba0c6faa7bbc1e4a071a58}} 
+\index{DriveClass@{DriveClass}!pid1@{pid1}}
+\index{pid1@{pid1}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{pid1}{pid1}}
+{\footnotesize\ttfamily PID Drive\+Class\+::pid1}
+
+
+
+PID object for motor 1. 
+
+\mbox{\Hypertarget{class_drive_class_a1522b8234dfaea99d1d77e4730fe895f}\label{class_drive_class_a1522b8234dfaea99d1d77e4730fe895f}} 
+\index{DriveClass@{DriveClass}!pid2@{pid2}}
+\index{pid2@{pid2}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{pid2}{pid2}}
+{\footnotesize\ttfamily PID Drive\+Class\+::pid2}
+
+
+
+PID object for motor 2. 
+
+\mbox{\Hypertarget{class_drive_class_ac334a2786dab7b0012bcbed9362af3eb}\label{class_drive_class_ac334a2786dab7b0012bcbed9362af3eb}} 
+\index{DriveClass@{DriveClass}!pid\_In1@{pid\_In1}}
+\index{pid\_In1@{pid\_In1}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{pid\_In1}{pid\_In1}}
+{\footnotesize\ttfamily double Drive\+Class\+::pid\+\_\+\+In1 = 0}
+
+\mbox{\Hypertarget{class_drive_class_aba97a141968bbc06bf6963226f8c84a0}\label{class_drive_class_aba97a141968bbc06bf6963226f8c84a0}} 
+\index{DriveClass@{DriveClass}!pid\_In2@{pid\_In2}}
+\index{pid\_In2@{pid\_In2}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{pid\_In2}{pid\_In2}}
+{\footnotesize\ttfamily double Drive\+Class\+::pid\+\_\+\+In2 = 0}
+
+\mbox{\Hypertarget{class_drive_class_a029425aedf46cfd45533255750ea5fa2}\label{class_drive_class_a029425aedf46cfd45533255750ea5fa2}} 
+\index{DriveClass@{DriveClass}!pid\_Out1@{pid\_Out1}}
+\index{pid\_Out1@{pid\_Out1}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{pid\_Out1}{pid\_Out1}}
+{\footnotesize\ttfamily double Drive\+Class\+::pid\+\_\+\+Out1 = 0}
+
+
+
+Define signals for speed PID reg on motor 1. 
+
+\mbox{\Hypertarget{class_drive_class_a3644e3c2fbbf291a54ba3875a9d8d859}\label{class_drive_class_a3644e3c2fbbf291a54ba3875a9d8d859}} 
+\index{DriveClass@{DriveClass}!pid\_Out2@{pid\_Out2}}
+\index{pid\_Out2@{pid\_Out2}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{pid\_Out2}{pid\_Out2}}
+{\footnotesize\ttfamily double Drive\+Class\+::pid\+\_\+\+Out2 = 0}
+
+
+
+Define signals for speed PID reg on motor 2. 
+
+\mbox{\Hypertarget{class_drive_class_ad54982e8f532f5330038e817f85803f6}\label{class_drive_class_ad54982e8f532f5330038e817f85803f6}} 
+\index{DriveClass@{DriveClass}!pid\_Set1@{pid\_Set1}}
+\index{pid\_Set1@{pid\_Set1}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{pid\_Set1}{pid\_Set1}}
+{\footnotesize\ttfamily double Drive\+Class\+::pid\+\_\+\+Set1 = 0}
+
+\mbox{\Hypertarget{class_drive_class_aec36216d760299b9ef19de2470ccd97d}\label{class_drive_class_aec36216d760299b9ef19de2470ccd97d}} 
+\index{DriveClass@{DriveClass}!pid\_Set2@{pid\_Set2}}
+\index{pid\_Set2@{pid\_Set2}!DriveClass@{DriveClass}}
+\doxysubsubsection{\texorpdfstring{pid\_Set2}{pid\_Set2}}
+{\footnotesize\ttfamily double Drive\+Class\+::pid\+\_\+\+Set2 = 0}
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

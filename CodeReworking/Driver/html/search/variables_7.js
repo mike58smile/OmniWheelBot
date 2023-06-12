@@ -1,6 +1,19 @@
 var searchData=
 [
-  ['serialmode_0',['serialMode',['../class_serial_control_class.html#a139c6d121ae69694dbb952a1482b2ecd',1,'SerialControlClass']]],
-  ['serialmodeprint_1',['SerialModePrint',['../class_serial_control_class.html#aa97e210e6b8fdea11a6a5d7d446e0375',1,'SerialControlClass']]],
-  ['speedrampdelaycalib_2',['SpeedRampDelayCalib',['../_drive_8h.html#aabb5eb13d6075d416b5e86c1b6a285ad',1,'Drive.h']]]
+  ['m1_5flen_0',['M1_LEN',['../class_state_class.html#ab96e1530e232f39c448d858542f7bf1b',1,'StateClass']]],
+  ['m1_5flpwm_1',['M1_LPWM',['../class_state_class.html#af16be3bdd352108b7e52b9b300426f8a',1,'StateClass']]],
+  ['m1_5fren_2',['M1_REN',['../class_state_class.html#a156fcf286de2fdf99c872d6608dff63c',1,'StateClass']]],
+  ['m1_5frpwm_3',['M1_RPWM',['../class_state_class.html#a47c9036fe4870e6fde16dd6f38193bd4',1,'StateClass']]],
+  ['m2_5flen_4',['M2_LEN',['../class_state_class.html#a1ca40a1d19e74952e21cda379b408a98',1,'StateClass']]],
+  ['m2_5flpwm_5',['M2_LPWM',['../class_state_class.html#a1fbf971a698983c471cf6bf43dc8f15a',1,'StateClass']]],
+  ['m2_5fren_6',['M2_REN',['../class_state_class.html#adc78988989cc925ec01ebc53b655255f',1,'StateClass']]],
+  ['m2_5frpwm_7',['M2_RPWM',['../class_state_class.html#a1fc7cb0bd50e37191b2dbd79170dd717',1,'StateClass']]],
+  ['maxspeed_8',['maxSpeed',['../_state_8h.html#af1ee17c0956f0fbad7ddac68c0a7bdc8',1,'State.h']]],
+  ['meas_9',['meas',['../class_state_class.html#af71942d5a7ee612dfa4ca7883392dd83',1,'StateClass']]],
+  ['motor1deadbandpwm_10',['motor1DeadBandPWM',['../class_state_class.html#a5ac9eef8d2090a6339f349a3bb78aa49',1,'StateClass']]],
+  ['motor1deadbandreal_11',['motor1DeadBandReal',['../class_state_class.html#a80224cd0333fc8c57507fd3c126dda96',1,'StateClass']]],
+  ['motor2deadbandpwm_12',['motor2DeadBandPWM',['../class_state_class.html#ae0cb1fa57240aeece9e15b302e909530',1,'StateClass']]],
+  ['motor2deadbandreal_13',['motor2DeadBandReal',['../class_state_class.html#a21f7edb723246a6d12b225928c8edeb2',1,'StateClass']]],
+  ['motordeadbandpwm_14',['motorDeadBandPWM',['../class_state_class.html#afc7517372f0c836ea25c5eb441c6177f',1,'StateClass']]],
+  ['motselect_15',['motSelect',['../struct_state_class_1_1_meas.html#a1eac1ac7feda1471bbe85a2edceadf13',1,'StateClass::Meas']]]
 ];

@@ -72,8 +72,7 @@ $(function() {
   <div class="headertitle"><div class="title">Documentation for Motor driver of OmniWheel robot </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p >project_hierarchy.gv "Pic.1 - Files hierarchy of the project"</p>
-<h1><a class="anchor" id="autotoc_md0"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md0"></a>
 Brief</h1>
 <p >This driver controls 2 motors, read data from their encoders and communicate with the main controler.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
@@ -84,24 +83,41 @@ Recieve message format</h2>
 <h3><a class="anchor" id="autotoc_md3"></a>
 Mode:</h3>
 <ul>
-<li>Stop:<ul>
+<li>Stop: (Stops motors)<ul>
 <li>0 (Value used for state determination)</li>
 </ul>
 </li>
-<li>Wait:<ul>
+<li>Wait: (Idle)<ul>
 <li>1 (Value used for state determination)</li>
 </ul>
 </li>
-<li>SpeedPWM:<ul>
+<li>SpeedPWM: (Set required PWM spd to motors)<ul>
 <li>2 (Value used for state determination)</li>
 <li>16 bit int (normal int) = Speed of first motor in PWM (0 - 255)</li>
 <li>16 bit int (normal int) = Speed of second motor in PWM (0 - 255)</li>
 </ul>
 </li>
-<li>SpeedReal:<ul>
+<li>SpeedReal: (Set required spd [ENC] to regulator - to calculate regulator action)<ul>
 <li>3 (Value used for state determination)</li>
-<li>float = Speed of first motor in rad/s</li>
-<li>float = Speed of second motor in rad/s </li>
+<li>int = Speed of first motor [ENC]</li>
+<li>int = Speed of second motor [ENC]</li>
+</ul>
+</li>
+<li>ChangeConstPID: (Change PID constants)<ul>
+<li>4 (Value used for state determination)</li>
+<li>float = value to increment Kp</li>
+<li>float = value to increment Ki</li>
+<li>float = value to increment Kd</li>
+</ul>
+</li>
+<li>CalibDeadBand: (Turn on deadband calibration)<ul>
+<li>5 (Value used for state determination)</li>
+</ul>
+</li>
+<li>Meas: (Turn on meassurement)<ul>
+<li>10 (Value used for state determination)</li>
+<li>int = which motor (0/1)</li>
+<li>int = which meassurement</li>
 </ul>
 </li>
 </ul>
@@ -110,13 +126,12 @@ To do:</h1>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Currently</h2>
 <ul>
-<li>add doxygen doc to SerialControl class</li>
-<li>Repair real speed calculation </li>
+<li>Add docummentation to state machines (Serial, Meas) </li>
 </ul>
 <h2><a class="anchor" id="autotoc_md6"></a>
 In the future</h2>
 <ul>
-<li>Self meassure deadband - pwm sensitivity of regulator</li>
+<li>Self meassure deadband - pwm sensitivity of regulator - Almost done - use CalibDeadBand</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Be aware of:</h1>

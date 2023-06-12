@@ -37,7 +37,7 @@ void loop() {
 		Movements.gyroTest();
 #endif
 	//Comm.SerialDebug();
-	Comm.loop();
+	//Comm.loop();
 	//SerialControl.loop();
 	IR.control();
 	//Movements.gyroTest();

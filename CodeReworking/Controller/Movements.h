@@ -1,4 +1,11 @@
-// Movements.h
+/*****************************************************************//**
+ * \file   Movements.h
+ * \brief  Movements class header
+ * \details Class implementing kinematics calculations and advanced movements
+ * 
+ * \author xmisko06
+ * \date   May 2023
+ *********************************************************************/
 
 #ifndef _MOVEMENTS_h
 #define _MOVEMENTS_h
@@ -37,12 +44,12 @@ class MovementsClass
 	 
 	 double pid_Set = 0, pid_In = 0, pid_Out = 0; ///< Define signals for PID gyro reg
 	 GyroClass gyro;
-	 //MPU6050 mpu6050; ///< Gyroscope MPU6050 object
-	 long timer = 0;
+	 unsigned long timer = 0;
  public:
 	 PID pid;
 
 	MovementsClass(): pid(&pid_In, &pid_Out, &pid_Set, State.Kp, State.Ki, State.Kd, DIRECT){}
+
 	void init();
 	void circle(float spd, float radius, float w);
 	void calcSpd(float spd, int alfa, float w);

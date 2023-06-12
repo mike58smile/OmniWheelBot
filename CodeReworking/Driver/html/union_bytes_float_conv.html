@@ -80,14 +80,20 @@ $(function() {
  <a href="union_bytes_float_conv.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_comm_8h_source.html">Comm.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for BytesFloatConv:</div>
+<div class="dyncontent">
+<div class="center"><img src="union_bytes_float_conv__coll__graph.png" border="0" usemap="#a_bytes_float_conv_coll__map" alt="Collaboration graph"/></div>
+<map name="a_bytes_float_conv_coll__map" id="a_bytes_float_conv_coll__map">
+<area shape="rect" title="For float to Byte conversion." alt="" coords="5,5,124,76"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a483cc0ea9d052f772e782d9db74104cb"><td class="memItemLeft" align="right" valign="top"><a id="a483cc0ea9d052f772e782d9db74104cb" name="a483cc0ea9d052f772e782d9db74104cb"></a>
-char&#160;</td><td class="memItemRight" valign="bottom"><b>buffer</b> [4]</td></tr>
+<tr class="memitem:a483cc0ea9d052f772e782d9db74104cb"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="union_bytes_float_conv.html#a483cc0ea9d052f772e782d9db74104cb">buffer</a> [4]</td></tr>
 <tr class="separator:a483cc0ea9d052f772e782d9db74104cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a175ee12066cdbd117db561bba4ed7fe0"><td class="memItemLeft" align="right" valign="top"><a id="a175ee12066cdbd117db561bba4ed7fe0" name="a175ee12066cdbd117db561bba4ed7fe0"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>floatValue</b></td></tr>
+<tr class="memitem:a175ee12066cdbd117db561bba4ed7fe0"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="union_bytes_float_conv.html#a175ee12066cdbd117db561bba4ed7fe0">floatValue</a></td></tr>
 <tr class="separator:a175ee12066cdbd117db561bba4ed7fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -95,7 +101,36 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>floatValue</b></td><
 <dl class="section note"><dt>Note</dt><dd>Union stores value on the same memory place - we wrote to floatValue and read from buffer which points to same memmorhy location as float so we read float value but outside it is considered char (buffer) </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>If different architecture - char may be different from float </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Get pointer to memmory where the float is located and converse it to char </dd></dl>
-</div><hr/>The documentation for this union was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a483cc0ea9d052f772e782d9db74104cb" name="a483cc0ea9d052f772e782d9db74104cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a483cc0ea9d052f772e782d9db74104cb">&#9670;&#160;</a></span>buffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char BytesFloatConv::buffer[4]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a175ee12066cdbd117db561bba4ed7fe0" name="a175ee12066cdbd117db561bba4ed7fe0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a175ee12066cdbd117db561bba4ed7fe0">&#9670;&#160;</a></span>floatValue</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float BytesFloatConv::floatValue</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this union was generated from the following file:<ul>
 <li><a class="el" href="_comm_8h_source.html">Comm.h</a></li>
 </ul>
 </div><!-- contents -->

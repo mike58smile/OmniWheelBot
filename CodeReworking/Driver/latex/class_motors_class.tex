@@ -9,18 +9,25 @@ Class directly controling motors.
 
 {\ttfamily \#include $<$Motors.\+h$>$}
 
+
+
+Collaboration diagram for Motors\+Class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{class_motors_class__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \mbox{\hyperlink{class_motors_class_a876ccfb589e9a826276bde4f9a99ba31}{init}} ()
 \begin{DoxyCompactList}\small\item\em Initialize motor pinouts and motor driver. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_motors_class_a0fe90b15769d3f1f219da0c2f4015f89}\label{class_motors_class_a0fe90b15769d3f1f219da0c2f4015f89}} 
-void {\bfseries Stop} ()
+void \mbox{\hyperlink{class_motors_class_a0fe90b15769d3f1f219da0c2f4015f89}{Stop}} ()
 \begin{DoxyCompactList}\small\item\em Stop Motor (Puts HIGH on motor inputs) \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_motors_class_a70605092d428f680bac44f44d1bb52de}{Speed\+Single}} (bool mot\+Select, int Spd)
 \begin{DoxyCompactList}\small\item\em Set Speed of single motor. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_motors_class_a2a742a3a0072e0933853e2517d267fdd}\label{class_motors_class_a2a742a3a0072e0933853e2517d267fdd}} 
-void {\bfseries Speed} (int Spd1, int Spd2)
+void \mbox{\hyperlink{class_motors_class_a2a742a3a0072e0933853e2517d267fdd}{Speed}} (int Spd1, int Spd2)
 \begin{DoxyCompactList}\small\item\em Set Speed of both motors. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -41,6 +48,16 @@ Initialize motor pinouts and motor driver.
 \begin{DoxyNote}{Note}
 Use in void setup() 
 \end{DoxyNote}
+\mbox{\Hypertarget{class_motors_class_a2a742a3a0072e0933853e2517d267fdd}\label{class_motors_class_a2a742a3a0072e0933853e2517d267fdd}} 
+\index{MotorsClass@{MotorsClass}!Speed@{Speed}}
+\index{Speed@{Speed}!MotorsClass@{MotorsClass}}
+\doxysubsubsection{\texorpdfstring{Speed()}{Speed()}}
+{\footnotesize\ttfamily void Motors\+Class\+::\+Speed (\begin{DoxyParamCaption}\item[{int}]{Spd1,  }\item[{int}]{Spd2 }\end{DoxyParamCaption})}
+
+
+
+Set Speed of both motors. 
+
 \mbox{\Hypertarget{class_motors_class_a70605092d428f680bac44f44d1bb52de}\label{class_motors_class_a70605092d428f680bac44f44d1bb52de}} 
 \index{MotorsClass@{MotorsClass}!SpeedSingle@{SpeedSingle}}
 \index{SpeedSingle@{SpeedSingle}!MotorsClass@{MotorsClass}}
@@ -58,6 +75,16 @@ Set Speed of single motor.
 {\em Spd} & Speed in PWM \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{class_motors_class_a0fe90b15769d3f1f219da0c2f4015f89}\label{class_motors_class_a0fe90b15769d3f1f219da0c2f4015f89}} 
+\index{MotorsClass@{MotorsClass}!Stop@{Stop}}
+\index{Stop@{Stop}!MotorsClass@{MotorsClass}}
+\doxysubsubsection{\texorpdfstring{Stop()}{Stop()}}
+{\footnotesize\ttfamily void Motors\+Class\+::\+Stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Stop Motor (Puts HIGH on motor inputs) 
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

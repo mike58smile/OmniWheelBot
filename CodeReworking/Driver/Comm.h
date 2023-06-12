@@ -19,10 +19,20 @@
 #include <Wire.h>
 #include <i2cdetect.h>
 
-constexpr auto BaudRate = 115200;
+constexpr auto BaudRate = 115200; ///< Baudrate speed
+
+/**
+ * \brief Read 16bit int from master I2C
+ * \return int
+ */
 inline int WireReadI() {
 	return Wire.read() | Wire.read() << 8;
 }
+
+/**
+ * \brief Write 16bit int to master I2C
+ * \param int
+ */
 inline void WireWriteI(int iValue) {
 	Wire.write(iValue);
 	Wire.write((iValue >> 8));
@@ -39,12 +49,20 @@ inline union BytesFloatConv {
 	float floatValue; //size is also 4 bytes
 } bytesFloatConv;
 
+/**
+ * \brief Read 16bit int from master I2C
+ * \return int
+ */
 inline float WireReadF() {
 	for (int i = 0; i < 4; ++i)
 		bytesFloatConv.buffer[i] = Wire.read();
 	return bytesFloatConv.floatValue;
 }
 
+/**
+ * \brief Write 32bit float to master I2C
+ * \param int
+ */
 inline void WireWriteF(float fValue) {
 	bytesFloatConv.floatValue = fValue;
 	Wire.write(bytesFloatConv.buffer, 4);

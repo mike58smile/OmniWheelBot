@@ -1,0 +1,7 @@
+<map id="Motors.h" name="Motors.h">
+<area shape="rect" id="node1" title="Motors class header." alt="" coords="113,5,185,31"/>
+<area shape="rect" id="node2" href="$_drive_8h.html" title="Drive class header." alt="" coords="68,79,131,105"/>
+<area shape="rect" id="node5" href="$_motors_8cpp.html" title="Motors class source file." alt="" coords="155,79,241,105"/>
+<area shape="rect" id="node3" href="$_comm_8cpp.html" title="Comm class source file." alt="" coords="5,153,90,178"/>
+<area shape="rect" id="node4" href="$_drive_8cpp.html" title="Drive class source file, also creates an object called Drive." alt="" coords="113,153,190,178"/>
+</map>

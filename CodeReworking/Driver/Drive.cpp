@@ -158,8 +158,6 @@ bool DriveClass::AccTillPWM_update(bool motSelect, int increment, int endSpeed, 
 
 void DriveClass::DeccTillPWM_init(bool motSelect, int timeSlope, int speedBegin, bool optim)
 {
-
-    //Motors.SpeedSingle(motSelect, speedBegin);
     rampInit(motSelect, timeSlope, speedBegin, optim);
     deccTillPWMDone[motSelect] = false;
 }
@@ -258,8 +256,8 @@ void DriveClass::loop()
     switch(State.state_comm){
     case State_comm::Stop:
         Motors.Stop();
-        //enc1.write(0); //odstranit probably
-        //enc2.write(0);//odstranit probably
+        //enc1.write(0);
+        //enc2.write(0);
         break;
     case State_comm::Wait:
         state_deadbandMeas = State_deadbandMeas::Init;
@@ -269,17 +267,6 @@ void DriveClass::loop()
         Motors.Speed(State.requiredSpeed[0], State.requiredSpeed[1]);
         break;
     case State_comm::SpeedReal:
-        //pid_In1 = State.actualRealSpeed[0];
-        //pid_Set1 = State.requiredRealSpeed[0];
-        //pid1.Compute();
-        //if (abs(roundf(pid_Out1)) < (State.motor1DeadBand[0] - 10))
-        //    pid_Out1 = sign(pid_Out1) * (State.motor1DeadBand[0] - 10);
-        // 
-        
-        //if (abs(roundf(pid_Out1)) <= 5)
-        //    actualPidOut1 = 0;
-        //else
-        //    actualPidOut1 = sign(roundf(pid_Out1))*(abs(roundf(pid_Out1)) + deadbandPWM);
         if (!pid_In1 && !pid_Set1) {
             pid1.SetMode(MANUAL);
             pid_Out1 = 0;
@@ -293,7 +280,6 @@ void DriveClass::loop()
         else pid2.SetMode(AUTOMATIC);
         Motors.Speed(PWMtoOptimizedPWM(roundf(pid_Out1)), PWMtoOptimizedPWM(roundf(pid_Out2))); //use linearized system
         //Motors.Speed(roundf(pid_Out1), roundf(pid_Out2)); //dont use linearized system
-        
         //use pid to set real speed
         break;
     case State_comm::Meas:
@@ -317,10 +303,6 @@ void DriveClass::loop()
     case State_comm::Meas1:
         Meassure_linearityRamp(50, State.meas.motSelect, 1);
         break;
-    //case State_comm::ChangeConstPID: //Change PID constants
-    //    pid1.SetTunings(State.Kp_1, State.Ki_1, State.Kd_1); //Constants should be already updated
-    //    State.state_comm = State.state_commPrev; //So it is here only once
-    //    break;
     default:
         break;
     }//{roundf(pid_Out1)} {commStatePrint}
@@ -329,6 +311,13 @@ void DriveClass::loop()
 DriveClass Drive{};
 
 //Garbage:
+    //Motors.SpeedSingle(motSelect, speedBegin);
+
+//case State_comm::ChangeConstPID: //Change PID constants
+//    pid1.SetTunings(State.Kp_1, State.Ki_1, State.Kd_1); //Constants should be already updated
+//    State.state_comm = State.state_commPrev; //So it is here only once
+//    break;
+
     //case State_deadbandMeas::Motor1_b:
     //    Serial.println("in 1_b");
 

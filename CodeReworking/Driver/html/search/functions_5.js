@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['rampinit_0',['rampInit',['../class_drive_class.html#accb2b97167cad8aa4d927dc6c6e1eb16',1,'DriveClass::rampInit(bool motSelect, int timeSlope)'],['../class_drive_class.html#ab811e50a84a704824e37a8b2a6429aaf',1,'DriveClass::rampInit(bool motSelect, int timeSlope, int SpeedBegin, bool optim=0)']]],
-  ['rampupdate_1',['rampUpdate',['../class_drive_class.html#ad18a96b8cc9762cc931aa3d6cf868669',1,'DriveClass']]],
-  ['receivedata_2',['receiveData',['../_comm_8cpp.html#ae8cf89abd23293e8367e245bdc60e669',1,'Comm.cpp']]],
-  ['requestevent_3',['requestEvent',['../_comm_8cpp.html#ac10b80b8aaeaf66cecbf0bb5eff5ae33',1,'Comm.cpp']]]
+  ['meassure_5fdeadband_0',['Meassure_deadband',['../class_drive_class.html#a875eeb410726a45e69096513210b7889',1,'DriveClass']]],
+  ['meassure_5flinearityramp_1',['Meassure_linearityRamp',['../class_drive_class.html#a9564de87aa1cad0f4c1461746b9f0c3c',1,'DriveClass']]]
 ];

@@ -95,23 +95,157 @@ void IRClass::control()
     bool readIR = read();
     if (readIR) {
         switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
-        case MUTE:
-            State.state_movement = State_movement::Meas;
+        case STANDBY_MAIN:
+            State.GyroRegON = 0;
             break;
-        case FAST_BACKWARD:
+        case ON_MAIN:
+            State.GyroRegON = 1;
+            break;
+        case MUTE:
+            //State.state_movement = State_movement::Meas;
+            State.state_movement = State_movement::ShowTime_Dir;
+            break;
+        case PLAY:
+            State.state_movement = State_movement::ShowTime_Circ;
+            break;
+        case INTERNET_RADIO:
             State.state_movement = State_movement::IR_movement;
             break;
-        case PAUSE:
+        case PRESET_1:
             State.state_movement = State_movement::CalcSpd;
             break;
-        case STOP:
+        case PRESET_2:
             State.state_movement = State_movement::Circle;
             break;
-        case FAST_FORWARD:
+        case PRESET_3:
             State.state_movement = State_movement::PidGyro;
             break;
         }
     }
+
+    if (State.state_movement == State_movement::ShowTime_Dir) {
+        if (readIR) {
+            switch (currentRecievedFlag) {
+            case UP: //UP
+                Serial.println("UP");
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 0;
+                break;
+            case CH_LEVEL:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 45;
+                break;
+            case RIGHT:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 90;//225;
+                break;
+            case RETURN:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 135;
+                break;
+            case DOWN:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 180;
+                break;
+            case SEARCH:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 225;
+                break;
+            case LEFT:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 270;
+                break;
+            case MENU:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 315;
+                break;
+            case FORWARD:
+                if (!State.wantedW || State.wantedW > 0) State.wantedW = -1.3;
+                break;
+            case BACKWARD:
+                if (!State.wantedW || State.wantedW < 0) State.wantedW = 1.3;
+                break;
+            case ENTER: //ENTER
+                Serial.println("ENTER");
+                State.wantedV = 0;
+                State.wantedW = 0;
+                break;
+            }
+        }
+        if (isSingleClick) { //true after pressed for 100ms (and kinda also on beginning)
+            switch (currentRecievedFlag) {
+            case VOL_UP:
+                State.wantedV += 0.05;
+                break;
+            case VOL_DOWN:
+                State.wantedV -= 0.05;
+                break;
+            case CH_UP:
+                State.wantedW += 0.1;
+                break;
+            case CH_DOWN:
+                State.wantedW -= 0.1;
+                break;
+            case FAST_FORWARD:
+                State.gyroUpdateMS += 10;
+                break;
+            case FAST_BACKWARD:
+                State.gyroUpdateMS -= 10;
+                break;
+            }
+        }
+    }
+
+    if (State.state_movement == State_movement::ShowTime_Circ) {
+        if (readIR) {
+            switch (currentRecievedFlag) {
+            case ENTER:
+                State.wantedV = 0;
+                State.wantedW = 0;
+                State.stopCirc = 1;
+                Serial.println(" -------------------------------------------- ");
+                break;
+            case NUM_1:
+                State.wantedV = 0.45;
+                State.wantedRadius = 0.4;
+                break;
+            case NUM_2:
+                State.wantedV = 0.225;
+                State.wantedRadius = 0.4;
+                break;
+            case NUM_3:
+                State.wantedV = 0.225;
+                State.wantedRadius = 0.2;
+                break;
+            case NUM_4:
+                State.wantedV = 0.225;
+                State.wantedRadius = 0.2;
+                break;
+            case NUM_5:
+                State.wantedV = 0.225;
+                State.wantedRadius = 0.1;
+            }
+        }
+        if (isSingleClick) { //true after pressed for 100ms (and kinda also on beginning)
+            switch (currentRecievedFlag) {
+            case VOL_UP:
+                State.wantedV += 0.05;
+                break;
+            case VOL_DOWN:
+                State.wantedV -= 0.05;
+                break;
+            case CH_UP:
+                State.wantedRadius += 0.01;
+                break;
+            case CH_DOWN:
+                State.wantedRadius -= 0.01;
+                break;
+            }
+        }
+        if (State.stopCirc && (State.wantedW != 0 || State.wantedV != 0))
+            State.stopCirc = 0;
+    }
+
 
     if (State.state_movement == State_movement::Meas) {
         if (readIR) {
@@ -153,9 +287,6 @@ void IRClass::control()
             }
         }
     }
-
-
-
 
 
     if (State.state_movement == State_movement::IR_movement) {
@@ -271,22 +402,41 @@ void IRClass::control()
             }
         }
     }
-
     else if (State.state_movement == State_movement::Circle || State.state_movement == State_movement::CalcSpd) {
         if (readIR) { //True only once when new button pressed
             switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
             case UP: //UP
                 Serial.println("UP");
-                State.wantedAlfa = 0;//135;
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 0;
+                break;
+            case CH_LEVEL:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 45;
                 break;
             case RIGHT:
+                if (!State.wantedV) State.wantedV = 0.2;
                 State.wantedAlfa = 90;//225;
                 break;
+            case RETURN:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 135;
+                break;
             case DOWN:
-                State.wantedAlfa = 315;
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 180;
+                break;
+            case SEARCH:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 225;
                 break;
             case LEFT:
-                State.wantedAlfa = 45;
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 270;
+                break;
+            case MENU:
+                if (!State.wantedV) State.wantedV = 0.2;
+                State.wantedAlfa = 315;
                 break;
             case ENTER: //ENTER
                 Serial.println("ENTER");

@@ -13,17 +13,17 @@
 \DoxyCodeLine{18 }
 \DoxyCodeLine{19 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_state_8h}{State.h}}"{}}}
 \DoxyCodeLine{20 }
-\DoxyCodeLine{21 \textcolor{keyword}{enum class} SerialMode \{ Idle, Comm, Speed, RealSpeed, Kp1, Ki1, Kd1, CalibDeadBand, Meas1, Meas2, EnableSerialGet,   Size \}; }
+\DoxyCodeLine{21 \textcolor{keyword}{enum class} \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1}{SerialMode}} \{ \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1ae599161956d626eda4cb0a5ffb85271c}{Idle}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1abf48e5e2e65225ac4cc3d7a0ebbbd09b}{Comm}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1a44877c6aa8e93fa5a91c9361211464fb}{Speed}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1af2fb79596f21f3936cb91e677b1205fc}{RealSpeed}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1a34d1a180bb4f27f74654996c39a5e1ae}{Kp1}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1a8214963a4a3fee591b133f9d5aaa7fb9}{Ki1}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1a7886f8a3b615fe5fd36d61eb496b152b}{Kd1}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1add6c37949021ae4a61488edd216ff6a4}{CalibDeadBand}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1af8c1efe3dd2973c1fcc9277b9f2017fc}{Meas1}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1a9975e947bbb6d99a374a3d8f0d762214}{Meas2}}, \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1a421a96c03e486e6625deec616f0790fa}{EnableSerialGet}},   \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1a6f6cb72d544962fa333e2e34ce64f719}{Size}} \}; }
 \DoxyCodeLine{22 }
 \DoxyCodeLine{26 \textcolor{keyword}{class }\mbox{\hyperlink{class_serial_control_class}{SerialControlClass}} final}
 \DoxyCodeLine{27 \{}
 \DoxyCodeLine{28  \textcolor{keyword}{protected}:}
-\DoxyCodeLine{29      SerialMode \mbox{\hyperlink{class_serial_control_class_a139c6d121ae69694dbb952a1482b2ecd}{serialMode}} = SerialMode::Idle; }
+\DoxyCodeLine{29      \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1}{SerialMode}} \mbox{\hyperlink{class_serial_control_class_a139c6d121ae69694dbb952a1482b2ecd}{serialMode}} = SerialMode::Idle; }
 \DoxyCodeLine{30      \textcolor{comment}{//Variables used internally but needed to be zero at the beginnning}}
-\DoxyCodeLine{31      String SerialString = \textcolor{stringliteral}{"{}"{}}; }
-\DoxyCodeLine{32      \textcolor{keywordtype}{int} SerialInt = 0;}
-\DoxyCodeLine{33      \textcolor{keywordtype}{float} SerialFloat = 0;}
-\DoxyCodeLine{34      \textcolor{keywordtype}{bool} SerialGetEN = 0;}
+\DoxyCodeLine{31      String \mbox{\hyperlink{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}{SerialString}} = \textcolor{stringliteral}{"{}"{}}; }
+\DoxyCodeLine{32      \textcolor{keywordtype}{int} \mbox{\hyperlink{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}{SerialInt}} = 0;}
+\DoxyCodeLine{33      \textcolor{keywordtype}{float} \mbox{\hyperlink{class_serial_control_class_a5a5bd70ca7841e178981f59b86b0e67f}{SerialFloat}} = 0;}
+\DoxyCodeLine{34      \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_serial_control_class_a5196afe2249dec8565988ff89a3be72d}{SerialGetEN}} = 0;}
 \DoxyCodeLine{35 }
 \DoxyCodeLine{36  \textcolor{keyword}{public}:}
 \DoxyCodeLine{37      \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{class_serial_control_class_aa97e210e6b8fdea11a6a5d7d446e0375}{SerialModePrint}}[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(SerialMode::Size)] = \{ \textcolor{stringliteral}{"{}Idle"{}}, \textcolor{stringliteral}{"{}Comm"{}}, \textcolor{stringliteral}{"{}Speed"{}}, \textcolor{stringliteral}{"{}RealSpeed"{}}, \textcolor{stringliteral}{"{}Kp1"{}}, \textcolor{stringliteral}{"{}Ki1"{}}, \textcolor{stringliteral}{"{}Kd1"{}}, \textcolor{stringliteral}{"{}CalibDeadBand"{}}, \textcolor{stringliteral}{"{}EnableSerialGet"{}}\}; }
@@ -33,7 +33,7 @@
 \DoxyCodeLine{49      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_serial_control_class_abff1c29ded93c6908fd216ac62306c97}{loop}}();}
 \DoxyCodeLine{50 \};}
 \DoxyCodeLine{51 }
-\DoxyCodeLine{52 \textcolor{keyword}{extern} \mbox{\hyperlink{class_serial_control_class}{SerialControlClass}} SerialControl;}
+\DoxyCodeLine{52 \textcolor{keyword}{extern} \mbox{\hyperlink{class_serial_control_class}{SerialControlClass}} \mbox{\hyperlink{_serial_control_8h_adfad07e2fa5ca6c7ea7569d3946ad562}{SerialControl}};}
 \DoxyCodeLine{53 }
 \DoxyCodeLine{54 \textcolor{preprocessor}{\#endif}}
 \DoxyCodeLine{55 }

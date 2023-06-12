@@ -9,6 +9,15 @@ Class implementing driver control through UART (Serial connection)
 
 {\ttfamily \#include $<$Serial\+Control.\+h$>$}
 
+
+
+Collaboration diagram for Serial\+Control\+Class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{class_serial_control_class__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -19,26 +28,20 @@ void \mbox{\hyperlink{class_serial_control_class_abff1c29ded93c6908fd216ac62306c
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_serial_control_class_aa97e210e6b8fdea11a6a5d7d446e0375}\label{class_serial_control_class_aa97e210e6b8fdea11a6a5d7d446e0375}} 
-const char $\ast$ {\bfseries Serial\+Mode\+Print} \mbox{[}static\+\_\+cast$<$ int $>$(Serial\+Mode\+::\+Size)\mbox{]} = \{ \char`\"{}Idle\char`\"{}, \char`\"{}Comm\char`\"{}, \char`\"{}Speed\char`\"{}, \char`\"{}Real\+Speed\char`\"{}, \char`\"{}Kp1\char`\"{}, \char`\"{}Ki1\char`\"{}, \char`\"{}Kd1\char`\"{}, \char`\"{}Calib\+Dead\+Band\char`\"{}, \char`\"{}Enable\+Serial\+Get\char`\"{}\}
-\begin{DoxyCompactList}\small\item\em Used for printing main\+State enum. \end{DoxyCompactList}\end{DoxyCompactItemize}
+const char $\ast$ \mbox{\hyperlink{class_serial_control_class_aa97e210e6b8fdea11a6a5d7d446e0375}{Serial\+Mode\+Print}} \mbox{[}static\+\_\+cast$<$ int $>$(Serial\+Mode\+::\+Size)\mbox{]} = \{ \char`\"{}Idle\char`\"{}, \char`\"{}Comm\char`\"{}, \char`\"{}Speed\char`\"{}, \char`\"{}Real\+Speed\char`\"{}, \char`\"{}Kp1\char`\"{}, \char`\"{}Ki1\char`\"{}, \char`\"{}Kd1\char`\"{}, \char`\"{}Calib\+Dead\+Band\char`\"{}, \char`\"{}Enable\+Serial\+Get\char`\"{}\}
+\begin{DoxyCompactList}\small\item\em Used for printing State\+\_\+actual enum. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{class_serial_control_class_a139c6d121ae69694dbb952a1482b2ecd}\label{class_serial_control_class_a139c6d121ae69694dbb952a1482b2ecd}} 
-Serial\+Mode {\bfseries serial\+Mode} = Serial\+Mode\+::\+Idle
+\mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1}{Serial\+Mode}} \mbox{\hyperlink{class_serial_control_class_a139c6d121ae69694dbb952a1482b2ecd}{serial\+Mode}} = Serial\+Mode\+::\+Idle
 \begin{DoxyCompactList}\small\item\em Enum for Deadband calibration state machine. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}\label{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}} 
-String {\bfseries Serial\+String} = \char`\"{}\char`\"{}
+String \mbox{\hyperlink{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}{Serial\+String}} = \char`\"{}\char`\"{}
 \item 
-\mbox{\Hypertarget{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}\label{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}} 
-int {\bfseries Serial\+Int} = 0
+int \mbox{\hyperlink{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}{Serial\+Int}} = 0
 \item 
-\mbox{\Hypertarget{class_serial_control_class_a5a5bd70ca7841e178981f59b86b0e67f}\label{class_serial_control_class_a5a5bd70ca7841e178981f59b86b0e67f}} 
-float {\bfseries Serial\+Float} = 0
+float \mbox{\hyperlink{class_serial_control_class_a5a5bd70ca7841e178981f59b86b0e67f}{Serial\+Float}} = 0
 \item 
-\mbox{\Hypertarget{class_serial_control_class_a5196afe2249dec8565988ff89a3be72d}\label{class_serial_control_class_a5196afe2249dec8565988ff89a3be72d}} 
-bool {\bfseries Serial\+Get\+EN} = 0
+bool \mbox{\hyperlink{class_serial_control_class_a5196afe2249dec8565988ff89a3be72d}{Serial\+Get\+EN}} = 0
 \end{DoxyCompactItemize}
 
 
@@ -72,6 +75,53 @@ Wait for Serial available (data is sent through serial), reads data and change t
 \begin{DoxyNote}{Note}
 Use in void \mbox{\hyperlink{class_serial_control_class_abff1c29ded93c6908fd216ac62306c97}{loop()}} 
 \end{DoxyNote}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_serial_control_class_a5a5bd70ca7841e178981f59b86b0e67f}\label{class_serial_control_class_a5a5bd70ca7841e178981f59b86b0e67f}} 
+\index{SerialControlClass@{SerialControlClass}!SerialFloat@{SerialFloat}}
+\index{SerialFloat@{SerialFloat}!SerialControlClass@{SerialControlClass}}
+\doxysubsubsection{\texorpdfstring{SerialFloat}{SerialFloat}}
+{\footnotesize\ttfamily float Serial\+Control\+Class\+::\+Serial\+Float = 0\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_serial_control_class_a5196afe2249dec8565988ff89a3be72d}\label{class_serial_control_class_a5196afe2249dec8565988ff89a3be72d}} 
+\index{SerialControlClass@{SerialControlClass}!SerialGetEN@{SerialGetEN}}
+\index{SerialGetEN@{SerialGetEN}!SerialControlClass@{SerialControlClass}}
+\doxysubsubsection{\texorpdfstring{SerialGetEN}{SerialGetEN}}
+{\footnotesize\ttfamily bool Serial\+Control\+Class\+::\+Serial\+Get\+EN = 0\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}\label{class_serial_control_class_ac4b1e022cc9081e14ab092118829796e}} 
+\index{SerialControlClass@{SerialControlClass}!SerialInt@{SerialInt}}
+\index{SerialInt@{SerialInt}!SerialControlClass@{SerialControlClass}}
+\doxysubsubsection{\texorpdfstring{SerialInt}{SerialInt}}
+{\footnotesize\ttfamily int Serial\+Control\+Class\+::\+Serial\+Int = 0\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_serial_control_class_a139c6d121ae69694dbb952a1482b2ecd}\label{class_serial_control_class_a139c6d121ae69694dbb952a1482b2ecd}} 
+\index{SerialControlClass@{SerialControlClass}!serialMode@{serialMode}}
+\index{serialMode@{serialMode}!SerialControlClass@{SerialControlClass}}
+\doxysubsubsection{\texorpdfstring{serialMode}{serialMode}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_serial_control_8h_ab78caf3d1a1fc77e1145393984a03ab1}{Serial\+Mode}} Serial\+Control\+Class\+::serial\+Mode = Serial\+Mode\+::\+Idle\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Enum for Deadband calibration state machine. 
+
+\mbox{\Hypertarget{class_serial_control_class_aa97e210e6b8fdea11a6a5d7d446e0375}\label{class_serial_control_class_aa97e210e6b8fdea11a6a5d7d446e0375}} 
+\index{SerialControlClass@{SerialControlClass}!SerialModePrint@{SerialModePrint}}
+\index{SerialModePrint@{SerialModePrint}!SerialControlClass@{SerialControlClass}}
+\doxysubsubsection{\texorpdfstring{SerialModePrint}{SerialModePrint}}
+{\footnotesize\ttfamily const char$\ast$ Serial\+Control\+Class\+::\+Serial\+Mode\+Print\mbox{[}static\+\_\+cast$<$ int $>$(Serial\+Mode\+::\+Size)\mbox{]} = \{ \char`\"{}Idle\char`\"{}, \char`\"{}Comm\char`\"{}, \char`\"{}Speed\char`\"{}, \char`\"{}Real\+Speed\char`\"{}, \char`\"{}Kp1\char`\"{}, \char`\"{}Ki1\char`\"{}, \char`\"{}Kd1\char`\"{}, \char`\"{}Calib\+Dead\+Band\char`\"{}, \char`\"{}Enable\+Serial\+Get\char`\"{}\}}
+
+
+
+Used for printing State\+\_\+actual enum. 
+
+\mbox{\Hypertarget{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}\label{class_serial_control_class_ac2fed6be6cc7234cd637e767a3c416e9}} 
+\index{SerialControlClass@{SerialControlClass}!SerialString@{SerialString}}
+\index{SerialString@{SerialString}!SerialControlClass@{SerialControlClass}}
+\doxysubsubsection{\texorpdfstring{SerialString}{SerialString}}
+{\footnotesize\ttfamily String Serial\+Control\+Class\+::\+Serial\+String = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [protected]}}
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

@@ -6,20 +6,25 @@ Comm class source file.
 
 
 {\ttfamily \#include \char`\"{}Comm.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Drive.\+h\char`\"{}}\newline
+Include dependency graph for Comm.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_comm_8cpp__incl}
+\end{center}
+\end{figure}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{_comm_8cpp_ac10b80b8aaeaf66cecbf0bb5eff5ae33}\label{_comm_8cpp_ac10b80b8aaeaf66cecbf0bb5eff5ae33}} 
-void {\bfseries request\+Event} ()
+void \mbox{\hyperlink{_comm_8cpp_ac10b80b8aaeaf66cecbf0bb5eff5ae33}{request\+Event}} ()
 \begin{DoxyCompactList}\small\item\em I2C send data -\/ Wire request event. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{_comm_8cpp_ae8cf89abd23293e8367e245bdc60e669}\label{_comm_8cpp_ae8cf89abd23293e8367e245bdc60e669}} 
-void {\bfseries receive\+Data} (int x)
+void \mbox{\hyperlink{_comm_8cpp_ae8cf89abd23293e8367e245bdc60e669}{receive\+Data}} (int x)
 \begin{DoxyCompactList}\small\item\em I2C get data -\/ Wire recieve event. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{_comm_8cpp_ac79351ee46345df1fea6ae84dd802cdc}\label{_comm_8cpp_ac79351ee46345df1fea6ae84dd802cdc}} 
-\mbox{\hyperlink{class_comm_class}{Comm\+Class}} {\bfseries Comm} \{\}
+\mbox{\hyperlink{class_comm_class}{Comm\+Class}} \mbox{\hyperlink{_comm_8cpp_ac79351ee46345df1fea6ae84dd802cdc}{Comm}} \{\}
 \end{DoxyCompactItemize}
 
 
@@ -34,3 +39,35 @@ xmisko06
 \begin{DoxyDate}{Date}
 April 2023 
 \end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_comm_8cpp_ae8cf89abd23293e8367e245bdc60e669}\label{_comm_8cpp_ae8cf89abd23293e8367e245bdc60e669}} 
+\index{Comm.cpp@{Comm.cpp}!receiveData@{receiveData}}
+\index{receiveData@{receiveData}!Comm.cpp@{Comm.cpp}}
+\doxysubsubsection{\texorpdfstring{receiveData()}{receiveData()}}
+{\footnotesize\ttfamily void receive\+Data (\begin{DoxyParamCaption}\item[{int}]{x }\end{DoxyParamCaption})}
+
+
+
+I2C get data -\/ Wire recieve event. 
+
+\mbox{\Hypertarget{_comm_8cpp_ac10b80b8aaeaf66cecbf0bb5eff5ae33}\label{_comm_8cpp_ac10b80b8aaeaf66cecbf0bb5eff5ae33}} 
+\index{Comm.cpp@{Comm.cpp}!requestEvent@{requestEvent}}
+\index{requestEvent@{requestEvent}!Comm.cpp@{Comm.cpp}}
+\doxysubsubsection{\texorpdfstring{requestEvent()}{requestEvent()}}
+{\footnotesize\ttfamily void request\+Event (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+I2C send data -\/ Wire request event. 
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{_comm_8cpp_ac79351ee46345df1fea6ae84dd802cdc}\label{_comm_8cpp_ac79351ee46345df1fea6ae84dd802cdc}} 
+\index{Comm.cpp@{Comm.cpp}!Comm@{Comm}}
+\index{Comm@{Comm}!Comm.cpp@{Comm.cpp}}
+\doxysubsubsection{\texorpdfstring{Comm}{Comm}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_comm_class}{Comm\+Class}} Comm \{\}}
+
