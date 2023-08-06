@@ -11,7 +11,7 @@ var searchData=
   ['maxspeed_8',['maxSpeed',['../_state_8h.html#af1ee17c0956f0fbad7ddac68c0a7bdc8',1,'State.h']]],
   ['meas_9',['meas',['../class_state_class.html#af71942d5a7ee612dfa4ca7883392dd83',1,'StateClass']]],
   ['meas_10',['Meas',['../_state_8h.html#a5556f0a55b3d74e6c6488a16761e63e9a98755957728862eda815b91a57c6f1dd',1,'Meas():&#160;State.h'],['../struct_state_class_1_1_meas.html',1,'StateClass::Meas']]],
-  ['meas1_11',['Meas1',['../_serial_control_8h.html#ab78caf3d1a1fc77e1145393984a03ab1af8c1efe3dd2973c1fcc9277b9f2017fc',1,'Meas1():&#160;SerialControl.h'],['../_state_8h.html#a5556f0a55b3d74e6c6488a16761e63e9af8c1efe3dd2973c1fcc9277b9f2017fc',1,'Meas1():&#160;State.h']]],
+  ['meas1_11',['Meas1',['../_serial_control_8h.html#ab78caf3d1a1fc77e1145393984a03ab1af8c1efe3dd2973c1fcc9277b9f2017fc',1,'SerialControl.h']]],
   ['meas2_12',['Meas2',['../_serial_control_8h.html#ab78caf3d1a1fc77e1145393984a03ab1a9975e947bbb6d99a374a3d8f0d762214',1,'SerialControl.h']]],
   ['meassure_5fdeadband_13',['Meassure_deadband',['../class_drive_class.html#a875eeb410726a45e69096513210b7889',1,'DriveClass']]],
   ['meassure_5flinearityramp_14',['Meassure_linearityRamp',['../class_drive_class.html#a9564de87aa1cad0f4c1461746b9f0c3c',1,'DriveClass']]],

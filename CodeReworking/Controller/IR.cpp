@@ -93,6 +93,34 @@ void IRClass::control()
 {
     using namespace IR_denon; //Using DENON IR remote control
     bool readIR = read();
+    /** How to add mode?
+    * Add mode "YourMode" to State_movement enum
+    * Add case to Main mode automat (the one below)
+    * Use this construct:
+    * if (State.state_movement == State_movement::YourMode) {
+    *    //use this to define operations which should be done only once when the button in firt pressed
+    *    if (readIR) {
+    *       switch (currentRecievedFlag) {
+            case NUM_1:
+                //what to do when once pressed NUM_1
+                break;
+    *       }
+    *    }
+    *    
+    *    //use this to define operations which should be done repeatingly - like increment variable
+    *    //ignores 100 ms between last click - in that time it is FALSE, otherwise TRUE
+    *    if (isSingleClick) { //true after pressed for 100ms (and kinda also on beginning)
+    *        switch (currentRecievedFlag) {
+             case NUM_1:
+                //what to do when once pressed NUM_1
+                break;
+    *       }
+    *    }
+    * }
+    */
+
+
+    // Main mode choose automat
     if (readIR) {
         switch (currentRecievedFlag) { //could be replaced with IrReceiver.decodedIRData.decodedRawData
         case STANDBY_MAIN:
@@ -120,6 +148,28 @@ void IRClass::control()
         case PRESET_3:
             State.state_movement = State_movement::PidGyro;
             break;
+        case STOP:
+            State.state_movement = State_movement::Meas;
+            break;
+        case PAUSE:
+            State.state_movement = State_movement::MeasTypes;
+            break;
+        }
+    }
+
+    if (State.state_movement == State_movement::MeasTypes) {
+        if (readIR) {
+            switch (currentRecievedFlag) {
+            case NUM_1:
+                Comm.SetMeas(MeasType::Ramp);
+                break;
+            case NUM_2:
+                Comm.SetMeas(MeasType::Ramp_optim);
+                break;
+            case NUM_3:
+                Comm.SetMeas(MeasType::Calib);
+                break;
+            }
         }
     }
 
@@ -253,24 +303,17 @@ void IRClass::control()
             case ENTER:
                 Comm.SetReal(0, 0, 0, 0);
                 break;
-            case NUM_1:
+            case NUM_4:
                 setRealSingle(State.motSelectMeas, 8);
                 //Comm.SetReal(8, 0, 0, 0);
                 break;
-            case NUM_2:
+            case NUM_5:
                 setRealSingle(State.motSelectMeas, 10);
                 //Comm.SetReal(10, 0, 0, 0);
                 break;
-            case NUM_3:
+            case NUM_6:
                 setRealSingle(State.motSelectMeas, 12);
                 //Comm.SetReal(12, 0, 0, 0);
-                break;
-            case NUM_7:
-                Comm.SetReal(14, 0, 0, 0);
-                break;
-            case NUM_8:
-                break;
-            case NUM_9:
                 break;
             case CH_UP:
                 State.motSelectMeas = 0;
@@ -283,6 +326,28 @@ void IRClass::control()
                 break;
             case VOL_DOWN:
                 State.motSelectMeas = 3;
+                break;
+            }
+        }
+        if (isSingleClick) { //true after pressed for 100ms (and kinda also on beginning)
+            switch (currentRecievedFlag) {
+            case NUM_1:
+                Comm.SetPID(add, 0, 0);
+                break;
+            case NUM_2:
+                Comm.SetPID(0, add, 0);
+                break;
+            case NUM_3:
+                Comm.SetPID(0, 0, add);
+                break;
+            case NUM_7:
+                Comm.SetPID(-add, 0, 0);
+                break;
+            case NUM_8:
+                Comm.SetPID(0, -add, 0);
+                break;
+            case NUM_9:
+                Comm.SetPID(0, 0, -add);
                 break;
             }
         }

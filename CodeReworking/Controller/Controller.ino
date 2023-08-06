@@ -37,11 +37,11 @@ void loop() {
 		Movements.gyroTest();
 #endif
 	//Comm.SerialDebug();
-	//Comm.loop();
-	//SerialControl.loop();
+	Comm.loop();
+	SerialControl.loop();
 	IR.control();
 	//Movements.gyroTest();
 	Movements.loop();
-	//Serial.println("$" + String(millis()) + " " + String(EncToRealSpd(State.actualEncSpeed[State.motSelectMeas]), 2) + " " + String(State.requiredSpeed[State.motSelectMeas], 2) + " " + String(State.actualSpeed[State.motSelectMeas]) + " " + String(State.Kp_1, 2) + " " + String(State.Ki_1, 2) + "; ");
+	Serial.println("$" + String(millis()) + " " + String(EncToRealSpd(State.actualEncSpeed[State.motSelectMeas]), 2) + " " + String(State.requiredSpeed[State.motSelectMeas], 2) + " " + String(State.actualSpeed[State.motSelectMeas]) + " " + String(State.requiredPWMSpeed[State.motSelectMeas]) + " " + String(State.Kp_1, 2) + " " + String(State.Ki_1, 2) + "; ");
 
 }

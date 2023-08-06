@@ -30,6 +30,8 @@ void SerialControlClass::loop()
             serialMode = SerialMode::Comm;
         else if (SerialString == "spd" || SerialString == "speed")
             serialMode = SerialMode::Speed;
+        else if (SerialString == "stop" || SerialString == "x")
+            serialMode = SerialMode::Speed; //Be careful it turns on the speed mode - firstly stop motors but the next number will be speed of the motors
         else if (SerialString == "kp1")
             serialMode = SerialMode::Kp1;
         else if (SerialString == "ki1")
@@ -46,7 +48,6 @@ void SerialControlClass::loop()
             serialMode = SerialMode::Meas2;
         else if (SerialString == "get") //Not working now
             serialMode = SerialMode::EnableSerialGet;
-        
         switch (serialMode) {
         case SerialMode::Comm:
             switch (SerialInt) {

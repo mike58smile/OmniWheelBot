@@ -19,6 +19,8 @@ void requestEvent()
     WireWriteI(State.actualSpeed[1]);
     WireWriteI(State.actualEncSpeed[0]);
     WireWriteI(State.actualEncSpeed[1]);
+    WireWriteI(State.requiredSpeed[0]);
+    WireWriteI(State.requiredSpeed[1]);
     //WireWriteF(State.actualRealSpeed[0]);
     //WireWriteF(State.actualRealSpeed[1]);
 }
@@ -30,32 +32,31 @@ void receiveData(int x)
 {
     if(State.state_commPrev != State.state_comm)
         State.state_commPrev = State.state_comm;
+    //state_commPrev equals previous state for one period 
     int mode = Wire.read();
     //State.tempMode = mode;
     switch (mode) {
-    case 0:
-        //stop motor (and reset PID)
+    case 0: //stop motor
         State.requiredSpeed[0] = 0;
         State.requiredSpeed[1] = 0;
         State.requiredEncSpeed[0] = 0; //Added
         State.requiredEncSpeed[0] = 0; //Added
         State.state_comm = State_comm::Stop;
         break;
-    case 1:
+    case 1: //wait
         State.state_comm = State_comm::Wait;
         break;
-    case 2:
-        //set speed
+    case 2: //set PWM speed
         State.requiredSpeed[0] = WireReadI();
         State.requiredSpeed[1] = WireReadI();
         State.state_comm = State_comm::SpeedPWM;
         break;
-    case 3:
+    case 3: //set ENC speed
         State.requiredEncSpeed[0] = WireReadI();
         State.requiredEncSpeed[1] = WireReadI();
         State.state_comm = State_comm::SpeedReal;
         break;
-    case 4:
+    case 4: //set PID consts
         State.Kp_1 += WireReadF();
         State.Ki_1 += WireReadF();
         State.Kd_1 += WireReadF();
@@ -66,7 +67,7 @@ void receiveData(int x)
         Drive.pid2.SetTunings(State.Kp_2, State.Ki_2, State.Kd_2);
         //State.state_comm = State_comm::ChangeConstPID;
         break;
-    case 5:
+    case 5: //calib deadBand test
         State.state_comm = State_comm::CalibDeadBand;
         break;
     case 10:

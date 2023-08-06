@@ -43,13 +43,13 @@ using Pin = const uint8_t;
 #define printState_actual stateArr_actual[static_cast<int>(State.state_actual)] //inline function is much better
 #define printState_measType stateArr_measType[static_cast<int>(State.meas.state_measType)] //inline function is much better
 	 
-enum class State_measType { Calib, Ramp, Ramp_optim,   Size }; ///< Meassurement type state - have to be same as in Controller, Size contains number of elements in enum, used for printing
-static const char* stateArr_measType[static_cast<int>(State_measType::Size)] = { "Calib", "Ramp", "Ramp_optim" }; ///< Array for printing meas.state_measType 
+enum class State_measType { Calib, Ramp, Ramp_optim, AccFromZero,  Size }; ///< Meassurement type state - have to be same as in Controller, Size contains number of elements in enum, used for printing
+static const char* stateArr_measType[static_cast<int>(State_measType::Size)] = { "Calib", "Ramp", "Ramp_optim" "AccFromZero" }; ///< Array for printing meas.state_measType 
 
 enum class State_actual { Setup, Speed, Stop, Size }; ///< Actual state in which the driver operates, Size contains number of elements in enum, used for printing, Size contains number of elements in enum, used for printing
 static const char* stateArr_actual[static_cast<int>(State_actual::Size)] = { "Setup", "Speed", "Stop" }; ///< Array for printing state_actual
 
-enum class State_comm { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Meas1, Unknown, Meas, Size }; ///< Communication state in which controller wants the driver to be in, only changed in Comm and SerialControl, Size contains number of elements in enum, used for printing
+enum class State_comm { Stop, Wait, SpeedPWM, SpeedReal, ChangeConstPID, CalibDeadBand, Unknown, Meas, Size }; ///< Communication state in which controller wants the driver to be in, only changed in Comm and SerialControl, Size contains number of elements in enum, used for printing
 static const char* stateArr_comm[static_cast<int>(State_comm::Size)] = { "Stop", "Wait", "SpeedPWM", "SpeedReal", "ChangeConstPID", "CalibDeadBand", "Unknown" }; ///< Array for printing state_comm
 
 /**
@@ -85,8 +85,6 @@ class StateClass
 	 static Pin Enc1_2 = 12;
 	 static Pin Enc2_1 = 3;
 	 static Pin Enc2_2 = A0;
-
-
 
 	 int motor1DeadBandPWM[2] = { 0,0 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 1 starts rotating
 	 int motor2DeadBandPWM[2] = { 0,0 }; ///< [forward,backward] - What is the minimum PWM value on which Motor 2 starts rotating

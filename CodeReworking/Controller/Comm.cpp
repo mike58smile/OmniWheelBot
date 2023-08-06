@@ -26,21 +26,21 @@ void CommClass::init()
  */
 void CommClass::loop()
 {
-    Wire.requestFrom(State.adress[0], countBytes(4, 0)); //Need to change countBytes, maybe use macro __SIZEOF_FLOAT__ and also for int
+    Wire.requestFrom(State.adress[0], countBytes(6, 0)); //Need to change countBytes, maybe use macro __SIZEOF_FLOAT__ and also for int
 	State.actualSpeed[0] = WireReadI();
 	State.actualSpeed[1] = WireReadI();
     State.actualEncSpeed[0] = WireReadI();
     State.actualEncSpeed[1] = WireReadI();
-    //State.actualRealSpeed[0] = WireReadF();
-	//State.actualRealSpeed[1] = WireReadF();
+    State.requiredPWMSpeed[0] = WireReadI();
+    State.requiredPWMSpeed[1] = WireReadI();
 
-    Wire.requestFrom(State.adress[1], countBytes(4, 0)); //Need to change countBytes
+    Wire.requestFrom(State.adress[1], countBytes(6, 0)); //Need to change countBytes
     State.actualSpeed[3] = WireReadI();
     State.actualSpeed[2] = WireReadI();
     State.actualEncSpeed[3] = WireReadI();
     State.actualEncSpeed[2] = WireReadI();
-    //State.actualRealSpeed[2] = WireReadF();
-    //State.actualRealSpeed[3] = WireReadF();
+    State.requiredPWMSpeed[3] = WireReadI();
+    State.requiredPWMSpeed[2] = WireReadI();
 }
 
 void CommClass::Stop()

@@ -1,5 +1,5 @@
 \hypertarget{index_autotoc_md0}{}\doxysection{Brief}\label{index_autotoc_md0}
-This driver controls 2 motors, read data from their encoders and communicate with the main controler.\hypertarget{index_autotoc_md1}{}\doxysection{Comunication}\label{index_autotoc_md1}
+This driver controls 2 motors, read data from their encoders and communicate with the main controler. Baudrate = 115200 \hypertarget{index_autotoc_md1}{}\doxysection{Comunication}\label{index_autotoc_md1}
 \hypertarget{index_autotoc_md2}{}\doxysubsection{Recieve message format}\label{index_autotoc_md2}
 Format in which Controler sends data through I2C to this driver -\/ sent from up to bottom.\hypertarget{index_autotoc_md3}{}\doxysubsubsection{Mode\+:}\label{index_autotoc_md3}
 
@@ -40,6 +40,15 @@ Format in which Controler sends data through I2C to this driver -\/ sent from up
 \item 10 (Value used for state determination)
 \item int = which motor (0/1)
 \item int = which meassurement
+\begin{DoxyItemize}
+\item 0 = Calib
+\item 1 = Ramp
+\item 2 = Ramp\+\_\+optim
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item Unknown\+: (Unknown state)
+\begin{DoxyItemize}
+\item ?? when something else is sent to driver
 \end{DoxyItemize}
 \end{DoxyItemize}\hypertarget{index_autotoc_md4}{}\doxysection{To do\+:}\label{index_autotoc_md4}
 \hypertarget{index_autotoc_md5}{}\doxysubsection{Currently}\label{index_autotoc_md5}

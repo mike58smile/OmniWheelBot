@@ -1,10 +1,8 @@
 \mainpage Documentation for Motor driver of OmniWheel robot
 
-
-
 # Brief
 This driver controls 2 motors, read data from their encoders and communicate with the main controler.
-
+Baudrate = 115200
 # Comunication
 ## Recieve message format
 Format in which Controler sends data through I2C to this driver - sent from up to bottom.
@@ -33,6 +31,11 @@ Format in which Controler sends data through I2C to this driver - sent from up t
     - 10 (Value used for state determination)
     - int = which motor (0/1)
     - int = which meassurement
+        - 0 = Calib
+        - 1 = Ramp
+        - 2 = Ramp_optim
+- Unknown: (Unknown state)
+    - ?? when something else is sent to driver
 
 
 # To do:

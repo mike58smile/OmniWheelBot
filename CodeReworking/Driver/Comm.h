@@ -31,7 +31,7 @@ inline int WireReadI() {
 
 /**
  * \brief Write 16bit int to master I2C
- * \param int
+ * \param iValue 16bit int
  */
 inline void WireWriteI(int iValue) {
 	Wire.write(iValue);
@@ -61,7 +61,7 @@ inline float WireReadF() {
 
 /**
  * \brief Write 32bit float to master I2C
- * \param int
+ * \param fValue 32bit float
  */
 inline void WireWriteF(float fValue) {
 	bytesFloatConv.floatValue = fValue;

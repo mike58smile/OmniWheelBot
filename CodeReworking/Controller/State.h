@@ -67,7 +67,7 @@ using Pin = const uint8_t;
 
 enum class ControlState { Stop, Wait, SpeedPWM, SpeedReal, SetPID, SetMeas, Unknown,   Size }; ///< Define CommState enum
 #define controlStatePrint State.ControlStatePrint[static_cast<int>(State.controlState)] //inline function is much better
-enum class State_movement{ IR_movement, CalcSpd, Circle, MeasGyro, PidGyro, Meas, ShowTime_Dir, ShowTime_Circ}; ///< State of required movement
+enum class State_movement{ IR_movement, CalcSpd, Circle, MeasGyro, PidGyro, Meas, ShowTime_Dir, ShowTime_Circ, MeasTypes}; ///< State of required movement
  /**
   * \brief Class for variables storage (only header, without methods)
   */
@@ -93,6 +93,7 @@ class StateClass
 	 float Kp_1 = 0.8, Ki_1 = 8, Kd_1 = 0; ///< Speed PID constants for motor 1 , Ki = 8 nice
 	 int actualSpeed[4] = { 0,0,0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite in Driver in range (0 - 255)
 	 int actualEncSpeed[4] = { 0,0,0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
+	 int requiredPWMSpeed[4] = { 0,0,0,0 }; ///< Required speed in driver [PWM]
 	 int requiredEncSpeed[4] = { 0,0,0,0 }; ///< Required speed sent to Driver [enc]
 	 float requiredSpeed[4] = { 0,0,0,0 }; ///< Required speed sent to Driver [rad/s]
 	 float actualRealSpeed[4] = { 0,0,0,0 }; ///< Actual real speed of two motors in rad/s

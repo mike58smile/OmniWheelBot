@@ -14,40 +14,42 @@
 \DoxyCodeLine{19 \textcolor{preprocessor}{\#include <Wire.h>}}
 \DoxyCodeLine{20 \textcolor{preprocessor}{\#include <i2cdetect.h>}}
 \DoxyCodeLine{21 }
-\DoxyCodeLine{22 \textcolor{keyword}{constexpr} \textcolor{keyword}{auto} \mbox{\hyperlink{_comm_8h_a4151b622256aae8998965f539958ad42}{BaudRate}} = 115200;}
-\DoxyCodeLine{23 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{_comm_8h_ae8a11cbfae42a282386aec022604ab22}{WireReadI}}() \{}
-\DoxyCodeLine{24     \textcolor{keywordflow}{return} Wire.read() | Wire.read() << 8;}
-\DoxyCodeLine{25 \}}
-\DoxyCodeLine{26 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{_comm_8h_aace372fd9457ee8cbdd74e2a5c0074e9}{WireWriteI}}(\textcolor{keywordtype}{int} iValue) \{}
-\DoxyCodeLine{27     Wire.write(iValue);}
-\DoxyCodeLine{28     Wire.write((iValue >> 8));}
-\DoxyCodeLine{29 \}}
-\DoxyCodeLine{30 }
-\DoxyCodeLine{37 \textcolor{keyword}{inline} \textcolor{keyword}{union }\mbox{\hyperlink{union_bytes_float_conv}{BytesFloatConv}} \{}
-\DoxyCodeLine{38     \textcolor{keywordtype}{char} \mbox{\hyperlink{union_bytes_float_conv_a483cc0ea9d052f772e782d9db74104cb}{buffer}}[4]; \textcolor{comment}{//size is 4 bytes}}
-\DoxyCodeLine{39     \textcolor{keywordtype}{float} \mbox{\hyperlink{union_bytes_float_conv_a175ee12066cdbd117db561bba4ed7fe0}{floatValue}}; \textcolor{comment}{//size is also 4 bytes}}
-\DoxyCodeLine{40 \} \mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}};}
-\DoxyCodeLine{41 }
-\DoxyCodeLine{42 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} \mbox{\hyperlink{_comm_8h_a4ab3d39a50c4d3a18cd262ee449d1eb1}{WireReadF}}() \{}
-\DoxyCodeLine{43     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 4; ++i)}
-\DoxyCodeLine{44         \mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}}.\mbox{\hyperlink{union_bytes_float_conv_a483cc0ea9d052f772e782d9db74104cb}{buffer}}[i] = Wire.read();}
-\DoxyCodeLine{45     \textcolor{keywordflow}{return} \mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}}.\mbox{\hyperlink{union_bytes_float_conv_a175ee12066cdbd117db561bba4ed7fe0}{floatValue}};}
-\DoxyCodeLine{46 \}}
-\DoxyCodeLine{47 }
-\DoxyCodeLine{48 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{_comm_8h_a80925e1c776ccb4d03a6bcbba55fbd9b}{WireWriteF}}(\textcolor{keywordtype}{float} fValue) \{}
-\DoxyCodeLine{49     \mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}}.\mbox{\hyperlink{union_bytes_float_conv_a175ee12066cdbd117db561bba4ed7fe0}{floatValue}} = fValue;}
-\DoxyCodeLine{50     Wire.write(\mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}}.\mbox{\hyperlink{union_bytes_float_conv_a483cc0ea9d052f772e782d9db74104cb}{buffer}}, 4);}
-\DoxyCodeLine{51 \}}
-\DoxyCodeLine{52 }
-\DoxyCodeLine{56 \textcolor{keyword}{class }\mbox{\hyperlink{class_comm_class}{CommClass}} final}
-\DoxyCodeLine{57 \{}
-\DoxyCodeLine{58  \textcolor{keyword}{public}:}
-\DoxyCodeLine{59 }
-\DoxyCodeLine{64      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}{init}}();}
-\DoxyCodeLine{65 \};}
-\DoxyCodeLine{66 }
-\DoxyCodeLine{67 \textcolor{keyword}{extern} \mbox{\hyperlink{class_comm_class}{CommClass}} \mbox{\hyperlink{_comm_8h_ac79351ee46345df1fea6ae84dd802cdc}{Comm}};}
-\DoxyCodeLine{68 }
-\DoxyCodeLine{69 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{22 \textcolor{keyword}{constexpr} \textcolor{keyword}{auto} \mbox{\hyperlink{_comm_8h_a4151b622256aae8998965f539958ad42}{BaudRate}} = 115200; }
+\DoxyCodeLine{23 }
+\DoxyCodeLine{28 \textcolor{keyword}{inline} \textcolor{keywordtype}{int} \mbox{\hyperlink{_comm_8h_ae8a11cbfae42a282386aec022604ab22}{WireReadI}}() \{}
+\DoxyCodeLine{29     \textcolor{keywordflow}{return} Wire.read() | Wire.read() << 8;}
+\DoxyCodeLine{30 \}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{36 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{_comm_8h_aace372fd9457ee8cbdd74e2a5c0074e9}{WireWriteI}}(\textcolor{keywordtype}{int} iValue) \{}
+\DoxyCodeLine{37     Wire.write(iValue);}
+\DoxyCodeLine{38     Wire.write((iValue >> 8));}
+\DoxyCodeLine{39 \}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{47 \textcolor{keyword}{inline} \textcolor{keyword}{union }\mbox{\hyperlink{union_bytes_float_conv}{BytesFloatConv}} \{}
+\DoxyCodeLine{48     \textcolor{keywordtype}{char} \mbox{\hyperlink{union_bytes_float_conv_a483cc0ea9d052f772e782d9db74104cb}{buffer}}[4]; \textcolor{comment}{//size is 4 bytes}}
+\DoxyCodeLine{49     \textcolor{keywordtype}{float} \mbox{\hyperlink{union_bytes_float_conv_a175ee12066cdbd117db561bba4ed7fe0}{floatValue}}; \textcolor{comment}{//size is also 4 bytes}}
+\DoxyCodeLine{50 \} \mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}};}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{56 \textcolor{keyword}{inline} \textcolor{keywordtype}{float} \mbox{\hyperlink{_comm_8h_a4ab3d39a50c4d3a18cd262ee449d1eb1}{WireReadF}}() \{}
+\DoxyCodeLine{57     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 4; ++i)}
+\DoxyCodeLine{58         \mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}}.\mbox{\hyperlink{union_bytes_float_conv_a483cc0ea9d052f772e782d9db74104cb}{buffer}}[i] = Wire.read();}
+\DoxyCodeLine{59     \textcolor{keywordflow}{return} \mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}}.\mbox{\hyperlink{union_bytes_float_conv_a175ee12066cdbd117db561bba4ed7fe0}{floatValue}};}
+\DoxyCodeLine{60 \}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{66 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{_comm_8h_a80925e1c776ccb4d03a6bcbba55fbd9b}{WireWriteF}}(\textcolor{keywordtype}{float} fValue) \{}
+\DoxyCodeLine{67     \mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}}.\mbox{\hyperlink{union_bytes_float_conv_a175ee12066cdbd117db561bba4ed7fe0}{floatValue}} = fValue;}
+\DoxyCodeLine{68     Wire.write(\mbox{\hyperlink{_comm_8h_a4950003fc944dbdb4916b8aa1c5f38bd}{bytesFloatConv}}.\mbox{\hyperlink{union_bytes_float_conv_a483cc0ea9d052f772e782d9db74104cb}{buffer}}, 4);}
+\DoxyCodeLine{69 \}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{74 \textcolor{keyword}{class }\mbox{\hyperlink{class_comm_class}{CommClass}} final}
+\DoxyCodeLine{75 \{}
+\DoxyCodeLine{76  \textcolor{keyword}{public}:}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{82      \textcolor{keywordtype}{void} \mbox{\hyperlink{class_comm_class_aee9c8ae3f60a08ea48bd8d6a8ca036cd}{init}}();}
+\DoxyCodeLine{83 \};}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{keyword}{extern} \mbox{\hyperlink{class_comm_class}{CommClass}} \mbox{\hyperlink{_comm_8h_ac79351ee46345df1fea6ae84dd802cdc}{Comm}};}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87 \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

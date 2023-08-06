@@ -32,8 +32,8 @@ class DriveClass final
 	 //-----------------------------Setup variables-----------------------------
 	 const int SpeedRampDelayCalib = 80; ///< 1/Slope of speed accelerating ramp during calibration - i.e. equals to 1/acceleration (when smaller - it accelerates more quickly)
 	struct OptimizedSpd {
-		unsigned int zeroPWM = 3;
-		unsigned int minPWM = 20;
+		unsigned int zeroPWM = 2;
+		unsigned int minPWM = 25;
 	} optimizedSpd;
 	 //-------------------------------------------------------------------------
 
@@ -83,7 +83,6 @@ public:
 	  * \param timeSlope 1/Slope of speed accelerating ramp
 	  * \param SpeedBegin Beginning speed of ramp - also sent to motors (when optim = 1 -> add optimizedSpd.minPWM for beginning speed)
 	  * \param optim Use optimized PWM speed
-	  * \param TimeSlope 1/Slope of speed accelerating ramp
 	  */
 	 void rampInit(bool motSelect, int timeSlope, int SpeedBegin, bool optim = 0);
 
@@ -102,7 +101,6 @@ public:
 	 /**
 	  * \brief C'tor from StateClass, also initialize Encoder and PID objects
 	  * \note This is the only constructor
-	  * \param state Reference to storage for all shared variables 
 	  */
 	 DriveClass() : enc1(State.Enc1_1, State.Enc1_2), enc2(State.Enc2_1, State.Enc2_2),
 	 pid1(&pid_In1, &pid_Out1, &pid_Set1, State.Kp_1, State.Ki_1, State.Kd_1, DIRECT), pid2(&pid_In2, &pid_Out2, &pid_Set2, State.Kp_2, State.Ki_2, State.Kd_2, DIRECT){}
@@ -254,6 +252,8 @@ public:
 	 bool Meassure_linearityRamp(unsigned int maxSpeed = 70, int motSelect = 0, bool optim = 0);
 #pragma endregion
 
+	 bool AccFromZero(int dir1, int dir2);
+
 #pragma region State_Enums
 private:
 	enum class State_deadbandMeas { Init, Motor1_f, Motor1_b, Motor2_f, Motor2_b, End,   Size } state_deadbandMeas = State_deadbandMeas::Init; ///< Enum for Deadband calibration state machine, Size contains number of elements in enum, used for printing
@@ -261,12 +261,18 @@ private:
 	
 	enum class State_rampMeas { InitDecc, Decc, InitAcc, Acc, End, Size } state_rampMeas = State_rampMeas::InitAcc; ///< Enum for ramp deadband (linearity) meassurements, used in Meassure_linearityRamp(), Size contains number of elements in enum, used for printing
 	const char* printState_rampMeas[static_cast<int>(State_rampMeas::Size)] = { "InitDecc", "Decc", "InitAcc", "Acc", "End" }; ///< Array for printing state_rampMeas
+
+	enum class State_accFromZero { Init, SlowDown, End, Size } state_accFromZero = State_accFromZero::Init;
+	const char* printState_accFromZero[static_cast<int>(State_accFromZero::Size)] = { "Init", "SlowDown", "End" };
 public:
 	inline const char* printState_deadband() {
 		return printState_deadbandMeas[static_cast<int>(state_deadbandMeas)];
 	}
 	inline const char* printState_ramp() {
-		return printState_deadbandMeas[static_cast<int>(state_deadbandMeas)];
+		return printState_rampMeas[static_cast<int>(state_rampMeas)];
+	}
+	inline const char* printState_accFZ() {
+		return printState_accFromZero[static_cast<int>(state_accFromZero)];
 	}
 #pragma endregion State_Enums - for state machines, also printing functions
 

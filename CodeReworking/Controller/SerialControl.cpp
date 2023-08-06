@@ -94,13 +94,7 @@ void SerialControlClass::loop()
             Comm.SetRealEnc(SerialFloat, 0, 0, 0);
             break;
         case SerialMode::Meas1:
-            Comm.SetMeas(MeasType::Ramp);
-            break;
-        case SerialMode::Meas2:
-            Comm.SetMeas(MeasType::Ramp_optim);
-            break;
-        case SerialMode::CalibDeadBand:
-            Comm.SetMeas(MeasType::Calib);
+           
             break;
         case SerialMode::CalcSpd:
             State.state_movement = State_movement::CalcSpd;

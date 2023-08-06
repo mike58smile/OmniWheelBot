@@ -74,7 +74,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="autotoc_md0"></a>
 Brief</h1>
-<p >This driver controls 2 motors, read data from their encoders and communicate with the main controler.</p>
+<p >This driver controls 2 motors, read data from their encoders and communicate with the main controler. Baudrate = 115200 </p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Comunication</h1>
 <h2><a class="anchor" id="autotoc_md2"></a>
@@ -117,7 +117,16 @@ Mode:</h3>
 <li>Meas: (Turn on meassurement)<ul>
 <li>10 (Value used for state determination)</li>
 <li>int = which motor (0/1)</li>
-<li>int = which meassurement</li>
+<li>int = which meassurement<ul>
+<li>0 = Calib</li>
+<li>1 = Ramp</li>
+<li>2 = Ramp_optim</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Unknown: (Unknown state)<ul>
+<li>?? when something else is sent to driver</li>
 </ul>
 </li>
 </ul>

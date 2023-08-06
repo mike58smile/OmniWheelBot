@@ -2,6 +2,11 @@
 \label{struct_state_class_1_1_meas}\index{StateClass::Meas@{StateClass::Meas}}
 
 
+Data for selected meassurement.  
+
+
+
+
 {\ttfamily \#include $<$State.\+h$>$}
 
 
@@ -17,12 +22,15 @@ Collaboration diagram for State\+Class\+::Meas\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{_state_8h_a1a7dcd795684bd7e6ae6768721747aaf}{State\+\_\+meas\+Type}} \mbox{\hyperlink{struct_state_class_1_1_meas_af98b6703a5a62cd7459eddd9fed3877e}{state\+\_\+meas\+Type}}
-\item 
+\begin{DoxyCompactList}\small\item\em Selected meassurement state. \end{DoxyCompactList}\item 
 unsigned int \mbox{\hyperlink{struct_state_class_1_1_meas_a1eac1ac7feda1471bbe85a2edceadf13}{mot\+Select}} = 0
-\item 
+\begin{DoxyCompactList}\small\item\em Selected motor for meassurement. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{struct_state_class_1_1_meas_a36cddf1b969111c010899836492d1f1e}{temp}} = 0
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Temp val used in some funciton -\/ DONT read/write from outside. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+Data for selected meassurement. 
 
 \doxysubsection{Member Data Documentation}
 \mbox{\Hypertarget{struct_state_class_1_1_meas_a1eac1ac7feda1471bbe85a2edceadf13}\label{struct_state_class_1_1_meas_a1eac1ac7feda1471bbe85a2edceadf13}} 
@@ -31,17 +39,29 @@ int \mbox{\hyperlink{struct_state_class_1_1_meas_a36cddf1b969111c010899836492d1f
 \doxysubsubsection{\texorpdfstring{motSelect}{motSelect}}
 {\footnotesize\ttfamily unsigned int State\+Class\+::\+Meas\+::mot\+Select = 0}
 
+
+
+Selected motor for meassurement. 
+
 \mbox{\Hypertarget{struct_state_class_1_1_meas_af98b6703a5a62cd7459eddd9fed3877e}\label{struct_state_class_1_1_meas_af98b6703a5a62cd7459eddd9fed3877e}} 
 \index{StateClass::Meas@{StateClass::Meas}!state\_measType@{state\_measType}}
 \index{state\_measType@{state\_measType}!StateClass::Meas@{StateClass::Meas}}
 \doxysubsubsection{\texorpdfstring{state\_measType}{state\_measType}}
 {\footnotesize\ttfamily \mbox{\hyperlink{_state_8h_a1a7dcd795684bd7e6ae6768721747aaf}{State\+\_\+meas\+Type}} State\+Class\+::\+Meas\+::state\+\_\+meas\+Type}
 
+
+
+Selected meassurement state. 
+
 \mbox{\Hypertarget{struct_state_class_1_1_meas_a36cddf1b969111c010899836492d1f1e}\label{struct_state_class_1_1_meas_a36cddf1b969111c010899836492d1f1e}} 
 \index{StateClass::Meas@{StateClass::Meas}!temp@{temp}}
 \index{temp@{temp}!StateClass::Meas@{StateClass::Meas}}
 \doxysubsubsection{\texorpdfstring{temp}{temp}}
 {\footnotesize\ttfamily int State\+Class\+::\+Meas\+::temp = 0}
+
+
+
+Temp val used in some funciton -\/ DONT read/write from outside. 
 
 
 

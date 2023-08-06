@@ -97,6 +97,11 @@ class IRClass
 	void init();
 
 	uint32_t test();
+
+	/**
+	 * \brief Define IR control behavior
+	 * \note Use 
+	 */
 	void control();
 };
 
