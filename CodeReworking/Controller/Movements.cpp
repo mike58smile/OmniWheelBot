@@ -106,10 +106,12 @@ void MovementsClass::loop()
 
 void MovementsClass::gyroTest()
 {
-    if (millis() - timer > State.gyroUpdateMS) {
-        gyro.read();
-        timer = millis();
-    }
+    //if (millis() - timer > State.gyroUpdateMS) {
+
+    //}
+    gyro.read();
+    //Serial.println("$" + String(gyro.read(),2) + ";");
+    //timer = millis();
 }
 
 void MovementsClass::gyroPid()

@@ -30,13 +30,13 @@
     <ClCompile Include="IR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Gyro.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SerialControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Movements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gyro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,13 +53,13 @@
     <ClInclude Include="IR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gyro.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SerialControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Movements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gyro.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

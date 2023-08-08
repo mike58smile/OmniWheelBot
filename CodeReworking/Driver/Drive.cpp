@@ -28,7 +28,7 @@ void DriveClass::read()
 
         State.actualEncSpeed[0] = enc1.readAndReset();
         State.actualEncSpeed[1] = enc2.readAndReset();
-       
+        //Serial.println("$" + String(millis()) + " " + String(State.actualEncSpeed[0]) + " " + String(State.actualSpeed[0]) + "; ");
         pid_In1 = State.actualEncSpeed[0];
         pid_Set1 = State.requiredEncSpeed[0];
         pid1.Compute();
@@ -78,7 +78,7 @@ void DriveClass::rampUpdate(bool motSelect, int increment, bool optim)
         State.requiredSpeed[motSelect] += increment;
         if (optim) {
             //Serial.println("rs: " + String(State.requiredSpeed[motSelect]) + " aENCs: " + String(State.actualEncSpeed[motSelect]));
-            if (abs(State.requiredSpeed[motSelect]) > optimizedSpd.zeroPWM && abs(State.requiredSpeed[motSelect]) < 50 && State.actualEncSpeed[motSelect] == 0 && ((increment > 0 && State.requiredSpeed[motSelect] > 0)||(increment < 0 && State.requiredSpeed[motSelect] < 0)) && false) {
+            if (abs(State.requiredSpeed[motSelect]) > optimizedSpd.zeroPWM && abs(State.requiredSpeed[motSelect]) < 50 && State.actualEncSpeed[motSelect] == 0 && ((increment > 0 && State.requiredSpeed[motSelect] > 0)||(increment < 0 && State.requiredSpeed[motSelect] < 0)) && true) {
                 Serial.println("Done IF");
                 requiredSpdOLD = State.requiredSpeed[motSelect];
                 while (!AccFromZero((!motSelect) ? sign(State.requiredSpeed[motSelect]) : 0, (motSelect) ? sign(State.requiredSpeed[motSelect]) : 0)) {
@@ -110,7 +110,6 @@ bool DriveClass::AccTillRotating_update(bool motSelect, int increment, unsigned 
         else {
             State.motor1DeadBandPWM[motSelect] = State.actualSpeed[motSelect];
             State.motor1DeadBandReal[motSelect] = State.actualEncSpeed[motSelect];
-            Serial.println("Speed of motor " + String(motSelect) + " after acceleration when start moving : [PWM] = " + String(State.motor1DeadBandPWM[motSelect]) + ", [ENC] = "+String(State.motor1DeadBandReal[motSelect]));
             rampInitDone[motSelect] = false;
             accTillRotatingDone[motSelect] = true;
         }
@@ -127,16 +126,17 @@ void DriveClass::DeccTillRotating_init(bool motSelect, int timeSlope, int speedB
     deccTillRotatingDone[motSelect] = false;
 }
 
+int oldSpd[2] = { 0,0 };
 bool DriveClass::DeccTillRotating_update(bool motSelect, unsigned int decrement, unsigned int endSpeed = 0)
 {
     if (!deccTillRotatingDone[motSelect]) {
         if (State.actualEncSpeed[motSelect] > endSpeed) {
             rampUpdate(motSelect, -1*sign(State.actualSpeed[motSelect])*decrement);
+            oldSpd[motSelect] = State.actualEncSpeed[motSelect];
         }
         else {
             State.motor2DeadBandPWM[motSelect] = State.actualSpeed[motSelect];
-            State.motor2DeadBandReal[motSelect] = State.actualEncSpeed[motSelect];
-            Serial.println("Speed of motor " + String(motSelect) + " after decceleration when stop moving : [PWM] = " + String(State.motor2DeadBandPWM[motSelect]) + ", [ENC] = " + String(State.motor2DeadBandReal[motSelect]));
+            State.motor2DeadBandReal[motSelect] = oldSpd[motSelect];
             rampInitDone[motSelect] = false;
             deccTillRotatingDone[motSelect] = true;
         }
@@ -158,7 +158,7 @@ void DriveClass::AccTillPWM_init(bool motSelect, int timeSlope, int speedBegin, 
 bool DriveClass::AccTillPWM_update(bool motSelect, int increment, int endSpeed, bool optim)
 {
     if (!accTillPWMDone[motSelect]) {
-        Serial.println("Should end when " + String(State.actualSpeed[motSelect]) + ">=" + String(PWMtoOptimizedPWM(endSpeed)));
+        //Serial.println("Should end when " + String(State.actualSpeed[motSelect]) + ">=" + String(PWMtoOptimizedPWM(endSpeed)));
         if (State.actualSpeed[motSelect] < (optim ? PWMtoOptimizedPWM(endSpeed) : endSpeed)) //(optim ? PWMtoOptimizedPWM(State.actualSpeed[motSelect], 3, 20) : State.actualSpeed[motSelect])
             rampUpdate(motSelect, increment, optim);
         else {
@@ -209,21 +209,30 @@ bool DriveClass::Meassure_deadband() {
     {
         bool ret = AccTillRotating_update(1, 1, 1);
         ret = AccTillRotating_update(0, 1, 1) && ret;
-        if (ret)
+        if (ret) {
+            //Serial.println("Speed of motor " + String(motSelect) + " after acceleration when start moving : [PWM] = " + String(State.motor1DeadBandPWM[motSelect]) + ", [ENC] = "+String(State.motor1DeadBandReal[motSelect]));
             state_deadbandMeas = State_deadbandMeas::Motor1_b;
+        }
         break;
     }
     case State_deadbandMeas::Motor1_b:
-        DeccTillRotating_init(0, SpeedRampDelayCalib);
-        DeccTillRotating_init(1, SpeedRampDelayCalib);
+        //DeccTillRotating_init(1, SpeedRampDelayCalib);
+        //DeccTillRotating_init(0, SpeedRampDelayCalib);
+        DeccTillPWM_init(0, SpeedRampDelayCalib);
+        DeccTillPWM_init(1, SpeedRampDelayCalib);
         state_deadbandMeas = State_deadbandMeas::Motor2_f;
         break;
     case State_deadbandMeas::Motor2_f:
     {
-        bool ret2 = DeccTillRotating_update(0, 1, 1);
-        ret2 = DeccTillRotating_update(1, 1, 1) && ret2;
-        if (ret2)
+        //bool ret2 = DeccTillRotating_update(0, 1, 1);
+        //ret2 = DeccTillRotating_update(1, 1, 1) && ret2;
+
+        bool ret2 = DeccTillPWM_update(0, 1, 0);
+        ret2 = DeccTillPWM_update(1, 1, 0) && ret2;
+        if (ret2) {
+            //Serial.println("Speed of motor " + String(motSelect) + " after decceleration when stop moving : [PWM] = " + String(State.motor2DeadBandPWM[motSelect]) + ", [ENC] = " + String(State.motor2DeadBandReal[motSelect]));
             state_deadbandMeas = State_deadbandMeas::End;
+        }
         break;
     }
     case State_deadbandMeas::End: //End of calibration of both motors - indicated by State.CalibEnd making true - After first calibration it stays in this state forever
@@ -307,7 +316,7 @@ bool DriveClass::AccFromZero(int dir1, int dir2) {
 
 void DriveClass::loop()
 {
-    Serial.println("$" + String(millis()) + " " + String(State.readSpeed) + ";");
+    //Serial.println("$" + String(millis()) + " " + String(State.readSpeed) + ";");
     //Serial.print(printState_ramp());
     //Serial.println(" accDone: " + String(accTillPWMDone[State.meas.motSelect]) + " deccDone: " + String(deccTillPWMDone[State.meas.motSelect]));
     //{printState_comm} {State.requiredSpeed[0]} {printState_commPrev}
@@ -323,20 +332,20 @@ void DriveClass::loop()
         Motors.Speed(State.requiredSpeed[0], State.requiredSpeed[1]);
         break;
     case State_comm::SpeedReal:
-        //if (!pid_In1 && !pid_Set1) {
-        //    pid1.SetMode(MANUAL);
-        //    pid_Out1 = 0;
-        //}
-        //else pid1.SetMode(AUTOMATIC);
+        if (!pid_In1 && !pid_Set1) {
+            pid1.SetMode(MANUAL);
+            pid_Out1 = 0;
+        }
+        else pid1.SetMode(AUTOMATIC);
 
-        //if (!pid_In2 && !pid_Set2) {
-        //    pid2.SetMode(MANUAL);
-        //    pid_Out2 = 0;
-        //}
-        //else pid2.SetMode(AUTOMATIC);
+        if (!pid_In2 && !pid_Set2) {
+            pid2.SetMode(MANUAL);
+            pid_Out2 = 0;
+        }
+        else pid2.SetMode(AUTOMATIC);
 
-        Motors.Speed(PWMtoOptimizedPWM(roundf(pid_Out1)), 
-                     PWMtoOptimizedPWM(roundf(pid_Out2))); 
+        Motors.Speed(PWMtoOptimizedPWM(roundf(pid_Out1)),
+                     PWMtoOptimizedPWM(roundf(pid_Out2))); //PWMtoOptimizedPWM(
         break;
     case State_comm::Wait:
         state_deadbandMeas = State_deadbandMeas::Init;

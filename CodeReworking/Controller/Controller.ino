@@ -7,8 +7,9 @@
  * \date   May 2023
  *********************************************************************/
 
-// the setup function runs once when you press reset or power the board
 
+
+#include "Gyro.h"
 
 #include "Movements.h"
 #include "Gyro.h"
@@ -18,8 +19,9 @@
 #include "SerialControl.h"
 
 //#define IR_test
-//#define Gyro_test
+#define Gyro_test
 
+// the setup function runs once when you press reset or power the board
 void setup() {
 	Comm.init();
 	Movements.init();
@@ -36,12 +38,11 @@ void loop() {
 	while (true)
 		Movements.gyroTest();
 #endif
-	//Comm.SerialDebug();
 	Comm.loop();
 	SerialControl.loop();
 	IR.control();
-	//Movements.gyroTest();
 	Movements.loop();
-	Serial.println("$" + String(millis()) + " " + String(EncToRealSpd(State.actualEncSpeed[State.motSelectMeas]), 2) + " " + String(State.requiredSpeed[State.motSelectMeas], 2) + " " + String(State.actualSpeed[State.motSelectMeas]) + " " + String(State.requiredPWMSpeed[State.motSelectMeas]) + " " + String(State.Kp_1, 2) + " " + String(State.Ki_1, 2) + "; ");
-
+	Serial.println("$" + Comm.printMeasData() + "; ");
 }
+
+	//Movements.gyroTest();

@@ -1,87 +1,97 @@
 /*****************************************************************//**
  * \file   Gyro.cpp
- * \brief  Gyro	class source file
+ * \brief  Gyro.cpp class 
  * \details Class sensing and processing the data from accelerometer/gyro MPU6050
  * 
  * \author xmisko06
- * \date   May 2023
+ * \date   August 2023
  *********************************************************************/
 
 #include "Gyro.h"
 
-
 void GyroClass::init()
 {
-    // Initialize MPU6050
-    Serial.println("Initialize MPU6050");
-    while (!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
-    {
-        Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
-        delay(500);
+    // Try to initialize!
+    if (!mpu.begin()) {
+        Serial.println("Failed to find MPU6050 chip");
+        while (1) {
+            delay(10);
+        }
+    }
+    Serial.println("MPU6050 Found!");
+
+    mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+    Serial.print("Accelerometer range set to: ");
+    switch (mpu.getAccelerometerRange()) {
+    case MPU6050_RANGE_2_G:
+        Serial.println("+-2G");
+        break;
+    case MPU6050_RANGE_4_G:
+        Serial.println("+-4G");
+        break;
+    case MPU6050_RANGE_8_G:
+        Serial.println("+-8G");
+        break;
+    case MPU6050_RANGE_16_G:
+        Serial.println("+-16G");
+        break;
+    }
+    mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+    Serial.print("Gyro range set to: ");
+    switch (mpu.getGyroRange()) {
+    case MPU6050_RANGE_250_DEG:
+        Serial.println("+- 250 deg/s");
+        break;
+    case MPU6050_RANGE_500_DEG:
+        Serial.println("+- 500 deg/s");
+        break;
+    case MPU6050_RANGE_1000_DEG:
+        Serial.println("+- 1000 deg/s");
+        break;
+    case MPU6050_RANGE_2000_DEG:
+        Serial.println("+- 2000 deg/s");
+        break;
     }
 
-    // If you want, you can set gyroscope offsets
-    // mpu.setGyroOffsetX(155);
-    // mpu.setGyroOffsetY(15);
-    // mpu.setGyroOffsetZ(15);
+    mpu.setFilterBandwidth(MPU6050_BAND_5_HZ);
+    Serial.print("Filter bandwidth set to: ");
+    switch (mpu.getFilterBandwidth()) {
+    case MPU6050_BAND_260_HZ:
+        Serial.println("260 Hz");
+        break;
+    case MPU6050_BAND_184_HZ:
+        Serial.println("184 Hz");
+        break;
+    case MPU6050_BAND_94_HZ:
+        Serial.println("94 Hz");
+        break;
+    case MPU6050_BAND_44_HZ:
+        Serial.println("44 Hz");
+        break;
+    case MPU6050_BAND_21_HZ:
+        Serial.println("21 Hz");
+        break;
+    case MPU6050_BAND_10_HZ:
+        Serial.println("10 Hz");
+        break;
+    case MPU6050_BAND_5_HZ:
+        Serial.println("5 Hz");
+        break;
+    }
 
-    // Calibrate gyroscope. The calibration must be at rest.
-    // If you don't want calibrate, comment this line.
-    mpu.calibrateGyro();
-
-    // Set threshold sensivty. Default 3.
-    // If you don't want use threshold, comment this line or set 0.
-    mpu.setThreshold(3);
-
-    // Check settings
-    checkSettings();
+    Serial.println("");
+    delay(100);
 }
 
-
-void GyroClass::checkSettings()
+float GyroClass::read()
 {
-    Serial.println();
-
-    Serial.print(" * Sleep Mode:        ");
-    Serial.println(mpu.getSleepEnabled() ? "Enabled" : "Disabled");
-
-    Serial.print(" * Clock Source:      ");
-    switch (mpu.getClockSource())
-    {
-    case MPU6050_CLOCK_KEEP_RESET:     Serial.println("Stops the clock and keeps the timing generator in reset"); break;
-    case MPU6050_CLOCK_EXTERNAL_19MHZ: Serial.println("PLL with external 19.2MHz reference"); break;
-    case MPU6050_CLOCK_EXTERNAL_32KHZ: Serial.println("PLL with external 32.768kHz reference"); break;
-    case MPU6050_CLOCK_PLL_ZGYRO:      Serial.println("PLL with Z axis gyroscope reference"); break;
-    case MPU6050_CLOCK_PLL_YGYRO:      Serial.println("PLL with Y axis gyroscope reference"); break;
-    case MPU6050_CLOCK_PLL_XGYRO:      Serial.println("PLL with X axis gyroscope reference"); break;
-    case MPU6050_CLOCK_INTERNAL_8MHZ:  Serial.println("Internal 8MHz oscillator"); break;
-    }
-
-    Serial.print(" * Gyroscope:         ");
-    switch (mpu.getScale())
-    {
-    case MPU6050_SCALE_2000DPS:        Serial.println("2000 dps"); break;
-    case MPU6050_SCALE_1000DPS:        Serial.println("1000 dps"); break;
-    case MPU6050_SCALE_500DPS:         Serial.println("500 dps"); break;
-    case MPU6050_SCALE_250DPS:         Serial.println("250 dps"); break;
-    }
-
-    Serial.print(" * Gyroscope offsets: ");
-    Serial.print(mpu.getGyroOffsetX());
-    Serial.print(" / ");
-    Serial.print(mpu.getGyroOffsetY());
-    Serial.print(" / ");
-    Serial.println(mpu.getGyroOffsetZ());
-
-    Serial.println();
+    /* Get new sensor events with the readings */
+    sensors_event_t a, g, temp;
+    mpu.getEvent(&a, &g, &temp);
+    Serial.println("$" + String(g.gyro.z, 2) + "; ");
+    return g.gyro.z;
 }
 
-float GyroClass::read(bool raw, bool useFilter)
-{
-    float sens = ((raw) ? Gyro.mpu.readRawGyro().ZAxis : Gyro.mpu.readNormalizeGyro().ZAxis)* 0.01;
-    if(useFilter) ADCFilter.Filter(sens);
-    //Serial.println(sens);
-    return sens;
-}
+
 GyroClass Gyro{};
 

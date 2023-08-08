@@ -90,7 +90,7 @@ class StateClass
 	 int wantedAlfa = 0; ///< Wanted Azimut (heading direction) [°] 
 	 bool GyroRegON = 1, stopCirc = 1;
 
-	 float Kp_1 = 0.8, Ki_1 = 8, Kd_1 = 0; ///< Speed PID constants for motor 1 , Ki = 8 nice
+	 float Kp_1 = 0, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1 , Ki = 8 nice
 	 int actualSpeed[4] = { 0,0,0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite in Driver in range (0 - 255)
 	 int actualEncSpeed[4] = { 0,0,0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
 	 int requiredPWMSpeed[4] = { 0,0,0,0 }; ///< Required speed in driver [PWM]

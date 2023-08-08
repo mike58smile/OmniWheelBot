@@ -79,6 +79,10 @@ class CommClass
 	 void SetRealEnc(int spd1, int spd2, int spd3, int spd4);
 	 void SetPID(float Kp_add, float Ki_add, float Kd_add);
 	 void SetMeas(MeasType type, int motSelect = 0);
+
+	 inline const String printMeasData() {
+		 return (String(millis()) + " " + String(EncToRealSpd(State.actualEncSpeed[State.motSelectMeas]), 2) + " " + String(State.requiredSpeed[State.motSelectMeas], 2) + " " + String(State.actualSpeed[State.motSelectMeas]) + " " + String(State.requiredPWMSpeed[State.motSelectMeas]) + " " + String(State.Kp_1, 2) + " " + String(State.Ki_1, 2));
+	 }
 };
 
 extern CommClass Comm;

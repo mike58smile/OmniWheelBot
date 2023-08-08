@@ -66,8 +66,8 @@ class StateClass
 	 
 
 // Regulator parameters
-	 double Kp_1 = 0.8, Ki_1 = 8, Kd_1 = 0; ///< Speed PID constants for motor 1
-	 double Kp_2 = 0.8, Ki_2 = 8, Kd_2 = 0; ///< Speed PID constants for motor 2
+	 double Kp_1 = 0.81, Ki_1 = 4.76, Kd_1 = 0; ///< Speed PID constants for motor 1 0.8 8
+	 double Kp_2 = 0.81, Ki_2 = 4.76, Kd_2 = 0; ///< Speed PID constants for motor 2
 
 // Define pins
 	 //Motor1
@@ -113,7 +113,7 @@ class StateClass
 		 int temp = 0; ///< Temp val used in some funciton - DONT read/write from outside
 	 } meas;
 
-	 unsigned long readSpeed = 0; ///< Speed of reading from encoders [ms]
+	 int readSpeed = 0; ///< Speed of reading from encoders [ms]
 };
 
 extern StateClass State;
