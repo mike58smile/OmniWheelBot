@@ -145,6 +145,9 @@ void IRClass::control()
         case PRESET_2:
             State.state_movement = State_movement::Circle;
             break;
+        case MP3:
+            State.state_movement = State_movement::MeasGyro;
+            break;
         case PRESET_3:
             State.state_movement = State_movement::PidGyro;
             break;

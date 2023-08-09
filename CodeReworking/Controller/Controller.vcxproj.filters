@@ -39,6 +39,9 @@
     <ClCompile Include="Gyro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NewGyro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Controller.vsarduino.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Gyro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NewGyro.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

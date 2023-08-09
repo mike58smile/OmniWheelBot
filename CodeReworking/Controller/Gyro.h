@@ -16,14 +16,15 @@
 	#include "WProgram.h"
 #endif
 
-#include <Adafruit_MPU6050.h>
-#include <Adafruit_Sensor.h>
-#include <Wire.h>
+//#include <Adafruit_MPU6050.h>
+//#include <Adafruit_Sensor.h>
+//#include <Wire.h>
 
 class GyroClass
 {
  protected:
-	 Adafruit_MPU6050 mpu;
+	// Adafruit_MPU6050 mpu;
+	// sensors_event_t a, g, temp;
  public:
 	void init();
 	float read();

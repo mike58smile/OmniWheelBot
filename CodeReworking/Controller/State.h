@@ -77,7 +77,7 @@ class StateClass
 
  public:
 	 int gyroUpdateMS = 100; ///< Period of reading from gyro
-	 float Kp = 1.1, Ki = 2, Kd = 0; ///< PID gyro constants Kp = 1.5, Ki = 1.1, Kd = 0;
+	 float Kp = 0, Ki = 3, Kd = 0; ///< PID gyro constants Kp = 1.5, Ki = 1.1, Kd = 0; ... latest kp = 1.1, ki = 2
 
 	 static Pin IRPin = 40; ///< Define IR signal recieving pin
 	 int adress[2] = { 0x10, 0x11 }; ///< Adress of drivers - 0x10 = motors 1,2 ; 0x11 = motors 3,4
@@ -88,9 +88,9 @@ class StateClass
 	 float wantedV = 0; ///< Wanted linear spd [m/s]
 	 float wantedRadius = 0.2; ///< Wanted circle trajectory diameter [m]
 	 int wantedAlfa = 0; ///< Wanted Azimut (heading direction) [°] 
-	 bool GyroRegON = 1, stopCirc = 1;
+	 bool GyroRegON = 0, stopCirc = 1;
 
-	 float Kp_1 = 0, Ki_1 = 0, Kd_1 = 0; ///< Speed PID constants for motor 1 , Ki = 8 nice
+	 float Kp_1 = 0.1, Ki_1 = 15.0, Kd_1 = 0; ///< Speed PID constants for motor 1 , Ki = 8 nice
 	 int actualSpeed[4] = { 0,0,0,0 }; ///< Actual speed in PWM of two motors which is sent by analogWrite in Driver in range (0 - 255)
 	 int actualEncSpeed[4] = { 0,0,0,0 }; ///< Actual number of encoder pulses updated every period of reading speed
 	 int requiredPWMSpeed[4] = { 0,0,0,0 }; ///< Required speed in driver [PWM]

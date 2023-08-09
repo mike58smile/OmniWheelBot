@@ -18,8 +18,8 @@
 #include "State.h"
 #include "Comm.h" // Also includes Wire.h
 #include <PID_v1.h>
-#include "Gyro.h"
-//#include <MPU6050_tockn.h>
+//#include "Gyro.h"
+#include "NewGyro.h"
 
 #define B 0.14 //chassis radius [m]
 #define R 0.025 // wheel radius [m]
@@ -43,7 +43,7 @@ class MovementsClass
 	 //********For gyro PID*************************
 	 
 	 double pid_Set = 0, pid_In = 0, pid_Out = 0; ///< Define signals for PID gyro reg
-	 GyroClass gyro;
+	 NewGyroClass gyro;
 	 unsigned long timer = 0;
  public:
 	 PID pid;

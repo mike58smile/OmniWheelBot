@@ -12,7 +12,7 @@ void MovementsClass::init()
 {
     pid.SetMode(AUTOMATIC);
     pid.SetOutputLimits(-20,20); //Set max output of PID action
-    Gyro.init();
+    gyro.init();
     Serial.println("DONE");
 }
 
@@ -46,6 +46,7 @@ void MovementsClass::calcSpd(float spd, int alfa, float w)
     w3 = (B * w + vy * cos(alfa3) - vx * sin(alfa3)) / R;
     w4 = (B * w + vy) / R;
     Comm.SetReal(w1, w2, w3, w4);
+    Serial.println("$" + String(millis()) + " " + String(alfa) + " " + String(EncToRealSpd(State.actualEncSpeed[State.motSelectMeas]), 2) + " " + String(State.requiredSpeed[State.motSelectMeas], 2) + " " + String(State.actualSpeed[State.motSelectMeas]) + "; ");
 }
 
 void MovementsClass::loop()
@@ -60,11 +61,12 @@ void MovementsClass::loop()
         break;
     case State_movement::Circle:
         gyroPid();
-        Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
+        //Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
         State.GyroRegON ? circle(State.wantedV, State.wantedRadius, pid_Out) : circle(State.wantedV, State.wantedRadius, State.wantedW);
         break;
     case State_movement::MeasGyro:
         calcSpd(0, 0, State.wantedW);
+        Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(gyro.read(), 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
         break;
     case State_movement::PidGyro:
         if ((pid.GetKp() != State.Kp) || (pid.GetKi() != State.Ki) || (pid.GetKd() != State.Kd))
@@ -91,7 +93,7 @@ void MovementsClass::loop()
             //Serial.print(" ");
             //Serial.println(State.stopCirc);
             //Serial.print(" ");
-            //Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
+            Serial.println("$" + String(millis()) + " " + String(State.wantedW) + " " + String(pid_In, 2) + " " + String(pid_Out) + " " + String(State.Kp) + " " + String(State.Ki) + " " + String(State.Kd) + " " + String(State.gyroUpdateMS) + ";"); //+ ((pid_In > 0) ? " " : "") //pred PID in
             State.GyroRegON ? circle(State.wantedV, State.wantedRadius, pid_Out) : circle(State.wantedV, State.wantedRadius, State.wantedW);
             //circle(State.wantedV, State.wantedRadius, pid_Out);
         }
@@ -106,13 +108,11 @@ void MovementsClass::loop()
 
 void MovementsClass::gyroTest()
 {
-    //if (millis() - timer > State.gyroUpdateMS) {
-
-    //}
-    gyro.read();
-    //Serial.println("$" + String(gyro.read(),2) + ";");
-    //timer = millis();
-}
+    if (millis() - timer > State.gyroUpdateMS) {
+        Serial.println("$" + String(gyro.read(), 2) + ";");
+        timer = millis();
+    }
+ }
 
 void MovementsClass::gyroPid()
 {
@@ -126,9 +126,10 @@ void MovementsClass::gyroPid()
             pid_Out = 0;
         }
         else pid.SetMode(AUTOMATIC);
+        pid.Compute();
 
-        if (fabs(pid_Set - pid_In) > 0.1)
-            pid.Compute();
+        //if (fabs(pid_Set - pid_In) > 0.1)
+        //    pid.Compute();
         timer = millis();
     }
 }

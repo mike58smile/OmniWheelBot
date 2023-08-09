@@ -8,18 +8,17 @@
  *********************************************************************/
 
 
-
-#include "Gyro.h"
+//#include "Gyro.h"
 
 #include "Movements.h"
-#include "Gyro.h"
+
 #include "State.h"
 #include "Comm.h"
 #include "IR.h"
 #include "SerialControl.h"
 
 //#define IR_test
-#define Gyro_test
+//#define Gyro_test
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -42,7 +41,7 @@ void loop() {
 	SerialControl.loop();
 	IR.control();
 	Movements.loop();
-	Serial.println("$" + Comm.printMeasData() + "; ");
+	//Serial.println("$" + Comm.printMeasData() + "; ");
 }
 
 	//Movements.gyroTest();

@@ -19,7 +19,7 @@
 /*************************************************** Setup variables *********************************************************************/
 const int maxSpeed = 220; ///< Value of maximal speed in PWM allowed for MotorsClass
 const unsigned long TimerSpeedDelay_mS = 20; ///< Speed reading from encoder time period - Change only this !!
-const int Address = 0x10;
+const int Address = 0x11;
 /*****************************************************************************************************************************************/
 const unsigned long TimerSpeedDelay_uS = TimerSpeedDelay_mS * 1000; ///< Period of reading speed (Period of TIMER_1 interrupts)
 const float num = TWO_PI / (979.2 * (TimerSpeedDelay_mS / 1000.0));
@@ -66,8 +66,8 @@ class StateClass
 	 
 
 // Regulator parameters
-	 double Kp_1 = 0.81, Ki_1 = 4.76, Kd_1 = 0; ///< Speed PID constants for motor 1 0.8 8
-	 double Kp_2 = 0.81, Ki_2 = 4.76, Kd_2 = 0; ///< Speed PID constants for motor 2
+	 double Kp_1 = 0.8, Ki_1 = 8.0, Kd_1 = 0; ///< Speed PID constants for motor 1 0.8 8
+	 double Kp_2 = 0.8, Ki_2 = 8.0, Kd_2 = 0; ///< Speed PID constants for motor 2
 
 // Define pins
 	 //Motor1

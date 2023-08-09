@@ -59,6 +59,10 @@ namespace IR_denon {
 	IRval PRESET_1 = 0x6E0F2140;
 	IRval PRESET_2 = 0x7E0F3140;
 	IRval PRESET_3 = 0xE0F4140;
+	IRval CD = 0x13124140;
+	IRval TV = 0x3125140;
+	IRval GAMEPAD = 0x33126140;
+	IRval MP3 = 0x23127140;
 };
 
 constexpr float add = 0.1;
